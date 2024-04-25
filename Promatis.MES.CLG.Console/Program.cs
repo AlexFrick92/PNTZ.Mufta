@@ -1,10 +1,14 @@
-﻿namespace Promatis.MES.CLG.Console
+﻿using Promatis.Core;
+
+namespace Promatis.MES.CLG.Console;
+
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            System.Console.WriteLine("Hello, World!");
-        }
+        var config = new ModuleConfiguration();
+
+        config.Run(AppRunningMode.Testing);
     }
 }
