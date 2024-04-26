@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\ServiceModel\Promatis.ServiceModel.Interface\Promatis.ServiceModel.Interface.csproj" />
     <ProjectReference Include="..\..\MES.CLG\Configuration\Promatis.MES.CLG.Configuration\Promatis.MES.CLG.Configuration.csproj" />
   </ItemGroup>
 
