@@ -65,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpProcessor", "DpProcessor"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProvider.OpcUa", "..\MES.CLG\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj", "{1AAC900C-A06C-45C5-864B-2A64BEA34EC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.DpProcessor.DateTimeConsoleWriter", "..\MES.CLG\DpProcessor\Promatis.DpProcessor.DateTimeConsoleWriter\Promatis.DpProcessor.DateTimeConsoleWriter.csproj", "{20593235-6D35-44CA-B28B-8C866DC04A45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +153,10 @@ Global
 		{1AAC900C-A06C-45C5-864B-2A64BEA34EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AAC900C-A06C-45C5-864B-2A64BEA34EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AAC900C-A06C-45C5-864B-2A64BEA34EC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20593235-6D35-44CA-B28B-8C866DC04A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20593235-6D35-44CA-B28B-8C866DC04A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20593235-6D35-44CA-B28B-8C866DC04A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20593235-6D35-44CA-B28B-8C866DC04A45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +188,7 @@ Global
 		{96ACA8C6-BE36-4A14-84CD-F7F7B6B9EAF3} = {1EDE5774-9BB8-4875-84D8-FAD04E46D2B0}
 		{F2389E9E-80E5-4370-AAAF-0A99F2E29D6D} = {1EDE5774-9BB8-4875-84D8-FAD04E46D2B0}
 		{1AAC900C-A06C-45C5-864B-2A64BEA34EC3} = {96ACA8C6-BE36-4A14-84CD-F7F7B6B9EAF3}
+		{20593235-6D35-44CA-B28B-8C866DC04A45} = {F2389E9E-80E5-4370-AAAF-0A99F2E29D6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {251406C7-3475-4239-871F-5C78DACA1F05}
