@@ -11,7 +11,12 @@ namespace TestDelegates
         static void Main(string[] args)
         {
             Console.WriteLine("Создаём метод");
-            DataMethod dataMethod = new DataMethod() { Greeting = "Привет!", Number = 4 };
+            DataMethod<DmInputParams, DmOutputParams> dataMethod = new DataMethod<DmInputParams, DmOutputParams>();
+
+            dataMethod.AddPropertyOrderInput("Greeting", 0);
+            dataMethod.AddPropertyOrderInput("Number", 1);
+
+            dataMethod.AddPropertyOrderOutput("ReturnedString", 0);
 
             Console.WriteLine("Создаем провайдера");
             ProviderDummy providerDummy = new ProviderDummy();
@@ -20,7 +25,16 @@ namespace TestDelegates
             providerDummy.RegisterMethod(dataMethod);
 
             Console.WriteLine("Вызов метода");
-            dataMethod.Call();
+
+            DmInputParams dmInputParams = new DmInputParams() { Greeting = "Привет!", Number = 2};
+
+
+            var result = dataMethod.Call(dmInputParams);
+
+            Console.WriteLine("Метод выполнился с результатом: " + result.ReturnedString);
+
+
+
         }
     }
 }

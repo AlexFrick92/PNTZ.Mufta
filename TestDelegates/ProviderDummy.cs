@@ -10,7 +10,7 @@ namespace TestDelegates
     public class ProviderDummy 
     {
 
-        public void RegisterMethod(DataMethod method)
+        public void RegisterMethod(IDataMethodSource method)
         {
             method.CallLower += CallMethod;
         }
@@ -22,7 +22,12 @@ namespace TestDelegates
             foreach (object o in args) 
                 Console.WriteLine(o.ToString() + " : " + o.GetType());
 
-            return new List<object>();
+
+            string a = args[0].ToString() + args[1].ToString();
+
+            Console.WriteLine($"Помещаю результат: {a}");
+
+            return new List<object>() {a};
         }
     }
 }
