@@ -13,28 +13,32 @@ namespace TestDelegates
             Console.WriteLine("Создаём метод");
             DataMethod<DmInputParams, DmOutputParams> dataMethod = new DataMethod<DmInputParams, DmOutputParams>();
 
-            dataMethod.AddPropertyOrderInput("Greeting", 0);
-            dataMethod.AddPropertyOrderInput("Number", 1);
+            dataMethod.AddPropertyOrderInput("Op1", 0);
+            dataMethod.AddPropertyOrderInput("Op2", 1);
 
-            dataMethod.AddPropertyOrderOutput("ReturnedString", 0);
+            dataMethod.AddPropertyOrderOutput("Result", 0);
 
-            Console.WriteLine("Создаем провайдера");
+            Console.WriteLine("Создаем провайдера и запускаем");
             ProviderDummy providerDummy = new ProviderDummy();
+            providerDummy.Start();
 
             Console.WriteLine("Регистрируем метод в провайдере");
-            providerDummy.RegisterMethod(dataMethod);
+            providerDummy.RegisterMethod("ns=3;s=\"MathOperation\"",dataMethod);
 
             Console.WriteLine("Вызов метода");
 
-            DmInputParams dmInputParams = new DmInputParams() { Greeting = "Привет!", Number = 2};
-
+            DmInputParams dmInputParams = new DmInputParams() { Op1 = 2, Op2 = 2};
 
             var result = dataMethod.Call(dmInputParams);
 
-            Console.WriteLine("Метод выполнился с результатом: " + result.ReturnedString);
+            Console.WriteLine("Метод выполнился с результатом: " + result.Result);
 
 
 
+            return;
+
+            Console.WriteLine("Пробный вызов метода");
+            providerDummy.CallSimpleMethod();
         }
     }
 }

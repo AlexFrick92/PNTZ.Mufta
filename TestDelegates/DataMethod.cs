@@ -13,8 +13,8 @@ namespace TestDelegates
         CallLowerDelegate CallLower { get; set; }
     }
 
-    public delegate List<object> CallLowerDelegate(params object[] args);
-    public class DataMethod<I, O> : IDataMethodSource
+    public delegate IList<object> CallLowerDelegate(params object[] args);
+    public class DataMethod<I, O> : IDataMethodSource where O : new()
     {
         private Dictionary<string, int> inputPropertyOrder;
         private Dictionary<string, int> outputPropertyOrder;
@@ -60,7 +60,7 @@ namespace TestDelegates
             
         private O CallMethod(List<object> mArgs)
         {
-            List<object> result;
+            IList<object> result;
 
             if (mArgs.Count > 0)
                 result = CallLower(mArgs.ToArray());
@@ -71,9 +71,9 @@ namespace TestDelegates
 
         }
 
-        private O GetOrderedResult(List<object> result)
+        private O GetOrderedResult(IList<object> result)
         {
-            O orderedResult = Activator.CreateInstance<O>();
+            O orderedResult = new O();
 
             var orderedProperties = outputPropertyOrder.OrderBy(pair => pair.Value);
 

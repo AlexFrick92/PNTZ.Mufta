@@ -4,30 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Promatis.DpProvider.OpcUa;
 
 namespace TestDelegates
 {
     public class ProviderDummy 
     {
 
-        public void RegisterMethod(IDataMethodSource method)
+        public void RegisterMethod(string NodeId, IDataMethodSource method)
         {
-            method.CallLower += CallMethod;
+            method.CallLower += (e) => CallMethod(NodeId, e);
         }
 
-        private List<object> CallMethod(params object[] args)
+        OpcUaProvider _client;
+
+        public void Start()
         {
-            Console.WriteLine("Входные аргументы:");
+            _client = new OpcUaProvider();
+            _client.ConfigureHost(XDocument.Load("HostConfiguration.xml"));
+            _client.Start();
 
-            foreach (object o in args) 
-                Console.WriteLine(o.ToString() + " : " + o.GetType());
+        }
 
+        public void CallSimpleMethod()
+        {
+            string NodeId = "ns=3;s=\"MathOperation\"";
 
-            string a = args[0].ToString() + args[1].ToString();
+            var result = _client.Call(NodeId, (Single)1, (Single)1);
 
-            Console.WriteLine($"Помещаю результат: {a}");
+            foreach (object obj in result)
+            {
+                Console.WriteLine(obj);
+            }
+        }
 
-            return new List<object>() {a};
+        private IList<object> CallMethod(string NodeId, params object[] args)
+        {
+            Console.WriteLine("Вызываем метод");
+            return _client.Call(NodeId, args);            
         }
     }
 }

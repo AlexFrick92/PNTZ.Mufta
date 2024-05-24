@@ -8,13 +8,13 @@ namespace TestDelegates
 {
     public class DmInputParams
     {
-        public string Greeting {  get; set; }
+        public float Op1 {  get; set; }
 
-        public int Number {  get; set; }
+        public float Op2 {  get; set; }
     }
     public class DmOutputParams
     {
-        public string ReturnedString { get; set; }
+        public float Result { get; set; }
     }
 }
 
