@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace TestDelegates
 {
-    public class DmInputParams
+    public class MyDmInputParams
     {
         public float Op1 {  get; set; }
 
         public float Op2 {  get; set; }
     }
-    public class DmOutputParams
+    public class MyDmOutputParams
     {
         public float Result { get; set; }
     }
