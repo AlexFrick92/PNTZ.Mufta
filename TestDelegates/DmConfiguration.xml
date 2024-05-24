@@ -6,10 +6,8 @@
 			<Parameter Name="Op2" Order="1"/>
 		</InputParameters>
 
-		<OutputParameters Type="TestDelegates.MyDmOutputParams">
-			<Parameter Name="Result" Order="0"/>
-		</OutputParameters>
-		
+		<OutputParameters Type="System.Single"/>
+			<!--<Parameter Name="Result" Order="0"/>-->				
 		<Provider>
 			<OpcUaProvider>
 				<Method

@@ -48,13 +48,14 @@ namespace TestDelegates
 
             MyDmInputParams dmInputParams = new MyDmInputParams() { Op1 = 2, Op2 = 2};
 
-            var result = ((DataMethod<MyDmInputParams,MyDmOutputParams>)method).Call(dmInputParams);
+            var result = ((DataMethod<MyDmInputParams,float>)method).Call(dmInputParams);
 
-            Console.WriteLine("Метод выполнился с результатом: " + result.Result);
+            Console.WriteLine("Метод выполнился с результатом: " + result);
 
 
 
             return;
+
 
             Console.WriteLine("Пробный вызов метода");
             providerDummy.CallSimpleMethod();

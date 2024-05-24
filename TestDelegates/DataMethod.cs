@@ -73,19 +73,29 @@ namespace TestDelegates
 
         private O GetOrderedResult(IList<object> result)
         {
-            O orderedResult = new O();
+            Console.WriteLine($"Тип выходного параметра: {typeof(O)}");
 
-            var orderedProperties = outputPropertyOrder.OrderBy(pair => pair.Value);
-
-            int i = 0;
-            foreach(var property in orderedProperties)
-            {
-                var propertyInfo = typeof(O).GetProperty(property.Key);
-                propertyInfo.SetValue(orderedResult, result[i]);
-                i++;
+            if (typeof(O).IsPrimitive)
+            {                
+                return (O)result[0];
             }
+            else
+            {
+                Console.WriteLine("Сложный тип");
+                O orderedResult = new O();
 
-            return orderedResult;
+                var orderedProperties = outputPropertyOrder.OrderBy(pair => pair.Value);
+
+                int i = 0;
+                foreach(var property in orderedProperties)
+                {
+                    var propertyInfo = typeof(O).GetProperty(property.Key);
+                    propertyInfo.SetValue(orderedResult, result[i]);
+                    i++;
+                }
+
+                return orderedResult;
+            }
         }
 
         public CallLowerDelegate CallLower { get; set; }
