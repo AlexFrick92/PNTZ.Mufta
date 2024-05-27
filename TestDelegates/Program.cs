@@ -9,7 +9,7 @@ namespace Promatis.Binding.Console
 {
     internal class Program
     {
-        static void Main1(string[] args)
+        private static void NoMain(string[] args)
         {
 
 

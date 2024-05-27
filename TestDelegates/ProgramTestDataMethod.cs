@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 namespace TestDelegates
 {
-    internal class Program2
+    internal class ProgramTestDataMethod
     {
-        static void Main(string[] args)
+        static void NoMain(string[] args)
         {
             Console.WriteLine("Создаём метод");
 

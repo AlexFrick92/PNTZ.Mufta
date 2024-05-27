@@ -14,6 +14,7 @@ namespace TestDelegates
     }
 
     public delegate IList<object> CallLowerDelegate(params object[] args);
+    
     public class DataMethod<I, O> : IDataMethodSource, IDataMethod where O : new()
     {
         private Dictionary<string, int> inputPropertyOrder;

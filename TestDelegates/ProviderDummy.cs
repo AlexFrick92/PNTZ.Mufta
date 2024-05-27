@@ -31,18 +31,18 @@ namespace TestDelegates
         {
             string NodeId = "ns=3;s=\"MathOperation\"";
 
-            var result = _client.Call(NodeId, (Single)1, (Single)1);
+           // var result = _client.(NodeId, (Single)1, (Single)1);
 
-            foreach (object obj in result)
-            {
-                Console.WriteLine(obj);
-            }
+            //foreach (object obj in result)
+            //{
+            //    Console.WriteLine(obj);
+            //}
         }
 
         private IList<object> CallMethod(string NodeId, params object[] args)
         {
             Console.WriteLine("Вызываем метод");
-            return _client.Call(NodeId, args);            
+         //   return _client.Call(NodeId, args);            
         }
     }
 }
