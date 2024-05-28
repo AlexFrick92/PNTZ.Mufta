@@ -45,13 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TorqueControl.UI", "..\Torq
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.MES.CLG.Console", "..\MES.CLG\Test\Promatis.MES.CLG.Console\Promatis.MES.CLG.Console.csproj", "{B7167C1B-D028-489A-9D97-AA8EA51997D3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Binding", "Binding", "{2ACC81B1-9269-4395-A37C-D6DA9C9790E9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataPoint", "DataPoint", "{2ACC81B1-9269-4395-A37C-D6DA9C9790E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "..\MES.CLG\Binding\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{33A70661-CA1E-4F47-8320-1E2689687E46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Binding.Console", "..\MES.CLG\Binding\Promatis.Binding.Console\Promatis.Binding.Console.csproj", "{8DF1601C-2D43-439D-806C-907BD7EBC214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Console", "..\MES.CLG\Binding\Promatis.Binding.Console\Promatis.DataPoint.Console.csproj", "{8DF1601C-2D43-439D-806C-907BD7EBC214}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Binding.Interface", "..\MES.CLG\Binding\Promatis.Binding.Interface\Promatis.Binding.Interface.csproj", "{E5A6EB4A-8FC2-41A3-8E8C-D463416F2BFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Interface", "..\MES.CLG\Binding\Promatis.Binding.Interface\Promatis.DataPoint.Interface.csproj", "{E5A6EB4A-8FC2-41A3-8E8C-D463416F2BFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{AC1309EF-E536-49BA-A436-9A2AA2F312F0}"
 EndProject
