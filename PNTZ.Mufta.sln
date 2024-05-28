@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.MES.CLG.Console", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Binding", "Binding", "{2ACC81B1-9269-4395-A37C-D6DA9C9790E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint", "..\MES.CLG\Binding\Promatis.DataPoint\Promatis.DataPoint.csproj", "{33A70661-CA1E-4F47-8320-1E2689687E46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "..\MES.CLG\Binding\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{33A70661-CA1E-4F47-8320-1E2689687E46}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Binding.Console", "..\MES.CLG\Binding\Promatis.Binding.Console\Promatis.Binding.Console.csproj", "{8DF1601C-2D43-439D-806C-907BD7EBC214}"
 EndProject
