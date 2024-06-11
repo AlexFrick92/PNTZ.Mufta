@@ -1,4 +1,5 @@
 ﻿using Promatis.DataPoint.Interface;
+using System.Threading.Channels;
 using TorqueControl.Data;
 
 namespace Cam
@@ -14,7 +15,7 @@ namespace Cam
 
         public void Start()
         {
-            throw new NotImplementedException();
+            DpConRecipe.ValueChanged += (s, v) => Console.WriteLine(v.HEAD_OPEN_PULSES);                
         }
 
         public void Stop()
@@ -24,6 +25,9 @@ namespace Cam
 
         #region DataPoints
         public IDpValue<float> HEAD_OPEN_PULSES { get; set; }
+
+
+        public IDpValue<ConnectionRecipe> DpConRecipe { get; set; }
 
         #endregion
     }
