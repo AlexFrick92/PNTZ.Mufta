@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MES.CLG\Binding\Promatis.Binding.Interface\Promatis.DataPoint.Interface.csproj" />
+    <ProjectReference Include="..\..\MES.CLG\Binding\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
+    <ProjectReference Include="..\..\MES.CLG\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
+    <ProjectReference Include="..\..\TorqueControl\TorqueControl\TorqueControl.csproj" />
+    <ProjectReference Include="..\Cam\Cam.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DpConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

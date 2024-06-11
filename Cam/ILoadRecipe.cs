@@ -1,5 +1,4 @@
-﻿using Domain;
-
+﻿using TorqueControl.Data;
 
 namespace Cam
 {
