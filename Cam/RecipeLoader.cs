@@ -23,7 +23,9 @@ namespace Cam
 
             BOX_MONI_TIME.ValueChanged += (s, v) => Console.WriteLine(v);
 
-            Console.WriteLine(MathOperationGeneric.Call(new TwoNumber() {Number1 = 2.1f, Number2 = 1 }).Result);
+            Console.WriteLine(MathOperationGeneric.Call(new TwoNumber() {Number1 = 2.1f, Number2 = 1 }));
+
+            Console.WriteLine(PowerOperation.Call(2));
         }
 
         #region DataPoints
@@ -34,7 +36,9 @@ namespace Cam
 
         public IDpValue<DateTime> CreatingTimeStamp { get; set; }
 
-        public IDpMethod<TwoNumber, TwoNumberResult> MathOperationGeneric { get; set; }
+        public IDpMethod<TwoNumber, float> MathOperationGeneric { get; set; }
+
+        public IDpMethod<float, float> PowerOperation { get; set; }
 
         #endregion
     }
