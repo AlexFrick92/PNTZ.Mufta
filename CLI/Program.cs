@@ -36,7 +36,11 @@ namespace CLI
                 if (input == "load")
                 {
                     recipeLoader.LoadRecipe(recipeManager.CreateRecipe());
-                }                                       
+                }
+                else if (input == "subs")
+                {
+                    recipeLoader.DpInitialized();
+                }
             }
         }
     }
