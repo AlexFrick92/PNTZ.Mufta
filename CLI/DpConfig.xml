@@ -11,16 +11,17 @@
 	</ProcessorDefinition>	
 	
 	<DataPointDefinition>
+		
 		<DpValue>
-			<Provider>
-				<OpcUaProvider Name = "Stend AKF">
+			<DpProperty Name="HEAD_OPEN_PULSES">
+				<Provider Name ="Stend AKF">
 					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_ALLG"."HEAD_OPEN_PULSES"</NodeId>
-				</OpcUaProvider>
-			</Provider>
-			<Processor>
-				<RecipeLoader Name ="Cam1RecipeLoader" PropertyName="HEAD_OPEN_PULSES"/>
-			</Processor>
+				</Provider>
+			</DpProperty>
+
+			<Processor Name ="Cam1RecipeLoader" TargetProperty="DpConRecipe"/>
 		</DpValue>
+		
 	</DataPointDefinition>
 	
 </DpConfiguration>
