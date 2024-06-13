@@ -10,24 +10,30 @@ namespace Cam
 
         public void LoadRecipe(ConnectionRecipe recipe)
         {
-            HEAD_OPEN_PULSES.Value = recipe.HEAD_OPEN_PULSES;
+            BOX_MONI_TIME.Value = recipe.HEAD_OPEN_PULSES;
         }
 
-        public void Start()
+        public void DpInitialized()
         {
-            DpConRecipe.ValueChanged += (s, v) => Console.WriteLine(v.HEAD_OPEN_PULSES);                
-        }
+            Console.WriteLine($"{this.Name} : Запускаем подписки");
 
-        public void Stop()
-        {
-            throw new NotImplementedException();
+            DpConRecipe.ValueChanged += (s, v) => Console.WriteLine(v.HEAD_OPEN_PULSES);
+
+            CreatingTimeStamp.ValueChanged += (s, v) => Console.WriteLine(v);
+
+            BOX_MONI_TIME.ValueChanged += (s, v) => Console.WriteLine(v);
+            
         }
 
         #region DataPoints
-        public IDpValue<float> HEAD_OPEN_PULSES { get; set; }
+        public IDpValue<float> BOX_MONI_TIME { get; set; }
 
 
         public IDpValue<ConnectionRecipe> DpConRecipe { get; set; }
+
+        public IDpValue<DateTime> CreatingTimeStamp { get; set; }
+        
+
 
         #endregion
     }
