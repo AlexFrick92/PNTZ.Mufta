@@ -21,17 +21,10 @@ namespace Cam
         #region DataPoints
         public IDpValue<ConnectionRecipe> DpConRecipe { get; set; }
 
+        public IDpValue<ushort> SetLoadCommand { get; set; }
+
+        public IDpValue<ushort> CommandFeedback { get; set; }
 
         #endregion
-    }
-
-    public class TwoNumber
-    {
-        public float Number1 { get; set; }
-        public short Number2 { get; set; }
-    }
-    public class TwoNumberResult
-    {
-        public float Result { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using Promatis.DataPoint;
 using Promatis.DataPoint.Configuration;
 using Promatis.DpProvider.OpcUa;
-using TorqueControl.RecipeHandling;
+using TorqueControl.Data;
 
 namespace CLI
 {
@@ -26,16 +26,13 @@ namespace CLI
             DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
             dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
 
-            RecipeManager recipeManager = new RecipeManager();
-
-
             while (true)
             {
 
                 var input = System.Console.ReadLine();
                 if (input == "load")
                 {
-                    recipeLoader.LoadRecipe(recipeManager.CreateRecipe());
+                    recipeLoader.LoadRecipe(ConnectionRecipe.FromJson("ConnectionRecipe1.json"));
                 }
                 else if (input == "subs")
                 {
