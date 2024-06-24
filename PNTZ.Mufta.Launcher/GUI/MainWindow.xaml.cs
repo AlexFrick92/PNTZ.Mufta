@@ -22,6 +22,9 @@ namespace PNTZ.Mufta.Launcher.GUI
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Console = (Promatis.Desktop.Control.Console)Root.OutputBar;
         }
+        public Promatis.Desktop.Control.Console Console { get; private set; }
     }
 }

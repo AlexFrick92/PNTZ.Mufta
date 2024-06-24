@@ -11,6 +11,8 @@ namespace PNTZ.Mufta.Launcher
             Application app = new Application();
 
             MainWindow mainWin = new MainWindow();
+            
+            
 
             app.Run(mainWin);
 
