@@ -73,7 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cam", "Cam\Cam.csproj", "{1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CLI", "CLI\CLI.csproj", "{1B4DFD39-94B0-4B23-8702-D6E3A7FB330E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.ReactiveToolkit", "..\Tools\Promatis.ReactiveToolkit\Promatis.ReactiveToolkit.csproj", "{0ABD964B-9911-43E3-A616-9F503946236A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.ReactiveToolkit", "..\Tools\Promatis.ReactiveToolkit\Promatis.ReactiveToolkit.csproj", "{0ABD964B-9911-43E3-A616-9F503946236A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.Launcher", "PNTZ.Mufta.Launcher\PNTZ.Mufta.Launcher.csproj", "{895E8B85-CCAE-4D74-8A79-833FF573184B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +179,10 @@ Global
 		{0ABD964B-9911-43E3-A616-9F503946236A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ABD964B-9911-43E3-A616-9F503946236A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ABD964B-9911-43E3-A616-9F503946236A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{895E8B85-CCAE-4D74-8A79-833FF573184B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{895E8B85-CCAE-4D74-8A79-833FF573184B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{895E8B85-CCAE-4D74-8A79-833FF573184B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{895E8B85-CCAE-4D74-8A79-833FF573184B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +218,7 @@ Global
 		{15905750-CF95-481B-8341-8493DC4F334D} = {B6685327-6960-4C67-9F57-E3462710FD25}
 		{1B4DFD39-94B0-4B23-8702-D6E3A7FB330E} = {B6685327-6960-4C67-9F57-E3462710FD25}
 		{0ABD964B-9911-43E3-A616-9F503946236A} = {EE179933-9001-437B-A98F-0B5DFD924F89}
+		{895E8B85-CCAE-4D74-8A79-833FF573184B} = {B6685327-6960-4C67-9F57-E3462710FD25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {251406C7-3475-4239-871F-5C78DACA1F05}
