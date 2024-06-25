@@ -31,28 +31,13 @@ namespace PNTZ.Mufta.Launcher
             DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
             dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
 
-            while (true)
-            {
-
-                var input = System.Console.ReadLine();
-                if (input == "load")
-                {
-                    recipeLoader.LoadRecipe(ConnectionRecipe.FromJson("ConnectionRecipe1.json"));
-                }
-                else if (input == "subs")
-                {
-                    recipeLoader.DpInitialized();
-                }
-            }
-
-
-
-
-
-
             Cli cli = new Cli();
 
             cli.RegisterCommand("print", (args) => (cli as ICliProgram).WriteLine(args[0]));
+
+            cli.RegisterCommand("load", (args) => recipeLoader.LoadRecipe(ConnectionRecipe.FromJson(args[0])));
+
+            cli.RegisterCommand("init", (args) => recipeLoader.DpInitialized());
 
 
             cli.EnterInput("Hello!");
