@@ -1,8 +1,8 @@
 ﻿using Promatis.DataPoint.Interface;
 using System.Threading.Channels;
-using TorqueControl.Data;
+using PNTZ.Mufta.Data;
 
-namespace Cam
+namespace PNTZ.Mufta.RecipeHandling
 {
     public class RecipeLoader : ILoadRecipe, IDpProcessor
     {

@@ -1,6 +1,6 @@
-﻿using TorqueControl.Data;
+﻿using PNTZ.Mufta.Data;
 
-namespace Cam
+namespace PNTZ.Mufta.RecipeHandling
 {
     public interface ILoadRecipe
     {

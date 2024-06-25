@@ -2,6 +2,11 @@
 using PNTZ.Mufta.Launcher.ViewModel;
 using System.Windows;
 using Promatis.DebuggingToolkit.IO;
+using Promatis.DataPoint.Configuration;
+using Promatis.DpProvider.OpcUa;
+using Promatis.DataPoint;
+using PNTZ.Mufta.Data;
+using PNTZ.Mufta.RecipeHandling;
 
 namespace PNTZ.Mufta.Launcher
 {
@@ -10,7 +15,38 @@ namespace PNTZ.Mufta.Launcher
         [STAThread]
         static void Main(string[] args)
         {
-            Application app = new Application();
+      
+            DpXmlConfiguration xmlConfiguration = new DpXmlConfiguration("DpConfig.xml");
+
+            DpProviderConfigurator providerConfigurator = new DpProviderConfigurator();
+            providerConfigurator.RegisterProvider(typeof(OpcUaProvider));
+            providerConfigurator.ConfigureProviders(xmlConfiguration.ProviderConfiguration);
+            providerConfigurator.StartProviders();
+
+            DpProcessorConfigurator processorConfigurator = new DpProcessorConfigurator();
+            RecipeLoader recipeLoader = new RecipeLoader();
+            processorConfigurator.ConfigureProcessor(recipeLoader);
+            processorConfigurator.ConfigureProcessor(xmlConfiguration.ProcessorConfiguration);
+
+            DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
+            dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
+
+            while (true)
+            {
+
+                var input = System.Console.ReadLine();
+                if (input == "load")
+                {
+                    recipeLoader.LoadRecipe(ConnectionRecipe.FromJson("ConnectionRecipe1.json"));
+                }
+                else if (input == "subs")
+                {
+                    recipeLoader.DpInitialized();
+                }
+            }
+
+
+
 
 
 
@@ -23,9 +59,8 @@ namespace PNTZ.Mufta.Launcher
 
             MainViewModel mainViewModel = new MainViewModel(cli);
             MainView mainWin = new MainView(mainViewModel);
-            
 
-
+            Application app = new Application();
             app.Run(mainWin);
 
         }

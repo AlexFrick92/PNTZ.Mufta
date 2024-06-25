@@ -10,7 +10,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
+    <ProjectReference Include="..\..\MES.CLG\Binding\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
+    <ProjectReference Include="..\..\MES.CLG\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
     <ProjectReference Include="..\..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj" />
+    <ProjectReference Include="..\PNTZ.Mufta.Domain\PNTZ.Mufta.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ConnectionRecipe1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DpConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
