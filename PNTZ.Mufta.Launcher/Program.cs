@@ -49,7 +49,13 @@ namespace PNTZ.Mufta.Launcher
 
             Application app = new Application();
             
-            cli.RegisterCommand("exit", (args) => app.Shutdown());
+            cli.RegisterCommand("exit", async (args) =>
+            {
+                cli.WriteLine("Exiting...");
+                await Task.Delay(5000);                    
+                app.Shutdown();                
+                
+            });
             
             app.Run(mainWin);
 
