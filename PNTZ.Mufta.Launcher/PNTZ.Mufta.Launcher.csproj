@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
+    <ProjectReference Include="..\..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PNTZ.Mufta.Launcher.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,19 +13,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PNTZ.Mufta.Launcher.GUI
+namespace PNTZ.Mufta.Launcher.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainView : Window
     {
-        public MainWindow()
+        public MainView(MainViewModel viewModel)
         {
             InitializeComponent();
 
-            this.Console = (Promatis.Desktop.Control.Console)Root.OutputBar;
+            this.DataContext = viewModel;
+
+            this.Console = (Promatis.Desktop.Control.CliView)Root.OutputBar;
         }
-        public Promatis.Desktop.Control.Console Console { get; private set; }
+        public Promatis.Desktop.Control.CliView Console { get; private set; }
     }
 }
