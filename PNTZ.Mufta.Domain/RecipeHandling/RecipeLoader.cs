@@ -1,16 +1,23 @@
 ﻿using Promatis.DataPoint.Interface;
 using System.Threading.Channels;
 using PNTZ.Mufta.Data;
+using Promatis.Core.Logging;
 
 namespace PNTZ.Mufta.RecipeHandling
 {
     public class RecipeLoader : ILoadRecipe, IDpProcessor
     {
+        private readonly ILogger _logger;
+        public RecipeLoader(ILogger logger)
+        {
+            _logger = logger;
+        }
         public string Name { get; set; } = "Cam1RecipeLoader";
 
         public void LoadRecipe(ConnectionRecipe recipe)
         {
             DpConRecipe.Value = recipe;
+            _logger.Info($"Рецепт загружен");
         }
 
         public void DpInitialized()

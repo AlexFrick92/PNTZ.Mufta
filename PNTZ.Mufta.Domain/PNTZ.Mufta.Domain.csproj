@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core\Promatis.Core.csproj" />
     <ProjectReference Include="..\..\MES.CLG\Binding\Promatis.Binding.Interface\Promatis.DataPoint.Interface.csproj" />
     <ProjectReference Include="..\..\TorqueControl\TorqueControl\TorqueControl.csproj" />
   </ItemGroup>
