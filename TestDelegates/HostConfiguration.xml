@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>		
-<OpcUaProvider
-	Endpoint ="opc.tcp://10.10.10.93:4840"
-	/>							

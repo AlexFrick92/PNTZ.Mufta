@@ -1,5 +1,4 @@
-﻿using PNTZ.Mufta.Launcher.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,15 +15,13 @@ using System.Windows.Shapes;
 namespace PNTZ.Mufta.Launcher.View
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for Greeting.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class Greeting : Window
     {
-        public MainView(MainViewModel viewModel)
+        public Greeting()
         {
             InitializeComponent();
-
-            this.DataContext = viewModel;
         }
     }
 }

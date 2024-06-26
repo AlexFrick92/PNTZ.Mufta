@@ -16,7 +16,6 @@ namespace PNTZ.Mufta.Launcher
         [STAThread]
         static void Main(string[] args)
         {
-
             Cli cli = new Cli();
             CliLogger logger = new CliLogger(cli);
 

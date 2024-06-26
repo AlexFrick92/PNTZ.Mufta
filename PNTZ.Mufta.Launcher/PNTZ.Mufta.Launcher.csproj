@@ -9,11 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\promatislogo.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
     <ProjectReference Include="..\..\MES.CLG\Binding\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
     <ProjectReference Include="..\..\MES.CLG\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
     <ProjectReference Include="..\..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj" />
     <ProjectReference Include="..\PNTZ.Mufta.Domain\PNTZ.Mufta.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\promatislogo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
