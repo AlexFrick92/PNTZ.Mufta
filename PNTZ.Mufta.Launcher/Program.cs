@@ -38,7 +38,7 @@ namespace PNTZ.Mufta.Launcher
             DpProcessorConfigurator processorConfigurator = new DpProcessorConfigurator();
             
             RecipeLoader recipeLoader = new RecipeLoader(logger);
-            Heartbeat heartbeat = new Heartbeat();
+            Heartbeat heartbeat = new Heartbeat(cli) { Name = "Heartbeat1"};
             processorConfigurator.ConfigureProcessor(recipeLoader);
             processorConfigurator.ConfigureProcessor(heartbeat);
             processorConfigurator.ConfigureProcessor(xmlConfiguration.ProcessorConfiguration);

@@ -11,17 +11,16 @@
 	</ProcessorDefinition>	
 	
 	<DataPointDefinition>
-		<DpValue>
-			<Provider Name ="Stend AKF">
-				<NodeId> ns=3;s="REZ_TPC_DOWN"."REZ_ALLG"."PIPE_TYPE"</NodeId>
-			</Provider>
-
-			<Processor Name ="Cam1RecipeLoader" TargetProperty="Pipe_type"/>
-			
-		</DpValue>
 		
 		<!--Heartbeat-->
-		
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="System"."Heartbeat"</NodeId>
+			</Provider>
+
+			<Processor Name ="Heartbeat1" TargetProperty="AppHeartbeat"/>
+
+		</DpValue>
 		
 		
 		<!--Connection recipe -->
