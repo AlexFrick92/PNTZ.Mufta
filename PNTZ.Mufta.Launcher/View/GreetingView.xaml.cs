@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace PNTZ.Mufta.Launcher.View
 {
     /// <summary>
-    /// Interaction logic for Greeting.xaml
+    /// Interaction logic for GreetingView.xaml
     /// </summary>
-    public partial class Greeting : Window
+    public partial class GreetingView : Window
     {
-        public Greeting()
+        public GreetingView()
         {
             InitializeComponent();
         }

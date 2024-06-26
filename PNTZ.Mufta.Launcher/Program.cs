@@ -16,6 +16,12 @@ namespace PNTZ.Mufta.Launcher
         [STAThread]
         static void Main(string[] args)
         {
+            GreetingView greetingView = new GreetingView();
+            greetingView.Show();
+
+
+            Task.Delay(1000).Wait();
+
             Cli cli = new Cli();
             CliLogger logger = new CliLogger(cli);
 
@@ -55,8 +61,13 @@ namespace PNTZ.Mufta.Launcher
                 app.Shutdown();                
                 
             });
+
+            mainWin.Show();
+            greetingView.Hide();
             
-            app.Run(mainWin);
+            
+            app.Run();
+            
 
 
         }

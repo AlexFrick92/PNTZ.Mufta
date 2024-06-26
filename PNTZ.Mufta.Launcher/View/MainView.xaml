@@ -7,7 +7,8 @@
         xmlns:desktopLayout="clr-namespace:Promatis.Desktop.Layout;assembly=Promatis.Desktop"
         xmlns:desktopControl="clr-namespace:Promatis.Desktop.Control;assembly=Promatis.Desktop"
         mc:Ignorable="d"
-        Title="Main" Height="700" Width="1200"        
+        Title="Main" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"        
         >
     <Grid>
         <desktopLayout:RootControl x:Name="Root">
