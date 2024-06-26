@@ -1,7 +1,8 @@
 ﻿using Promatis.DataPoint.Interface;
-using System.Threading.Channels;
+using TorqueControl.RecipeHandling;
 using PNTZ.Mufta.Data;
 using Promatis.Core.Logging;
+using TorqueControl.Data;
 
 namespace PNTZ.Mufta.RecipeHandling
 {
@@ -14,15 +15,15 @@ namespace PNTZ.Mufta.RecipeHandling
         }
         public string Name { get; set; } = "Cam1RecipeLoader";
 
-        public void LoadRecipe(ConnectionRecipe recipe)
-        {
-            DpConRecipe.Value = recipe;
-            _logger.Info($"Рецепт загружен");
-        }
-
         public void DpInitialized()
         {
             DpConRecipe.ValueChanged += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
+        }
+
+        public void LoadRecipe<T>(ConnectionRecipe<T> recipe) where T : ConnectionRecipe<T>, new()
+        {
+            DpConRecipe.Value = recipe as PNTZ.Mufta.Data.ConnectionRecipe;
+            _logger.Info($"Рецепт загружен");
         }
 
         #region DataPoints
@@ -31,6 +32,9 @@ namespace PNTZ.Mufta.RecipeHandling
         public IDpValue<ushort> SetLoadCommand { get; set; }
 
         public IDpValue<ushort> CommandFeedback { get; set; }
+
+
+        public IDpValue<string> Pipe_type { get; set; }
 
         #endregion
     }

@@ -8,6 +8,8 @@ using Promatis.DataPoint;
 using PNTZ.Mufta.Data;
 using PNTZ.Mufta.RecipeHandling;
 using Promatis.DebuggingToolkit.Logging;
+using TorqueControl.RecipeHandling;
+using Promatis.DpProcessor.PlcSystem.Connection;
 
 namespace PNTZ.Mufta.Launcher
 {
@@ -34,20 +36,23 @@ namespace PNTZ.Mufta.Launcher
             providerConfigurator.StartProviders();
 
             DpProcessorConfigurator processorConfigurator = new DpProcessorConfigurator();
+            
             RecipeLoader recipeLoader = new RecipeLoader(logger);
+            Heartbeat heartbeat = new Heartbeat();
             processorConfigurator.ConfigureProcessor(recipeLoader);
+            processorConfigurator.ConfigureProcessor(heartbeat);
             processorConfigurator.ConfigureProcessor(xmlConfiguration.ProcessorConfiguration);
 
             DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
             dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
 
-            
-
             cli.RegisterCommand("print", (args) => (cli as ICliProgram).WriteLine(args[0]));
 
-            cli.RegisterCommand("load", (args) => recipeLoader.LoadRecipe(ConnectionRecipe.FromJson(args[0])));
+            cli.RegisterCommand("load", (args) => ((ILoadRecipe)recipeLoader).LoadRecipe(ConnectionRecipe.FromJson(args[0])));
+            cli.RegisterCommand("init", (args) => recipeLoader.DpInitialized());
 
-            cli.RegisterCommand("init", (args) => recipeLoader.DpInitialized());                        
+            cli.RegisterCommand("heartbeat", (args) => heartbeat.DpInitialized());
+            cli.RegisterCommand("setstring", (args) => recipeLoader.Pipe_type.Value = args[0]);
 
             MainViewModel mainViewModel = new MainViewModel(cli);
             MainView mainWin = new MainView(mainViewModel);
@@ -64,12 +69,9 @@ namespace PNTZ.Mufta.Launcher
 
             mainWin.Show();
             greetingView.Hide();
+            mainWin.Closed += (_, _) => greetingView.Close();
             
-            
-            app.Run();
-            
-
-
+            app.Run();            
         }
     }
 }
