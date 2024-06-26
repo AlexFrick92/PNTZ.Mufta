@@ -1,10 +1,11 @@
 ﻿using Promatis.DebuggingToolkit.IO;
 using Promatis.Desktop.Control;
+using Promatis.Desktop.MVVM;
 using System.ComponentModel;
 
 namespace PNTZ.Mufta.Launcher.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : BaseViewModel
     {
         public MainViewModel(ICliUser cli)
         {
@@ -12,11 +13,5 @@ namespace PNTZ.Mufta.Launcher.ViewModel
         }
 
         public CliViewModel CliViewModel { get; private set; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
