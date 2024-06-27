@@ -31,7 +31,7 @@ namespace PNTZ.Mufta.Launcher
 
             DpXmlConfiguration xmlConfiguration = new DpXmlConfiguration("DpConfig.xml");
 
-            DpProviderConfigurator providerConfigurator = new DpProviderConfigurator();
+            DpProviderConfigurator providerConfigurator = new DpProviderConfigurator(logger);
             providerConfigurator.RegisterProvider(typeof(OpcUaProvider));
             providerConfigurator.ConfigureProviders(xmlConfiguration.ProviderConfiguration);            
 
