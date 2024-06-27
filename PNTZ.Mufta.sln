@@ -61,19 +61,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProvider.OpcUa",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.DateTimeConsoleWriter", "..\MES.CLG\DpProcessor\Promatis.DpProcessor.DateTimeConsoleWriter\Promatis.DpProcessor.DateTimeConsoleWriter.csproj", "{20593235-6D35-44CA-B28B-8C866DC04A45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Wpf.Styles", "..\GUI\Promatis.Wpf.Styles\Promatis.Wpf.Styles.csproj", "{E84443AB-1A32-48B1-BCF1-9426BC294FBA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{B6685327-6960-4C67-9F57-E3462710FD25}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.ReactiveToolkit", "..\Tools\Promatis.ReactiveToolkit\Promatis.ReactiveToolkit.csproj", "{0ABD964B-9911-43E3-A616-9F503946236A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PNTZ.Mufta.Launcher", "PNTZ.Mufta.Launcher\PNTZ.Mufta.Launcher.csproj", "{895E8B85-CCAE-4D74-8A79-833FF573184B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.DebuggingToolkit", "..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj", "{6AC1AD24-C766-4441-B136-5EC7EFDA1C69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DebuggingToolkit", "..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj", "{6AC1AD24-C766-4441-B136-5EC7EFDA1C69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.Domain", "PNTZ.Mufta.Domain\PNTZ.Mufta.Domain.csproj", "{D8EFB55E-9649-46C4-82A9-6E6C075D020C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PNTZ.Mufta.Domain", "PNTZ.Mufta.Domain\PNTZ.Mufta.Domain.csproj", "{D8EFB55E-9649-46C4-82A9-6E6C075D020C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.DpProcessor.PlcSystem", "..\MES.CLG\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj", "{1F8FEAD3-4180-4A1B-A920-9480A1242098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.PlcSystem", "..\MES.CLG\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj", "{1F8FEAD3-4180-4A1B-A920-9480A1242098}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,10 +151,6 @@ Global
 		{20593235-6D35-44CA-B28B-8C866DC04A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20593235-6D35-44CA-B28B-8C866DC04A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20593235-6D35-44CA-B28B-8C866DC04A45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E84443AB-1A32-48B1-BCF1-9426BC294FBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E84443AB-1A32-48B1-BCF1-9426BC294FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E84443AB-1A32-48B1-BCF1-9426BC294FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E84443AB-1A32-48B1-BCF1-9426BC294FBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0ABD964B-9911-43E3-A616-9F503946236A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0ABD964B-9911-43E3-A616-9F503946236A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ABD964B-9911-43E3-A616-9F503946236A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -206,7 +200,6 @@ Global
 		{F2389E9E-80E5-4370-AAAF-0A99F2E29D6D} = {1EDE5774-9BB8-4875-84D8-FAD04E46D2B0}
 		{1AAC900C-A06C-45C5-864B-2A64BEA34EC3} = {96ACA8C6-BE36-4A14-84CD-F7F7B6B9EAF3}
 		{20593235-6D35-44CA-B28B-8C866DC04A45} = {F2389E9E-80E5-4370-AAAF-0A99F2E29D6D}
-		{E84443AB-1A32-48B1-BCF1-9426BC294FBA} = {AC1309EF-E536-49BA-A436-9A2AA2F312F0}
 		{0ABD964B-9911-43E3-A616-9F503946236A} = {EE179933-9001-437B-A98F-0B5DFD924F89}
 		{895E8B85-CCAE-4D74-8A79-833FF573184B} = {B6685327-6960-4C67-9F57-E3462710FD25}
 		{6AC1AD24-C766-4441-B136-5EC7EFDA1C69} = {EE179933-9001-437B-A98F-0B5DFD924F89}
