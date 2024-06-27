@@ -10,6 +10,14 @@
         Title="Main" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"        
         >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Promatis.Desktop;component/Styles/LayoutBlueStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
         <desktopLayout:RootControl x:Name="Root">
             <desktopLayout:RootControl.OutputBar>
