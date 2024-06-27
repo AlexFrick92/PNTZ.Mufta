@@ -44,15 +44,14 @@ namespace PNTZ.Mufta.Launcher
             processorConfigurator.ConfigureProcessor(xmlConfiguration.ProcessorConfiguration);
 
             DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
-            dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
-            //providerConfigurator.StartProviders();
+            dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);            
 
 
             cli.RegisterCommand("print", (args) => (cli as ICliProgram).WriteLine(args[0]));
 
             cli.RegisterCommand("load", (args) => ((ILoadRecipe)recipeLoader).LoadRecipe(ConnectionRecipe.FromJson(args[0])));
             cli.RegisterCommand("init", (_) => recipeLoader.DpInitialized());
-            cli.RegisterCommand("startpr", (_) => providerConfigurator.StartProviders());
+            cli.RegisterCommand("startpr", async (_) => await Task.Run(() => providerConfigurator.StartProviders()));
             cli.RegisterCommand("stoppr", (_) => providerConfigurator.StopProviders());
 
             cli.RegisterCommand("heartbeat", (_) => heartbeat.DpInitialized());
