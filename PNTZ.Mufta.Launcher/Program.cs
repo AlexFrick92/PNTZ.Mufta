@@ -13,6 +13,8 @@ using Promatis.DpProcessor.PlcSystem.Connection;
 
 namespace PNTZ.Mufta.Launcher
 {
+    
+
     internal class Program
     {
         [STAThread]
@@ -20,7 +22,6 @@ namespace PNTZ.Mufta.Launcher
         {
             GreetingView greetingView = new GreetingView();
             greetingView.Show();
-
 
             Task.Delay(1000).Wait();
 
@@ -32,8 +33,7 @@ namespace PNTZ.Mufta.Launcher
 
             DpProviderConfigurator providerConfigurator = new DpProviderConfigurator();
             providerConfigurator.RegisterProvider(typeof(OpcUaProvider));
-            providerConfigurator.ConfigureProviders(xmlConfiguration.ProviderConfiguration);
-            providerConfigurator.StartProviders();
+            providerConfigurator.ConfigureProviders(xmlConfiguration.ProviderConfiguration);            
 
             DpProcessorConfigurator processorConfigurator = new DpProcessorConfigurator();
             
@@ -45,13 +45,16 @@ namespace PNTZ.Mufta.Launcher
 
             DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
             dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
+            providerConfigurator.StartProviders();
+
 
             cli.RegisterCommand("print", (args) => (cli as ICliProgram).WriteLine(args[0]));
 
             cli.RegisterCommand("load", (args) => ((ILoadRecipe)recipeLoader).LoadRecipe(ConnectionRecipe.FromJson(args[0])));
-            cli.RegisterCommand("init", (args) => recipeLoader.DpInitialized());
+            cli.RegisterCommand("init", (_) => recipeLoader.DpInitialized());
+            cli.RegisterCommand("startpr", (_) => providerConfigurator.StartProviders());
 
-            cli.RegisterCommand("heartbeat", (args) => heartbeat.DpInitialized());
+            cli.RegisterCommand("heartbeat", (_) => heartbeat.DpInitialized());
             cli.RegisterCommand("setstring", (args) => recipeLoader.Pipe_type.Value = args[0]);
 
             MainViewModel mainViewModel = new MainViewModel(cli);
