@@ -10,6 +10,7 @@ using PNTZ.Mufta.RecipeHandling;
 using Promatis.DebuggingToolkit.Logging;
 using TorqueControl.RecipeHandling;
 using Promatis.DpProcessor.PlcSystem.Connection;
+using System.IO;
 
 namespace PNTZ.Mufta.Launcher
 {
@@ -20,6 +21,17 @@ namespace PNTZ.Mufta.Launcher
         [STAThread]
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            {
+                string path = "unhandledExceptions.txt";
+
+                using (StreamWriter sw = new StreamWriter(path, true))
+                {
+                    sw.WriteLine($"{DateTime.UtcNow}:{e.ExceptionObject}");
+                }
+
+            };
+
             GreetingView greetingView = new GreetingView();
             greetingView.Show();
 
@@ -28,23 +40,24 @@ namespace PNTZ.Mufta.Launcher
             Cli cli = new Cli();
             CliLogger logger = new CliLogger(cli);
 
+            List<string> strings = new List<string>();
 
             DpXmlConfiguration xmlConfiguration = new DpXmlConfiguration("DpConfig.xml");
 
             DpProviderConfigurator providerConfigurator = new DpProviderConfigurator(logger);
             providerConfigurator.RegisterProvider(typeof(OpcUaProvider));
-            providerConfigurator.ConfigureProviders(xmlConfiguration.ProviderConfiguration);            
+            providerConfigurator.ConfigureProviders(xmlConfiguration.ProviderConfiguration);
 
             DpProcessorConfigurator processorConfigurator = new DpProcessorConfigurator();
-            
+
             RecipeLoader recipeLoader = new RecipeLoader(logger);
-            Heartbeat heartbeat = new Heartbeat(cli) { Name = "Heartbeat1"};
+            Heartbeat heartbeat = new Heartbeat(cli) { Name = "Heartbeat1" };
             processorConfigurator.ConfigureProcessor(recipeLoader);
             processorConfigurator.ConfigureProcessor(heartbeat);
             processorConfigurator.ConfigureProcessor(xmlConfiguration.ProcessorConfiguration);
 
             DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
-            dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);            
+            dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
 
 
             cli.RegisterCommand("print", (args) => (cli as ICliProgram).WriteLine(args[0]));
@@ -61,20 +74,23 @@ namespace PNTZ.Mufta.Launcher
             MainView mainWin = new MainView(mainViewModel);
 
             Application app = new Application();
-            
+
             cli.RegisterCommand("exit", async (args) =>
             {
                 cli.WriteLine("Exiting...");
-                await Task.Delay(5000);                    
-                app.Shutdown();                
-                
+                await Task.Delay(5000);
+                app.Shutdown();
+
             });
 
             mainWin.Show();
             greetingView.Hide();
             mainWin.Closed += (_, _) => greetingView.Close();
-            
-            app.Run();            
+
+
+
+                app.Run();       
+
         }
     }
 }
