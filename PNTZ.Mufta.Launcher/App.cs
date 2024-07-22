@@ -20,37 +20,28 @@ namespace PNTZ.Mufta.Launcher
             {
                 CliLogger logger = new CliLogger(_cli);
 
-                DpXmlConfiguration xmlConfiguration = new DpXmlConfiguration(_currentDirectory +  "/DpConfig.xml");
-
-                DpProviderConfigurator providerConfigurator = new DpProviderConfigurator(logger);
-                providerConfigurator.RegisterProvider(typeof(OpcUaProvider));
-                providerConfigurator.ConfigureProviders(xmlConfiguration.ProviderConfiguration);
-
-                DpProcessorConfigurator processorConfigurator = new DpProcessorConfigurator();
+                DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(logger, _currentDirectory + "/DpConfig.xml");
+                dataPointConfigurator.RegisterProvider(typeof(OpcUaProvider));
 
                 RecipeLoader recipeLoader = new RecipeLoader(logger);
                 _cli.RegisterCommand("load", (args) => recipeLoader.LoadRecipe(args[0]));
-                processorConfigurator.ConfigureProcessor(recipeLoader);
-                
-                
+                dataPointConfigurator.RegisterProcessor(recipeLoader);
+
                 Heartbeat heartbeat = new Heartbeat(_cli) { Name = "Heartbeat1" };
-                processorConfigurator.ConfigureProcessor(heartbeat);
+                dataPointConfigurator.RegisterProcessor(heartbeat);
 
-                processorConfigurator.ConfigureProcessor(xmlConfiguration.ProcessorConfiguration);
-
-                DataPointConfigurator dataPointConfigurator = new DataPointConfigurator(providerConfigurator.ConfiguredProviders, processorConfigurator.ConfiguredProcessors);
-                dataPointConfigurator.ConfigureDatapoints(xmlConfiguration.DataPointConfiguration);
+                dataPointConfigurator.ConfigureDatapoints();
 
 
                 _cli.RegisterCommand("print", (args) => (_cli as ICliProgram).WriteLine(args[0]));
 
                 
                 _cli.RegisterCommand("init", (_) => recipeLoader.DpInitialized());
-                _cli.RegisterCommand("startpr", async (_) => await Task.Run(() => providerConfigurator.StartProviders()));
-                _cli.RegisterCommand("stoppr", (_) => providerConfigurator.StopProviders());
+                _cli.RegisterCommand("startpr", async (_) => await Task.Run(() => dataPointConfigurator.StartProviders()));
+                _cli.RegisterCommand("stoppr", (_) => dataPointConfigurator.StopProviders());
 
                 _cli.RegisterCommand("heartbeat", (_) => heartbeat.DpInitialized());
-                _cli.RegisterCommand("setstring", (args) => recipeLoader.Pipe_type.Value = args[0]);
+                
 
                 MainViewModel mainViewModel = new MainViewModel(_cli);
                 _mainWindow = new MainView(mainViewModel);
