@@ -37,38 +37,58 @@ namespace PNTZ.Mufta.RecipeHandling
             
             _logger.Info($"Рецепт загружен");
         }
-        uint awaitedCommand = 0;
         public async void Load()
         {
             await Task.Run(() =>
             {
-                _logger.Info("Устанавливаем команду 10");
-                SetLoadCommand.Value = 10;
-                
-                _logger.Info("Ждем ответа");
-                awaitedCommand = 20;
-                CommandFeedback.ValueUpdated += CommandFeedback_ValueUpdated;                
-                commandAccepted.WaitOne();
-                CommandFeedback.ValueUpdated -= CommandFeedback_ValueUpdated;
+                try
+                {
+                    CommandFeedback.ValueUpdated += CommandFeedback_ValueUpdated;
+                    _logger.Info("Устанавливаем команду 10");
+                    SetLoadCommand.Value = 10;
 
-                _logger.Info("Устанавливаем команду 20");
-                SetLoadCommand.Value = 20;
+                    _logger.Info("Ждем ответа 20");                    
+
+                    commandAccepted.WaitOne();
+
+                    if (CommandFeedback.Value == 20)
+                    {
+                        _logger.Info("Устанавливаем команду 30");                       
+                        SetLoadCommand.Value = 20;
+
+                        _logger.Info("Ждем ответа 30");
+                        commandAccepted.WaitOne();
+
+                        if(CommandFeedback.Value == 30)
+                        {
+                            _logger.Info("Рецепт загружен!");
+                        }
+                        else
+                        {
+                            throw new Exception("Wrong command");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Wrong command");
+                    }
+                }
+                catch
+                {
+                    _logger.Info("Загрузить не удалось");
+                }
+                finally 
+                {
+                    CommandFeedback.ValueUpdated -= CommandFeedback_ValueUpdated;
+                }
             });
-            _logger.Info("Рецепт загружен!");
+
         }
         
         private void CommandFeedback_ValueUpdated(object? sender, uint e)
         {
-            if (e == awaitedCommand)
-            {
-                commandAccepted.Set();
-                _logger.Info("Команда получена");
-            }
-            else
-            {
-                throw new Exception("Пришла неправильная команда!");
-            }
-
+            _logger.Info($"Получена команда: {e}");
+            commandAccepted.Set();            
         }
 
 
