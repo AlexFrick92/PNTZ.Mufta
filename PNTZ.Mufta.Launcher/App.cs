@@ -23,10 +23,12 @@ namespace PNTZ.Mufta.Launcher
 
                 RecipeLoader recipeLoader = new RecipeLoader(logger);
                 _cli.RegisterCommand("load", (args) => recipeLoader.LoadRecipe(args[0]));
+                _cli.RegisterCommand("load1", (args) => recipeLoader.Load());
 
                 Heartbeat heartbeat = new Heartbeat(_cli) { Name = "Heartbeat1" };
 
-                dataPointConfigurator = new DpBuilder(logger, _currentDirectory + "/DpConfig.xml", 
+                dataPointConfigurator = new DpBuilder(logger,
+                    new string[] { _currentDirectory + "/DpConfig.xml" }, 
                     new Type[] {typeof(OpcUaProvider)},
                     null,
                     new IDpProcessor[] { recipeLoader, heartbeat }                    

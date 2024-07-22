@@ -19,9 +19,23 @@
 			</Provider>
 
 			<Processor Name ="Heartbeat1" TargetProperty="AppHeartbeat"/>
-
 		</DpValue>
-		
+
+
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_REZ_TPC_SP"</NodeId>
+			</Provider>
+
+			<Processor Name ="Cam1RecipeLoader" TargetProperty="SetLoadCommand"/>
+		</DpValue>
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_REZ_PLC_SP"</NodeId>
+			</Provider>
+
+			<Processor Name ="Cam1RecipeLoader" TargetProperty="CommandFeedback"/>
+		</DpValue>
 		
 		<!--Connection recipe -->
 		<DpValue>
