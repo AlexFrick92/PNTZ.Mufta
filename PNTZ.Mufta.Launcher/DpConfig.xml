@@ -13,7 +13,7 @@
 	<DataPointDefinition>
 		
 		<!--Heartbeat-->
-		<DpValue>
+		<DpValue Name="Heartbeat">
 			<Provider Name ="Stend AKF">
 				<NodeId>ns=3;s="System"."Heartbeat"</NodeId>
 			</Provider>
