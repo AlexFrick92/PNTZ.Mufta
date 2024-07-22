@@ -20,7 +20,7 @@ namespace PNTZ.Mufta.RecipeHandling
 
         public void DpInitialized()
         {
-            DpConRecipe.ValueChanged += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
+            DpConRecipe.ValueUpdated += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
         }
         public void LoadRecipe(string path)
         {
@@ -45,7 +45,7 @@ namespace PNTZ.Mufta.RecipeHandling
                 _logger.Info("Устанавливаем команду 10");
                 SetLoadCommand.Value = 10;
                 _logger.Info("Ждем ответа");
-                CommandFeedback.ValueChanged += (s, v) =>
+                CommandFeedback.ValueUpdated += (s, v) =>
                 {
                     if (v == 20) commandAccepted.Set();
                 };
