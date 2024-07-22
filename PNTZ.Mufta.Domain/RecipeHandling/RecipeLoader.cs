@@ -1,17 +1,18 @@
 ﻿using Promatis.DataPoint.Interface;
-using TorqueControl.RecipeHandling;
 using PNTZ.Mufta.Data;
 using Promatis.Core.Logging;
-using TorqueControl.Data;
-
+using System.Text.Json;
 namespace PNTZ.Mufta.RecipeHandling
 {
-    public class RecipeLoader : ILoadRecipe, IDpProcessor
+    /// <summary>
+    ///  Класс загружает рецепт в ПЛК. Загрузка рецепта выполняется обменом комманд
+    /// </summary>
+    public class RecipeLoader : IDpProcessor
     {
-        private readonly ILogger _logger;
+        private readonly ILogger _logger;        
         public RecipeLoader(ILogger logger)
         {
-            _logger = logger;
+            _logger = logger;                            
         }
         public string Name { get; set; } = "Cam1RecipeLoader";
 
@@ -19,22 +20,26 @@ namespace PNTZ.Mufta.RecipeHandling
         {
             DpConRecipe.ValueChanged += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
         }
-
-        public void LoadRecipe<T>(ConnectionRecipe<T> recipe) where T : ConnectionRecipe<T>, new()
+        public void LoadRecipe(string path)
         {
-            DpConRecipe.Value = recipe as PNTZ.Mufta.Data.ConnectionRecipe;
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                JointRecipe jointRecipe = JsonSerializer.Deserialize<JointRecipe>(fs);
+                LoadRecipe(jointRecipe);
+            }                        
+        }
+        public void LoadRecipe(JointRecipe recipe)
+        {
+            DpConRecipe.Value = recipe;
             _logger.Info($"Рецепт загружен");
         }
 
         #region DataPoints
-        public IDpValue<ConnectionRecipe> DpConRecipe { get; set; }
+        public IDpValue<JointRecipe> DpConRecipe { get; set; }
 
         public IDpValue<ushort> SetLoadCommand { get; set; }
 
-        public IDpValue<ushort> CommandFeedback { get; set; }
-
-
-        public IDpValue<string> Pipe_type { get; set; }
+        public IDpValue<ushort> CommandFeedback { get; set; }       
 
         #endregion
     }

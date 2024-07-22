@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Security.Principal;
+using Promatis.IO.Serialize;
 
 namespace PNTZ.Mufta.Data
 {
-    public class ConnectionRecipe : TorqueControl.Data.ConnectionRecipe<ConnectionRecipe>
+    public class JointRecipe : TorqueControl.Data.JointRecipe
     {
         public float HEAD_OPEN_PULSES { get; set; }
         public float TURNS_BREAK { get; set; }

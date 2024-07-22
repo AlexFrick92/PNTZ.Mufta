@@ -8,7 +8,7 @@
         xmlns:desktopControl="clr-namespace:Promatis.Desktop.Control;assembly=Promatis.Desktop"
         mc:Ignorable="d"
         Title="Main" Height="700" Width="1200"
-        WindowStartupLocation="CenterScreen"        
+        WindowStartupLocation="CenterScreen" 
         >
     <Window.Resources>
         <ResourceDictionary>
