@@ -28,6 +28,7 @@ namespace PNTZ.Mufta.Launcher
 
                 dataPointConfigurator = new DataPointConfigurator(logger, _currentDirectory + "/DpConfig.xml", 
                     new Type[] {typeof(OpcUaProvider)},
+                    null,
                     new IDpProcessor[] {recipeLoader, heartbeat }                    
                     );                             
 
