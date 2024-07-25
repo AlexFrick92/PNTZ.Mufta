@@ -21,13 +21,12 @@ namespace PNTZ.Mufta.Launcher
             Init += (_, _) =>
             {
                 CliLogger logger = new CliLogger(_cli);
-
-                RecipeCreator recipeCreator = new RecipeCreator();
+                
                 RecipeLoader recipeLoader = new RecipeLoader(logger);
 
                 _cli.RegisterCommand("load", (args) =>
                 {
-                    recipeCreator.FromFile(args[0]);
+                    RecipeCreator recipeCreator = new RecipeCreator(args[0]);                    
                     recipeLoader.LoadRecipe(recipeCreator.Recipe);
                 });
                 _cli.RegisterCommand("load1", (args) => recipeLoader.Load());
