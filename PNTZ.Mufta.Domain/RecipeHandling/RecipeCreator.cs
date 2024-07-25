@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PNTZ.Mufta.Domain.RecipeHandling
 {
-    internal class RecipeCreator
+    public class RecipeCreator
     {
         public  JointRecipe Recipe { get; private set; }
         public void FromFile(string path)

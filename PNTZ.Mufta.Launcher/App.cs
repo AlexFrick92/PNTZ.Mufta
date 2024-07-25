@@ -1,4 +1,5 @@
 ﻿using PNTZ.Mufta.Data;
+using PNTZ.Mufta.Domain.RecipeHandling;
 using PNTZ.Mufta.Launcher.View;
 using PNTZ.Mufta.Launcher.ViewModel;
 using PNTZ.Mufta.RecipeHandling;
@@ -21,8 +22,14 @@ namespace PNTZ.Mufta.Launcher
             {
                 CliLogger logger = new CliLogger(_cli);
 
+                RecipeCreator recipeCreator = new RecipeCreator();
                 RecipeLoader recipeLoader = new RecipeLoader(logger);
-                _cli.RegisterCommand("load", (args) => recipeLoader.LoadRecipe(args[0]));
+
+                _cli.RegisterCommand("load", (args) =>
+                {
+                    recipeCreator.FromFile(args[0]);
+                    recipeLoader.LoadRecipe(recipeCreator.Recipe);
+                });
                 _cli.RegisterCommand("load1", (args) => recipeLoader.Load());
 
                 Heartbeat heartbeat = new Heartbeat(_cli) { Name = "Heartbeat1" };

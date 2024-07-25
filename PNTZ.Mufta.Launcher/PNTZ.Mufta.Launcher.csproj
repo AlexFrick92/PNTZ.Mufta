@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
-    <ProjectReference Include="..\..\MES.CLG\Binding\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
+    <ProjectReference Include="..\..\MES.CLG\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
     <ProjectReference Include="..\..\MES.CLG\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj" />
     <ProjectReference Include="..\..\MES.CLG\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
     <ProjectReference Include="..\..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj" />
