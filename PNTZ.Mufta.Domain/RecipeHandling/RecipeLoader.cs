@@ -12,6 +12,7 @@ namespace PNTZ.Mufta.RecipeHandling
         private readonly ILogger _logger;
         private readonly AutoResetEvent recipeLoaded = new AutoResetEvent(false);
         private readonly AutoResetEvent commandAccepted = new AutoResetEvent(false);
+        private readonly AutoResetEvent operationCanceled = new AutoResetEvent(false);
         public RecipeLoader(ILogger logger)
         {
             _logger = logger;                            
@@ -20,25 +21,24 @@ namespace PNTZ.Mufta.RecipeHandling
 
         public void DpInitialized()
         {
-            DpConRecipe.ValueUpdated += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
-        }
-        public void LoadRecipe(string path)
-        {
-            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-            {
-                JointRecipe jointRecipe = JsonSerializer.Deserialize<JointRecipe>(fs);
-                LoadRecipe(jointRecipe);
-            }            
+            DpJointRecipe.ValueUpdated += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
         }
         public void LoadRecipe(JointRecipe recipe)
         {
             _logger.Info("Загрузка рецепта...");
-            DpConRecipe.Value = recipe;
+            DpJointRecipe.Value = recipe;
             
             _logger.Info($"Рецепт загружен");
         }
         public async void Load()
         {
+
+            _ = Task.Run(() =>
+            {
+                Task.Delay(10000).Wait();
+                operationCanceled.Set();
+            });
+
             await Task.Run(() =>
             {
                 try
@@ -47,10 +47,16 @@ namespace PNTZ.Mufta.RecipeHandling
                     _logger.Info("Устанавливаем команду 10");
                     SetLoadCommand.Value = 10;
 
-                    _logger.Info("Ждем ответа 20");                    
+                    _logger.Info("Ждем ответа 20");
 
-                    commandAccepted.WaitOne();
+                    WaitHandle[] waitHandles = new WaitHandle[] { commandAccepted, operationCanceled};
 
+                    int index = WaitHandle.WaitAny(waitHandles);
+
+                    if(index == 1)
+                    {
+                        throw new Exception("Время ожидания истекло");
+                    }
                     if (CommandFeedback.Value == 20)
                     {
                         _logger.Info("Устанавливаем команду 30");                       
@@ -94,7 +100,7 @@ namespace PNTZ.Mufta.RecipeHandling
 
 
         #region DataPoints
-        public IDpValue<JointRecipe> DpConRecipe { get; set; }
+        public IDpValue<JointRecipe> DpJointRecipe { get; set; }
 
         public IDpValue<uint> SetLoadCommand { get; set; }
 

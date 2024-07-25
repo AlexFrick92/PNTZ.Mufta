@@ -29,6 +29,7 @@
 
 			<Processor Name ="Cam1RecipeLoader" TargetProperty="SetLoadCommand"/>
 		</DpValue>
+		
 		<DpValue>
 			<Provider Name ="Stend AKF">
 				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_REZ_PLC_SP"</NodeId>
@@ -233,7 +234,7 @@
 				</Provider>
 			</DpProperty>								
 
-			<Processor Name ="Cam1RecipeLoader" TargetProperty="DpConRecipe"/>
+			<Processor Name ="Cam1RecipeLoader" TargetProperty="DpJointRecipe"/>
 		</DpValue>
 		
 	</DataPointDefinition>	
