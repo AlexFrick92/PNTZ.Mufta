@@ -13,14 +13,21 @@
 	<DataPointDefinition>
 		
 		<!--Heartbeat-->
-		<DpValue Name="Heartbeat">
+		<DpValue Name="AppHeartbeat">
 			<Provider Name ="Stend AKF">
-				<NodeId>ns=3;s="System"."Heartbeat"</NodeId>
+				<NodeId>ns=3;s="System"."AppHeartbeat"</NodeId>
 			</Provider>
 
 			<Processor Name ="Heartbeat1" TargetProperty="AppHeartbeat"/>
 		</DpValue>
 
+		<DpValue Name="PlcHeartbeat">
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="System"."PlcHeartbeat"</NodeId>
+			</Provider>
+
+			<Processor Name ="HeartbeatCheck1" TargetProperty="PlcHeartbeat"/>
+		</DpValue>
 
 		<DpValue>
 			<Provider Name ="Stend AKF">

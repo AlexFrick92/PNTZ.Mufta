@@ -1,4 +1,5 @@
 ﻿using PNTZ.Mufta.Data;
+using PNTZ.Mufta.Domain.PLC;
 using PNTZ.Mufta.Domain.RecipeHandling;
 using PNTZ.Mufta.Launcher.View;
 using PNTZ.Mufta.Launcher.ViewModel;
@@ -22,8 +23,9 @@ namespace PNTZ.Mufta.Launcher
             {
                 CliLogger logger = new CliLogger(_cli);
                 
-                RecipeLoader recipeLoader = new RecipeLoader(logger);
+                PLCStatus status = new PLCStatus(_cli);
 
+                RecipeLoader recipeLoader = new RecipeLoader(logger);
                 _cli.RegisterCommand("load", (args) =>
                 {
                     RecipeCreator recipeCreator = new RecipeCreator(args[0]);                    
@@ -31,13 +33,14 @@ namespace PNTZ.Mufta.Launcher
                 });
                 _cli.RegisterCommand("load1", (args) => recipeLoader.Load());
 
-                Heartbeat heartbeat = new Heartbeat(_cli) { Name = "Heartbeat1" };
+                HeartbeatGenerate heartbeat = new HeartbeatGenerate(_cli) { Name = "Heartbeat1" };
+                HeartbeatCheck heartbeatCheck = new HeartbeatCheck(_cli) { Name = "HeartbeatCheck1" };
 
                 dataPointConfigurator = new DpBuilder(logger,
                     new string[] { _currentDirectory + "/DpConfig.xml" }, 
                     new Type[] {typeof(OpcUaProvider)},
                     null,
-                    new IDpProcessor[] { recipeLoader, heartbeat }                    
+                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck }                    
                     );                             
 
 
