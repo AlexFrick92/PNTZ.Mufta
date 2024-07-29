@@ -3,10 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PNTZ.Mufta.Launcher.View.Chart"
+             xmlns:local="clr-namespace:PNTZ.Mufta.Launcher.View.Chart" 
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <dxc:ChartControl Name="chartControl1">
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D>
+                    <dxc:LineSeries2D DisplayName="Day Temperature" 
+                                          DataSource="{Binding Data}" 
+                                          ArgumentScaleType="DateTime"
+                                          ArgumentDataMember="Argument"
+                                          ValueDataMember="Value"
+                                          LabelsVisibility="True"
+                                          CrosshairLabelPattern="{}{A:MMMM}: {V:f2}&#176;C"
+                                          MarkerSize="14" 
+                                          MarkerVisible="True">
+                        <dxc:LineSeries2D.MarkerModel>
+                            <dxc:RingMarker2DModel/>
+                        </dxc:LineSeries2D.MarkerModel>
+                        <dxc:LineSeries2D.Label>
+                            <dxc:SeriesLabel TextPattern="{}{V:f1}" 
+                                                 dxc:MarkerSeries2D.Angle="90" 
+                                                 ConnectorVisible="False"/>
+                        </dxc:LineSeries2D.Label>
+                    </dxc:LineSeries2D>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+        </dxc:ChartControl>
     </Grid>
 </UserControl>

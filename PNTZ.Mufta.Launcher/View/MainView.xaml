@@ -23,6 +23,10 @@
             <desktopLayout:RootControl.OutputBar>
                 <desktopControl:CliView DataContext="{Binding CliViewModel}"/>
             </desktopLayout:RootControl.OutputBar>
+
+            <desktopLayout:RootControl.MainContent>
+                <ContentControl Content="{Binding MainContent}"/>
+            </desktopLayout:RootControl.MainContent>
         </desktopLayout:RootControl>
     </Grid>
 </Window>
