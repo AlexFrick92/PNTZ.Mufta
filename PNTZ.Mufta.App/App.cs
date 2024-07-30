@@ -3,6 +3,7 @@ using PNTZ.Mufta.Domain.PLC;
 using PNTZ.Mufta.Domain.RecipeHandling;
 using PNTZ.Mufta.Launcher.View;
 using PNTZ.Mufta.Launcher.ViewModel;
+using PNTZ.Mufta.Launcher.ViewModel.Chart;
 using PNTZ.Mufta.RecipeHandling;
 using Promatis.DataPoint.Configuration;
 using Promatis.DataPoint.Interface;
@@ -36,11 +37,13 @@ namespace PNTZ.Mufta.Launcher
                 HeartbeatGenerate heartbeat = new HeartbeatGenerate(_cli) { Name = "Heartbeat1" };
                 HeartbeatCheck heartbeatCheck = new HeartbeatCheck(_cli) { Name = "HeartbeatCheck1" };
 
+                ChartViewModel chartViewModel = new ChartViewModel();
+
                 dataPointConfigurator = new DpBuilder(logger,
                     new string[] { _currentDirectory + "/DpConfig.xml" }, 
                     new Type[] {typeof(OpcUaProvider)},
                     null,
-                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck }                    
+                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, chartViewModel }                    
                     );                             
 
 
@@ -53,7 +56,9 @@ namespace PNTZ.Mufta.Launcher
                 _cli.RegisterCommand("heartbeat", (_) => heartbeat.DpInitialized());
                 
 
-                MainViewModel mainViewModel = new MainViewModel(_cli);
+
+
+                MainViewModel mainViewModel = new MainViewModel(_cli, chartViewModel);
                 _mainWindow = new MainView(mainViewModel);
             };
 

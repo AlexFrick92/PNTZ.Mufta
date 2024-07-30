@@ -3,7 +3,7 @@
 <DpConfiguration>	
 	
 	<ProviderDefinition>
-		<OpcUaProvider Name ="Stend AKF" Endpoint ="opc.tcp://10.10.10.93:4840"/>
+		<OpcUaProvider Name ="Stend AKF" Endpoint ="opc.tcp://10.10.10.94:4840"/>
 	</ProviderDefinition>
 
 	<ProcessorDefinition>
@@ -11,6 +11,23 @@
 	</ProcessorDefinition>	
 	
 	<DataPointDefinition>
+
+		<DpValue Name ="TqTnValues">
+			<DpProperty Name="Tq">
+				<Provider Name ="Stend AKF">
+					<NodeId>ns=3;s="OperationalParams"."Tq"</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name="Tn">
+				<Provider Name ="Stend AKF">
+					<NodeId>ns=3;s="OperationalParams"."Tn"</NodeId>
+				</Provider>
+			</DpProperty>						
+			
+			<Processor Name ="TqTnChart" TargetProperty="TqTnPoint"/>
+		</DpValue>
+		
 		
 		<!--Heartbeat-->
 		<DpValue Name="AppHeartbeat">

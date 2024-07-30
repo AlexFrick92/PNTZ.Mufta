@@ -13,21 +13,11 @@
                 <dxc:XYDiagram2D>
                     <dxc:LineSeries2D DisplayName="Day Temperature" 
                                           DataSource="{Binding Data}" 
-                                          ArgumentScaleType="DateTime"
-                                          ArgumentDataMember="Argument"
-                                          ValueDataMember="Value"
-                                          LabelsVisibility="True"
-                                          CrosshairLabelPattern="{}{A:MMMM}: {V:f2}&#176;C"
-                                          MarkerSize="14" 
-                                          MarkerVisible="True">
-                        <dxc:LineSeries2D.MarkerModel>
-                            <dxc:RingMarker2DModel/>
-                        </dxc:LineSeries2D.MarkerModel>
-                        <dxc:LineSeries2D.Label>
-                            <dxc:SeriesLabel TextPattern="{}{V:f1}" 
-                                                 dxc:MarkerSeries2D.Angle="90" 
-                                                 ConnectorVisible="False"/>
-                        </dxc:LineSeries2D.Label>
+                                          ArgumentScaleType="Auto"                                      
+                                          ArgumentDataMember="Tn"
+                                          ValueDataMember="Tq"  
+                                          ValueScaleType="Numerical"
+                                      >
                     </dxc:LineSeries2D>
                 </dxc:XYDiagram2D>
             </dxc:ChartControl.Diagram>

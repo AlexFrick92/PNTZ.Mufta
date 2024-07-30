@@ -1,4 +1,5 @@
 ﻿using PNTZ.Mufta.Launcher.View.Chart;
+using PNTZ.Mufta.Launcher.ViewModel.Chart;
 using Promatis.DebuggingToolkit.IO;
 using Promatis.Desktop.Control;
 using Promatis.Desktop.MVVM;
@@ -10,9 +11,10 @@ namespace PNTZ.Mufta.Launcher.ViewModel
     public class MainViewModel : BaseViewModel
     {
         Cli _cli;
-        public MainViewModel(Cli cli)
+        public MainViewModel(Cli cli, ChartViewModel chartViewModel)
         {
             CliViewModel = new CliViewModel(cli);
+            _chartViewModel = chartViewModel;
             _cli = cli;
 
             _cli.RegisterCommand("showchart", (arg) => ShowChart());
@@ -21,9 +23,11 @@ namespace PNTZ.Mufta.Launcher.ViewModel
         public CliViewModel CliViewModel { get; private set; }
         public UIElement MainContent { get; private set; }
 
+        ChartViewModel _chartViewModel;
+
         void ShowChart()
         {
-            MainContent = new TnTqChart(new Chart.ChartViewModel());
+            MainContent = new TnTqChart(_chartViewModel);
             OnPropertyChanged(nameof(MainContent));
         }
 

@@ -18,7 +18,8 @@
     <ProjectReference Include="..\..\MES.CLG\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj" />
     <ProjectReference Include="..\..\MES.CLG\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
     <ProjectReference Include="..\..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj" />
-    <ProjectReference Include="..\PNTZ.Mufta.Domain\PNTZ.Mufta.Domain.csproj" />
+    <ProjectReference Include="..\..\Tools\Promatis.IO\Promatis.IO.csproj" />
+    <ProjectReference Include="..\..\TorqueControl\TorqueControl\TorqueControl.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +37,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="DpConfig.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
