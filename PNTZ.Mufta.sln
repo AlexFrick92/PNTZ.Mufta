@@ -65,7 +65,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.ReactiveToolkit", "..\Tools\Promatis.ReactiveToolkit\Promatis.ReactiveToolkit.csproj", "{0ABD964B-9911-43E3-A616-9F503946236A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PNTZ.Mufta.Launcher", "PNTZ.Mufta.Launcher\PNTZ.Mufta.Launcher.csproj", "{895E8B85-CCAE-4D74-8A79-833FF573184B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PNTZ.Mufta.App", "PNTZ.Mufta.App\PNTZ.Mufta.App.csproj", "{895E8B85-CCAE-4D74-8A79-833FF573184B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DebuggingToolkit", "..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj", "{6AC1AD24-C766-4441-B136-5EC7EFDA1C69}"
 EndProject
