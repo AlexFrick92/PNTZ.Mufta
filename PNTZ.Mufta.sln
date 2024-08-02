@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7E62983C-4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Opc.UA.Client", "..\Tools\Promatis.Opc.UA.Client\Promatis.Opc.UA.Client.csproj", "{6A5EFE87-E699-4ABF-84DF-2D3735A87E3D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CLG", "CLG", "{1EDE5774-9BB8-4875-84D8-FAD04E46D2B0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpConnect", "DpConnect", "{1EDE5774-9BB8-4875-84D8-FAD04E46D2B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TorqueControl", "TorqueControl", "{4EC46EC9-E4F0-43FD-9F3A-BB2CDE113353}"
 EndProject
@@ -17,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EE179933
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataPoint", "DataPoint", "{2ACC81B1-9269-4395-A37C-D6DA9C9790E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "..\MES.CLG\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{33A70661-CA1E-4F47-8320-1E2689687E46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "..\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{33A70661-CA1E-4F47-8320-1E2689687E46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Console", "..\MES.CLG\DataPoint\Promatis.DataPoint.Console\Promatis.DataPoint.Console.csproj", "{8DF1601C-2D43-439D-806C-907BD7EBC214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Console", "..\DpConnect\DataPoint\Promatis.DataPoint.Console\Promatis.DataPoint.Console.csproj", "{8DF1601C-2D43-439D-806C-907BD7EBC214}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Interface", "..\MES.CLG\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj", "{E5A6EB4A-8FC2-41A3-8E8C-D463416F2BFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Interface", "..\DpConnect\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj", "{E5A6EB4A-8FC2-41A3-8E8C-D463416F2BFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{AC1309EF-E536-49BA-A436-9A2AA2F312F0}"
 EndProject
@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpProvider", "DpProvider", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpProcessor", "DpProcessor", "{F2389E9E-80E5-4370-AAAF-0A99F2E29D6D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProvider.OpcUa", "..\MES.CLG\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj", "{1AAC900C-A06C-45C5-864B-2A64BEA34EC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProvider.OpcUa", "..\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj", "{1AAC900C-A06C-45C5-864B-2A64BEA34EC3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.DateTimeConsoleWriter", "..\MES.CLG\DpProcessor\Promatis.DpProcessor.DateTimeConsoleWriter\Promatis.DpProcessor.DateTimeConsoleWriter.csproj", "{20593235-6D35-44CA-B28B-8C866DC04A45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.DateTimeConsoleWriter", "..\DpConnect\DpProcessor\Promatis.DpProcessor.DateTimeConsoleWriter\Promatis.DpProcessor.DateTimeConsoleWriter.csproj", "{20593235-6D35-44CA-B28B-8C866DC04A45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{B6685327-6960-4C67-9F57-E3462710FD25}"
 EndProject
@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PNTZ.Mufta.App", "PNTZ.Muft
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DebuggingToolkit", "..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj", "{6AC1AD24-C766-4441-B136-5EC7EFDA1C69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.PlcSystem", "..\MES.CLG\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj", "{1F8FEAD3-4180-4A1B-A920-9480A1242098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.PlcSystem", "..\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj", "{1F8FEAD3-4180-4A1B-A920-9480A1242098}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.IO", "..\Tools\Promatis.IO\Promatis.IO.csproj", "{B2510299-6E13-4930-AA43-FA406A841ABF}"
 EndProject
