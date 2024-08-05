@@ -18,8 +18,7 @@
     <ProjectReference Include="..\..\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj" />
     <ProjectReference Include="..\..\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
     <ProjectReference Include="..\..\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
-    <ProjectReference Include="..\..\Tools\Promatis.DebuggingToolkit\Promatis.DebuggingToolkit.csproj" />
-    <ProjectReference Include="..\..\Tools\Promatis.IO\Promatis.IO.csproj" />
+    <ProjectReference Include="..\..\Toolbox\Toolkit\Toolkit.csproj" />
     <ProjectReference Include="..\..\TorqueControl\TorqueControl\TorqueControl.csproj" />
   </ItemGroup>
 
