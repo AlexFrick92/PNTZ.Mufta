@@ -49,11 +49,11 @@ namespace PNTZ.Mufta.Launcher
 
                 _cli.RegisterCommand("print", (args) => (_cli as ICliProgram).WriteLine(args[0]));
                 
-                _cli.RegisterCommand("init", (_) => recipeLoader.DpInitialized());
+                _cli.RegisterCommand("init", (_) => recipeLoader.OnDpInitialized());
                 _cli.RegisterCommand("startpr", async (_) => await Task.Run(() => dataPointConfigurator.StartProviders()));
                 _cli.RegisterCommand("stoppr", (_) => dataPointConfigurator.StopProviders());
 
-                _cli.RegisterCommand("heartbeat", (_) => heartbeat.DpInitialized());
+                _cli.RegisterCommand("heartbeat", (_) => heartbeat.OnDpInitialized());
                 
 
 

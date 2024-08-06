@@ -33,7 +33,7 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
 
         public IDpValue<TqTnPoint> TqTnPoint { get; set; }
 
-        public void DpInitialized()
+        public void OnDpInitialized()
         {
             TqTnPoint.ValueUpdated += (s, v) => AddPoint(v);
         }

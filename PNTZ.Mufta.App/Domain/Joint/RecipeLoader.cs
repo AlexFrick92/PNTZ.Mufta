@@ -19,7 +19,7 @@ namespace PNTZ.Mufta.RecipeHandling
         }
         public string Name { get; set; } = "Cam1RecipeLoader";
 
-        public void DpInitialized()
+        public void OnDpInitialized()
         {
             DpJointRecipe.ValueUpdated += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
         }
