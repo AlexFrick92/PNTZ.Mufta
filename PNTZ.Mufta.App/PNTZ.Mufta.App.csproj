@@ -13,12 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DpConnect\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj" />
-    <ProjectReference Include="..\..\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
-    <ProjectReference Include="..\..\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj" />
-    <ProjectReference Include="..\..\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
-    <ProjectReference Include="..\..\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
-    <ProjectReference Include="..\..\Toolbox\Toolkit\Toolkit.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
+    <ProjectReference Include="..\..\Toolbox\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
   </ItemGroup>
 
   <ItemGroup>
