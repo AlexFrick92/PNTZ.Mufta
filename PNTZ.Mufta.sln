@@ -7,10 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7E62983C-4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpConnect", "DpConnect", "{1EDE5774-9BB8-4875-84D8-FAD04E46D2B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TorqueControl", "TorqueControl", "{4EC46EC9-E4F0-43FD-9F3A-BB2CDE113353}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TorqueControl", "..\TorqueControl\TorqueControl\TorqueControl.csproj", "{24D6B96B-3DBD-482F-B152-132C550EC68D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataPoint", "DataPoint", "{2ACC81B1-9269-4395-A37C-D6DA9C9790E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "..\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{33A70661-CA1E-4F47-8320-1E2689687E46}"
@@ -53,10 +49,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{24D6B96B-3DBD-482F-B152-132C550EC68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24D6B96B-3DBD-482F-B152-132C550EC68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24D6B96B-3DBD-482F-B152-132C550EC68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24D6B96B-3DBD-482F-B152-132C550EC68D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{33A70661-CA1E-4F47-8320-1E2689687E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33A70661-CA1E-4F47-8320-1E2689687E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33A70661-CA1E-4F47-8320-1E2689687E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -106,7 +98,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{24D6B96B-3DBD-482F-B152-132C550EC68D} = {4EC46EC9-E4F0-43FD-9F3A-BB2CDE113353}
 		{2ACC81B1-9269-4395-A37C-D6DA9C9790E9} = {1EDE5774-9BB8-4875-84D8-FAD04E46D2B0}
 		{33A70661-CA1E-4F47-8320-1E2689687E46} = {2ACC81B1-9269-4395-A37C-D6DA9C9790E9}
 		{8DF1601C-2D43-439D-806C-907BD7EBC214} = {2ACC81B1-9269-4395-A37C-D6DA9C9790E9}

@@ -8,7 +8,7 @@ using System.Security.Principal;
 
 namespace PNTZ.Mufta.Data
 {
-    public class JointRecipe : TorqueControl.Data.JointRecipe
+    public class JointRecipe
     {
         public float HEAD_OPEN_PULSES { get; set; }
         public float TURNS_BREAK { get; set; }
