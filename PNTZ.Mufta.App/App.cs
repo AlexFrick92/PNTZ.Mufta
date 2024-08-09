@@ -12,6 +12,7 @@ using Toolkit.Logging;
 using Promatis.Desktop.Application;
 using Promatis.DpProcessor.PlcSystem.Connection;
 using Promatis.DpProvider.OpcUa;
+using PNTZ.Mufta.App.Domain.Joint;
 
 namespace PNTZ.Mufta.Launcher
 {
@@ -37,13 +38,15 @@ namespace PNTZ.Mufta.Launcher
                 HeartbeatGenerate heartbeat = new HeartbeatGenerate(_cli) { Name = "Heartbeat1" };
                 HeartbeatCheck heartbeatCheck = new HeartbeatCheck(_cli) { Name = "HeartbeatCheck1" };
 
-                ChartViewModel chartViewModel = new ChartViewModel();
+
+                OpRecorder opRecorder = new OpRecorder("OpRecorder", _cli);
+                ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
 
                 dataPointConfigurator = new DpBuilder(logger,
                     new string[] { _currentDirectory + "/DpConfig.xml" }, 
                     new Type[] {typeof(OpcUaProvider)},
                     null,
-                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, chartViewModel }                    
+                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel}                    
                     );                             
 
 

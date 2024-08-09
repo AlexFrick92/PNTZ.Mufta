@@ -10,6 +10,11 @@ namespace PNTZ.Mufta.App.Domain.Joint
     {
         public float Tq { get; set; }
         public float Tn { get; set; }
-        public DateTime TimeStamp { get; set; }
+        public int TimeStamp { get; set; }
+
+        public override string ToString()
+        {
+            return Tq.ToString() + " : " + Tn.ToString();
+        }
     }
 }

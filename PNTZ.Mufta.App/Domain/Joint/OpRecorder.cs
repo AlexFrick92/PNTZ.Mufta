@@ -1,18 +1,66 @@
 ﻿using Promatis.DataPoint.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Promatis.DataPoint.Configuration;
+using System.Collections.ObjectModel;
+using Toolkit.IO;
 
 namespace PNTZ.Mufta.App.Domain.Joint
 {
-    public class OpRecorder : IDpProcessor
+    public class OpRecorder : DpProcessor
     {
-        public string Name { get; set; } = "OpRecorder1";    
-        public void OnDpInitialized()
+        ICliProgram _cli;
+        CancellationTokenSource cts;
+        public OpRecorder(string name, ICliProgram cli)
         {
-            
+            ActualTqTnSeries = new ObservableCollection<TqTnPoint>();
+            Name = name;
+            cli.RegisterCommand("opStart", (arg) => StartRecording());
+            cli.RegisterCommand("opStop", (arg) => cts?.Cancel());
+            _cli = cli;
         }
+        public IDpValue<TqTnPoint> TqTnPoint { get; set; }
+        async void StartRecording()
+        {
+            //TqTnPoint.ValueUpdated += (s, v) => _cli.WriteLine(Name + ":" + v.ToString());
+
+            cts = new CancellationTokenSource();
+            ActualTqTnSeries.Clear();
+
+            int sampleNum = 0;
+            try
+            {
+                await Task.Run(() =>
+                {
+                    while (true)
+                    {
+                        if (cts.IsCancellationRequested)
+                        {
+                            cts.Token.ThrowIfCancellationRequested();
+                        }
+                        else
+                        {
+                            ActualTqTnSeries.Add( new TqTnPoint() {Tq = TqTnPoint.Value.Tq, Tn = TqTnPoint.Value.Tn, TimeStamp = sampleNum * 10});
+                            sampleNum++;
+                            Thread.Sleep(10);
+                        }
+                    }
+                });
+            }
+            catch (OperationCanceledException ex)
+            {
+                _cli.WriteLine("Считывание параметров остановлено");
+            }
+            catch 
+            {
+                throw;
+            }
+
+        }
+
+        
+
+        public ObservableCollection<TqTnPoint> ActualTqTnSeries { get; set; }
+
+
+
     }
 }

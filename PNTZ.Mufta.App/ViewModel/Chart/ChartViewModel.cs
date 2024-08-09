@@ -1,13 +1,8 @@
 ﻿using PNTZ.Mufta.App.Domain.Joint;
 using Promatis.DataPoint.Interface;
 using Promatis.Desktop.MVVM;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+
 
 namespace PNTZ.Mufta.Launcher.ViewModel.Chart
 {
@@ -16,9 +11,11 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
         public ObservableCollection<TqTnPoint> Data { get; private set; }
         public string Name { get; set; } = "TqTnChart";
 
-        public ChartViewModel()
+        OpRecorder OpRecorder;
+        public ChartViewModel(OpRecorder opRecorder)
         {
             Data = new ObservableCollection<TqTnPoint>();
+            OpRecorder = opRecorder;
         }       
         public class DataPoint
         {
@@ -35,7 +32,15 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
 
         public void OnDpInitialized()
         {
-            TqTnPoint.ValueUpdated += (s, v) => AddPoint(v);
+            //TqTnPoint.ValueUpdated += (s, v) => AddPoint(v);
+
+            OpRecorder.ActualTqTnSeries.CollectionChanged += (s, a) =>
+            {
+                if (a.NewItems?.Count >= 1)
+                    foreach (TqTnPoint point in a.NewItems)
+                        AddPoint(point);
+            };
+
         }
         public void AddPoint(TqTnPoint point)
         {
@@ -43,7 +48,7 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 Data.Add(point);
-                Console.WriteLine($"Добавлена точка {point.Tn} : {point.Tq} ");
+                Console.WriteLine($"Добавлена точка {point.Tn} : {point.Tq} : {point.TimeStamp}");
             });
             
         }

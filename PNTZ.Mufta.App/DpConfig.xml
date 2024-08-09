@@ -11,7 +11,7 @@
 	</ProcessorDefinition>	
 	
 	<DataPointDefinition>
-
+		<!-- Operational parameters -->
 		<DpValue Name ="TqTnValues">
 			<DpProperty Name="Tq">
 				<Provider Name ="Stend AKF">
@@ -26,6 +26,7 @@
 			</DpProperty>						
 			
 			<Processor Name ="TqTnChart" TargetProperty="TqTnPoint"/>
+			<Processor Name ="OpRecorder" TargetProperty="TqTnPoint"/>
 		</DpValue>
 		
 		
