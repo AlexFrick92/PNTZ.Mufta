@@ -11,10 +11,12 @@ namespace PNTZ.Mufta.Launcher.ViewModel
     public class MainViewModel : BaseViewModel
     {
         Cli _cli;
+        TnTqChart _chart;
         public MainViewModel(Cli cli, ChartViewModel chartViewModel)
         {
             CliViewModel = new CliViewModel(cli);
             _chartViewModel = chartViewModel;
+            _chart = new TnTqChart(chartViewModel);
             _cli = cli;
 
             _cli.RegisterCommand("showchart", (arg) => ShowChart());
@@ -27,7 +29,7 @@ namespace PNTZ.Mufta.Launcher.ViewModel
 
         void ShowChart()
         {
-            MainContent = new TnTqChart(_chartViewModel);
+            MainContent = _chart;
             OnPropertyChanged(nameof(MainContent));
         }
 

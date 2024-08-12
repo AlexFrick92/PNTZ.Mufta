@@ -18,12 +18,15 @@ namespace PNTZ.Mufta.App.Domain.Joint
             _cli = cli;
         }
         public IDpValue<TqTnPoint> TqTnPoint { get; set; }
+        public event EventHandler NewRecordStarted;
         async void StartRecording()
         {
             //TqTnPoint.ValueUpdated += (s, v) => _cli.WriteLine(Name + ":" + v.ToString());
 
             cts = new CancellationTokenSource();
             ActualTqTnSeries.Clear();
+
+            NewRecordStarted?.Invoke(this, EventArgs.Empty);
 
             int sampleNum = 0;
             try
@@ -38,7 +41,8 @@ namespace PNTZ.Mufta.App.Domain.Joint
                         }
                         else
                         {
-                            ActualTqTnSeries.Add( new TqTnPoint() {Tq = TqTnPoint.Value.Tq, Tn = TqTnPoint.Value.Tn, TimeStamp = sampleNum * 10});
+                            ActualTqTnSeries.Add(new TqTnPoint() { Tq = TqTnPoint.Value.Tq, Tn = TqTnPoint.Value.Tn, TimeStamp = sampleNum * 10 });
+                            //ActualTqTnSeries.Add(new TqTnPoint() { Tq = 10, Tn = 10, TimeStamp = sampleNum * 10 });
                             sampleNum++;
                             Thread.Sleep(10);
                         }

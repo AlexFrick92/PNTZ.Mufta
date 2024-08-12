@@ -1,4 +1,5 @@
-﻿using PNTZ.Mufta.Launcher.ViewModel.Chart;
+﻿using DevExpress.Xpf.Charts;
+using PNTZ.Mufta.Launcher.ViewModel.Chart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace PNTZ.Mufta.Launcher.View.Chart
         public TnTqChart(ChartViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = viewModel;
+            DataContext = viewModel;            
         }
     }
 }

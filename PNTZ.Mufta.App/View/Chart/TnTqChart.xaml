@@ -11,24 +11,38 @@
         <dxc:ChartControl Name="chartControl1">
             <dxc:ChartControl.Diagram>
                 <dxc:XYDiagram2D>
+                    
+                    <dxc:XYDiagram2D.NavigationOptions>
+                            <dxc:NavigationOptions/>
+                    </dxc:XYDiagram2D.NavigationOptions>
 
                     <dxc:XYDiagram2D.AxisX>
-                        <dxc:AxisX2D>
-                            <dxc:AxisX2D.VisualRange>
+                        <dxc:AxisX2D x:Name="axisX">
+                            <dxc:AxisX2D.WholeRange>
                                 <dxc:Range MinValue="0" 
                                            MaxValue="30000"/>
-                            </dxc:AxisX2D.VisualRange>
+                            </dxc:AxisX2D.WholeRange>
                         </dxc:AxisX2D>
                     </dxc:XYDiagram2D.AxisX>
-                    
-                        <dxc:LineSeries2D DisplayName="Day Temperature" 
-                                        DataSource="{Binding Data}" 
-                                        ArgumentScaleType="Auto"                                         
-                                        ArgumentDataMember="TimeStamp"
-                                        ValueDataMember="Tq"  
-                                        ValueScaleType="Numerical"
-                                    >
+
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D x:Name="axisY">
+                            <dxc:AxisY2D.WholeRange>
+                                <dxc:Range MinValue="0" 
+                                           MaxValue="1000"/>
+                            </dxc:AxisY2D.WholeRange>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+
+                    <dxc:LineSeries2D DisplayName="Day Temperature" 
+                                    DataSource="{Binding Data}" 
+                                    ArgumentScaleType="Auto"                                         
+                                    ArgumentDataMember="TimeStamp"
+                                    ValueDataMember="Tq"  
+                                    ValueScaleType="Numerical"
+                                >
                     </dxc:LineSeries2D>
+                    
                 </dxc:XYDiagram2D>
             </dxc:ChartControl.Diagram>
         </dxc:ChartControl>

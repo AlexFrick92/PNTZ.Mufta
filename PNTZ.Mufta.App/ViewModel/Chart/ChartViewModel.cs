@@ -14,7 +14,6 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
         OpRecorder OpRecorder;
         public ChartViewModel(OpRecorder opRecorder)
         {
-            Data = new ObservableCollection<TqTnPoint>();
             OpRecorder = opRecorder;
         }       
         public class DataPoint
@@ -32,25 +31,28 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
 
         public void OnDpInitialized()
         {
-            //TqTnPoint.ValueUpdated += (s, v) => AddPoint(v);
+            OpRecorder.NewRecordStarted += NewRecordStarted;
+        }
 
+        private void NewRecordStarted(object o, EventArgs e)
+        {
+            Console.WriteLine("Подписались!");
+            Data = new ObservableCollection<TqTnPoint>();
+            OnPropertyChanged(nameof(Data));
             OpRecorder.ActualTqTnSeries.CollectionChanged += (s, a) =>
             {
                 if (a.NewItems?.Count >= 1)
                     foreach (TqTnPoint point in a.NewItems)
-                        AddPoint(point);
-            };
+                    {
 
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Data.Add(point);
+                            Console.WriteLine($"Добавлена точка {point.Tn} : {point.Tq} : {point.TimeStamp}");
+                        });
+                    }
+            };
         }
-        public void AddPoint(TqTnPoint point)
-        {
-            
-            System.Windows.Application.Current.Dispatcher.Invoke(() =>
-            {
-                Data.Add(point);
-                Console.WriteLine($"Добавлена точка {point.Tn} : {point.Tq} : {point.TimeStamp}");
-            });
-            
-        }
+
     }
 }
