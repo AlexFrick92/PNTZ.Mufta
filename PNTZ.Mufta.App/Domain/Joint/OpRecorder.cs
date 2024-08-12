@@ -3,6 +3,7 @@ using Promatis.DataPoint.Configuration;
 using System.Collections.ObjectModel;
 using Toolkit.IO;
 using System.Collections.Concurrent;
+using System.Reflection.Metadata;
 
 namespace PNTZ.Mufta.App.Domain.Joint
 {
@@ -51,6 +52,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     
                 };
             });
+
             try
             {
                 await recordingTask;
@@ -58,7 +60,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
             catch (OperationCanceledException ex)
             {
                 _cli.WriteLine("Запись точек остановлена.");
-            }
+            }            
             finally
             {
                 RecordingDone(this, ActualTqTnSeries);
@@ -73,8 +75,5 @@ namespace PNTZ.Mufta.App.Domain.Joint
             cts?.Cancel();            
         }
         public ObservableCollection<TqTnPoint> ActualTqTnSeries { get; set; }
-
-
-
     }
 }

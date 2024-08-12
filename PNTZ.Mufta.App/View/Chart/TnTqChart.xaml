@@ -20,7 +20,7 @@
                         <dxc:AxisX2D x:Name="axisX">
                             <dxc:AxisX2D.WholeRange>
                                 <dxc:Range MinValue="0" 
-                                           MaxValue="30000"/>
+                                           MaxValue="90000"/>
                             </dxc:AxisX2D.WholeRange>
                         </dxc:AxisX2D>
                     </dxc:XYDiagram2D.AxisX>

@@ -20,7 +20,7 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
         public ChartViewModel(OpRecorder opRecorder)
         {
             OpRecorder = opRecorder;
-        }       
+        }
         public class DataPoint
         {
             public DateTime Argument { get; set; }
@@ -34,7 +34,7 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
         public IDpValue<TqTnPoint> TqTnPoint { get; set; }
 
         public void OnDpInitialized()
-        {                        
+        {
             OpRecorder.NewRecordStarted += (o, e) =>
             {
                 OpRecorder.ActualTqTnSeries.CollectionChanged += EnqueuPoints;
@@ -45,23 +45,22 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
                 StopDequeuePoint();
                 OpRecorder.ActualTqTnSeries.CollectionChanged -= EnqueuPoints;
             };
-            
+
         }
 
         private void EnqueuPoints(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.NewItems != null)            
+            if (e.NewItems != null)
                 foreach (TqTnPoint point in e.NewItems)
-                    DataQueue.Enqueue(point);            
+                    DataQueue.Enqueue(point);
         }
- 
 
         private async void BeginDequeuePoint()
         {
-            if (!DequeuePoint.IsCompleted)            
+            if (!DequeuePoint.IsCompleted)
                 StopDequeuePoint().Wait();
 
-            DequeuePoint =  Task.Run(() => AddPoint(ctsDequeuePoint.Token)
+            DequeuePoint = Task.Run(() => AddPoint(ctsDequeuePoint.Token)
             , ctsDequeuePoint.Token);
 
             try
@@ -77,7 +76,6 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
                 ctsDequeuePoint.Dispose();
                 ctsDequeuePoint = new CancellationTokenSource();
             }
-
         }
         private void AddPoint(CancellationToken token)
         {
@@ -85,7 +83,6 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
             OnPropertyChanged(nameof(Data));
             while (true)
             {
-
                 token.ThrowIfCancellationRequested();
                 while (DataQueue.TryDequeue(out TqTnPoint point))
                 {
@@ -101,10 +98,9 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
         }
         private async Task StopDequeuePoint()
         {
-            
-            ctsDequeuePoint?.Cancel();
-            DequeuePoint?.Wait();
-        }
 
+            ctsDequeuePoint?.Cancel();
+        }
     }
 }
+
