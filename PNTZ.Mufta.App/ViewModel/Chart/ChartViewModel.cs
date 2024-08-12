@@ -2,6 +2,7 @@
 using PNTZ.Mufta.App.Domain.Joint;
 using Promatis.DataPoint.Interface;
 using Promatis.Desktop.MVVM;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 
 
@@ -10,10 +11,12 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
     public class ChartViewModel : BaseViewModel, IDpProcessor
     {
         public ObservableCollection<TqTnPoint> Data { get; private set; }
-        CancellationTokenSource cts;
+        public ConcurrentQueue<TqTnPoint> DataQueue = new ConcurrentQueue<TqTnPoint>();
+        CancellationTokenSource ctsDequeuePoint = new CancellationTokenSource();
         public string Name { get; set; } = "TqTnChart";
 
         OpRecorder OpRecorder;
+        Task DequeuePoint = Task.CompletedTask;
         public ChartViewModel(OpRecorder opRecorder)
         {
             OpRecorder = opRecorder;
@@ -28,94 +31,79 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
                 Value = value;
             }
         }
-
         public IDpValue<TqTnPoint> TqTnPoint { get; set; }
 
         public void OnDpInitialized()
-        {            
-            cts = new CancellationTokenSource();
-            OpRecorder.NewRecordStarted += DecNewPointsAsync;
-        }
-
-        private void NewRecordStarted(object o, EventArgs e)
-        {
-            Console.WriteLine("Подписались!");
-            Data = new ObservableCollection<TqTnPoint>();
-            OnPropertyChanged(nameof(Data));
-            OpRecorder.ActualTqTnSeries.CollectionChanged += (s, a) =>
+        {                        
+            OpRecorder.NewRecordStarted += (o, e) =>
             {
-                if (a.NewItems?.Count >= 1)
-                    foreach (TqTnPoint point in a.NewItems)
-                    {
-
-                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            Data.Add(point);
-                            Console.WriteLine($"Добавлена точка {point.Tn} : {point.Tq} : {point.TimeStamp}");
-                        });
-                    }
+                OpRecorder.ActualTqTnSeries.CollectionChanged += EnqueuPoints;
+                BeginDequeuePoint();
             };
-        }
-        int tnum = 0;
-        Task currentTask = Task.CompletedTask;    
-        private async void DecNewPointsAsync(object o, EventArgs e)
-        {
-            tnum++;
-            if (!currentTask.IsCompleted)
+            OpRecorder.RecordingDone += (o, tqtn) =>
             {
-                cts.Cancel();
-                try
-                {
-                    await currentTask;
-                }
-                catch (OperationCanceledException)
-                {
-                    Console.WriteLine("Предыдущая задача была отменена");
-                }
-                finally
-                {
-                    cts.Dispose();
-                    cts = new CancellationTokenSource();
-                }
-            }
+                StopDequeuePoint();
+                OpRecorder.ActualTqTnSeries.CollectionChanged -= EnqueuPoints;
+            };
+            
+        }
+
+        private void EnqueuPoints(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)            
+                foreach (TqTnPoint point in e.NewItems)
+                    DataQueue.Enqueue(point);            
+        }
+ 
+
+        private async void BeginDequeuePoint()
+        {
+            if (!DequeuePoint.IsCompleted)            
+                StopDequeuePoint().Wait();
+
+            DequeuePoint =  Task.Run(() => AddPoint(ctsDequeuePoint.Token)
+            , ctsDequeuePoint.Token);
+
             try
             {
-                currentTask =  Task.Run(() =>
-                {
-                    AddingPoint(cts.Token);
-                }, cts.Token);
+                await DequeuePoint;
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException)
             {
-                Console.WriteLine("Запись точек прервана");
-                cts.Dispose();
+                Console.WriteLine("Dequeu is canceled");
             }
+            finally
+            {
+                ctsDequeuePoint.Dispose();
+                ctsDequeuePoint = new CancellationTokenSource();
+            }
+
         }
-        private void AddingPoint(CancellationToken token)
+        private void AddPoint(CancellationToken token)
         {
-            int tnumt = tnum;
             Data = new ObservableCollection<TqTnPoint>();
             OnPropertyChanged(nameof(Data));
             while (true)
             {
-                if (token.IsCancellationRequested)
+
+                token.ThrowIfCancellationRequested();
+                while (DataQueue.TryDequeue(out TqTnPoint point))
                 {
-                    token.ThrowIfCancellationRequested();
-                }
-                Console.WriteLine($"Считываем точку {tnumt}");
-                while (OpRecorder.DataQueue.TryDequeue(out TqTnPoint point))
-                {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() =>
                     {
                         Data.Add(point);
-                        Console.WriteLine($"{tnumt} Добавлена точка {point.Tn} : {point.Tq} : {point.TimeStamp}");
                     });
-                    Console.WriteLine("Считали точку");
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(10);
             }
 
+        }
+        private async Task StopDequeuePoint()
+        {
+            
+            ctsDequeuePoint?.Cancel();
+            DequeuePoint?.Wait();
         }
 
     }
