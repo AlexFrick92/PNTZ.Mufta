@@ -2,6 +2,7 @@
 using Promatis.DataPoint.Configuration;
 using System.Collections.ObjectModel;
 using Toolkit.IO;
+using System.Collections.Concurrent;
 
 namespace PNTZ.Mufta.App.Domain.Joint
 {
@@ -18,13 +19,15 @@ namespace PNTZ.Mufta.App.Domain.Joint
             _cli = cli;
         }
         public IDpValue<TqTnPoint> TqTnPoint { get; set; }
-        public event EventHandler NewRecordStarted;
+        public ConcurrentQueue<TqTnPoint> DataQueue = new ConcurrentQueue<TqTnPoint>();
+        public event EventHandler NewRecordStarted;        
         async void StartRecording()
         {
             //TqTnPoint.ValueUpdated += (s, v) => _cli.WriteLine(Name + ":" + v.ToString());
 
             cts = new CancellationTokenSource();
             ActualTqTnSeries.Clear();
+            DataQueue.Clear();
 
             NewRecordStarted?.Invoke(this, EventArgs.Empty);
 
@@ -41,10 +44,15 @@ namespace PNTZ.Mufta.App.Domain.Joint
                         }
                         else
                         {
-                            ActualTqTnSeries.Add(new TqTnPoint() { Tq = TqTnPoint.Value.Tq, Tn = TqTnPoint.Value.Tn, TimeStamp = sampleNum * 10 });
+                            DataQueue.Enqueue(new TqTnPoint() { Tq = TqTnPoint.Value.Tq, Tn = TqTnPoint.Value.Tn, TimeStamp = sampleNum * 10 });
+
+                            //ActualTqTnSeries.Add(new TqTnPoint() { Tq = TqTnPoint.Value.Tq, Tn = TqTnPoint.Value.Tn, TimeStamp = sampleNum * 10 });
                             //ActualTqTnSeries.Add(new TqTnPoint() { Tq = 10, Tn = 10, TimeStamp = sampleNum * 10 });
+
+
+                            Console.WriteLine( "Добавили точку" );
                             sampleNum++;
-                            Thread.Sleep(10);
+                            Thread.Sleep(1000);
                         }
                     }
                 });
