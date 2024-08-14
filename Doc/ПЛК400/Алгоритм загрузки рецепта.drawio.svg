@@ -1,20 +1,380 @@
-<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="241px" height="161px" viewBox="-0.5 -0.5 241 161" content="&lt;mxfile&gt;&lt;diagram id=&quot;9t87DK8M3Xf_RUj2ukpC&quot; name=&quot;Page-1&quot;&gt;jZJPT4QwEMU/DUeTAqtZr7Kol002YmLihVQ60iYtJaUI+OltZcqfmE28kOnvTTvlvUZppsYnQ1t+1gxklBA2RukpSpJ7krqvB9MM4uR4mEltBEO2gkJ8A0KCtBcMul2j1Vpa0e5hpZsGKrtj1Bg97Ns+tdxPbWmNE8kKiopK+NP2JpjlMz3ebrqfQdQ8TI4JKoqGZgQdp0wPG5TmUZoZre1cqTED6c0Lvsz7Hq+oy8UMNPY/GzCJLyp7/LfXS1Zm51P5kr+Xvi4uTveSV0lIoLNTMMNwrT565+jDwIWFoqWVVwYXvWPcKulWsStxFBgL49XrxosJ7vWAVmDN5FrChuAbvpybA66HNYYkML6N4A4hxejr5ezVHVegQWG5BvGrbZ5zmv8A&lt;/diagram&gt;&lt;/mxfile&gt;">
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1221px" height="1091px" viewBox="-0.5 -0.5 1221 1091" content="&lt;mxfile&gt;&lt;diagram id=&quot;9t87DK8M3Xf_RUj2ukpC&quot; name=&quot;Page-1&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;">
     <defs/>
     <g>
-        <path d="M 120 0 L 240 80 L 120 160 L 0 80 Z" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 520 400 L 520 423.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 520 428.88 L 516.5 421.88 L 520 423.63 L 523.5 421.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 520 280 L 640 340 L 520 400 L 400 340 Z" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
         <g transform="translate(-0.5 -0.5)">
             <switch>
                 <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
-                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 80px; margin-left: 1px;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 340px; margin-left: 401px;">
                         <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
                             <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
-                                TPC_CMD_REZ_TPC_SP == 10
+                                Frg_Rez ?
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="120" y="84" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
-                    TPC_CMD_REZ_TPC_SP == 10
+                <text x="520" y="344" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    Frg_Rez ?
+                </text>
+            </switch>
+        </g>
+        <path d="M 591.11 510 L 777.98 615.11" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 782.55 617.69 L 774.74 617.31 L 777.98 615.11 L 778.17 611.2 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 400 470 L 286.37 470" fill="none" stroke="#006eaf" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke"/>
+        <path d="M 281.12 470 L 288.12 466.5 L 286.37 470 L 288.12 473.5 Z" fill="#006eaf" stroke="#006eaf" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 484.44 510 L 401.15 603.7" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 397.67 607.63 L 399.7 600.07 L 401.15 603.7 L 404.93 604.72 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="400" y="430" width="240" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 470px; margin-left: 401px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                PLC_CMD = 20
+                                <br/>
+                                EASY_Res_akt = false
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="520" y="474" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    PLC_CMD = 20...
+                </text>
+            </switch>
+        </g>
+        <path d="M 760 340 L 646.37 340" fill="none" stroke="#001dbc" stroke-miterlimit="10" stroke-dasharray="12 12" pointer-events="stroke"/>
+        <path d="M 641.12 340 L 648.12 336.5 L 646.37 340 L 648.12 343.5 Z" fill="#001dbc" stroke="#001dbc" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="760" y="270" width="170" height="140" fill="#0050ef" stroke="#001dbc" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 168px; height: 1px; padding-top: 340px; margin-left: 761px;">
+                        <div data-drawio-colors="color: #ffffff; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                DB700
+                                <br/>
+                                KOM_REG_SP
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                TPC_CMD_REZ_TPC_SP
+                                <br/>
+                                TPC_CMD_REZ_PLC_SP
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="845" y="344" fill="#ffffff" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    DB700...
+                </text>
+            </switch>
+        </g>
+        <path d="M 840 710 L 840 743.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 840 748.88 L 836.5 741.88 L 840 743.63 L 843.5 741.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 840 590 L 960 650 L 840 710 L 720 650 Z" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 650px; margin-left: 721px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                TPC_CMD = 40 ?
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="840" y="654" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    TPC_CMD = 40 ?
+                </text>
+            </switch>
+        </g>
+        <rect x="160" y="440" width="120" height="60" fill="#1ba1e2" stroke="#006eaf" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 470px; margin-left: 161px;">
+                        <div data-drawio-colors="color: #ffffff; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                EASY
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="220" y="474" fill="#ffffff" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    EASY
+                </text>
+            </switch>
+        </g>
+        <rect x="130" y="310" width="250" height="110" rx="16.5" ry="16.5" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="8 8" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 248px; height: 1px; padding-top: 365px; margin-left: 131px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                TPC Прислал команду на загрузку рецепта, то мы проверяем бит Frg_Rez, который разрешает загрузку нового рецепта, и если загрузка разрешена, то сообщаем об этом TPC И и контроллеру EASY
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="255" y="369" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    TPC Прислал команду на загрузку рецепта, то мы проверяем бит Frg_Rez, который разрешает загрузку нового рецепта, и если загрузка разрешена, то сообщаем об этом TPC...
+                </text>
+            </switch>
+        </g>
+        <rect x="660" y="450" width="250" height="110" rx="16.5" ry="16.5" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="8 8" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 248px; height: 1px; padding-top: 505px; margin-left: 661px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                Проверяем, есть ли команда от TPC, что рецепт загружен и проверяем реакцию Easy. Помним, что в предыдущем нетворке мы сбросили этот бит
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="785" y="509" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    Проверяем, есть ли команда от TPC, что рецепт загружен и проверяем реакцию Easy. Помним, что в предыдущем нетворке мы сбросили этот бит
+                </text>
+            </switch>
+        </g>
+        <path d="M 360 830 L 360 863.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke"/>
+        <path d="M 360 868.88 L 356.5 861.88 L 360 863.63 L 363.5 861.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 360 830 L 360 863.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 360 868.88 L 356.5 861.88 L 360 863.63 L 363.5 861.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="240" y="750" width="240" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 790px; margin-left: 241px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                PLC_CMD = 50
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="360" y="794" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    PLC_CMD = 50
+                </text>
+            </switch>
+        </g>
+        <path d="M 360 990 L 360 1023.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 360 1028.88 L 356.5 1021.88 L 360 1023.63 L 363.5 1021.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 360 870 L 480 930 L 360 990 L 240 930 Z" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 930px; margin-left: 241px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                TPC_CMD = 0 ?
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="360" y="934" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    TPC_CMD = 0 ?
+                </text>
+            </switch>
+        </g>
+        <rect x="300" y="1030" width="120" height="60" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1060px; margin-left: 301px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                PLC_CMD = 0
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="360" y="1064" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    PLC_CMD = 0
+                </text>
+            </switch>
+        </g>
+        <rect x="0" y="960" width="250" height="110" rx="16.5" ry="16.5" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="8 8" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 248px; height: 1px; padding-top: 1015px; margin-left: 1px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                Здесь мы сбрасываем свою команду, если TPC Сбросила свою. Предположительно, это происходит после передачи рецепта
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="125" y="1019" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    Здесь мы сбрасываем свою команду, если TPC Сбросила свою. Предположительно, это происходит после передачи рецепта
+                </text>
+            </switch>
+        </g>
+        <path d="M 520 120 L 520 153.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 520 158.88 L 516.5 151.88 L 520 153.63 L 523.5 151.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 520 0 L 640 60 L 520 120 L 400 60 Z" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 60px; margin-left: 401px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                TPC_CMD == 10 ?
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="520" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    TPC_CMD == 10 ?
+                </text>
+            </switch>
+        </g>
+        <path d="M 520 220 L 520 273.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 520 278.88 L 516.5 271.88 L 520 273.63 L 523.5 271.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 640 190 L 723.63 190" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke"/>
+        <path d="M 728.88 190 L 721.88 193.5 L 723.63 190 L 721.88 186.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="400" y="160" width="240" height="60" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 190px; margin-left: 401px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                TPC_Rez_Neu = true
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="520" y="194" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    TPC_Rez_Neu = true
+                </text>
+            </switch>
+        </g>
+        <rect x="670" y="50" width="250" height="110" rx="16.5" ry="16.5" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="8 8" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 248px; height: 1px; padding-top: 105px; margin-left: 671px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                Если пришла команда от TPC О намерении загрузить новый рецепт, то сообщаем это через выход. Этот выход записывается в меркер M700.2, Но больше нигде не используется
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="795" y="109" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    Если пришла команда от TPC О намерении загрузить новый рецепт, то сообщаем это через выход. Этот выход записывается в меркер M700.2, Но больше нигде не используется
+                </text>
+            </switch>
+        </g>
+        <path d="M 1050 790 L 1006.4 842.32 Q 1000 850 1006.1 857.93 L 1046.12 909.95" fill="none" stroke="#001dbc" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke"/>
+        <path d="M 1049.32 914.11 L 1042.28 910.7 L 1046.12 909.95 L 1047.82 906.43 Z" fill="#001dbc" stroke="#001dbc" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="1050" y="745" width="170" height="90" fill="#0050ef" stroke="#001dbc" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 168px; height: 1px; padding-top: 790px; margin-left: 1051px;">
+                        <div data-drawio-colors="color: #ffffff; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                DB401 : REZ*
+                                <br/>
+                                REZ_TPC_DOWN
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="1135" y="794" fill="#ffffff" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    DB401 : REZ*...
+                </text>
+            </switch>
+        </g>
+        <path d="M 960 790 L 1043.63 790" fill="none" stroke="#001dbc" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke"/>
+        <path d="M 1048.88 790 L 1041.88 793.5 L 1043.63 790 L 1041.88 786.5 Z" fill="#001dbc" stroke="#001dbc" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="720" y="750" width="240" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 790px; margin-left: 721px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                EASY_Rez_akt = false
+                                <br/>
+                                copy DB401 to DB602
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="840" y="794" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    EASY_Rez_akt = false...
+                </text>
+            </switch>
+        </g>
+        <rect x="1050" y="870" width="170" height="90" fill="#0050ef" stroke="#001dbc" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 168px; height: 1px; padding-top: 915px; margin-left: 1051px;">
+                        <div data-drawio-colors="color: #ffffff; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                DB602 : REZ*
+                                <br/>
+                                REZ_ANLAGE_SP
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="1135" y="919" fill="#ffffff" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    DB602 : REZ*...
+                </text>
+            </switch>
+        </g>
+        <path d="M 360 710 L 360 743.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="8 8" pointer-events="stroke"/>
+        <path d="M 360 748.88 L 356.5 741.88 L 360 743.63 L 363.5 741.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 360 590 L 480 650 L 360 710 L 240 650 Z" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 650px; margin-left: 241px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                TPC_CMD = 40
+                                <br/>
+                                &amp;&amp; EASY_Res_akt ?
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="360" y="654" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    TPC_CMD = 40...
+                </text>
+            </switch>
+        </g>
+        <rect x="715" y="860" width="250" height="110" rx="16.5" ry="16.5" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="8 8" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 248px; height: 1px; padding-top: 915px; margin-left: 716px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                Интересно, что здесь так же сбрасывается
+                                <br/>
+                                EASY_Rez_akt
+                                <br/>
+                                Хотя в другом нетворке проверяется этот бит, если команда 40. Как это синхронизируется пока непонятно
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="840" y="919" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    Интересно, что здесь так же сбрасывается...
                 </text>
             </switch>
         </g>

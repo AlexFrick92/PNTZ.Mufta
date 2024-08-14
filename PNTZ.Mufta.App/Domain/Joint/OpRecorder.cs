@@ -20,7 +20,9 @@ namespace PNTZ.Mufta.App.Domain.Joint
             cli.RegisterCommand("opStop", (arg) => StopRecording());
             _cli = cli;
         }
-        public IDpValue<TqTnPoint> TqTnPoint { get; set; }       
+
+        public IDpValue<TqTnPoint> TqTnPoint { get; set; }    
+        
         public event EventHandler NewRecordStarted;
         public event EventHandler<ObservableCollection<TqTnPoint>> RecordingDone;
         async void StartRecording()
