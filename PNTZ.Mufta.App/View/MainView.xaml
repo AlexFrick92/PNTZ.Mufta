@@ -24,9 +24,73 @@
                 <desktopControl:CliView DataContext="{Binding CliViewModel}"/>
             </desktopLayout:RootControl.OutputElementCollection>
 
+            <desktopLayout:RootControl.LeftSidebar>
+                <desktopControl:Placeholder/>
+            </desktopLayout:RootControl.LeftSidebar>
+
+
+
             <desktopLayout:RootControl.MainContent>
-                <ContentControl Content="{Binding MainContent}"/>
+                <Grid Background="{StaticResource SecondBgBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource OutlineBorder}" BorderThickness="0,0,0,1" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Width="110" Grid.Column="0" Margin="5,0,5,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="- F1 -" HorizontalContentAlignment="Center"/>
+                                    <Image Grid.Row="1" Source="pack://application:,,,/PNTZ.Mufta.App;component/Images/Buttons/Recipe.drawio.png" />
+                                    <Label Grid.Row="2" Content="ЗАДАНИЯ" HorizontalContentAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                            <Button Width="110" Grid.Column="1" Margin="0,0,5,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="- F2 -" HorizontalContentAlignment="Center"/>
+                                    <Image Grid.Row="1" Source="pack://application:,,,/PNTZ.Mufta.App;component/Images/Buttons/Operation.drawio.png" />
+                                    <Label Grid.Row="2" Content="СОЕДИНЕНИЕ" HorizontalContentAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <ContentControl Grid.Row="1" Content="{Binding MainContent}"/>
+                </Grid>
             </desktopLayout:RootControl.MainContent>
+
+            <desktopLayout:RootControl.StatusBar>
+                <Grid Background="{StaticResource SecondBgBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Margin="5,0,25,0" Content="Состояние ПЛК: Подключено"/>
+                    <Label Grid.Column="1" Margin="0,0,25,0" Content="Задание: Выполняется"/>
+
+                </Grid>
+            </desktopLayout:RootControl.StatusBar>
+
         </desktopLayout:RootControl>
     </Grid>
 </Window>

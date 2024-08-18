@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Buttons\Operation.drawio.png" />
+    <None Remove="Images\Buttons\Recipe.drawio.png" />
     <None Remove="Images\promatislogo.jpg" />
   </ItemGroup>
 
@@ -29,6 +31,11 @@
 
   <ItemGroup>
     <PackageReference Include="devexpress.wpf.charts" Version="22.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Buttons\Operation.drawio.png" />
+    <Resource Include="Images\Buttons\Recipe.drawio.png" />
   </ItemGroup>
 
   <ItemGroup>
