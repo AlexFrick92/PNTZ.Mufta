@@ -20,9 +20,9 @@
 
     <Grid>
         <desktopLayout:RootControl x:Name="Root">
-            <desktopLayout:RootControl.OutputBar>
+            <desktopLayout:RootControl.OutputElementCollection>
                 <desktopControl:CliView DataContext="{Binding CliViewModel}"/>
-            </desktopLayout:RootControl.OutputBar>
+            </desktopLayout:RootControl.OutputElementCollection>
 
             <desktopLayout:RootControl.MainContent>
                 <ContentControl Content="{Binding MainContent}"/>

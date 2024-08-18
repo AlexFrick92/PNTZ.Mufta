@@ -13,33 +13,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpConnect", "DpConnect", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{91902505-5983-4E97-A10B-5A4E0ACE9A70}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{3E1AE44C-0F86-4758-BD92-6948D9F6239B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "Toolbox\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{3E1AE44C-0F86-4758-BD92-6948D9F6239B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataPoint", "DataPoint", "{DAF71F9A-5039-464F-BF71-13293AD99289}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Interface", "..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj", "{A3EBBB11-CF87-4DC7-AEFA-70A2EA3DEC20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Interface", "Toolbox\DpConnect\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj", "{A3EBBB11-CF87-4DC7-AEFA-70A2EA3DEC20}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpProcessor", "DpProcessor", "{82B6F8CA-EDAD-4FB0-9B3C-EFF65B848E74}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpProvider", "DpProvider", "{9804E202-DFA0-4427-8102-421EAFAA13AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProvider.OpcUa", "..\Toolbox\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj", "{A96CC6BC-7879-4A92-A708-49AC8FBCA405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProvider.OpcUa", "Toolbox\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj", "{A96CC6BC-7879-4A92-A708-49AC8FBCA405}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.DateTimeConsoleWriter", "..\Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.DateTimeConsoleWriter\Promatis.DpProcessor.DateTimeConsoleWriter.csproj", "{502B0380-BAD5-436B-B51C-D9C372031938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.DateTimeConsoleWriter", "Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.DateTimeConsoleWriter\Promatis.DpProcessor.DateTimeConsoleWriter.csproj", "{502B0380-BAD5-436B-B51C-D9C372031938}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.PlcSystem", "..\Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj", "{6CF36924-6FA0-4A54-96C0-631D08EA2FA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DpProcessor.PlcSystem", "Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj", "{6CF36924-6FA0-4A54-96C0-631D08EA2FA1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Desktop", "..\Toolbox\GUI\Promatis.Desktop\Promatis.Desktop.csproj", "{5E88B4F8-4DC9-4FFB-A1E6-DC9E11720B7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Desktop", "Toolbox\GUI\Promatis.Desktop\Promatis.Desktop.csproj", "{5E88B4F8-4DC9-4FFB-A1E6-DC9E11720B7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Opc.UA.Client", "..\Toolbox\Tools\Opc.UA\SourceNet\Client\Promatis.Opc.UA.Client.csproj", "{0661AB4A-7C13-4D2E-900C-5203079E66DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.Opc.UA.Client", "Toolbox\Tools\Opc.UA\SourceNet\Client\Promatis.Opc.UA.Client.csproj", "{0661AB4A-7C13-4D2E-900C-5203079E66DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9ACD3D32-7907-44EB-BA51-76B8362F374E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{52B37C91-33CB-4350-8A05-5432D599CF21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.Core", "..\Toolbox\Core\Core\Source\Core\Promatis.Core.csproj", "{1A63B9CA-0740-4E56-9016-4520E1B4BE69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.Core", "Toolbox\Core\Core\Source\Core\Promatis.Core.csproj", "{1A63B9CA-0740-4E56-9016-4520E1B4BE69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolkit", "..\Toolbox\Toolkit\Toolkit.csproj", "{653333D0-1ABA-4B5A-A77F-1D202954C5D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolkit", "Toolbox\Toolkit\Toolkit.csproj", "{653333D0-1ABA-4B5A-A77F-1D202954C5D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
