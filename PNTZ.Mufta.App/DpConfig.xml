@@ -7,10 +7,15 @@
 	</ProviderDefinition>
 
 	<ProcessorDefinition>
-		<RecipeLoader Name ="Cam1RecipeLoader"/>		
+		<RecipeLoader Name ="Cam1RecipeLoader"/>
 	</ProcessorDefinition>	
 	
+    
+	
+	
 	<DataPointDefinition>
+		
+		
 		<!-- Operational parameters -->
 		<DpValue Name ="TqTnValues">
 			<DpProperty Name="Tq">

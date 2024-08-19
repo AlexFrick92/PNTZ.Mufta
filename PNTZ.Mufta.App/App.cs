@@ -13,6 +13,7 @@ using Promatis.Desktop.Application;
 using Promatis.DpProcessor.PlcSystem.Connection;
 using Promatis.DpProvider.OpcUa;
 using PNTZ.Mufta.App.Domain.Joint;
+using PNTZ.Mufta.App;
 
 namespace PNTZ.Mufta.Launcher
 {
@@ -46,9 +47,8 @@ namespace PNTZ.Mufta.Launcher
                     new string[] { _currentDirectory + "/DpConfig.xml" }, 
                     new Type[] {typeof(OpcUaProvider)},
                     null,
-                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel}                    
+                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel }                    
                     );                             
-
 
                 _cli.RegisterCommand("print", (args) => (_cli as ICliProgram).WriteLine(args[0]));
                 

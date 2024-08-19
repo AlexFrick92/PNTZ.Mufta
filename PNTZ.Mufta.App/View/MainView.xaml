@@ -79,15 +79,17 @@
 
             <desktopLayout:RootControl.StatusBar>
                 <Grid Background="{StaticResource SecondBgBrush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
 
-                    <Label Grid.Column="0" Margin="5,0,25,0" Content="Состояние ПЛК: Подключено"/>
-                    <Label Grid.Column="1" Margin="0,0,25,0" Content="Задание: Выполняется"/>
+                        <Label Margin="15,0,10,0" Content="Состояние ПЛК: Подключено"/>
+                        <Label Foreground="{StaticResource OutlineColorBrush}">|</Label>
+                        <Label Margin="10,0,10,0" Content="Задание: Выполняется"/>
+                        <Label Foreground="{StaticResource OutlineColorBrush}">|</Label>
+                        <Label Margin="10,0,10,0" Content="Рецепт: МУФТА 001"/>
+                        <Label Foreground="{StaticResource OutlineColorBrush}">|</Label>
+                        <Label Margin="10,0,10,0" Content="Соединений: ВСЕГО: - 5 - из них БРАК: - 1 -"/>
 
+                    </StackPanel>
                 </Grid>
             </desktopLayout:RootControl.StatusBar>
 
