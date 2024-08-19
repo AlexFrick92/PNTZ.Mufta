@@ -5,21 +5,6 @@
         <ResourceDictionary Source="pack://application:,,,/Promatis.Desktop;component/Styles/LayoutBlueStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="ContentButton" TargetType="Button">
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Padding" Value="0"/>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="AliceBlue"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="Azure"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
     <Style x:Key="NaviButton" TargetType="Button" BasedOn="{StaticResource ContentButton}">
         <Setter Property="Width" Value="110"/>
     </Style>

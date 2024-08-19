@@ -7,7 +7,7 @@
         xmlns:desktopLayout="clr-namespace:Promatis.Desktop.Layout;assembly=Promatis.Desktop"
         xmlns:desktopControl="clr-namespace:Promatis.Desktop.Control;assembly=Promatis.Desktop"
         mc:Ignorable="d"
-        Title="" Height="700" Width="1200"
+        Title="Контроль момента свинчивания" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen" 
         >
     <Window.Resources>
