@@ -7,13 +7,14 @@
         xmlns:desktopLayout="clr-namespace:Promatis.Desktop.Layout;assembly=Promatis.Desktop"
         xmlns:desktopControl="clr-namespace:Promatis.Desktop.Control;assembly=Promatis.Desktop"
         mc:Ignorable="d"
-        Title="Main" Height="700" Width="1200"
+        Title="" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen" 
         >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Promatis.Desktop;component/Styles/LayoutBlueStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.App;component/View/Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -22,6 +23,7 @@
         <desktopLayout:RootControl x:Name="Root">
             <desktopLayout:RootControl.OutputElementCollection>
                 <desktopControl:CliView DataContext="{Binding CliViewModel}"/>
+                <desktopControl:CliView DataContext="{Binding CliViewModel}" Header="LOGGER"/>
             </desktopLayout:RootControl.OutputElementCollection>
 
             <desktopLayout:RootControl.LeftSidebar>
@@ -33,7 +35,7 @@
             <desktopLayout:RootControl.MainContent>
                 <Grid Background="{StaticResource SecondBgBrush}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="100"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
@@ -46,28 +48,29 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Button Width="110" Grid.Column="0" Margin="5,0,5,0">
+                            <Button Grid.Column="0" Margin="5,0,5,0" Style="{StaticResource NaviButton}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="- F1 -" HorizontalContentAlignment="Center"/>
+                                    <Label Style="{StaticResource NaviButtonTopLabel}" Grid.Row="0" Content="- F1 -" />
                                     <Image Grid.Row="1" Source="pack://application:,,,/PNTZ.Mufta.App;component/Images/Buttons/Recipe.drawio.png" />
-                                    <Label Grid.Row="2" Content="ЗАДАНИЯ" HorizontalContentAlignment="Center"/>
+                                    <Label Style="{StaticResource NaviButtonLabel}" Grid.Row="2" Content="ЗАДАНИЯ" />
                                 </Grid>
                             </Button>
-                            <Button Width="110" Grid.Column="1" Margin="0,0,5,0">
+
+                            <Button Grid.Column="1" Margin="0,0,5,0" Style="{StaticResource NaviButton}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="- F2 -" HorizontalContentAlignment="Center"/>
+                                    <Label Style="{StaticResource NaviButtonTopLabel}" Grid.Row="0" Content="- F2 -" />
                                     <Image Grid.Row="1" Source="pack://application:,,,/PNTZ.Mufta.App;component/Images/Buttons/Operation.drawio.png" />
-                                    <Label Grid.Row="2" Content="СОЕДИНЕНИЕ" HorizontalContentAlignment="Center"/>
+                                    <Label Style="{StaticResource NaviButtonLabel}" Grid.Row="2" Content="СОЕДИНЕНИЕ" />
                                 </Grid>
                             </Button>
                         </Grid>
@@ -82,11 +85,11 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
 
                         <Label Margin="15,0,10,0" Content="Состояние ПЛК: Подключено"/>
-                        <Label Foreground="{StaticResource OutlineColorBrush}">|</Label>
+                        <Border BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
                         <Label Margin="10,0,10,0" Content="Задание: Выполняется"/>
-                        <Label Foreground="{StaticResource OutlineColorBrush}">|</Label>
+                        <Border BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
                         <Label Margin="10,0,10,0" Content="Рецепт: МУФТА 001"/>
-                        <Label Foreground="{StaticResource OutlineColorBrush}">|</Label>
+                        <Border BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
                         <Label Margin="10,0,10,0" Content="Соединений: ВСЕГО: - 5 - из них БРАК: - 1 -"/>
 
                     </StackPanel>
