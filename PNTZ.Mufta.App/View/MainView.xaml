@@ -27,28 +27,26 @@
             </desktopLayout:RootControl.OutputElementCollection>
 
             <desktopLayout:RootControl.LeftSidebar>
-                <desktopControl:Placeholder/>
+                <Grid Background="{StaticResource SecondBgBrush}">
+                    <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" Margin="5,5,5,5">
+                        <Button Style="{StaticResource ContentButton}">
+                            <Image Source="pack://application:,,,/PNTZ.Mufta.App;component/Images/Buttons/Settings.drawio.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
             </desktopLayout:RootControl.LeftSidebar>
 
-
-
             <desktopLayout:RootControl.MainContent>
-                <Grid Background="{StaticResource SecondBgBrush}">
+                <Grid Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0" Style="{StaticResource OutlineBorder}" BorderThickness="0,0,0,1" >
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 
-                            <Button Grid.Column="0" Margin="5,0,5,0" Style="{StaticResource NaviButton}">
+                            <Button Margin="5,0,3,0" Style="{StaticResource NaviButton}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
@@ -61,7 +59,9 @@
                                 </Grid>
                             </Button>
 
-                            <Button Grid.Column="1" Margin="0,0,5,0" Style="{StaticResource NaviButton}">
+                            <Border Margin="0,7,0,7" BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
+                            
+                            <Button Margin="3,0,5,0" Style="{StaticResource NaviButton}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
@@ -73,7 +73,22 @@
                                     <Label Style="{StaticResource NaviButtonLabel}" Grid.Row="2" Content="СОЕДИНЕНИЕ" />
                                 </Grid>
                             </Button>
-                        </Grid>
+
+                            <Border Margin="0,7,0,7" BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
+
+                            <Button Margin="3,0,5,0" Style="{StaticResource NaviButton}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Style="{StaticResource NaviButtonTopLabel}" Grid.Row="0" Content="- F3 -" />
+                                    <Image Grid.Row="1" Source="pack://application:,,,/PNTZ.Mufta.App;component/Images/Buttons/MachinParam.drawio.png" />
+                                    <Label Style="{StaticResource NaviButtonLabel}" Grid.Row="2" Content="ПАРАМЕТРЫ" />
+                                </Grid>
+                            </Button>
+                        </StackPanel>
                     </Border>
 
                     <ContentControl Grid.Row="1" Content="{Binding MainContent}"/>
@@ -81,18 +96,26 @@
             </desktopLayout:RootControl.MainContent>
 
             <desktopLayout:RootControl.StatusBar>
-                <Grid Background="{StaticResource SecondBgBrush}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                <Grid Background="#DADADA">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" >
 
                         <Label Margin="15,0,10,0" Content="Состояние ПЛК: Подключено"/>
-                        <Border BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
+                        <Border BorderBrush="#C2c2c2" BorderThickness="1,0,0,0"/>
                         <Label Margin="10,0,10,0" Content="Задание: Выполняется"/>
-                        <Border BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
+                        <Border BorderBrush="#C2c2c2" BorderThickness="1,0,0,0"/>
                         <Label Margin="10,0,10,0" Content="Рецепт: МУФТА 001"/>
-                        <Border BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
+                        <Border BorderBrush="#C2c2c2" BorderThickness="1,0,0,0"/>
                         <Label Margin="10,0,10,0" Content="Соединений: ВСЕГО: - 5 - из них БРАК: - 1 -"/>
 
                     </StackPanel>
+
+                    <Image Margin="3" Grid.Column="2" Source="pack://application:,,,/PNTZ.Mufta.App;component/Images/promatislogoLine.png"/>
                 </Grid>
             </desktopLayout:RootControl.StatusBar>
 

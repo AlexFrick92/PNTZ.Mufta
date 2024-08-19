@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PNTZ.Mufta.Launcher.View
+namespace PNTZ.Mufta.App.View
 {
     /// <summary>
-    /// Interaction logic for GreetingView.xaml
+    /// Interaction logic for AboutView.xaml
     /// </summary>
-    public partial class GreetingView : Window
+    public partial class AboutView : System.Windows.Controls.UserControl
     {
-        public GreetingView()
+        public AboutView()
         {
             InitializeComponent();
         }

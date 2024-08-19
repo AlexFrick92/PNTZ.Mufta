@@ -9,9 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Buttons\MachinParam.drawio.png" />
     <None Remove="Images\Buttons\Operation.drawio.png" />
     <None Remove="Images\Buttons\Recipe.drawio.png" />
+    <None Remove="Images\Buttons\Settings.drawio.png" />
     <None Remove="Images\promatislogo.jpg" />
+    <None Remove="Images\promatislogoLine.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,8 +37,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Buttons\MachinParam.drawio.png" />
     <Resource Include="Images\Buttons\Operation.drawio.png" />
     <Resource Include="Images\Buttons\Recipe.drawio.png" />
+    <Resource Include="Images\Buttons\Settings.drawio.png" />
+    <Resource Include="Images\promatislogoLine.png" />
   </ItemGroup>
 
   <ItemGroup>

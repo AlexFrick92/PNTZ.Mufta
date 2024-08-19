@@ -5,6 +5,8 @@ using Promatis.Desktop.Control;
 using Promatis.Desktop.MVVM;
 using System.ComponentModel;
 using System.Windows;
+using DevExpress.Xpf;
+using PNTZ.Mufta.App.View;
 
 namespace PNTZ.Mufta.Launcher.ViewModel
 {
@@ -18,6 +20,8 @@ namespace PNTZ.Mufta.Launcher.ViewModel
             _chartViewModel = chartViewModel;
             _chart = new TnTqChart(chartViewModel);
             _cli = cli;
+
+            MainContent = new AboutView();            
 
             _cli.RegisterCommand("showchart", (arg) => ShowChart());
         }
