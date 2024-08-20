@@ -43,12 +43,14 @@ namespace PNTZ.Mufta.Launcher
                 OpRecorder opRecorder = new OpRecorder("OpRecorder", _cli);
                 ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
 
+
                 dataPointConfigurator = new DpBuilder(logger,
                     new string[] { _currentDirectory + "/DpConfig.xml" }, 
                     new Type[] {typeof(OpcUaProvider)},
                     null,
                     new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel }                    
                     );                             
+
 
                 _cli.RegisterCommand("print", (args) => (_cli as ICliProgram).WriteLine(args[0]));
                 

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Buttons\help.drawio.png" />
     <None Remove="Images\Buttons\MachinParam.drawio.png" />
     <None Remove="Images\Buttons\Operation.drawio.png" />
     <None Remove="Images\Buttons\Recipe.drawio.png" />
@@ -37,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Buttons\help.drawio.png" />
     <Resource Include="Images\Buttons\MachinParam.drawio.png" />
     <Resource Include="Images\Buttons\Operation.drawio.png" />
     <Resource Include="Images\Buttons\Recipe.drawio.png" />

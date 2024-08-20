@@ -13,9 +13,7 @@
     
 	
 	
-	<DataPointDefinition>
-		
-		
+	<DataPointDefinition>	
 		<!-- Operational parameters -->
 		<DpValue Name ="TqTnValues">
 			<DpProperty Name="Tq">
