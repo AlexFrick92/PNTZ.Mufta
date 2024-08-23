@@ -19,15 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj" />
-    <ProjectReference Include="..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
-    <ProjectReference Include="..\Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj" />
-    <ProjectReference Include="..\Toolbox\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
-    <ProjectReference Include="..\Toolbox\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
-    <ProjectReference Include="..\Toolbox\Toolkit\Toolkit.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Images\promatislogo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -35,6 +26,17 @@
 
   <ItemGroup>
     <PackageReference Include="devexpress.wpf.charts" Version="22.2.3" />
+    <PackageReference Include="Promatis.Core" Version="2.5.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint.Interface\Promatis.DataPoint.Interface.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.DateTimeConsoleWriter\Promatis.DpProcessor.DateTimeConsoleWriter.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DpProcessor\Promatis.DpProcessor.PlcSystem\Promatis.DpProcessor.PlcSystem.csproj" />
+    <ProjectReference Include="..\..\Toolbox\DpConnect\DpProvider\Promatis.DpProvider.OpcUa\Promatis.DpProvider.OpcUa.csproj" />
+    <ProjectReference Include="..\..\Toolbox\GUI\Promatis.Desktop\Promatis.Desktop.csproj" />
+    <ProjectReference Include="..\..\Toolbox\Toolkit\Toolkit.csproj" />
   </ItemGroup>
 
   <ItemGroup>
