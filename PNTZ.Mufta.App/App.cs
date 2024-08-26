@@ -43,12 +43,21 @@ namespace PNTZ.Mufta.Launcher
                 OpRecorder opRecorder = new OpRecorder("OpRecorder", _cli);
                 ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
 
+                DpArrayReader arrayReader = new DpArrayReader(_cli) { Name = "ArrayReader1"};
+
+                ConfigCreater configCreater = new ConfigCreater();
+                string[] configs = new string[]
+                {
+                    _currentDirectory + "/PavelPLC.xml",
+                    _currentDirectory + "/" + configCreater.Create("PLC_0"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_2"),
+                };
 
                 dataPointConfigurator = new DpBuilder(logger,
-                    new string[] { _currentDirectory + "/DpConfig.xml" }, 
+                    configs, 
                     new Type[] {typeof(OpcUaProvider)},
                     null,
-                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel }                    
+                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, arrayReader }                    
                     );                             
 
 

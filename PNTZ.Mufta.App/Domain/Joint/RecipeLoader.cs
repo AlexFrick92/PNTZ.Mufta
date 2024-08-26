@@ -21,7 +21,7 @@ namespace PNTZ.Mufta.RecipeHandling
 
         public void OnDpInitialized()
         {
-            DpJointRecipe.ValueUpdated += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
+            //DpJointRecipe.ValueUpdated += (s, v) => Console.WriteLine(v.TURNS_BREAK + " " + v.HEAD_OPEN_PULSES);
         }
         public void LoadRecipe(JointRecipe recipe)
         {

@@ -52,6 +52,9 @@
     <None Update="ConnectionRecipe1.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="PavelPLC.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="DpConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
