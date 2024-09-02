@@ -33,8 +33,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Interfac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promatis.DataPoint.Configuration", "..\Toolbox\DpConnect\DataPoint\Promatis.DataPoint\Promatis.DataPoint.Configuration.csproj", "{04CCF06F-A16C-44CD-A58C-97D76DCAE07E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.App", "dotnet462\PNTZ.Mufta.App\PNTZ.Mufta.App.csproj", "{9676DDB8-C0C6-4229-821B-4990A32534A9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,10 +71,6 @@ Global
 		{04CCF06F-A16C-44CD-A58C-97D76DCAE07E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04CCF06F-A16C-44CD-A58C-97D76DCAE07E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04CCF06F-A16C-44CD-A58C-97D76DCAE07E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,7 +89,6 @@ Global
 		{27D94C5F-DEF9-4C41-8D19-BACD2A9C70EF} = {82B6F8CA-EDAD-4FB0-9B3C-EFF65B848E74}
 		{47842B10-4403-4EF8-A51F-1ED4458FDE10} = {DAF71F9A-5039-464F-BF71-13293AD99289}
 		{04CCF06F-A16C-44CD-A58C-97D76DCAE07E} = {DAF71F9A-5039-464F-BF71-13293AD99289}
-		{9676DDB8-C0C6-4229-821B-4990A32534A9} = {B6685327-6960-4C67-9F57-E3462710FD25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {251406C7-3475-4239-871F-5C78DACA1F05}
