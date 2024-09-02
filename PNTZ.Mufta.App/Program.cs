@@ -1,7 +1,8 @@
-﻿namespace PNTZ.Mufta.Launcher
+﻿using System;
+
+namespace PNTZ.Mufta.App
 {
     
-
     internal class Program
     {
         [STAThread]

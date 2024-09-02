@@ -1,32 +1,32 @@
-﻿<Window x:Class="PNTZ.Mufta.Launcher.View.MainView"
+﻿<Window x:Class="PNTZ.Mufta.App.View.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PNTZ.Mufta.Launcher.View"
-        xmlns:desktopLayout="clr-namespace:Promatis.Desktop.Layout;assembly=Promatis.Desktop"
-        xmlns:desktopControl="clr-namespace:Promatis.Desktop.Control;assembly=Promatis.Desktop"
+        xmlns:local="clr-namespace:PNTZ.Mufta.App.View"
         mc:Ignorable="d"
+        xmlns:layout="clr-namespace:Desktop.Layout;assembly=Desktop"
+        xmlns:control="clr-namespace:Desktop.Control;assembly=Desktop"        
         Title="Контроль момента свинчивания" Height="700" Width="1200"
-        WindowStartupLocation="CenterScreen" 
-        >
+        WindowStartupLocation="CenterScreen" >
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Promatis.Desktop;component/Styles/LayoutBlueStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Desktop;component/Styles/LayoutBlueStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.App;component/View/Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
-        <desktopLayout:RootControl x:Name="Root">
-            <desktopLayout:RootControl.OutputElementCollection>
-                <desktopControl:CliView DataContext="{Binding CliViewModel}"/>
-                <desktopControl:CliView DataContext="{Binding CliViewModel}" Header="LOGGER"/>
-            </desktopLayout:RootControl.OutputElementCollection>
+        <layout:RootControl x:Name="Root">
+            <layout:RootControl.OutputElementCollection>
+                <control:CliView DataContext="{Binding CliViewModel}"/>
+                <control:CliView DataContext="{Binding CliViewModel}" Header="LOGGER"/>
+            </layout:RootControl.OutputElementCollection>
 
-            <desktopLayout:RootControl.LeftSidebar>
+            <layout:RootControl.LeftSidebar>
                 <Grid Background="{StaticResource SecondBgBrush}">
                     <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" Margin="5,5,5,5">
                         <Button Style="{StaticResource ContentButton}">
@@ -34,9 +34,9 @@
                         </Button>
                     </StackPanel>
                 </Grid>
-            </desktopLayout:RootControl.LeftSidebar>
+            </layout:RootControl.LeftSidebar>
 
-            <desktopLayout:RootControl.MainContent>
+            <layout:RootControl.MainContent>
                 <Grid Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
@@ -50,7 +50,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
 
                                 <Button Margin="5,0,3,0" Style="{StaticResource NaviButton}">
@@ -112,14 +112,14 @@
                             </Button>
 
                         </Grid>
-                        
+
                     </Border>
 
                     <ContentControl Grid.Row="1" Content="{Binding MainContent}"/>
                 </Grid>
-            </desktopLayout:RootControl.MainContent>
+            </layout:RootControl.MainContent>
 
-            <desktopLayout:RootControl.StatusBar>
+            <layout:RootControl.StatusBar>
                 <Grid Background="#DADADA">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -139,8 +139,8 @@
 
                     </StackPanel>
                 </Grid>
-            </desktopLayout:RootControl.StatusBar>
+            </layout:RootControl.StatusBar>
 
-        </desktopLayout:RootControl>
+        </layout:RootControl>
     </Grid>
 </Window>

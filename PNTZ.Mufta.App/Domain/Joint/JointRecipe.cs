@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Security.Principal;
-
-namespace PNTZ.Mufta.Data
+﻿
+namespace PNTZ.Mufta.App.Domain.Joint
 {
     public class JointRecipe
     {

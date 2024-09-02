@@ -1,9 +1,11 @@
-﻿using Promatis.DataPoint.Interface;
-using Promatis.DataPoint.Configuration;
-using System.Collections.ObjectModel;
+﻿using DpConnect.Interface;
 using Toolkit.IO;
-using System.Collections.Concurrent;
-using System.Reflection.Metadata;
+
+using System;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace PNTZ.Mufta.App.Domain.Joint
 {
@@ -11,7 +13,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
     {
         ICliProgram _cli;
         CancellationTokenSource cts;
-        Task? recordingTask;
+        Task recordingTask;
         public OpRecorder(string name, ICliProgram cli)
         {
             ActualTqTnSeries = new ObservableCollection<TqTnPoint>();

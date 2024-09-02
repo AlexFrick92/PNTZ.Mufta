@@ -1,4 +1,4 @@
-﻿using PNTZ.Mufta.Launcher.ViewModel;
+﻿using PNTZ.Mufta.App.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PNTZ.Mufta.Launcher.View
+namespace PNTZ.Mufta.App.View
 {
     /// <summary>
     /// Interaction logic for MainView.xaml

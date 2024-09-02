@@ -1,90 +1,80 @@
-﻿using PNTZ.Mufta.Data;
-using PNTZ.Mufta.Domain.PLC;
-using PNTZ.Mufta.Domain.RecipeHandling;
-using PNTZ.Mufta.Launcher.View;
-using PNTZ.Mufta.Launcher.ViewModel;
-using PNTZ.Mufta.Launcher.ViewModel.Chart;
-using PNTZ.Mufta.RecipeHandling;
-using Promatis.DataPoint.Configuration;
-using Promatis.DataPoint.Interface;
-using Toolkit.IO;
-using Toolkit.Logging;
-using Promatis.Desktop.Application;
-using Promatis.DpProcessor.PlcSystem.Connection;
-using Promatis.DpProvider.OpcUa;
-using PNTZ.Mufta.App.Domain.Joint;
-using PNTZ.Mufta.App;
+﻿using System;
+using System.Threading.Tasks;
 
-namespace PNTZ.Mufta.Launcher
+using Toolkit.Logging;
+using Toolkit.IO;
+
+using Desktop.Application;
+
+using DpConnect.Interface;
+using DpConnect.Configuration;
+using DpConnect.Provider.OpcUa;
+
+using PNTZ.Mufta.App.Domain.Plc;
+using PNTZ.Mufta.App.Domain.Joint;
+using PNTZ.Mufta.App.ViewModel.Chart;
+using PNTZ.Mufta.App.ViewModel;
+using PNTZ.Mufta.App.View;
+
+
+namespace PNTZ.Mufta.App
 {
     internal class App : StagedApplication
     {
-        public App()
+        DpFluentBuilder dataPointConfigurator = null;
+
+        protected override async void BeforeInit()
         {
-            DpBuilder dataPointConfigurator = null;
-            Init += (_, _) =>
-            {
-                CliLogger logger = new CliLogger(_cli);
-                
-                PLCStatus status = new PLCStatus(_cli);
-
-                RecipeLoader recipeLoader = new RecipeLoader(logger);
-                _cli.RegisterCommand("load", (args) =>
-                {
-                    RecipeCreator recipeCreator = new RecipeCreator(args[0]);                    
-                    recipeLoader.LoadRecipe(recipeCreator.Recipe);
-                });
-                _cli.RegisterCommand("load1", (args) => recipeLoader.Load());
-
-                HeartbeatGenerate heartbeat = new HeartbeatGenerate(_cli) { Name = "Heartbeat1" };
-                HeartbeatCheck heartbeatCheck = new HeartbeatCheck(_cli) { Name = "HeartbeatCheck1" };
-
-
-                OpRecorder opRecorder = new OpRecorder("OpRecorder", _cli);
-                ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
-
-                DpArrayReader arrayReader = new DpArrayReader(_cli) { Name = "ArrayReader1"};
-
-                ConfigCreater configCreater = new ConfigCreater();
-                string[] configs = new string[]
-                {
-                    _currentDirectory + "/PavelPLC.xml",
-                    _currentDirectory + "/" + configCreater.Create("PLC_0"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_1"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_2"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_3"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_4"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_5"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_6"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_7"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_8"),
-                    _currentDirectory + "/" + configCreater.Create("PLC_9"),
-                };
-
-                dataPointConfigurator = new DpBuilder(logger,
-                    configs, 
-                    new Type[] {typeof(OpcUaProvider)},
-                    null,
-                    new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, arrayReader }                    
-                    );                             
-
-
-                _cli.RegisterCommand("print", (args) => (_cli as ICliProgram).WriteLine(args[0]));
-                
-                _cli.RegisterCommand("init", (_) => recipeLoader.OnDpInitialized());
-                _cli.RegisterCommand("startpr", async (_) => await Task.Run(() => dataPointConfigurator.StartProviders()));
-                _cli.RegisterCommand("stoppr", (_) => dataPointConfigurator.StopProviders());
-
-                _cli.RegisterCommand("heartbeat", (_) => heartbeat.OnDpInitialized());
-                
-
-
-
-                MainViewModel mainViewModel = new MainViewModel(_cli, chartViewModel);
-                _mainWindow = new MainView(mainViewModel);
-            };
-
-            BeforeExit += async (sender, args) => await Task.Run(() => dataPointConfigurator?.StopProviders());
+            await Task.Run(() => dataPointConfigurator?.StopProviders());
         }
+
+        protected override void Init()
+        {
+
+            CliLogger logger = new CliLogger(cli);
+
+            PLCStatus status = new PLCStatus(cli);
+
+            RecipeLoader recipeLoader = new RecipeLoader(logger);
+            cli.RegisterCommand("load", (args) =>
+            {
+                RecipeCreator recipeCreator = new RecipeCreator(args[0]);
+                recipeLoader.LoadRecipe(recipeCreator.Recipe);
+            });
+            cli.RegisterCommand("load1", (args) => recipeLoader.Load());
+
+            HeartbeatMake heartbeat = new HeartbeatMake(cli) { Name = "Heartbeat1" };
+            HeartbeatCheck heartbeatCheck = new HeartbeatCheck(cli) { Name = "HeartbeatCheck1" };
+
+
+            OpRecorder opRecorder = new OpRecorder("OpRecorder", cli);
+            ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
+
+
+            dataPointConfigurator = new DpFluentBuilder()
+                .SetLogger(logger)
+                .AddConfiguration($"{currentDirectory}/DpConfig.xml")
+                .SetProviders(new Type[] { typeof(OpcUaProvider) })
+                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel })
+                .Build();             
+
+
+            cli.RegisterCommand("print", (args) => (cli as ICliProgram).WriteLine(args[0]));
+
+            cli.RegisterCommand("init", (_) => recipeLoader.OnDpInitialized());
+            cli.RegisterCommand("startpr", async (_) => await Task.Run(() => dataPointConfigurator.StartProviders()));
+            cli.RegisterCommand("stoppr", (_) => dataPointConfigurator.StopProviders());
+
+            cli.RegisterCommand("heartbeat", (_) => heartbeat.OnDpInitialized());
+
+
+
+
+            MainViewModel mainViewModel = new MainViewModel(cli, chartViewModel);
+            mainWindow = new MainView(mainViewModel);
+        }
+
+       
+        
     }
 }

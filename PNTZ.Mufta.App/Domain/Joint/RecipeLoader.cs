@@ -1,8 +1,12 @@
-﻿using Promatis.DataPoint.Interface;
-using PNTZ.Mufta.Data;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Promatis.Core.Logging;
-using System.Text.Json;
-namespace PNTZ.Mufta.RecipeHandling
+
+using DpConnect.Interface;
+
+namespace PNTZ.Mufta.App.Domain.Joint
 {
     /// <summary>
     ///  Класс загружает рецепт в ПЛК. Загрузка рецепта выполняется обменом комманд
@@ -15,7 +19,7 @@ namespace PNTZ.Mufta.RecipeHandling
         private readonly AutoResetEvent operationCanceled = new AutoResetEvent(false);
         public RecipeLoader(ILogger logger)
         {
-            _logger = logger;                            
+            _logger = logger;
         }
         public string Name { get; set; } = "Cam1RecipeLoader";
 
@@ -27,7 +31,7 @@ namespace PNTZ.Mufta.RecipeHandling
         {
             _logger.Info("Загрузка рецепта...");
             DpJointRecipe.Value = recipe;
-            
+
             _logger.Info($"Рецепт загружен");
         }
         public async void Load()
@@ -49,23 +53,23 @@ namespace PNTZ.Mufta.RecipeHandling
 
                     _logger.Info("Ждем ответа 20");
 
-                    WaitHandle[] waitHandles = new WaitHandle[] { commandAccepted, operationCanceled};
+                    WaitHandle[] waitHandles = new WaitHandle[] { commandAccepted, operationCanceled };
 
                     int index = WaitHandle.WaitAny(waitHandles);
 
-                    if(index == 1)
+                    if (index == 1)
                     {
                         throw new Exception("Время ожидания истекло");
                     }
                     if (CommandFeedback.Value == 20)
                     {
-                        _logger.Info("Устанавливаем команду 30");                       
+                        _logger.Info("Устанавливаем команду 30");
                         SetLoadCommand.Value = 20;
 
                         _logger.Info("Ждем ответа 30");
                         commandAccepted.WaitOne();
 
-                        if(CommandFeedback.Value == 30)
+                        if (CommandFeedback.Value == 30)
                         {
                             _logger.Info("Рецепт загружен!");
                         }
@@ -83,18 +87,18 @@ namespace PNTZ.Mufta.RecipeHandling
                 {
                     _logger.Info("Загрузить не удалось");
                 }
-                finally 
+                finally
                 {
                     CommandFeedback.ValueUpdated -= CommandFeedback_ValueUpdated;
                 }
             });
 
         }
-        
-        private void CommandFeedback_ValueUpdated(object? sender, uint e)
+
+        private void CommandFeedback_ValueUpdated(object sender, uint e)
         {
             _logger.Info($"Получена команда: {e}");
-            commandAccepted.Set();            
+            commandAccepted.Set();
         }
 
 
@@ -104,7 +108,7 @@ namespace PNTZ.Mufta.RecipeHandling
 
         public IDpValue<uint> SetLoadCommand { get; set; }
 
-        public IDpValue<uint> CommandFeedback { get; set; }       
+        public IDpValue<uint> CommandFeedback { get; set; }
 
         #endregion
     }

@@ -1,13 +1,10 @@
-﻿using PNTZ.Mufta.Data;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿
 
-namespace PNTZ.Mufta.Domain.RecipeHandling
+
+using System.IO;
+using System.Text.Json;
+
+namespace PNTZ.Mufta.App.Domain.Joint
 {
     public class RecipeCreator
     {

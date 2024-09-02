@@ -1,12 +1,17 @@
-﻿using Azure.Identity;
-using PNTZ.Mufta.App.Domain.Joint;
-using Promatis.DataPoint.Interface;
-using Promatis.Desktop.MVVM;
+﻿using System;
+
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 
+using Desktop.MVVM;
 
-namespace PNTZ.Mufta.Launcher.ViewModel.Chart
+using DpConnect.Interface;
+
+using PNTZ.Mufta.App.Domain.Joint;
+
+namespace PNTZ.Mufta.App.ViewModel.Chart
 {
     public class ChartViewModel : BaseViewModel, IDpProcessor
     {
@@ -48,7 +53,7 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
 
         }
 
-        private void EnqueuPoints(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void EnqueuPoints(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (TqTnPoint point in e.NewItems)
@@ -86,7 +91,7 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
                 token.ThrowIfCancellationRequested();
                 while (DataQueue.TryDequeue(out TqTnPoint point))
                 {
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() =>
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
                         Data.Add(point);
                     });
@@ -103,4 +108,3 @@ namespace PNTZ.Mufta.Launcher.ViewModel.Chart
         }
     }
 }
-

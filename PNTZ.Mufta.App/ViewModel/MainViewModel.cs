@@ -1,29 +1,29 @@
-﻿using PNTZ.Mufta.Launcher.View.Chart;
-using PNTZ.Mufta.Launcher.ViewModel.Chart;
+﻿using System.Windows;
+
+using Desktop.Control;
+using Desktop.MVVM;
 using Toolkit.IO;
-using Promatis.Desktop.Control;
-using Promatis.Desktop.MVVM;
-using System.ComponentModel;
-using System.Windows;
-using DevExpress.Xpf;
+
+using PNTZ.Mufta.App.View.Chart;
+using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.View;
 
-namespace PNTZ.Mufta.Launcher.ViewModel
+namespace PNTZ.Mufta.App.ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-        Cli _cli;
+        Cli cli;
         TnTqChart _chart;
         public MainViewModel(Cli cli, ChartViewModel chartViewModel)
         {
             CliViewModel = new CliViewModel(cli);
             _chartViewModel = chartViewModel;
             _chart = new TnTqChart(chartViewModel);
-            _cli = cli;
+            cli = cli;
 
-            MainContent = new AboutView();            
+            MainContent = new AboutView();
 
-            _cli.RegisterCommand("showchart", (arg) => ShowChart());
+            cli.RegisterCommand("showchart", (arg) => ShowChart());
         }
 
         public CliViewModel CliViewModel { get; private set; }
