@@ -50,7 +50,15 @@ namespace PNTZ.Mufta.Launcher
                 {
                     _currentDirectory + "/PavelPLC.xml",
                     _currentDirectory + "/" + configCreater.Create("PLC_0"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_1"),
                     _currentDirectory + "/" + configCreater.Create("PLC_2"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_3"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_4"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_5"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_6"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_7"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_8"),
+                    _currentDirectory + "/" + configCreater.Create("PLC_9"),
                 };
 
                 dataPointConfigurator = new DpBuilder(logger,

@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.App", "PNTZ.Mufta.App\PNTZ.Mufta.App.csproj", "{9676DDB8-C0C6-4229-821B-4990A32534A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toolbox", "Toolbox", "{63F40D3A-25E0-44F0-91A5-CCDC53042ECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "..\..\Toolbox\dotnet461\Toolkit\Toolkit.csproj", "{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpConnect", "DpConnect", "{F57AAC7D-AA21-4725-8904-7DE4A0F21951}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{2A754750-B65F-4109-A82F-4C05B46E9E64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpConnect.Configuration", "..\..\Toolbox\DpConnect\dotnet461\DpConnect.Configuration\DpConnect.Configuration.csproj", "{1AFBC91A-389C-438C-AC3B-89AF22139D0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpConnect.Interface", "..\..\Toolbox\DpConnect\dotnet461\DpConnect.Interface\DpConnect.Interface.csproj", "{58470ADD-50FD-479D-862B-65BA360714EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpConnect.Provider", "..\..\Toolbox\DpConnect\dotnet461\DpConnect.Provider\DpConnect.Provider.csproj", "{FF25CA19-1544-4BD3-8CF0-806429CABD61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop", "..\..\Toolbox\GUI\dotnet461\Desktop\Desktop.csproj", "{1A71939F-8F0D-408B-8603-F0D231AF83E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D3321DB8-6158-4633-A80A-E377524EAB60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.Opc.UA.Client", "..\..\Tools\Opc.UA\Source\Client\Promatis.Opc.UA.Client.csproj", "{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AFBC91A-389C-438C-AC3B-89AF22139D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AFBC91A-389C-438C-AC3B-89AF22139D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AFBC91A-389C-438C-AC3B-89AF22139D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AFBC91A-389C-438C-AC3B-89AF22139D0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58470ADD-50FD-479D-862B-65BA360714EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58470ADD-50FD-479D-862B-65BA360714EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58470ADD-50FD-479D-862B-65BA360714EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58470ADD-50FD-479D-862B-65BA360714EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF25CA19-1544-4BD3-8CF0-806429CABD61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF25CA19-1544-4BD3-8CF0-806429CABD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF25CA19-1544-4BD3-8CF0-806429CABD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF25CA19-1544-4BD3-8CF0-806429CABD61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A71939F-8F0D-408B-8603-F0D231AF83E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A71939F-8F0D-408B-8603-F0D231AF83E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A71939F-8F0D-408B-8603-F0D231AF83E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A71939F-8F0D-408B-8603-F0D231AF83E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207} = {63F40D3A-25E0-44F0-91A5-CCDC53042ECA}
+		{F57AAC7D-AA21-4725-8904-7DE4A0F21951} = {63F40D3A-25E0-44F0-91A5-CCDC53042ECA}
+		{2A754750-B65F-4109-A82F-4C05B46E9E64} = {63F40D3A-25E0-44F0-91A5-CCDC53042ECA}
+		{1AFBC91A-389C-438C-AC3B-89AF22139D0D} = {F57AAC7D-AA21-4725-8904-7DE4A0F21951}
+		{58470ADD-50FD-479D-862B-65BA360714EF} = {F57AAC7D-AA21-4725-8904-7DE4A0F21951}
+		{FF25CA19-1544-4BD3-8CF0-806429CABD61} = {F57AAC7D-AA21-4725-8904-7DE4A0F21951}
+		{1A71939F-8F0D-408B-8603-F0D231AF83E3} = {2A754750-B65F-4109-A82F-4C05B46E9E64}
+		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3} = {D3321DB8-6158-4633-A80A-E377524EAB60}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40A0378C-B892-431C-9857-21B73F35FD2A}
+	EndGlobalSection
+EndGlobal

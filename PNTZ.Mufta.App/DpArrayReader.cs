@@ -19,7 +19,7 @@ namespace PNTZ.Mufta.App
         { 
             set 
             {
-                value.ValueUpdated += (s, v) => _cli.WriteLine($"Считано: {v}");
+                value.ValueUpdated += (s, v) => Console.WriteLine($"Считано: {v}");
                 dpArray.Add(value);
             } 
         }
