@@ -21,9 +21,11 @@ namespace PNTZ.Mufta.App.ViewModel
             _chart = new TnTqChart(chartViewModel);
             cli = cli;
 
-            MainContent = new AboutView();
+            MainContent = new CreateRecipeView(new CreateRecipeViewModel());
 
             cli.RegisterCommand("showchart", (arg) => ShowChart());
+
+
         }
 
         public CliViewModel CliViewModel { get; private set; }
