@@ -4,9 +4,10 @@ using Desktop.Control;
 using Desktop.MVVM;
 using Toolkit.IO;
 
-using PNTZ.Mufta.App.View.Chart;
 using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.View;
+using PNTZ.Mufta.App.View.Chart;
+using PNTZ.Mufta.App.View.CreateRecipe;
 
 namespace PNTZ.Mufta.App.ViewModel
 {
@@ -19,7 +20,7 @@ namespace PNTZ.Mufta.App.ViewModel
             CliViewModel = new CliViewModel(cli);
             _chartViewModel = chartViewModel;
             _chart = new TnTqChart(chartViewModel);
-            cli = cli;
+            this.cli = cli;
 
             MainContent = new CreateRecipeView(new CreateRecipeViewModel());
 

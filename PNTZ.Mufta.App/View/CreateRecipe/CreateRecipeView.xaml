@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="PNTZ.Mufta.App.View.CreateRecipeView"
+﻿<UserControl x:Class="PNTZ.Mufta.App.View.CreateRecipe.CreateRecipeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PNTZ.Mufta.App.View" 
+             xmlns:local="clr-namespace:PNTZ.Mufta.App.View.CreateRecipe" 
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.App.View.Control"
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1200">

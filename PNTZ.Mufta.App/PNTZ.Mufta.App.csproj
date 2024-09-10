@@ -177,16 +177,16 @@
     <Compile Include="View\Control\ParamView.xaml.cs">
       <DependentUpon>ParamView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CreateRecipeView.xaml.cs">
+    <Compile Include="View\CreateRecipe\CreateRecipeView.xaml.cs">
       <DependentUpon>CreateRecipeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GeneralParamView.xaml.cs">
+    <Compile Include="View\CreateRecipe\GeneralParamView.xaml.cs">
       <DependentUpon>GeneralParamView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TorqModeParamView.xaml.cs">
+    <Compile Include="View\CreateRecipe\TorqModeParamView.xaml.cs">
       <DependentUpon>TorqModeParamView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -246,11 +246,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CreateRecipeView.xaml">
+    <Page Include="View\CreateRecipe\CreateRecipeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GeneralParamView.xaml">
+    <Page Include="View\CreateRecipe\GeneralParamView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,7 +266,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TorqModeParamView.xaml">
+    <Page Include="View\CreateRecipe\TorqModeParamView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

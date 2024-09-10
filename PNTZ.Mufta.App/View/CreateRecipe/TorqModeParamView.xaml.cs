@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PNTZ.Mufta.App.View
+namespace PNTZ.Mufta.App.View.CreateRecipe
 {
     /// <summary>
     /// Interaction logic for TorqModeParamView.xaml

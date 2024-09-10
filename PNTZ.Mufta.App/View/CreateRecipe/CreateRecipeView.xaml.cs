@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PNTZ.Mufta.App.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PNTZ.Mufta.App.View
+namespace PNTZ.Mufta.App.View.CreateRecipe
 {
     /// <summary>
-    /// Interaction logic for GeneralParamView.xaml
+    /// Interaction logic for CreateRecipeView.xaml
     /// </summary>
-    public partial class GeneralParamView : UserControl
+    public partial class CreateRecipeView : UserControl
     {
-        public GeneralParamView()
+        public CreateRecipeView(CreateRecipeViewModel vm )
         {
             InitializeComponent();
+            DataContext = vm;
         }
     }
 }
