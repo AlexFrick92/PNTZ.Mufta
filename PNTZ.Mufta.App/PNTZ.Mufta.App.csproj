@@ -181,16 +181,33 @@
     <Compile Include="View\CreateRecipe\CreateRecipeView.xaml.cs">
       <DependentUpon>CreateRecipeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CreateRecipe\GeneralParamView.xaml.cs">
-      <DependentUpon>GeneralParamView.xaml</DependentUpon>
+    <Compile Include="View\CreateRecipe\ParamGeneralView.xaml.cs">
+      <DependentUpon>ParamGeneralView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CreateRecipe\ModeToColorConverter.cs" />
+    <Compile Include="View\CreateRecipe\ParamModeJvalTorqueView.xaml.cs">
+      <DependentUpon>ParamModeJvalTorqueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreateRecipe\ParamModeJValView.xaml.cs">
+      <DependentUpon>ParamModeJValView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreateRecipe\ParamModeLengthView.xaml.cs">
+      <DependentUpon>ParamModeLengthView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreateRecipe\ParamModeLengthTorqView.xaml.cs">
+      <DependentUpon>ParamModeLengthTorqView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CreateRecipe\ModeToVisibilityConverter.cs" />
+    <Compile Include="View\CreateRecipe\ParamModeTorqShoulderView.xaml.cs">
+      <DependentUpon>ParamModeTorqShoulderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreateRecipe\SelectModeView.xaml.cs">
+      <DependentUpon>SelectModeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CreateRecipe\TorqModeParamView.xaml.cs">
-      <DependentUpon>TorqModeParamView.xaml</DependentUpon>
+    <Compile Include="View\CreateRecipe\ParamModeTorqueView.xaml.cs">
+      <DependentUpon>ParamModeTorqueView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -253,7 +270,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CreateRecipe\GeneralParamView.xaml">
+    <Page Include="View\CreateRecipe\ParamGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateRecipe\ParamModeJvalTorqueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateRecipe\ParamModeJValView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateRecipe\ParamModeLengthView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateRecipe\ParamModeLengthTorqView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateRecipe\SelectModeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateRecipe\Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateRecipe\ParamModeTorqShoulderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -265,11 +310,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Styles\HeaderStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\CreateRecipe\TorqModeParamView.xaml">
+    <Page Include="View\CreateRecipe\ParamModeTorqueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -3,6 +3,4 @@
     <Style x:Key="ParamHeaderStyle" TargetType="Label">
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
-    
-    
 </ResourceDictionary>

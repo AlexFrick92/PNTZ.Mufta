@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PNTZ.Mufta.App.View.CreateRecipe
 {
     /// <summary>
-    /// Interaction logic for TorqModeParamView.xaml
+    /// Interaction logic for ParamModeLengthTorqView.xaml
     /// </summary>
-    public partial class TorqModeParamView : UserControl
+    public partial class ParamModeLengthTorqView : UserControl
     {
-        public TorqModeParamView()
+        public ParamModeLengthTorqView()
         {
             InitializeComponent();
         }
