@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Domain\Joint\JointMode.cs" />
     <Compile Include="Domain\Joint\JointRecipe.cs" />
     <Compile Include="Domain\Joint\OpRecorder.cs" />
     <Compile Include="Domain\Joint\RecipeCreator.cs" />
@@ -183,6 +184,8 @@
     <Compile Include="View\CreateRecipe\GeneralParamView.xaml.cs">
       <DependentUpon>GeneralParamView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CreateRecipe\ModeToColorConverter.cs" />
+    <Compile Include="View\CreateRecipe\ModeToVisibilityConverter.cs" />
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
