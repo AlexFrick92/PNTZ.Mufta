@@ -30,7 +30,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ctrl:ParamView Grid.Row="0" ParamLabel="ЗАДАНИЕ " ParamValue="{Binding SomeParamValue}"/>
+        <ctrl:ParamView Grid.Row="0" ParamLabel="ЗАДАНИЕ " ParamValue="{Binding JointRecipe.Name}"/>
 
         <local:ParamGeneralView Grid.Row="1"/>
 
