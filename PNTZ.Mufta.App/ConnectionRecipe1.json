@@ -6,7 +6,7 @@
   "Tq_UNIT": 1,
   "Thread_type": 1,
   "PIPE_TYPE" : "PipeType",
-  "Box_Moni_Time": 10,
+  "Box_Monit_Time": 10,
   "Box_Len_Min" : 155.5,
   "Box_Len_Max" : 165.5,
   "Pre_Monit_Time": 10,

@@ -130,7 +130,7 @@
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name="Pre_Monit_Time">
+			<DpProperty Name="Pre_Moni_Time">
 				<Provider Name ="Stend AKF">
 					<NodeId> ns=3;s="REZ_TPC_DOWN"."REZ_MVS"."Pre_Moni_Time" </NodeId>
 				</Provider>

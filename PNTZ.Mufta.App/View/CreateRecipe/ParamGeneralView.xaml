@@ -43,29 +43,63 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1" Grid.Column="1">
-                <Label/>
                 <TextBox Text="{Binding JointRecipe.HEAD_OPEN_PULSES}"/>
-                <TextBox/>
-                <TextBox/>
-                <TextBox/>
+                <TextBox Text="{Binding JointRecipe.TURNS_BREAK}"/>
+                <TextBox Text="{Binding JointRecipe.Thread_type}" />
+                <TextBox Text="{Binding JointRecipe.Thread_step}"/>
             </StackPanel>
             
         </Grid>
+        
+
 
         <Grid Grid.Column="1" Margin="5">
-            <StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
                 <Label Style="{StaticResource ParamHeaderStyle}" Content="Измерение муфты"/>
                 <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
-                <Label Content="Мин. длина"/>
-                <Label Content="Макс. длина"/>
-                <Label Content="Время наблюдения"/>
+            </StackPanel>
 
-                <Label Style="{StaticResource ParamHeaderStyle}" Content="Преднавёртка"/>
-                <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+            <StackPanel Grid.Row="1" Grid.Column="0">
                 <Label Content="Мин. длина"/>
                 <Label Content="Макс. длина"/>
                 <Label Content="Время наблюдения"/>
             </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <TextBox Text="{Binding JointRecipe.Box_Len_Max}"/>
+                <TextBox Text="{Binding JointRecipe.Box_Len_Min}"/>
+                <TextBox Text="{Binding JointRecipe.Box_Moni_Time}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                <Label Style="{StaticResource ParamHeaderStyle}" Content="Преднавёртка"/>
+                <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Grid.Column="0">
+                <Label Content="Мин. длина"/>
+                <Label Content="Макс. длина"/>
+                <Label Content="Время наблюдения"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Grid.Column="1">
+                <TextBox Text="{Binding JointRecipe.Pre_Len_Max}"/>
+                <TextBox Text="{Binding JointRecipe.Pre_Len_Min}"/>
+                <TextBox Text="{Binding JointRecipe.Pre_Moni_Time}" />
+            </StackPanel>
+            
+            
         </Grid>
 
 

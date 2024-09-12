@@ -9,11 +9,12 @@ namespace PNTZ.Mufta.App.Domain.Joint
         public ushort LOG_NO { get; set; }
         public ushort Tq_UNIT { get; set; }
         public ushort Thread_type { get; set; }
+        public float Thread_step { get; set; }
         public string PIPE_TYPE { get; set; }
         public int Box_Moni_Time { get; set; }
         public float Box_Len_Min { get; set; }
         public float Box_Len_Max { get; set; }
-        public int Pre_Monit_Time { get; set; }        
+        public int Pre_Moni_Time { get; set; }        
         public float Pre_Len_Min { get; set; }
         public float Pre_Len_Max { get; set; }        
         public int MU_Monit_Time { get; set; }
