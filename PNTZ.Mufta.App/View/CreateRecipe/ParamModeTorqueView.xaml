@@ -21,25 +21,70 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Margin="5">
-            <Label Style="{StaticResource ParamHeaderStyle}" Content="Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
-            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
-            <Label Content="Базовый крутящий момент"/>
-            <Label Content="Крутящий момент автосохранения"/>
-            <Label Content="Время наблюдения" />
-            <Label Content="Крутящий момент сброса"/>
-            <Label Content="Оптимальный крутящий момент"/>
-            <Label Content="Мин. крутящий момент"/>
-            <Label Content="Макс крутящий момент"/>
 
-        </StackPanel>
+        <Grid Grid.Column="0">
 
-        <StackPanel Grid.Column="1" Margin="5">
-            <Label Content=""/>
-            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
-            <Label Content="Уменьшение скорости 1 крут. момента"/>
-            <Label Content="Уменьшение скорости 2 крут. момента"/>
-        </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                <Label Style="{StaticResource ParamHeaderStyle}" Content="Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
+                <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+                <Label Content="Базовый крутящий момент"/>
+                <Label Content="Крутящий момент автосохранения"/>
+                <Label Content="Время наблюдения" />
+                <Label Content="Крутящий момент сброса"/>
+                <Label Content="Оптимальный крутящий момент"/>
+                <Label Content="Мин. крутящий момент"/>
+                <Label Content="Макс крутящий момент"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="1" >
+                <TextBox Text="{Binding JointRecipe.MU_Tq_Ref}"/>
+                <TextBox Text="{Binding JointRecipe.MU_Tq_Save}"/>
+                <TextBox Text="{Binding JointRecipe.MU_Moni_Time}" />
+                <TextBox Text="{Binding JointRecipe.MU_Tq_Dump}" />
+                <TextBox Text="{Binding JointRecipe.MU_Tq_Opt}" />
+                <TextBox Text="{Binding JointRecipe.MU_Tq_Min}" />
+                <TextBox Text="{Binding JointRecipe.MU_Tq_Max}" />
+            </StackPanel>
+        </Grid>
+        
+        
+               
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                <Label Content=""/>
+                <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Grid.Row="1" Margin="5">
+                <Label Content="Уменьшение скорости 1 крут. момента"/>
+                <Label Content="Уменьшение скорости 2 крут. момента"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <TextBox Text="{Binding JointRecipe.MU_TqSpeedRed_1}"/>
+                <TextBox Text="{Binding JointRecipe.MU_TqSpeedRed_2}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

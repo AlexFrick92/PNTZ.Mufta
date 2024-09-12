@@ -148,7 +148,7 @@
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name="MU_Monit_Time">
+			<DpProperty Name="MU_Moni_Time">
 				<Provider Name ="Stend AKF">
 					<NodeId> ns=3;s="REZ_TPC_DOWN"."REZ_CAM"."MU_Moni_Time" </NodeId>
 				</Provider>
@@ -214,13 +214,13 @@
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name="Mu_Len_Min">
+			<DpProperty Name="MU_Len_Min">
 				<Provider Name ="Stend AKF">
 					<NodeId> ns=3;s="REZ_TPC_DOWN"."REZ_CAM"."Mu_Len_Min" </NodeId>
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name="Mu_Len_Max">
+			<DpProperty Name="MU_Len_Max">
 				<Provider Name ="Stend AKF">
 					<NodeId> ns=3;s="REZ_TPC_DOWN"."REZ_CAM"."Mu_Len_Max" </NodeId>
 				</Provider>
