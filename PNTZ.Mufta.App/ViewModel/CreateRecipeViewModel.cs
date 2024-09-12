@@ -15,6 +15,8 @@ namespace PNTZ.Mufta.App.ViewModel
         public CreateRecipeViewModel()
         {
             SetModeCommand = new RelayCommand((mode) => SetMode((JointMode)mode));
+
+            SaveRecipeCommand = new RelayCommand((arg) => SaveRecipe(JointRecipe));
         }
         public int SomeParamValue { get; set; } = 5;
 
@@ -27,6 +29,13 @@ namespace PNTZ.Mufta.App.ViewModel
             Console.WriteLine("Установлен новый режим:" + newMode.ToString());
         }
 
+        public JointRecipe JointRecipe { get; set; } = new JointRecipe();
+
+        public ICommand SaveRecipeCommand { get; set; }
+        void SaveRecipe(JointRecipe newRecipe)
+        {
+            
+        }
 
         JointMode _selectedMode;
         public JointMode SelectedMode

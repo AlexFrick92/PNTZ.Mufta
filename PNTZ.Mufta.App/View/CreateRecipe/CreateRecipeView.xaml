@@ -27,6 +27,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <ctrl:ParamView Grid.Row="0" ParamLabel="ЗАДАНИЕ " ParamValue="{Binding SomeParamValue}"/>
@@ -54,5 +55,15 @@
         <local:ParamModeJvalTorqueView Grid.Row="3" 
                  Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.TorqueJVal}}"/>
 
+        <!--Кнопки-->
+        <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" Grid.Row="5"
+                Command="{Binding SaveRecipeCommand}"
+                Content="СОХРАНИТЬ"
+                
+                />
+        
+        
+        
+        
     </Grid>
 </UserControl>
