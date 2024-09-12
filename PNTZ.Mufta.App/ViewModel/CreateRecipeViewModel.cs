@@ -1,12 +1,11 @@
-﻿using Desktop.MVVM;
-using DevExpress.Xpf.Core.ConditionalFormatting;
-using PNTZ.Mufta.App.Domain.Joint;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Input;
+
+using Desktop.MVVM;
+
+using PNTZ.Mufta.App.Domain.Joint;
+
+using static PNTZ.Mufta.App.Domain.Joint.JointMethods;
 
 namespace PNTZ.Mufta.App.ViewModel
 {
@@ -34,7 +33,7 @@ namespace PNTZ.Mufta.App.ViewModel
         public ICommand SaveRecipeCommand { get; set; }
         void SaveRecipe(JointRecipe newRecipe)
         {
-            
+            SaveJointRecipe(newRecipe);
         }
 
         JointMode _selectedMode;
