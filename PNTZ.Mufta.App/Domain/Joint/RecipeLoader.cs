@@ -17,6 +17,9 @@ namespace PNTZ.Mufta.App.Domain.Joint
         private readonly AutoResetEvent recipeLoaded = new AutoResetEvent(false);
         private readonly AutoResetEvent commandAccepted = new AutoResetEvent(false);
         private readonly AutoResetEvent operationCanceled = new AutoResetEvent(false);
+
+        private bool _recipeLoading;
+
         public RecipeLoader(ILogger logger)
         {
             _logger = logger;
@@ -33,7 +36,55 @@ namespace PNTZ.Mufta.App.Domain.Joint
             DpJointRecipe.Value = recipe;
 
             _logger.Info($"Рецепт загружен");
+        }        
+
+        public async Task LoadRecipeAsync(JointRecipe recipe)
+        {
+            if (_recipeLoading)
+                throw new Exception("Рецепт уже загружается");
+
+            _recipeLoading = true;
+
+            await Task.Run(() =>
+            {
+
+                DpJointRecipe.Value = recipe;
+
+                _logger.Info("Загрузка рецепта...");
+
+                CommandFeedback.ValueUpdated += ReceiveCommand;
+
+                SetLoadCommand.Value = 10;
+
+                commandAccepted.WaitOne();
+
+                Task.Delay(TimeSpan.FromSeconds(5));
+
+                SetLoadCommand.Value = 40;
+
+                commandAccepted.WaitOne();
+
+                Task.Delay(TimeSpan.FromSeconds(5));
+
+
+                SetLoadCommand.Value = 0;
+
+                CommandFeedback.ValueUpdated -= ReceiveCommand;
+            });
+
+            _recipeLoading = false;
+
+            _logger.Info("Рецепт загружен!");
         }
+
+        private void ReceiveCommand(object sender, uint e)
+        {            
+            commandAccepted.Set();
+        }
+
+
+
+
         public async void Load()
         {
 

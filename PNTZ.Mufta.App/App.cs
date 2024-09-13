@@ -31,6 +31,8 @@ namespace PNTZ.Mufta.App
 
             RecipeFolder = "Рецепты";
 
+            AppCli = cli;
+
             await Task.Run(() => dataPointConfigurator?.StopProviders());
         }
 
@@ -39,9 +41,15 @@ namespace PNTZ.Mufta.App
 
             CliLogger logger = new CliLogger(cli);
 
+            AppLogger = logger;
+
             PLCStatus status = new PLCStatus(cli);
 
             RecipeLoader recipeLoader = new RecipeLoader(logger);
+
+            CamRecipeLoader = recipeLoader;
+
+
             cli.RegisterCommand("load", (args) =>
             {
                 RecipeCreator recipeCreator = new RecipeCreator(args[0]);

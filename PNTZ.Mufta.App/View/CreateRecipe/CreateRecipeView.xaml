@@ -56,12 +56,20 @@
                  Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.TorqueJVal}}"/>
 
         <!--Кнопки-->
-        <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" Grid.Row="5"
-                Command="{Binding SaveRecipeCommand}"
-                Content="СОХРАНИТЬ"
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" 
+                    Command="{Binding SaveRecipeCommand}"
+                    Content="СОХРАНИТЬ"
                 
-                />
-        
+                    />
+            <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" 
+                    Command="{Binding LoadRecipeCommand}"
+                    Content="ЗАГРУЗИТЬ"
+                
+                    />
+
+        </StackPanel>
         
         
         

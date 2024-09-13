@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Desktop.MVVM;
@@ -6,6 +7,7 @@ using Desktop.MVVM;
 using PNTZ.Mufta.App.Domain.Joint;
 
 using static PNTZ.Mufta.App.Global.Methods;
+using static PNTZ.Mufta.App.Global.Vars;    
 
 namespace PNTZ.Mufta.App.ViewModel
 {
@@ -16,6 +18,21 @@ namespace PNTZ.Mufta.App.ViewModel
             SetModeCommand = new RelayCommand((mode) => SetMode((JointMode)mode));
 
             SaveRecipeCommand = new RelayCommand((arg) => SaveRecipe(JointRecipe));
+
+            LoadRecipeCommand = new RelayCommand(async (arg) =>
+            {
+                Task task = CamRecipeLoader.LoadRecipeAsync(JointRecipe);
+
+                try
+                {
+                    await task;
+                }
+                catch (Exception ex)
+                {
+                    AppCli.WriteLine(ex.ToString());
+                }
+            });
+            
         }
         public int SomeParamValue { get; set; } = 5;
 
@@ -31,6 +48,7 @@ namespace PNTZ.Mufta.App.ViewModel
         public JointRecipe JointRecipe { get; set; } = new JointRecipe();
 
         public ICommand SaveRecipeCommand { get; set; }
+        public ICommand LoadRecipeCommand { get; set; }
         void SaveRecipe(JointRecipe newRecipe)
         {
             try
