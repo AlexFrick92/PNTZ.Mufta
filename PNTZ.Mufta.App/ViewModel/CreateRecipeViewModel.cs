@@ -29,7 +29,7 @@ namespace PNTZ.Mufta.App.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    AppCli.WriteLine(ex.ToString());
+                    AppCli.WriteLine(ex.Message);
                 }
             });
             

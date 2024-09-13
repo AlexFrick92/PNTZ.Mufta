@@ -47,15 +47,7 @@ namespace PNTZ.Mufta.App
 
             RecipeLoader recipeLoader = new RecipeLoader(logger);
 
-            CamRecipeLoader = recipeLoader;
-
-
-            cli.RegisterCommand("load", (args) =>
-            {
-                RecipeCreator recipeCreator = new RecipeCreator(args[0]);
-                recipeLoader.LoadRecipe(recipeCreator.Recipe);
-            });
-            cli.RegisterCommand("load1", (args) => recipeLoader.Load());
+            CamRecipeLoader = recipeLoader;        
 
             HeartbeatMake heartbeat = new HeartbeatMake(cli) { Name = "Heartbeat1" };
             HeartbeatCheck heartbeatCheck = new HeartbeatCheck(cli) { Name = "HeartbeatCheck1" };

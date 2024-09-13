@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Promatis.Core.Logging;
 
 using DpConnect.Interface;
+using DevExpress.Charts.Model;
 
 namespace PNTZ.Mufta.App.Domain.Joint
 {
@@ -14,9 +15,6 @@ namespace PNTZ.Mufta.App.Domain.Joint
     public class RecipeLoader : IDpProcessor
     {
         private readonly ILogger _logger;
-        private readonly AutoResetEvent recipeLoaded = new AutoResetEvent(false);
-        private readonly AutoResetEvent commandAccepted = new AutoResetEvent(false);
-        private readonly AutoResetEvent operationCanceled = new AutoResetEvent(false);
 
         private bool _recipeLoading;
 
@@ -45,114 +43,55 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
             _recipeLoading = true;
 
-            await Task.Run(() =>
+            TaskCompletionSource<uint> awaitCommandFeedback;
+
+            var timeout = Task.Delay(TimeSpan.FromSeconds(10));
+
+            DpJointRecipe.Value = recipe;
+
+            _logger.Info("Загрузка рецепта...");
+
+
+            awaitCommandFeedback = new TaskCompletionSource<uint>();
+            CommandFeedback.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+
+            SetLoadCommand.Value = 10;
+
+            var first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);                                     
+
+            if(first == awaitCommandFeedback.Task && awaitCommandFeedback.Task.Result != 20)
             {
+                _recipeLoading = false;
+                throw new Exception("Не удалось загрузить. Неверный ответ на команду 10");
+            }
 
-                DpJointRecipe.Value = recipe;
+            awaitCommandFeedback = new TaskCompletionSource<uint>();
+            CommandFeedback.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
-                _logger.Info("Загрузка рецепта...");
+            SetLoadCommand.Value = 40;
 
-                CommandFeedback.ValueUpdated += ReceiveCommand;
+            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);
 
-                SetLoadCommand.Value = 10;
+            if (first == awaitCommandFeedback.Task)
+            {
+                if (awaitCommandFeedback.Task.Result != 50)
+                {
+                    _recipeLoading = false;
+                    throw new Exception("Не удалось загрузить. Неверный ответ на команду 40");
+                }
+            }
+            else if (first == timeout)
+            {
+                _recipeLoading = false;
+                throw new Exception("Не удалось загрузить");
+            }
 
-                commandAccepted.WaitOne();
-
-                Task.Delay(TimeSpan.FromSeconds(5));
-
-                SetLoadCommand.Value = 40;
-
-                commandAccepted.WaitOne();
-
-                Task.Delay(TimeSpan.FromSeconds(5));
-
-
-                SetLoadCommand.Value = 0;
-
-                CommandFeedback.ValueUpdated -= ReceiveCommand;
-            });
+            SetLoadCommand.Value = 0;
 
             _recipeLoading = false;
 
             _logger.Info("Рецепт загружен!");
-        }
-
-        private void ReceiveCommand(object sender, uint e)
-        {            
-            commandAccepted.Set();
-        }
-
-
-
-
-        public async void Load()
-        {
-
-            _ = Task.Run(() =>
-            {
-                Task.Delay(10000).Wait();
-                operationCanceled.Set();
-            });
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    CommandFeedback.ValueUpdated += CommandFeedback_ValueUpdated;
-                    _logger.Info("Устанавливаем команду 10");
-                    SetLoadCommand.Value = 10;
-
-                    _logger.Info("Ждем ответа 20");
-
-                    WaitHandle[] waitHandles = new WaitHandle[] { commandAccepted, operationCanceled };
-
-                    int index = WaitHandle.WaitAny(waitHandles);
-
-                    if (index == 1)
-                    {
-                        throw new Exception("Время ожидания истекло");
-                    }
-                    if (CommandFeedback.Value == 20)
-                    {
-                        _logger.Info("Устанавливаем команду 30");
-                        SetLoadCommand.Value = 20;
-
-                        _logger.Info("Ждем ответа 30");
-                        commandAccepted.WaitOne();
-
-                        if (CommandFeedback.Value == 30)
-                        {
-                            _logger.Info("Рецепт загружен!");
-                        }
-                        else
-                        {
-                            throw new Exception("Wrong command");
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Wrong command");
-                    }
-                }
-                catch
-                {
-                    _logger.Info("Загрузить не удалось");
-                }
-                finally
-                {
-                    CommandFeedback.ValueUpdated -= CommandFeedback_ValueUpdated;
-                }
-            });
-
-        }
-
-        private void CommandFeedback_ValueUpdated(object sender, uint e)
-        {
-            _logger.Info($"Получена команда: {e}");
-            commandAccepted.Set();
-        }
-
-
+        }       
 
         #region DataPoints
         public IDpValue<JointRecipe> DpJointRecipe { get; set; }
