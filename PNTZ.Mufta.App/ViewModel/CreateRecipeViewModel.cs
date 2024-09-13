@@ -5,7 +5,7 @@ using Desktop.MVVM;
 
 using PNTZ.Mufta.App.Domain.Joint;
 
-using static PNTZ.Mufta.App.Domain.Joint.JointMethods;
+using static PNTZ.Mufta.App.Global.Methods;
 
 namespace PNTZ.Mufta.App.ViewModel
 {
@@ -33,7 +33,14 @@ namespace PNTZ.Mufta.App.ViewModel
         public ICommand SaveRecipeCommand { get; set; }
         void SaveRecipe(JointRecipe newRecipe)
         {
-            SaveJointRecipe(newRecipe);
+            try
+            {
+                SaveJointRecipe(newRecipe);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         JointMode _selectedMode;
@@ -45,6 +52,7 @@ namespace PNTZ.Mufta.App.ViewModel
                 if (_selectedMode != value)
                 {
                     _selectedMode = value;
+                    JointRecipe.MU_Makeup_Mode = JointModeToMakeUpMode(value);
                     OnPropertyChanged(nameof(SelectedMode));                    
                 }
             }

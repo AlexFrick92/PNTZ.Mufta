@@ -16,6 +16,8 @@ using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.ViewModel;
 using PNTZ.Mufta.App.View;
 
+using static PNTZ.Mufta.App.Global.Vars;
+
 
 namespace PNTZ.Mufta.App
 {
@@ -25,6 +27,10 @@ namespace PNTZ.Mufta.App
 
         protected override async void BeforeInit()
         {
+            CurrentDirectory = currentDirectory;
+
+            RecipeFolder = "Рецепты";
+
             await Task.Run(() => dataPointConfigurator?.StopProviders());
         }
 

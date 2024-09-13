@@ -3,7 +3,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
 {
     public class JointRecipe
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "123";
         public float HEAD_OPEN_PULSES { get; set; }
         public float TURNS_BREAK { get; set; }
         public ushort PLC_PROG_NR { get; set; }
@@ -21,7 +21,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
         public int MU_Moni_Time { get; set; }
         public float MU_Tq_Ref { get; set; }
         public float MU_Tq_Save {  get; set; }
-        public ushort MU_Makeup_Mode { get; set; }
+        public ushort MU_Makeup_Mode { get; set; } // 0 - по моменту, 1 - по длине, 2 - по JVal
         public float MU_TqSpeedRed_1 { get; set; }
         public float MU_TqSpeedRed_2 { get; set; }
         public float MU_Tq_Dump { get; set; }
