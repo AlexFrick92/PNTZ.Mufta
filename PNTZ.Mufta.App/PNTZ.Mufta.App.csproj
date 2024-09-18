@@ -205,6 +205,9 @@
     <Compile Include="View\CreateRecipe\SelectModeView.xaml.cs">
       <DependentUpon>SelectModeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Joint\JointView.xaml.cs">
+      <DependentUpon>JointView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -301,6 +304,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CreateRecipe\ParamModeTorqShoulderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Joint\JointView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
