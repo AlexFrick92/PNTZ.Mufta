@@ -69,7 +69,7 @@
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
 
-                                <Button Margin="5,0,3,0" Style="{StaticResource NaviButton}">
+                                <Button Margin="5,0,3,0" Style="{StaticResource NaviButton}" Command="{Binding NaviToRecipeViewCommand}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
@@ -84,7 +84,7 @@
 
                                 <Border Margin="0,7,0,7" BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
 
-                                <Button Margin="3,0,5,0" Style="{StaticResource NaviButton}">
+                                <Button Margin="3,0,5,0" Style="{StaticResource NaviButton}" Command="{Binding NaviToJointViewCommand}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>

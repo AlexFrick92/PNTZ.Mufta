@@ -5,8 +5,189 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.App.View.Joint"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--Боковая панель с параметрами-->
+        <ContentControl Grid.Column="0">
+            <Border BorderThickness="0,0,1,0" BorderBrush="Black">
+                <StackPanel>
+                    <!--Данные задания-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Style="{StaticResource ParamHeaderStyle}" Content="Задание"/>
+                            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+                            <Label Content="141 Buttres"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="Режим"/>
+                            <Label Content="Направление"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Label Content="Контроль длины"/>
+                            <Label Content="Тип резьбы"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!--Результат-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Style="{StaticResource ParamHeaderStyle}" Content="Результат"/>
+                            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="Момент"/>
+                            <Label Content="Длина"/>
+                            <Label Content="Обороты"/>
+                            <Label Content="Результат"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Label Content="14"/>
+                            <Label Content="108"/>
+                            <Label Content="3.2"/>
+                            <Label Content="годное" HorizontalContentAlignment="Center" Background="LightGreen"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!--Текущие показания-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Style="{StaticResource ParamHeaderStyle}" Content="Текущие показания"/>
+                            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="Момент"/>
+                            <Label Content="Длина"/>
+                            <Label Content="Обороты"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Label Content="14"/>
+                            <Label Content="108"/>
+                            <Label Content="3.2"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!--Момент свинчивания-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Style="{StaticResource ParamHeaderStyle}" Content="Момент свинчивания Нм*1000"/>
+                            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="Макс"/>
+                            <Label Content="Мин"/>
+                            <Label Content="Оптимум"/>
+                            <Label Content="Отсечка"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Label Content="16"/>
+                            <Label Content="12"/>
+                            <Label Content="14"/>
+                            <Label Content="13.7"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!--Длина свинчивания-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Style="{StaticResource ParamHeaderStyle}" Content="Длина свинчивания, мм"/>
+                            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="Макс"/>
+                            <Label Content="Мин"/>
+                            <Label Content="Оптимум"/>
+                            <Label Content="Отсечка"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Label Content="116"/>
+                            <Label Content="108"/>
+                            <Label Content="112"/>
+                            <Label Content="112"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                </StackPanel>
+            </Border>
+        </ContentControl>
+        
+        <!--Графики-->
+        <ContentControl Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </ContentControl>
     </Grid>
 </UserControl>
