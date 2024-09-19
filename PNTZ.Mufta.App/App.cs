@@ -98,8 +98,7 @@ namespace PNTZ.Mufta.App
 
         public Cli AppCli { get; set; }
 
-        public ILogger AppLogger { get; set; }
-        
+        public ILogger AppLogger { get; set; }        
 
         public void SaveJointRecipe(JointRecipe joint)
         {
@@ -152,10 +151,22 @@ namespace PNTZ.Mufta.App
             get { return _loadedRecipe; }
             set
             {
-                LoadedRecipe = value;
+                _loadedRecipe = value;
                 PropertyChanged(null, new PropertyChangedEventArgs(nameof(LoadedRecipe)));
             }
-        }      
+        }
+
+
+        JointResult _lastJointResult;
+        public JointResult LastJointResult
+        {
+            get { return _lastJointResult; }
+            set
+            {
+                _lastJointResult = value;
+                PropertyChanged(null, new PropertyChangedEventArgs(nameof(LastJointResult)));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

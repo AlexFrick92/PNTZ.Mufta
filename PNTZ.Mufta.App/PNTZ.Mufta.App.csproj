@@ -172,6 +172,7 @@
     <Compile Include="App.cs" />
     <Compile Include="Domain\Joint\JointMode.cs" />
     <Compile Include="Domain\Joint\JointRecipe.cs" />
+    <Compile Include="Domain\Joint\JointResult.cs" />
     <Compile Include="Domain\Joint\OpRecorder.cs" />
     <Compile Include="Domain\Joint\RecipeCreator.cs" />
     <Compile Include="Domain\Joint\RecipeLoader.cs" />

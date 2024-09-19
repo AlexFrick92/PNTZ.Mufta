@@ -2,13 +2,14 @@
 {
     public class TqTnPoint
     {
-        public float Tq { get; set; }
-        public float Tn { get; set; }
+        public float Torque { get; set; }
+        public float Turns { get; set; }
+        public float Len { get; set; }
         public int TimeStamp { get; set; }
 
         public override string ToString()
         {
-            return Tq.ToString() + " : " + Tn.ToString();
+            return Torque.ToString() + " : " + Turns.ToString();
         }
     }
 }

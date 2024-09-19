@@ -4,14 +4,14 @@
 
 В блоке DB401 находится следующая структура:
 ```
-- REZ_ALLG :    "REZ_ALLG" – Общие данные
-- REZ_Muffe :   "REZ_Muffe" – Данные для муфты
-- REZ_MVS :     "REZ_MVS" – Данные для преднавёртки
-- REZ_CAM :     "REZ_CAM" – Данные для силовой навертки
-- ERG_Muffe :   "ERG_Muffe" – Результат измерения муфты     
-- ERG_MVS :     "ERG_MVS" – Результат преднавёртки         
-- ERG_CAM :     "ERG_CAM" – Результат силовой навёртки      
-- ZEITSTEMPEL : "REZ_ZST" – Метки времени.                 
+- REZ_ALLG :    "REZ_ALLG"      Общие данные
+- REZ_Muffe :   "REZ_Muffe"     Данные для муфты
+- REZ_MVS :     "REZ_MVS"       Данные для преднавёртки
+- REZ_CAM :     "REZ_CAM"       Данные для силовой навертки
+- ERG_Muffe :   "ERG_Muffe"     Результат измерения муфты     
+- ERG_MVS :     "ERG_MVS"       Результат преднавёртки         
+- ERG_CAM :     "ERG_CAM"       Результат силовой навёртки      
+- ZEITSTEMPEL : "REZ_ZST"       Метки времени.                 
 ```
 
 **"REZ_ALLG" – Общие данные**

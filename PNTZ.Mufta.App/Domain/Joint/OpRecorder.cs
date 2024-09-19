@@ -50,7 +50,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 {
                     cts.Token.ThrowIfCancellationRequested();
 
-                    ActualTqTnSeries.Add(new TqTnPoint() { Tq = TqTnPoint.Value.Tq, Tn = TqTnPoint.Value.Tn, TimeStamp = sampleNum * 10 });                        
+                    ActualTqTnSeries.Add(new TqTnPoint() { Torque = TqTnPoint.Value.Torque, Turns = TqTnPoint.Value.Turns, TimeStamp = sampleNum * 10 });                        
                     sampleNum++;
                     Thread.Sleep(10);
                     

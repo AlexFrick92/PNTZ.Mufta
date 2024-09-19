@@ -39,7 +39,7 @@
                         <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
                             <Label Style="{StaticResource ParamHeaderStyle}" Content="Задание"/>
                             <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
-                            <Label Content="141 Buttres"/>
+                            <Label Content="{Binding JointRecipe.Name}"/>
                         </StackPanel>
 
                         <StackPanel Grid.Row="1">
@@ -138,9 +138,9 @@
 
                         <StackPanel Grid.Row="1" Grid.Column="1">
                             <Label Content="{Binding JointRecipe.MU_Tq_Max}"/>
-                            <Label Content="12"/>
-                            <Label Content="14"/>
-                            <Label Content="13.7"/>
+                            <Label Content="{Binding JointRecipe.MU_Tq_Min}"/>
+                            <Label Content="{Binding JointRecipe.MU_Tq_Opt}"/>
+                            <Label Content="{Binding JointRecipe.MU_Tq_Dump}"/>
                         </StackPanel>
                     </Grid>
 
@@ -163,15 +163,13 @@
                         <StackPanel Grid.Row="1">
                             <Label Content="Макс"/>
                             <Label Content="Мин"/>
-                            <Label Content="Оптимум"/>
                             <Label Content="Отсечка"/>
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Grid.Column="1">
-                            <Label Content="116"/>
-                            <Label Content="108"/>
-                            <Label Content="112"/>
-                            <Label Content="112"/>
+                            <Label Content="{Binding JointRecipe.MU_Len_Max}"/>
+                            <Label Content="{Binding JointRecipe.MU_Len_Min}"/>
+                            <Label Content="{Binding JointRecipe.MU_Tq_Min}"/>
                         </StackPanel>
                     </Grid>
                     
