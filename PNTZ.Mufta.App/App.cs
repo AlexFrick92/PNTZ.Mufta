@@ -20,6 +20,7 @@ using PNTZ.Mufta.App.Domain.Joint;
 using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.ViewModel;
 using PNTZ.Mufta.App.View;
+using System.ComponentModel;
 
 
 
@@ -94,8 +95,8 @@ namespace PNTZ.Mufta.App
         static public Cli AppCli { get; set; }
 
         static public ILogger AppLogger { get; set; }
-
-        static public JointRecipe LoadedRecipe { get; set; }
+        
+        static public JointRecipe LoadedRecipe { get; private set ; }
 
         static public void SaveJointRecipe(JointRecipe joint)
         {
@@ -144,10 +145,10 @@ namespace PNTZ.Mufta.App
         static public void UpdateLoadedRecipe(JointRecipe jointRecipe)
         {
             App.LoadedRecipe = jointRecipe;
-            LoadedRecipeUpdated(null, jointRecipe);
-        }
+            PropertyChanged(null, new PropertyChangedEventArgs(nameof(LoadedRecipe)));
+        }        
 
-        static public event EventHandler<JointRecipe> LoadedRecipeUpdated;
+        public static event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
     }

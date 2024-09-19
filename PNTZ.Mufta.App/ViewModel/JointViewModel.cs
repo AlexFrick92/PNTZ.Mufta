@@ -16,10 +16,13 @@ namespace PNTZ.Mufta.App.ViewModel
             else
                 JointRecipe = new JointRecipe();    
 
-            App.LoadedRecipeUpdated += (s, rec) =>
+            App.PropertyChanged += (s, rec) =>
             {
-                JointRecipe = rec;
-                OnPropertyChanged(nameof(JointRecipe));
+                if(rec.PropertyName == nameof(App.LoadedRecipe))
+                {
+                    JointRecipe = App.LoadedRecipe;
+                    OnPropertyChanged(nameof(JointRecipe));
+                }
             };
         }
 
