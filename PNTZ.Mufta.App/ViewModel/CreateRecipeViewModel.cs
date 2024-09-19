@@ -4,10 +4,8 @@ using System.Windows.Input;
 
 using Desktop.MVVM;
 
+using PNTZ.Mufta.App;    
 using PNTZ.Mufta.App.Domain.Joint;
-
-using static PNTZ.Mufta.App.Global.AppMethods;
-using static PNTZ.Mufta.App.Global.AppVars;    
 
 namespace PNTZ.Mufta.App.ViewModel
 {
@@ -22,10 +20,10 @@ namespace PNTZ.Mufta.App.ViewModel
             LoadRecipeCommand = new RelayCommand(async (arg) =>
             {
 
-                UpdateLoadedRecipe(JointRecipe);            
+                App.UpdateLoadedRecipe(JointRecipe);            
                 return;
 
-                Task task = CamRecipeLoader.LoadRecipeAsync(JointRecipe);
+                Task task = App.CamRecipeLoader.LoadRecipeAsync(JointRecipe);
 
                 try
                 {
@@ -33,7 +31,7 @@ namespace PNTZ.Mufta.App.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    AppCli.WriteLine(ex.Message);
+                    App.AppCli.WriteLine(ex.Message);
                 }
             });
             
@@ -57,7 +55,7 @@ namespace PNTZ.Mufta.App.ViewModel
         {
             try
             {
-                SaveJointRecipe(newRecipe);
+                App.SaveJointRecipe(newRecipe);
             }
             catch (Exception ex)
             {
@@ -74,7 +72,7 @@ namespace PNTZ.Mufta.App.ViewModel
                 if (_selectedMode != value)
                 {
                     _selectedMode = value;
-                    JointRecipe.MU_Makeup_Mode = JointModeToMakeUpMode(value);
+                    JointRecipe.MU_Makeup_Mode = App.JointModeToMakeUpMode(value);
                     OnPropertyChanged(nameof(SelectedMode));                    
                 }
             }

@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
+
+using Promatis.Core.Logging;
 
 using Toolkit.Logging;
 using Toolkit.IO;
@@ -10,13 +14,13 @@ using DpConnect.Interface;
 using DpConnect.Configuration;
 using DpConnect.Provider.OpcUa;
 
+
 using PNTZ.Mufta.App.Domain.Plc;
 using PNTZ.Mufta.App.Domain.Joint;
 using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.ViewModel;
 using PNTZ.Mufta.App.View;
 
-using static PNTZ.Mufta.App.Global.AppVars;
 
 
 namespace PNTZ.Mufta.App
@@ -80,7 +84,71 @@ namespace PNTZ.Mufta.App
             mainWindow = new MainView(mainViewModel);
         }
 
-       
-        
+        #region static stuff
+
+        static public string CurrentDirectory { get; set; }
+        static public string RecipeFolder { get; set; }
+
+        static public RecipeLoader CamRecipeLoader { get; set; }
+
+        static public Cli AppCli { get; set; }
+
+        static public ILogger AppLogger { get; set; }
+
+        static public JointRecipe LoadedRecipe { get; set; }
+
+        static public void SaveJointRecipe(JointRecipe joint)
+        {
+            if (joint == null)
+                throw new ArgumentNullException();
+
+            if (joint.Name.Trim() == "")
+                throw new ArgumentException("Не задано имя рецепта");
+
+
+            string recipeDirectory = $"{App.CurrentDirectory}/{App.RecipeFolder}";
+
+            if (!Directory.Exists(recipeDirectory))
+            {
+                Directory.CreateDirectory(recipeDirectory);
+            }
+
+            string path = $"{recipeDirectory}/{joint.Name}.json";
+
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                JsonSerializer.Serialize<JointRecipe>(fs, joint);
+                Console.WriteLine($"Рецепт: {joint.Name} сохранен в {path}");
+            }
+        }
+        static public ushort JointModeToMakeUpMode(JointMode jointMode)
+        {
+            switch (jointMode)
+            {
+                case JointMode.Torque: return 0;
+
+                case JointMode.TorqueShoulder: return 0;
+
+                case JointMode.Length: return 1;
+
+                case JointMode.TorqueLength: return 1;
+
+                case JointMode.Jval: return 2;
+
+                case JointMode.TorqueJVal: return 2;
+            }
+
+            return 0;
+        }
+
+        static public void UpdateLoadedRecipe(JointRecipe jointRecipe)
+        {
+            App.LoadedRecipe = jointRecipe;
+            LoadedRecipeUpdated(null, jointRecipe);
+        }
+
+        static public event EventHandler<JointRecipe> LoadedRecipeUpdated;
+
+        #endregion
     }
 }
