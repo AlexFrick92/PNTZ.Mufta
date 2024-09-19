@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 using PNTZ.Mufta.App.Domain.Joint;
@@ -33,9 +34,7 @@ namespace PNTZ.Mufta.App.Global
                 JsonSerializer.Serialize<JointRecipe>(fs, joint);
                 Console.WriteLine($"Рецепт: {joint.Name} сохранен в {path}");
             }
-        }    
-        
-
+        }            
         static public ushort JointModeToMakeUpMode(JointMode jointMode)
         {
             switch(jointMode)
@@ -55,5 +54,13 @@ namespace PNTZ.Mufta.App.Global
 
             return 0;
         }
+
+        static public void UpdateLoadedRecipe(JointRecipe jointRecipe)
+        {
+            LoadedRecipe = jointRecipe;
+            LoadedRecipeUpdated(null, jointRecipe);
+        }
+
+        static public event EventHandler<JointRecipe> LoadedRecipeUpdated;
     }
 }

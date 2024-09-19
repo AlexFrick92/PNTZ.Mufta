@@ -17,9 +17,11 @@ namespace PNTZ.Mufta.App.Global
         static public string RecipeFolder { get; set; }
 
         static public RecipeLoader CamRecipeLoader { get; set; }
-
+        
         static public Cli AppCli { get; set; }
 
         static public ILogger AppLogger {  get; set; }
+
+        static public JointRecipe LoadedRecipe { get; set; }
     }
 }

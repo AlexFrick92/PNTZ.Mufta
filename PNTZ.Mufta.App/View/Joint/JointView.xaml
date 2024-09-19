@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.App.View.Joint"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="750" d:DesignWidth="800"
              d:Background="White">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -137,7 +137,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Grid.Column="1">
-                            <Label Content="16"/>
+                            <Label Content="{Binding JointRecipe.MU_Tq_Max}"/>
                             <Label Content="12"/>
                             <Label Content="14"/>
                             <Label Content="13.7"/>

@@ -21,6 +21,10 @@ namespace PNTZ.Mufta.App.ViewModel
 
             LoadRecipeCommand = new RelayCommand(async (arg) =>
             {
+
+                UpdateLoadedRecipe(JointRecipe);            
+                return;
+
                 Task task = CamRecipeLoader.LoadRecipeAsync(JointRecipe);
 
                 try

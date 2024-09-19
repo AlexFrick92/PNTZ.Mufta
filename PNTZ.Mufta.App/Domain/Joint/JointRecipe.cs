@@ -25,7 +25,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
         public float MU_TqSpeedRed_1 { get; set; }
         public float MU_TqSpeedRed_2 { get; set; }
         public float MU_Tq_Dump { get; set; }
-        public float MU_Tq_Max { get; set; }
+        public float MU_Tq_Max { get; set; } 
         public float MU_Tq_Min { get; set; }
         public float MU_Len_Speed_1 { get; set; }
         public float MU_Len_Speed_2 { get; set; }

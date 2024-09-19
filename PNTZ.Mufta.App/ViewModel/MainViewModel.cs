@@ -25,7 +25,7 @@ namespace PNTZ.Mufta.App.ViewModel
             this.cli = cli;
 
             CreateRecipeView = new CreateRecipeView(new CreateRecipeViewModel());
-            JointView = new JointView();
+            JointView = new JointView(new JointViewModel());
 
 
             NaviToRecipeViewCommand = new RelayCommand((p) => MainContent = CreateRecipeView);
