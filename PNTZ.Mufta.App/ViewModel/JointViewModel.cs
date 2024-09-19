@@ -3,7 +3,7 @@ using Desktop.MVVM;
 
 using PNTZ.Mufta.App.Domain.Joint;
 
-using PNTZ.Mufta.App;
+using static PNTZ.Mufta.App.App;
 
 namespace PNTZ.Mufta.App.ViewModel
 {
@@ -11,16 +11,16 @@ namespace PNTZ.Mufta.App.ViewModel
     {
         public JointViewModel() 
         {
-            if(App.LoadedRecipe != null)
-                JointRecipe = App.LoadedRecipe;
+            if(AppInstance.LoadedRecipe != null)
+                JointRecipe = AppInstance.LoadedRecipe;
             else
                 JointRecipe = new JointRecipe();    
 
-            App.PropertyChanged += (s, rec) =>
+            AppInstance.PropertyChanged += (s, rec) =>
             {
                 if(rec.PropertyName == nameof(App.LoadedRecipe))
                 {
-                    JointRecipe = App.LoadedRecipe;
+                    JointRecipe = AppInstance.LoadedRecipe;
                     OnPropertyChanged(nameof(JointRecipe));
                 }
             };

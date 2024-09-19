@@ -32,6 +32,8 @@ namespace PNTZ.Mufta.App
 
         protected override async void BeforeInit()
         {
+            AppInstance = this;
+
             CurrentDirectory = currentDirectory;
 
             RecipeFolder = "Рецепты";
@@ -87,18 +89,20 @@ namespace PNTZ.Mufta.App
 
         #region static stuff
 
-        static public string CurrentDirectory { get; set; }
-        static public string RecipeFolder { get; set; }
+        static public App AppInstance;
 
-        static public RecipeLoader CamRecipeLoader { get; set; }
+        public string CurrentDirectory { get; set; }
+        public string RecipeFolder { get; set; }
 
-        static public Cli AppCli { get; set; }
+        public RecipeLoader CamRecipeLoader { get; set; }
 
-        static public ILogger AppLogger { get; set; }
+        public Cli AppCli { get; set; }
+
+        public ILogger AppLogger { get; set; }
         
-        static public JointRecipe LoadedRecipe { get; private set ; }
+        public JointRecipe LoadedRecipe { get; private set ; }
 
-        static public void SaveJointRecipe(JointRecipe joint)
+        public void SaveJointRecipe(JointRecipe joint)
         {
             if (joint == null)
                 throw new ArgumentNullException();
@@ -107,7 +111,7 @@ namespace PNTZ.Mufta.App
                 throw new ArgumentException("Не задано имя рецепта");
 
 
-            string recipeDirectory = $"{App.CurrentDirectory}/{App.RecipeFolder}";
+            string recipeDirectory = $"{AppInstance.CurrentDirectory}/{AppInstance.RecipeFolder}";
 
             if (!Directory.Exists(recipeDirectory))
             {
@@ -122,7 +126,7 @@ namespace PNTZ.Mufta.App
                 Console.WriteLine($"Рецепт: {joint.Name} сохранен в {path}");
             }
         }
-        static public ushort JointModeToMakeUpMode(JointMode jointMode)
+        public ushort JointModeToMakeUpMode(JointMode jointMode)
         {
             switch (jointMode)
             {
@@ -142,13 +146,13 @@ namespace PNTZ.Mufta.App
             return 0;
         }
 
-        static public void UpdateLoadedRecipe(JointRecipe jointRecipe)
+        public void UpdateLoadedRecipe(JointRecipe jointRecipe)
         {
-            App.LoadedRecipe = jointRecipe;
+            AppInstance.LoadedRecipe = jointRecipe;
             PropertyChanged(null, new PropertyChangedEventArgs(nameof(LoadedRecipe)));
         }        
 
-        public static event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
     }
