@@ -5,11 +5,11 @@ using System.Text.Json;
 
 using PNTZ.Mufta.App.Domain.Joint;
 
-using static PNTZ.Mufta.App.Global.Vars;
+using static PNTZ.Mufta.App.Global.AppVars;
 
 namespace PNTZ.Mufta.App.Global
 {
-    static public class Methods
+    static public class AppMethods
     {
         static public void SaveJointRecipe(JointRecipe joint)
         {

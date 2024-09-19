@@ -11,7 +11,7 @@ using Toolkit.IO;
 
 namespace PNTZ.Mufta.App.Global
 {
-    static public class Vars
+    static public class AppVars
     {
         static public string CurrentDirectory {  get; set; }
         static public string RecipeFolder { get; set; }

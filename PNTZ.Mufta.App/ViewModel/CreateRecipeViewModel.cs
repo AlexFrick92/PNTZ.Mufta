@@ -6,8 +6,8 @@ using Desktop.MVVM;
 
 using PNTZ.Mufta.App.Domain.Joint;
 
-using static PNTZ.Mufta.App.Global.Methods;
-using static PNTZ.Mufta.App.Global.Vars;    
+using static PNTZ.Mufta.App.Global.AppMethods;
+using static PNTZ.Mufta.App.Global.AppVars;    
 
 namespace PNTZ.Mufta.App.ViewModel
 {

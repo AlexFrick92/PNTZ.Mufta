@@ -16,7 +16,7 @@ using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.ViewModel;
 using PNTZ.Mufta.App.View;
 
-using static PNTZ.Mufta.App.Global.Vars;
+using static PNTZ.Mufta.App.Global.AppVars;
 
 
 namespace PNTZ.Mufta.App
