@@ -16,13 +16,13 @@
 	<DataPointDefinition>	
 		<!-- Operational parameters -->
 		<DpValue Name ="TqTnValues">
-			<DpProperty Name="Tq">
+			<DpProperty Name="Torque">
 				<Provider Name ="Stend AKF">
 					<NodeId>ns=3;s="OperationalParams"."Tq"</NodeId>
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name="Tn">
+			<DpProperty Name="Turns">
 				<Provider Name ="Stend AKF">
 					<NodeId>ns=3;s="OperationalParams"."Tn"</NodeId>
 				</Provider>
