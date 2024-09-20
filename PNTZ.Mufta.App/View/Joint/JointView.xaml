@@ -55,6 +55,9 @@
 
                     <!--Результат-->
                     <Grid>
+                        <Grid.Resources>
+                            <local:ResultToStringConverter x:Key="ResultToStringConverter"/>
+                        </Grid.Resources>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
@@ -77,10 +80,10 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Grid.Column="1">
-                            <Label Content="14"/>
-                            <Label Content="108"/>
-                            <Label Content="3.2"/>
-                            <Label Content="годное" HorizontalContentAlignment="Center" Background="LightGreen"/>
+                            <Label Content="{Binding JointResult.FinalTorque}"/>
+                            <Label Content="{Binding JointResult.FinalLen}"/>
+                            <Label Content="{Binding JointResult.FinalTurns}"/>
+                            <Label Content="{Binding JointResult.ResultTotal, Converter={StaticResource ResultToStringConverter}}" HorizontalContentAlignment="Center"/>
                         </StackPanel>
                     </Grid>
 
