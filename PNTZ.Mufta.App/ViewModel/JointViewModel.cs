@@ -28,7 +28,7 @@ namespace PNTZ.Mufta.App.ViewModel
                     JointRecipe = AppInstance.LoadedRecipe;
                     OnPropertyChanged(nameof(JointRecipe));
                 }
-                if(rec.PropertyName == nameof(JointResult))
+                if(rec.PropertyName == nameof(App.LastJointResult))
                 {
                     JointResult = AppInstance.LastJointResult;
                     OnPropertyChanged(nameof(JointResult));

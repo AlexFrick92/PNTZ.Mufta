@@ -10,10 +10,83 @@
 		<RecipeLoader Name ="Cam1RecipeLoader"/>
 	</ProcessorDefinition>	
 	
-    
 	
 	
-	<DataPointDefinition>	
+	
+	<DataPointDefinition>
+		<!-- Joint Result -->
+		<DpValue Name ="JointResult">
+			<DpProperty Name ="FinalTorque">
+				<Provider Name = "Stend AKF">
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_MAKEUP_FIN_TQ"</NodeId>
+				</Provider>						  
+			</DpProperty>
+
+			<DpProperty Name ="FinalLen">
+				<Provider Name = "Stend AKF">
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_MAKEUP_LEN"</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="FinalJVal">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_MAKEUP_VAL"</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="FinalTurns">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_MAKEUP_FIN_TN"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="ResultPLC">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_MAKEUP_RESULT"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="ResultTotal">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_RESULT"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="ActualTorque">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Torque"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="ActualLen">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Length"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="ActualTurns">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Turns"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<Processor Name ="JointResultObserver" TargetProperty="ObservingJointResult"/>
+			
+		</DpValue>
+						
 		<!-- Operational parameters -->
 		<DpValue Name ="TqTnValues">
 			<DpProperty Name="Torque">
