@@ -110,9 +110,9 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Grid.Column="1">
-                            <Label Content="14"/>
-                            <Label Content="108"/>
-                            <Label Content="3.2"/>
+                            <Label Content="{Binding JointResult.ActualTorque}"/>
+                            <Label Content="{Binding JointResult.ActualLen}"/>
+                            <Label Content="{Binding JointResult.ActualTurns}"/>
                         </StackPanel>
                     </Grid>
 
