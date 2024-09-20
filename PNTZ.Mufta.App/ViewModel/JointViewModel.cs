@@ -19,7 +19,7 @@ namespace PNTZ.Mufta.App.ViewModel
             if(AppInstance.LastJointResult != null)
                 JointResult = AppInstance.LastJointResult;
             else
-                JointResult = new JointResult() { FinalTorque = 152, ActualJVal = 0.1f, ActualLen = 1, ActualTorque = 2, ActualTurns = 3 };
+                JointResult = new JointResult();
 
             AppInstance.PropertyChanged += (s, rec) =>
             {
