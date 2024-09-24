@@ -81,44 +81,44 @@ Rez_ALLG_RES	    WORD        Резерв
 
 **"REZ_Muffe" – Данные для муфты**
 ```
-Box_Moni_Time       DINT	    Время наблюдения (10 с)
-Box_Len_Min	        REAL	    Минимальная длина муфты
-Box_Len_Max	        REAL	    Максимальная длина муфты
-RET_MUFFE_RES_00    REAL		Вероятно резерв
-RET_MUFFE_RES_01    REAL		Вероятно резерв
+Box_Moni_Time       DINT        Время наблюдения (10 с)
+Box_Len_Min	        REAL        Минимальная длина муфты
+Box_Len_Max	        REAL        Максимальная длина муфты
+RET_MUFFE_RES_00    REAL        Вероятно резерв
+RET_MUFFE_RES_01    REAL        Вероятно резерв
 ```
 **"REZ_MVS" – Данные для преднавёртки**
 ```
-Pre_Moni_Time       DINT	    Время наблюдения?
+Pre_Moni_Time       DINT        Время наблюдения?
 Pre_Len_Min         REAL        Минимальная длина
-Pre_Len_Max         REAL    	Максимальная длина
+Pre_Len_Max         REAL        Максимальная длина
 Pre_VS_RES_00       REAL        Вероятно резерв
 Pre_VS_RES_01       REAL        Вероятно резерв
 ```
 **"REZ_CAM" – Данные для силовой навертки**
 ```
-MU_Moni_Time        DINT	    Время наблюдения
-MU_Tq_Ref           REAL	    Базовый крутящий момент
-MU_Makeup_Mode      WORD	    Makeup Mode: 0=By Torque, 1=By Length, 2=ByJValue	
+MU_Moni_Time        DINT        Время наблюдения
+MU_Tq_Ref           REAL        Базовый крутящий момент
+MU_Makeup_Mode      WORD        Makeup Mode: 0=By Torque, 1=By Length, 2=ByJValue	
                                 Режим свинчивания (программа)
-MU_TqSpeed_Red_1    REAL	    Снижение скорости при достижении крутящего момента 1
-MU_TqSpeed_Red_2    REAL	    Снижение скорости при достижении крутящего момента 2
+MU_TqSpeed_Red_1    REAL        Снижение скорости при достижении крутящего момента 1
+MU_TqSpeed_Red_2    REAL        Снижение скорости при достижении крутящего момента 2
 MU_Tq_Dump          REAL        Значение крутящего момента при котором производится останов свинчивания
-MU_Tq_Max           REAL    	Максимальный крутящий момент
-MU_Tq_Min           REAL    	Минимальный крутящий момент
-MU_Len_Speed_1      REAL    	Снижение скорости при достижении длины 1
-MU_Len_Speed_2	    REAL    	Снижение скорости при достижении длины 2
-MU_Len_Dump	        REAL    	Значение длины свинчивания при котором производится сброс(остановка)
-Mu_Len_Min	        REAL    	Минимальная длина свинчивания
-Mu_Len_Max	        REAL    	Максимальная длина свинчивания
-MU_JVal_Speed_1	    REAL    	Уменьшение скорости при достижениии значения J 1
-MU_JVAL_Speed_2	    REAL    	Снижение скорости при достижении значения J2
-MU_JVAL_Dump    	REAL    	Значение J при котором выполняется останов свинчивания
-MU_JVal_Min	        REAL    	Минимальное значение J
-MU_JVal_Max	        REAL    	Максимальное значение J
-MU_Tq_Save	        REAL    	Крутящий момент автосохранения
-MU_RES_01       	REAL    	Вероятно резерв
-MU_RES_02           INT 		Вероятно резерв
+MU_Tq_Max           REAL        Максимальный крутящий момент
+MU_Tq_Min           REAL        Минимальный крутящий момент
+MU_Len_Speed_1      REAL        Снижение скорости при достижении длины 1
+MU_Len_Speed_2      REAL        Снижение скорости при достижении длины 2
+MU_Len_Dump         REAL        Значение длины свинчивания при котором производится сброс(остановка)
+Mu_Len_Min          REAL        Минимальная длина свинчивания
+Mu_Len_Max          REAL        Максимальная длина свинчивания
+MU_JVal_Speed_1     REAL        Уменьшение скорости при достижениии значения J 1
+MU_JVAL_Speed_2     REAL        Снижение скорости при достижении значения J2
+MU_JVAL_Dump        REAL        Значение J при котором выполняется останов свинчивания
+MU_JVal_Min         REAL        Минимальное значение J
+MU_JVal_Max         REAL        Максимальное значение J
+MU_Tq_Save          REAL        Крутящий момент автосохранения
+MU_RES_01           REAL        Вероятно резерв
+MU_RES_02           INT         Вероятно резерв
 ```
 
 В ПЛК1517 создаём блоки данных с такими же символьными именами. По этим символьным именам программа будет обращаться через протокол OPC UA.
