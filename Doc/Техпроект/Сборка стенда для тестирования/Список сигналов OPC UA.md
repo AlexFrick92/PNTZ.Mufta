@@ -8,21 +8,21 @@
 ## Параметры машин
 
 ```
-MP_OP_SPS.MP_Load_Cell_Span	                Real            Диапазон значений / Einheitenbereich Messzelle / Range Load Cell Span /
-MP_OP_SPS.MP_Load_Span_Digits	            Real            Разрешение измерительной ячейк / Auflцsung Messzelle / Range Load Cell Digit /
-MP_OP_SPS.MP_Handle_Length	                Real            Диапазон Длина ручки / Hebelarmlдnge Messzelle / Range Handle Length
-MP_OP_SPS.MP_Handle_Length_Digits	        Real            Диапазон длины ручки / Auflцsung Hebelarm Messzelle / Range Handle Length Digit
-MP_OP_SPS.MP_TC_PPR	                        Real
-MP_OP_SPS.MP_Box_Length	                    Real            Messbereich Muffenlдnge / Range Box Length Measure System
-MP_OP_SPS.MP_Box_Length_Digit	            Real    
-MP_OP_SPS.MP_Makeup_Length	                Real            Messbereich Verschraublдnge / Range Makeup Length Measure System
-MP_OP_SPS.MP_Makeup_Length_Digits	        Real
-MP_OP_SPS.MP_Tq_Max	                        Real            Maximales Drehmoment Maschine / Max Torque Value Machine
-MP_OP_SPS.MP_Machine_No	                    String[20]      Maschinen Nummer / Machine No.
-MP_OP_SPS.MP_Cal_Factor	                    Real            Калибровочный коэффициент
-MP_OP_SPS.MP_Cal_User	                    String[20]      Bearbeiter Kalibrierung / User, who did calibration
-MP_OP_SPS.MP_Cal_Timestamp	                DTL             Zeitstempel Kalibrierung / Calibration Timestamp
-MP_OP_SPS.MP_Makeup_Length_Offset	        Real            Referenzwert Lдngenmassstab Verschraublдnge
+MP_OP_SPS.MP_Load_Cell_Span                 Real            Диапазон значений / Einheitenbereich Messzelle / Range Load Cell Span /
+MP_OP_SPS.MP_Load_Span_Digits               Real            Разрешение измерительной ячейк / Auflцsung Messzelle / Range Load Cell Digit /
+MP_OP_SPS.MP_Handle_Length                  Real            Диапазон Длина ручки / Hebelarmlдnge Messzelle / Range Handle Length
+MP_OP_SPS.MP_Handle_Length_Digits           Real            Диапазон длины ручки / Auflцsung Hebelarm Messzelle / Range Handle Length Digit
+MP_OP_SPS.MP_TC_PPR                         Real
+MP_OP_SPS.MP_Box_Length                     Real            Messbereich Muffenlдnge / Range Box Length Measure System
+MP_OP_SPS.MP_Box_Length_Digit               Real    
+MP_OP_SPS.MP_Makeup_Length                  Real            Messbereich Verschraublдnge / Range Makeup Length Measure System
+MP_OP_SPS.MP_Makeup_Length_Digits           Real
+MP_OP_SPS.MP_Tq_Max                         Real            Maximales Drehmoment Maschine / Max Torque Value Machine
+MP_OP_SPS.MP_Machine_No                     String[20]      Maschinen Nummer / Machine No.
+MP_OP_SPS.MP_Cal_Factor                     Real            Калибровочный коэффициент
+MP_OP_SPS.MP_Cal_User                       String[20]      Bearbeiter Kalibrierung / User, who did calibration
+MP_OP_SPS.MP_Cal_Timestamp                  DTL             Zeitstempel Kalibrierung / Calibration Timestamp
+MP_OP_SPS.MP_Makeup_Length_Offset           Real            Referenzwert Lдngenmassstab Verschraublдnge
 ```
 ```
 KOM_REG.SPS_TPC_MDAT.CMD_TPC                 UINT        команда от АРМ в ПЛК
@@ -105,7 +105,7 @@ REZ_TPC_UP.ERG_MVS.PMR_PRE_MAKEUP_RES_00	REAL		    Вероятно резерв
 REZ_TPC_UP.ERG_MVS.PMR_PRE_MAKEUP_RES_01	DINT		    Вероятно резерв?
 ```
 ```
-REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_RESULT	DWORD	        (2=NIO, 1=IO)	Результат силового свинчивания в системе ПЛК. 
+REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_RESULT	    DWORD	        (2=NIO, 1=IO)	Результат силового свинчивания в системе ПЛК. 
                                         Видимо если свинчивания не произведено (недудачное измерение муфты или преднавёртки), то ПЛК присваивает свой результат
 REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_BEGIN	    DTL	            Время начала силового свинчивания?
 REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_END	    DTL             Время окончания силового свинчивания?
