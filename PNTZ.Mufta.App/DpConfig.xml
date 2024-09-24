@@ -10,10 +10,26 @@
 		<RecipeLoader Name ="Cam1RecipeLoader"/>
 	</ProcessorDefinition>	
 	
-	
-	
-	
+
 	<DataPointDefinition>
+		
+		<!--New joint commands-->
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_CAM_TPC_SP"</NodeId>
+			</Provider>
+
+			<Processor Name ="JointResultObserver" TargetProperty="SetJointCommand"/>
+		</DpValue>
+
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_CAM_PLC_SP"</NodeId>
+			</Provider>
+
+			<Processor Name ="JointResultObserver" TargetProperty="CommandFeedback"/>
+		</DpValue>
+		
 		<!-- Joint Result -->
 		<DpValue Name ="JointResult">
 			<DpProperty Name ="FinalTorque">
@@ -123,6 +139,7 @@
 			<Processor Name ="HeartbeatCheck1" TargetProperty="PlcHeartbeat"/>
 		</DpValue>
 
+		<!--Load recipe commands-->		
 		<DpValue>
 			<Provider Name ="Stend AKF">
 				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_REZ_TPC_SP"</NodeId>
