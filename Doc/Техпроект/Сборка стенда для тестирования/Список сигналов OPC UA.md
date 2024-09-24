@@ -130,8 +130,24 @@ REZ_TPC_UP.REZ_ZST.PREMAKEUP_TS	            DTL	            Преднавёрт
 REZ_TPC_UP.REZ_ZST.MAKEUP_TS	            DTL	            Силовая навёртка
 REZ_TPC_UP.REZ_ZST.DATE_14	                DTL		
 ```
-
 ```
 KOM_REG.CAM_CMD_PLC                         USINT           команда от ПЛК в АРМ
 KOM_REG.CAM_CMD_TPC                         USINT           команда от АРМ в ПЛК
+```
+```
+JointOperationalParams.Torque               REAL[0..4]      Очередь значений момента
+JointOperationalParams.Length               REAL[0..4]      Очередь значений длины свинчивания
+JointOperationalParams.Turns                REAL[0..4]      Очередь значений оборотов
+```
+
+
+## Системные параметры
+
+```
+KOM_REG.CAM_LOG_NO                          UINT            номер. Инкрементируется ПЛК
+KOM_REG.CAM_CON_NO                          UINT            номер соединения. Инкрементируется ПЛК
+KOM_REG.CAM_OPERATE_MODE                    UINT            Режим. 1 - ручной, 2 - авто
+KOM_REG.CAM_TPC_READY                       UINT            Готовность АРМа к работе
+KOM_REG.TPC_Heartbeat                       Boolean         Прямоугольный сигнал. Период 2 с. АРМ
+KOM_REG.PLC_Heartbeat                       Boolean         Прямоугольный сигнал. Период 2 с. ПЛК
 ```
