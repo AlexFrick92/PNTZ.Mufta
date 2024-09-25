@@ -154,10 +154,9 @@ namespace PNTZ.Mufta.App
             set
             {
                 _loadedRecipe = value;
-                PropertyChanged(null, new PropertyChangedEventArgs(nameof(LoadedRecipe)));
+                PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(LoadedRecipe)));
             }
         }
-
 
         JointResult _lastJointResult;
         public JointResult LastJointResult
@@ -166,11 +165,11 @@ namespace PNTZ.Mufta.App
             set
             {
                 _lastJointResult = value;
-                PropertyChanged(null, new PropertyChangedEventArgs(nameof(LastJointResult)));
+                PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(LastJointResult)));
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;        
 
         #endregion
     }

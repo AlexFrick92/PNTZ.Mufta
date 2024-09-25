@@ -13,6 +13,13 @@ namespace PNTZ.Mufta.App.Domain.Joint
             DpInitialized += (s, e) =>
             {
                 CommandFeedback.ValueUpdated += BeginJointRecording;
+                AppInstance.LastJointResult = ObservingJointResult.Value;
+
+                ObservingJointResult.ValueUpdated += (se, v) =>
+                {
+                    AppInstance.LastJointResult = v;
+                    Console.WriteLine("Обновился момент!");
+                };
             };
         }
 
@@ -102,13 +109,11 @@ namespace PNTZ.Mufta.App.Domain.Joint
             else
             {
                 AppInstance.AppLogger.Info("Текущий момент:" + e.ActualTorque);
+                
             }
         }
 
         private event EventHandler RecordingOperationParamFinished;           
-
-
-
 
 
         public IDpValue<JointResult> ObservingJointResult {  get; set; }
