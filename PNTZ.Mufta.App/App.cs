@@ -63,14 +63,14 @@ namespace PNTZ.Mufta.App
             OpRecorder opRecorder = new OpRecorder("OpRecorder", cli);
             ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
 
-            JointResultObserver resultObserver = new JointResultObserver() { Name = "JointResultObserver"};
+            ResultObserver = new JointResultObserver() { Name = "JointResultObserver"};
 
 
             dataPointConfigurator = new DpFluentBuilder()
                 .SetLogger(logger)
                 .AddConfiguration($"{currentDirectory}/DpConfig.xml")
                 .SetProviders(new Type[] { typeof(OpcUaProvider) })
-                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, resultObserver })
+                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver })
                 .Build();             
 
 
@@ -172,6 +172,8 @@ namespace PNTZ.Mufta.App
         public event PropertyChangedEventHandler PropertyChanged;   
         
         public TqTnLen ActualTqTnLen { get; set; } = new TqTnLen();
+
+        public JointResultObserver ResultObserver { get; set; }
 
         #endregion
     }

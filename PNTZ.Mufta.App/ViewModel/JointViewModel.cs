@@ -35,10 +35,45 @@ namespace PNTZ.Mufta.App.ViewModel
                     JointResult = AppInstance.LastJointResult;
                     OnPropertyChanged(nameof(JointResult));
                 }
-            };                         
+            };
+
+            AppInstance.ResultObserver.RecordingOperationParamBegun += async (s, v) =>
+            {
+                CancellationTokenSource ctc = new CancellationTokenSource();
+
+                Console.WriteLine("Записываем график");
+
+                AppInstance.ResultObserver.RecordingOperationParamFinished += (s1, v1) => ctc.Cancel();
+
+                await RecordingParams(ctc.Token);
+            };
+
+
 
             Task refreshOperationValues = RefreshOperationValues();
-        }        
+        }
+
+
+        async Task RecordingParams(CancellationToken token)
+        {
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        Console.WriteLine("Запись графика завершена");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("В график записано:" + AppInstance.ActualTqTnLen.Torque);
+                    }
+
+                    Task.Delay(TimeSpan.FromMilliseconds(1000)).Wait();
+                }
+            });
+        }
 
         async Task RefreshOperationValues()
         {

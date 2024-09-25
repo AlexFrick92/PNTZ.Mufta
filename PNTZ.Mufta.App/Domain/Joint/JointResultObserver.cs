@@ -26,6 +26,11 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     AppInstance.ActualTqTnLen = v;
                 };
             };
+
+            AppInstance.AppCli.RegisterCommand("startreg", async (arg) =>
+            {
+                await RecordOperationParams();
+            });
         }
 
         async void BeginJointRecording(object sender, uint command)
@@ -67,10 +72,9 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 throw new Exception();
             }
 
-            AppInstance.AppLogger.Info("Труба в позиции свинчивания. Начинаем запись параметров!");
+            AppInstance.AppLogger.Info("Труба в позиции свинчивания. Готовимся к записи параметров!");
 
             await RecordOperationParams();
-
 
             awaitCommandFeedback = new TaskCompletionSource<uint>();
 
@@ -92,33 +96,41 @@ namespace PNTZ.Mufta.App.Domain.Joint
         
         async Task RecordOperationParams()
         {
-            ObservingJointResult.ValueUpdated += ObservingJointResult_ValueUpdated;
-
-            TaskCompletionSource<uint> awaitRecording = new TaskCompletionSource<uint>();
-
-            RecordingOperationParamFinished += (s, v) => awaitRecording.TrySetResult(1);
-
-            await awaitRecording.Task;
-
-            ObservingJointResult.ValueUpdated -= ObservingJointResult_ValueUpdated;
-
+            await Task.Run(() =>
+            {
+                bool started = false;
+                while (true)
+                {
+                    if(!started)
+                    {
+                        if(ActualTqTnLen.Value.Torque > 1)
+                        {
+                            started = true;
+                            AppInstance.AppLogger.Info("Регистрация параметров начата!");
+                            RecordingOperationParamBegun?.Invoke(null, EventArgs.Empty);
+                        }
+                    }
+                    else
+                    {
+                        if(ActualTqTnLen.Value.Torque < 1)
+                        {
+                            AppInstance.AppLogger.Info("Регистрация параметров закончена. Готовим результаты");
+                            RecordingOperationParamFinished?.Invoke(null, EventArgs.Empty);
+                            break;
+                        }
+                        else
+                        {
+                            //регистрируем параметры!
+                        }
+                    }
+                    Task.Delay(10).Wait();
+                }
+            });
         }
 
-        private void ObservingJointResult_ValueUpdated(object sender, JointResult e)
-        {
-            if(e.ActualTorque < 0)
-            {
-                AppInstance.AppLogger.Info("Свинчивание завершено. Готовим результаты");
-                RecordingOperationParamFinished(null, EventArgs.Empty);
-            }
-            else
-            {
-                AppInstance.AppLogger.Info("Текущий момент:" + e.ActualTorque);
-                
-            }
-        }
+        public event EventHandler RecordingOperationParamBegun;
 
-        private event EventHandler RecordingOperationParamFinished;           
+        public event EventHandler RecordingOperationParamFinished;           
 
 
         public IDpValue<JointResult> ObservingJointResult {  get; set; }
