@@ -38,7 +38,7 @@
                                     DataSource="{Binding Data}" 
                                     ArgumentScaleType="Auto"                                         
                                     ArgumentDataMember="TimeStamp"
-                                    ValueDataMember="Tq"  
+                                    ValueDataMember="Torque"  
                                     ValueScaleType="Numerical"
                                 >
                     </dxc:LineSeries2D>

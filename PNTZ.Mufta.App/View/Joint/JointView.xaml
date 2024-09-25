@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.App.View.Joint"
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
              mc:Ignorable="d" 
              d:DesignHeight="750" d:DesignWidth="800"
              d:Background="White">
@@ -184,10 +185,52 @@
         <ContentControl Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                <ContentControl Grid.Row="0">
+                    <dxc:ChartControl Name="chartControl1" BorderThickness="0">
+                        <dxc:ChartControl.Diagram>
+                            <dxc:XYDiagram2D>
+
+                                <dxc:XYDiagram2D.NavigationOptions>
+                                    <dxc:NavigationOptions/>
+                                </dxc:XYDiagram2D.NavigationOptions>
+
+                                <dxc:XYDiagram2D.AxisX>
+                                    <dxc:AxisX2D x:Name="axisX">
+                                        <dxc:AxisX2D.WholeRange>
+                                            <dxc:Range MinValue="0" 
+                                    MaxValue="90000"/>
+                                        </dxc:AxisX2D.WholeRange>
+                                    </dxc:AxisX2D>
+                                </dxc:XYDiagram2D.AxisX>
+
+                                <dxc:XYDiagram2D.AxisY>
+                                    <dxc:AxisY2D x:Name="axisY">
+                                        <dxc:AxisY2D.WholeRange>
+                                            <dxc:Range MinValue="0" 
+                                    MaxValue="1000"/>
+                                        </dxc:AxisY2D.WholeRange>
+                                    </dxc:AxisY2D>
+                                </dxc:XYDiagram2D.AxisY>
+
+                                <dxc:LineSeries2D DisplayName="Day Temperature" 
+                                     DataSource="{Binding TqTnSeries}" 
+                                     ArgumentScaleType="Auto"                                         
+                                     ArgumentDataMember="TimeStamp"
+                                     ValueDataMember="Torque"  
+                                     ValueScaleType="Numerical"
+                                 >
+                                </dxc:LineSeries2D>
+
+                            </dxc:XYDiagram2D>
+                        </dxc:ChartControl.Diagram>
+                    </dxc:ChartControl>
+                </ContentControl>
+
+
             </Grid>
         </ContentControl>
     </Grid>

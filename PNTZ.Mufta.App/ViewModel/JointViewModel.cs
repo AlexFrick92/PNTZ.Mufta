@@ -1,8 +1,10 @@
 ﻿
 using Desktop.MVVM;
-
+using DevExpress.Charts.Designer.Native;
 using PNTZ.Mufta.App.Domain.Joint;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using static PNTZ.Mufta.App.App;
@@ -43,6 +45,9 @@ namespace PNTZ.Mufta.App.ViewModel
 
                 Console.WriteLine("Записываем график");
 
+                TqTnSeries = new ObservableCollection<TqTnPoint>();
+                OnPropertyChanged(nameof(TqTnSeries));
+
                 AppInstance.ResultObserver.RecordingOperationParamFinished += (s1, v1) => ctc.Cancel();
 
                 await RecordingParams(ctc.Token);
@@ -56,8 +61,10 @@ namespace PNTZ.Mufta.App.ViewModel
 
         async Task RecordingParams(CancellationToken token)
         {
+            const int RECORDING_INTERVAL = 50;
             await Task.Run(() =>
             {
+                int stamp = 0;
                 while (true)
                 {
                     if (token.IsCancellationRequested)
@@ -68,9 +75,14 @@ namespace PNTZ.Mufta.App.ViewModel
                     else
                     {
                         Console.WriteLine("В график записано:" + AppInstance.ActualTqTnLen.Torque);
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            TqTnSeries.Add(new TqTnPoint() { Torque = AppInstance.ActualTqTnLen.Torque, TimeStamp = stamp });
+                        });
                     }
 
-                    Task.Delay(TimeSpan.FromMilliseconds(1000)).Wait();
+                    Task.Delay(TimeSpan.FromMilliseconds(RECORDING_INTERVAL)).Wait();
+                    stamp += RECORDING_INTERVAL;
                 }
             });
         }
@@ -93,5 +105,7 @@ namespace PNTZ.Mufta.App.ViewModel
         public JointResult JointResult { get; set; }
 
         public TqTnLen ActualTqTnLen { get; set; }
+
+        public ObservableCollection<TqTnPoint> TqTnSeries { get; set; }
     }
 }

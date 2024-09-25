@@ -29,6 +29,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
             AppInstance.AppCli.RegisterCommand("startreg", async (arg) =>
             {
+                AppInstance.AppCli.WriteLine("Активирована запись графика. Ожидаем рост момента!");
                 await RecordOperationParams();
             });
         }
@@ -99,6 +100,9 @@ namespace PNTZ.Mufta.App.Domain.Joint
             await Task.Run(() =>
             {
                 bool started = false;
+
+                int ensureEnd = 0;
+
                 while (true)
                 {
                     if(!started)
@@ -114,12 +118,18 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     {
                         if(ActualTqTnLen.Value.Torque < 1)
                         {
-                            AppInstance.AppLogger.Info("Регистрация параметров закончена. Готовим результаты");
-                            RecordingOperationParamFinished?.Invoke(null, EventArgs.Empty);
-                            break;
+                            if(ensureEnd > 5)
+                            {
+                                AppInstance.AppLogger.Info("Регистрация параметров закончена. Готовим результаты");
+                                RecordingOperationParamFinished?.Invoke(null, EventArgs.Empty);
+                                break;
+                            }
+                            else
+                                ensureEnd++;
                         }
                         else
                         {
+                            ensureEnd = 0;
                             //регистрируем параметры!
                         }
                     }
