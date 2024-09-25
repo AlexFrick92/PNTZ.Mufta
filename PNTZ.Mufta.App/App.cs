@@ -169,7 +169,9 @@ namespace PNTZ.Mufta.App
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;        
+        public event PropertyChangedEventHandler PropertyChanged;   
+        
+        public TqTnLen ActualTqTnLen { get; set; } = new TqTnLen();
 
         #endregion
     }

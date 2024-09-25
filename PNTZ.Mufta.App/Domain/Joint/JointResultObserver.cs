@@ -20,6 +20,11 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     AppInstance.LastJointResult = v;
                     Console.WriteLine("Обновился момент!");
                 };
+
+                ActualTqTnLen.ValueUpdated += (se, v) =>
+                {                    
+                    AppInstance.ActualTqTnLen = v;
+                };
             };
         }
 
@@ -117,6 +122,9 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
 
         public IDpValue<JointResult> ObservingJointResult {  get; set; }
+
+
+        public IDpValue<TqTnLen> ActualTqTnLen { get; set; }
 
         public IDpValue<uint> SetJointCommand { get; set; }
 

@@ -30,11 +30,11 @@ namespace PNTZ.Mufta.App.ViewModel
                     JointRecipe = AppInstance.LoadedRecipe;
                     OnPropertyChanged(nameof(JointRecipe));
                 }
-                //if(rec.PropertyName == nameof(App.LastJointResult))
-                //{
-                //    JointResult = AppInstance.LastJointResult;
-                //    OnPropertyChanged(nameof(JointResult));
-                //}
+                if(rec.PropertyName == nameof(App.LastJointResult))
+                {
+                    JointResult = AppInstance.LastJointResult;
+                    OnPropertyChanged(nameof(JointResult));
+                }
             };                         
 
             Task refreshOperationValues = RefreshOperationValues();
@@ -46,9 +46,8 @@ namespace PNTZ.Mufta.App.ViewModel
             {
                 while (true)
                 {
-                    JointResult = AppInstance.LastJointResult;
-                    OnPropertyChanged(nameof(JointResult));
-                    Console.WriteLine("Обновили UI");
+                    ActualTqTnLen = AppInstance.ActualTqTnLen;                    
+                    OnPropertyChanged(nameof(ActualTqTnLen));                    
                     Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 }
             });
@@ -57,5 +56,7 @@ namespace PNTZ.Mufta.App.ViewModel
         public JointRecipe JointRecipe { get; set; }
 
         public JointResult JointResult { get; set; }
+
+        public TqTnLen ActualTqTnLen { get; set; }
     }
 }

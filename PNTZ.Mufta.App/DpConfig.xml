@@ -30,6 +30,37 @@
 			<Processor Name ="JointResultObserver" TargetProperty="CommandFeedback"/>
 		</DpValue>
 		
+		<!--Actual tqtnlen-->
+
+		<DpValue Name ="ActualTqTnLen">
+			<DpProperty Name ="Torque">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Torque"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Length">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Length"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Turns">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Turns"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<Processor Name ="JointResultObserver" TargetProperty="ActualTqTnLen"/>
+			
+		</DpValue>
+		
 		<!-- Joint Result -->
 		<DpValue Name ="JointResult">
 			<DpProperty Name ="FinalTorque">
@@ -71,30 +102,6 @@
 				<Provider Name = "Stend AKF">
 					<NodeId>
 						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_RESULT"
-					</NodeId>
-				</Provider>
-			</DpProperty>
-
-			<DpProperty Name ="ActualTorque">
-				<Provider Name = "Stend AKF">
-					<NodeId>
-						ns=3;s="JointOperationalParams"."Torque"
-					</NodeId>
-				</Provider>
-			</DpProperty>
-
-			<DpProperty Name ="ActualLen">
-				<Provider Name = "Stend AKF">
-					<NodeId>
-						ns=3;s="JointOperationalParams"."Length"
-					</NodeId>
-				</Provider>
-			</DpProperty>
-
-			<DpProperty Name ="ActualTurns">
-				<Provider Name = "Stend AKF">
-					<NodeId>
-						ns=3;s="JointOperationalParams"."Turns"
 					</NodeId>
 				</Provider>
 			</DpProperty>
