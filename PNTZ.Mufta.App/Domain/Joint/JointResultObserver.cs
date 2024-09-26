@@ -1,4 +1,5 @@
-﻿using DpConnect.Interface;
+﻿using DevExpress.Charts.Model;
+using DpConnect.Interface;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -95,47 +96,68 @@ namespace PNTZ.Mufta.App.Domain.Joint
             SetJointCommand.Value = 50;
         }
         
-        async Task RecordOperationParams(CancellationToken token)
+        async Task RecordOperationParams()
         {
-            await Task.Run(() =>
+            try
             {
-                bool started = false;
-
-                int ensureEnd = 0;
-
-                while (true)
+                await Task.Run(() =>
                 {
-                    if(!started)
+                    bool started = false;
+
+                    CancellationTokenSource ctc = new CancellationTokenSource();
+
+                    int ensureEnd = 0;
+
+                    while (true)
                     {
-                        if(ActualTqTnLen.Value.Torque > 1)
+                        if (!started)
                         {
-                            started = true;
-                            AppInstance.AppLogger.Info("Регистрация параметров начата!");
-                            RecordingOperationParamBegun?.Invoke(null, EventArgs.Empty);
-                        }
-                    }
-                    else
-                    {
-                        if(ActualTqTnLen.Value.Torque < 1)
-                        {
-                            if(ensureEnd > 5)
+                            if (ActualTqTnLen.Value.Torque > 1)
                             {
-                                AppInstance.AppLogger.Info("Регистрация параметров закончена. Готовим результаты");
-                                RecordingOperationParamFinished?.Invoke(null, EventArgs.Empty);
-                                break;
+                                started = true;
+                                AppInstance.AppLogger.Info("Регистрация параметров начата!");
+                                RecordingOperationParamBegun?.Invoke(null, EventArgs.Empty);
+
+                                //Отмена по таймауту. Предполагаю что monitoring time.
+                                Task.Run(async () =>
+                                {
+                                    await Task.Delay(TimeSpan.FromSeconds(60));
+                                    ctc.Cancel();
+                                });
                             }
-                            else
-                                ensureEnd++;
                         }
                         else
                         {
-                            ensureEnd = 0;
-                            //регистрируем параметры!
+                            if (ActualTqTnLen.Value.Torque < 1)
+                            {
+                                if (ensureEnd > 5)
+                                {
+                                    break;
+                                }
+                                else
+                                    ensureEnd++;
+                            }
+                            else
+                            {
+                                if (ctc.Token.IsCancellationRequested)
+                                    ctc.Token.ThrowIfCancellationRequested();
+
+                                ensureEnd = 0;
+                                //регистрируем параметры!
+                            }
                         }
+                        Task.Delay(10).Wait();
                     }
-                    Task.Delay(10).Wait();
-                }
-            }, token);
+                });
+            }
+            catch (OperationCanceledException ex)
+            {
+                AppInstance.AppLogger.Info("Запись прервана по таймауту.");
+            }
+            
+
+            AppInstance.AppLogger.Info("Регистрация параметров закончена. Готовим результаты");
+            RecordingOperationParamFinished?.Invoke(null, EventArgs.Empty);
         }
 
         public event EventHandler RecordingOperationParamBegun;
