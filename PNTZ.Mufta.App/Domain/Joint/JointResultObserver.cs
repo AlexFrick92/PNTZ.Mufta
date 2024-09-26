@@ -1,6 +1,7 @@
 ﻿using DpConnect.Interface;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using static PNTZ.Mufta.App.App;
 
@@ -17,8 +18,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
                 ObservingJointResult.ValueUpdated += (se, v) =>
                 {
-                    AppInstance.LastJointResult = v;
-                    Console.WriteLine("Обновился момент!");
+                    AppInstance.LastJointResult = v;                    
                 };
 
                 ActualTqTnLen.ValueUpdated += (se, v) =>
@@ -95,7 +95,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
             SetJointCommand.Value = 50;
         }
         
-        async Task RecordOperationParams()
+        async Task RecordOperationParams(CancellationToken token)
         {
             await Task.Run(() =>
             {
@@ -135,7 +135,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     }
                     Task.Delay(10).Wait();
                 }
-            });
+            }, token);
         }
 
         public event EventHandler RecordingOperationParamBegun;

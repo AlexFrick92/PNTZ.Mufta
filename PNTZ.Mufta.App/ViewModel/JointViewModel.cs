@@ -73,11 +73,16 @@ namespace PNTZ.Mufta.App.ViewModel
                         break;
                     }
                     else
-                    {
-                        Console.WriteLine("В график записано:" + AppInstance.ActualTqTnLen.Torque);
+                    {                        
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
                         {
-                            TqTnSeries.Add(new TqTnPoint() { Torque = AppInstance.ActualTqTnLen.Torque, TimeStamp = stamp });
+                            TqTnSeries.Add(new TqTnPoint() 
+                            { 
+                                Torque = AppInstance.ActualTqTnLen.Torque, 
+                                Turns = AppInstance.ActualTqTnLen.Turns,
+                                Length = AppInstance.ActualTqTnLen.Length,                                
+                                TimeStamp = stamp 
+                            });                            
                         });
                     }
 
