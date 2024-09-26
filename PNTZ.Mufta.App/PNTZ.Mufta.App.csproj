@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Domain\CommonParamObserver.cs" />
     <Compile Include="Domain\Joint\JointMode.cs" />
     <Compile Include="Domain\Joint\JointRecipe.cs" />
     <Compile Include="Domain\Joint\JointResult.cs" />

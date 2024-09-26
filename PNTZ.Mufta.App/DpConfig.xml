@@ -12,7 +12,44 @@
 	
 
 	<DataPointDefinition>
+		<!--Системные параметры -->
 		
+		<DpValue Name ="CAM_LOG_NO">
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG"."CAM_LOG_NO"</NodeId>
+			</Provider>
+
+			<Processor Name ="CommonParamObserver" TargetProperty="CAM_LOG_NO"/>
+		</DpValue>
+		
+		<DpValue Name ="CAM_CON_NO">
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG"."CAM_CON_NO"</NodeId>
+			</Provider>
+
+			<Processor Name ="CommonParamObserver" TargetProperty="CAM_CON_NO"/>
+		</DpValue>
+		
+		<DpValue Name ="CAM_OPERATE_MODE">
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG"."CAM_OPERATE_MODE"</NodeId>
+			</Provider>
+
+			<Processor Name ="CommonParamObserver" TargetProperty="CAM_OPERATE_MODE"/>
+		</DpValue>
+		
+		<DpValue Name ="CAM_TPC_READY">
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG"."CAM_TPC_READY"</NodeId>
+			</Provider>
+
+			<Processor Name ="CommonParamObserver" TargetProperty="CAM_TPC_READY"/>
+		</DpValue>
+
+
+
+
+
 		<!--New joint commands-->
 		<DpValue>
 			<Provider Name ="Stend AKF">

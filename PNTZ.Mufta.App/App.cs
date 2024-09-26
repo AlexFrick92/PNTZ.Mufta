@@ -21,6 +21,7 @@ using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.ViewModel;
 using PNTZ.Mufta.App.View;
 using System.ComponentModel;
+using PNTZ.Mufta.App.Domain;
 
 
 
@@ -64,13 +65,13 @@ namespace PNTZ.Mufta.App
             ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
 
             ResultObserver = new JointResultObserver() { Name = "JointResultObserver"};
-
+            CommonParamObserver commonParam = new CommonParamObserver() { Name = "CommonParamObserver"};
 
             dataPointConfigurator = new DpFluentBuilder()
                 .SetLogger(logger)
                 .AddConfiguration($"{currentDirectory}/DpConfig.xml")
                 .SetProviders(new Type[] { typeof(OpcUaProvider) })
-                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver })
+                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver, commonParam })
                 .Build();             
 
 
