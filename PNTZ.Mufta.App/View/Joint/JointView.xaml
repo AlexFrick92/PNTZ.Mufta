@@ -187,7 +187,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 
                 <!--Момент/время-->
@@ -264,6 +264,48 @@
                                      DataSource="{Binding TqTnSeries}" 
                                      ArgumentScaleType="Auto"                                         
                                      ArgumentDataMember="Turns"
+                                     ValueDataMember="Torque"  
+                                     ValueScaleType="Numerical"
+                                 >
+                                </dxc:LineSeries2D>
+
+                            </dxc:XYDiagram2D>
+                        </dxc:ChartControl.Diagram>
+                    </dxc:ChartControl>
+                </ContentControl>
+
+                <!--Момент/длина-->
+                <ContentControl Grid.Row="2">
+                    <dxc:ChartControl Name="chartControl3" BorderThickness="0">
+                        <dxc:ChartControl.Diagram>
+                            <dxc:XYDiagram2D>
+
+                                <dxc:XYDiagram2D.NavigationOptions>
+                                    <dxc:NavigationOptions/>
+                                </dxc:XYDiagram2D.NavigationOptions>
+
+                                <dxc:XYDiagram2D.AxisX>
+                                    <dxc:AxisX2D x:Name="axisX3">
+                                        <dxc:AxisX2D.WholeRange>
+                                            <dxc:Range MinValue="0" 
+                                            MaxValue="500"/>
+                                        </dxc:AxisX2D.WholeRange>
+                                    </dxc:AxisX2D>
+                                </dxc:XYDiagram2D.AxisX>
+
+                                <dxc:XYDiagram2D.AxisY>
+                                    <dxc:AxisY2D x:Name="axisY3">
+                                        <dxc:AxisY2D.WholeRange>
+                                            <dxc:Range MinValue="0" 
+                                            MaxValue="1000"/>
+                                        </dxc:AxisY2D.WholeRange>
+                                    </dxc:AxisY2D>
+                                </dxc:XYDiagram2D.AxisY>
+
+                                <dxc:LineSeries2D DisplayName="Day Temperature" 
+                                     DataSource="{Binding TqTnSeries}" 
+                                     ArgumentScaleType="Auto"                                         
+                                     ArgumentDataMember="Length"
                                      ValueDataMember="Torque"  
                                      ValueScaleType="Numerical"
                                  >
