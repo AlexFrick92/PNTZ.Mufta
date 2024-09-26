@@ -61,6 +61,8 @@ namespace PNTZ.Mufta.App.ViewModel
 
         async Task RecordingParams(CancellationToken token)
         {
+            DateTime beginTime = DateTime.Now;
+
             const int RECORDING_INTERVAL = 50;
             await Task.Run(() =>
             {
@@ -81,15 +83,14 @@ namespace PNTZ.Mufta.App.ViewModel
                                 Torque = AppInstance.ActualTqTnLen.Torque, 
                                 Turns = AppInstance.ActualTqTnLen.Turns,
                                 Length = AppInstance.ActualTqTnLen.Length,                                
-                                TimeStamp = stamp 
+                                TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds)
                             });                            
                         });
                     }
 
-                    Task.Delay(TimeSpan.FromMilliseconds(RECORDING_INTERVAL)).Wait();
-                    stamp += RECORDING_INTERVAL;
+                    Task.Delay(TimeSpan.FromMilliseconds(RECORDING_INTERVAL)).Wait();                    
                 }
-            });
+            }, token);
         }
 
         async Task RefreshOperationValues()
