@@ -67,11 +67,15 @@ namespace PNTZ.Mufta.App
             ResultObserver = new JointResultObserver() { Name = "JointResultObserver"};
             CommonParamObserver commonParam = new CommonParamObserver() { Name = "CommonParamObserver"};
 
+            MachineParameterObserver machineParameterObserver = new MachineParameterObserver() { Name = "MachineParamObserver" };
+
             dataPointConfigurator = new DpFluentBuilder()
                 .SetLogger(logger)
                 .AddConfiguration($"{currentDirectory}/DpConfig.xml")
+                
                 .SetProviders(new Type[] { typeof(OpcUaProvider) })
-                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver, commonParam })
+                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver, commonParam, machineParameterObserver })
+
                 .Build();             
 
 

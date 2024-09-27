@@ -180,6 +180,8 @@
     <Compile Include="Domain\Joint\RecipeLoader.cs" />
     <Compile Include="Domain\Joint\TqTnLen.cs" />
     <Compile Include="Domain\Joint\TqTnPoint.cs" />
+    <Compile Include="Domain\MachineParameterObserver.cs" />
+    <Compile Include="Domain\MachineParameters.cs" />
     <Compile Include="Domain\Plc\HearbeatMake.cs" />
     <Compile Include="Domain\Plc\HeartbeatCheck.cs" />
     <Compile Include="Domain\Plc\PLCStatus.cs" />
