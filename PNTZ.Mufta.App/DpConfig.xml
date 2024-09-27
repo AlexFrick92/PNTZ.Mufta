@@ -12,6 +12,23 @@
 	
 
 	<DataPointDefinition>
+		<!--MP commands-->
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_MP_TPC_SP"</NodeId>
+			</Provider>
+
+			<Processor Name ="MachineParamObserver" TargetProperty="SetMPCommand"/>
+		</DpValue>
+
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="KOM_REG_SP"."TPC_CMD_MP_PLC_SP"</NodeId>
+			</Provider>
+
+			<Processor Name ="MachineParamObserver" TargetProperty="CommandFeedback"/>
+		</DpValue>
+		
 		<!--Параметры машин-->
 		<DpValue Name ="MP">
 			<DpProperty Name ="MP_Load_Cell_Span">
