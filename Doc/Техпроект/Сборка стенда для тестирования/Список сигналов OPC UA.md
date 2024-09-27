@@ -3,7 +3,7 @@
 Сигналлы сгруппированы по функциональному признаку.
 Тип WORD(PLC) = USINT(OPCUA), DWORD(PLC) = UINT(OPCUA). Доступ ко всем сигналам на чтение и на запись. 
 
-Для типа данных время использовать DTL.
+Для типа данных время использовать LDT.
 
 ## Параметры машин
 
@@ -21,7 +21,7 @@ MP_OP_SPS.MP_Tq_Max                         Real            Maximales Drehmoment
 MP_OP_SPS.MP_Machine_No                     String[20]      Maschinen Nummer / Machine No.
 MP_OP_SPS.MP_Cal_Factor                     Real            Калибровочный коэффициент
 MP_OP_SPS.MP_Cal_User                       String[20]      Bearbeiter Kalibrierung / User, who did calibration
-MP_OP_SPS.MP_Cal_Timestamp                  DTL             Zeitstempel Kalibrierung / Calibration Timestamp
+MP_OP_SPS.MP_Cal_Timestamp                  LDT             Zeitstempel Kalibrierung / Calibration Timestamp
 MP_OP_SPS.MP_Makeup_Length_Offset           Real            Referenzwert Lдngenmassstab Verschraublдnge
 ```
 ```
@@ -88,16 +88,16 @@ KOM_REG.SPS_TPC_REZ.CMD_PLC                 UINT            команда от 
 
 ```
 REZ_TPC_UP.ERG_Muffe.PMR_BOX_RESULT         UINT            (2=NIO, 1=IO)	Результат измерения муфты?
-REZ_TPC_UP.ERG_Muffe.PMR_BOX_LEN_BEGIN      DTL             Время начала измерения муфты?
-REZ_TPC_UP.ERG_Muffe.PMR_BOX_LEN_END        DTL             Время окончания?
+REZ_TPC_UP.ERG_Muffe.PMR_BOX_LEN_BEGIN      LDT             Время начала измерения муфты?
+REZ_TPC_UP.ERG_Muffe.PMR_BOX_LEN_END        LDT             Время окончания?
 REZ_TPC_UP.ERG_Muffe.PMR_BOX_LEN_VALUE      REAL            Длина муфты?
 REZ_TPC_UP.ERG_Muffe.PMR_BOX_RES_00         REAL            Вероятно резерв?
 REZ_TPC_UP.ERG_Muffe.PMR_BOX_RES_01         INT             Вероятно резерв?
 ```
 ```
 REZ_TPC_UP.ERG_MVS.PMR_Pre_MAKEUP_RESULT    UINT            (2=NIO, 1=IO)	Результат предварительного свинчивания?
-REZ_TPC_UP.ERG_MVS.PMR_Pre_MAKEUP_BEGIN     DTL             Время начала предварительного свинчивания?
-REZ_TPC_UP.ERG_MVS.PMR_Pre_MAKEUP_END       DTL	            Время окончания предварительного свинчивания?
+REZ_TPC_UP.ERG_MVS.PMR_Pre_MAKEUP_BEGIN     LDT             Время начала предварительного свинчивания?
+REZ_TPC_UP.ERG_MVS.PMR_Pre_MAKEUP_END       LDT	            Время окончания предварительного свинчивания?
 REZ_TPC_UP.ERG_MVS.PMR_PIPE_POS             UINT            (2=NIO, 1=IO)	Результат позиционирования трубы?
 REZ_TPC_UP.ERG_MVS.PMR_Pre_MAKEUP_LEN       REAL            Длина предварительного свинчивания?
 REZ_TPC_UP.ERG_MVS.PMR_PIPE_POS_LEN         REAL            Позиция трубы после предварительного свинчивания?
@@ -107,8 +107,8 @@ REZ_TPC_UP.ERG_MVS.PMR_PRE_MAKEUP_RES_01    DINT            Вероятно р�
 ```
 REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_RESULT     DWORD	        (2=NIO, 1=IO)	Результат силового свинчивания в системе ПЛК. 
                                                             Видимо если свинчивания не произведено (недудачное измерение муфты или преднавёртки), то ПЛК присваивает свой результат
-REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_BEGIN      DTL	            Время начала силового свинчивания?
-REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_END        DTL             Время окончания силового свинчивания?
+REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_BEGIN      LDT	            Время начала силового свинчивания?
+REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_END        LDT             Время окончания силового свинчивания?
 REZ_TPC_UP.ERG_CAM.PMR_MR_TOTAL_RESULT      UINT            (2=NIO, 1=IO)	Еще один результат? Вероятно, что это оценка уже по параметрам (момент, длина, заплечник и т.д),
 REZ_TPC_UP.ERG_CAM.PMR_MR_MAKEUP_LEN        REAL            Длина силового свинчивания
 REZ_TPC_UP.ERG_CAM.PMR_MR_TOTAL_MAKEUP_LEN  REAL            Общая длина (преднавертка + силовое свинчивание)
@@ -124,11 +124,11 @@ REZ_TPC_UP.ERG_CAM.PMR_MR_RES_05            REAL            Вероятно р�
 REZ_TPC_UP.ERG_CAM.PMR_MR_RES_06            USINT           Вероятно резерв?
 ```
 ```
-REZ_TPC_UP.REZ_ZST.GENERAL_TS               DTL	            Общая
-REZ_TPC_UP.REZ_ZST.BOX_TS                   DTL	            Измерение муфты
-REZ_TPC_UP.REZ_ZST.PREMAKEUP_TS             DTL	            Преднавёртка
-REZ_TPC_UP.REZ_ZST.MAKEUP_TS                DTL	            Силовая навёртка
-REZ_TPC_UP.REZ_ZST.DATE_14                  DTL		
+REZ_TPC_UP.REZ_ZST.GENERAL_TS               LDT	            Общая
+REZ_TPC_UP.REZ_ZST.BOX_TS                   LDT	            Измерение муфты
+REZ_TPC_UP.REZ_ZST.PREMAKEUP_TS             LDT	            Преднавёртка
+REZ_TPC_UP.REZ_ZST.MAKEUP_TS                LDT	            Силовая навёртка
+REZ_TPC_UP.REZ_ZST.DATE_14                  LDT		
 ```
 ```
 KOM_REG.CAM_CMD_PLC                         USINT           команда от ПЛК в АРМ

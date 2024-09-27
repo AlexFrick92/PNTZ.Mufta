@@ -61,8 +61,7 @@ MP_Machine_No           String[20]      Maschinen Nummer / Machine No.
 MP_Cal_Factor           Real            Калибровочный коэффициент
 MP_Cal_User             String[20]      Bearbeiter Kalibrierung / User, who did calibration
 MP_Cal_Timestamp        Date_And_Time   Zeitstempel Kalibrierung / Calibration Timestamp
-MP_Makeup_Length_Offset	Real            Referenzwert Lдngenmassstab Verschraublдnge
-
+MP_Makeup_Length_Offset	Real            Referenzwert Lдngenmassstab Verschraublдnge 
 ```
 
 В ПЛК1517 создаем блоки данных с такими же символьными именами. По ним АРМ будет обращаться через OPC UA.
