@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<DpConfiguration>	
+	
+	<ProviderDefinition>
+		<OpcUaProvider Name ="Stend AKF" Endpoint ="opc.tcp://10.10.10.96:4840"/>
+	</ProviderDefinition>	
+
+	<DataPointDefinition>
+		<!--MP commands-->
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="Kom_REG"."SPS_TPC_MDAT"."CMD_TPC"</NodeId>
+			</Provider>
+
+			<Processor Name ="MachineParamObserver" TargetProperty="SetMPCommand"/>
+		</DpValue>
+
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="Kom_REG"."SPS_TPC_MDAT"."CMD_PLC"</NodeId>
+			</Provider>
+
+			<Processor Name ="MachineParamObserver" TargetProperty="CommandFeedback"/>
+		</DpValue>
+		
+		<!--Параметры машин-->
+		<DpValue Name ="MP">
+			<DpProperty Name ="MP_Load_Cell_Span">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Load_Cell_Span"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Load_Span_Digits">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Load_Span_Digits"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Handle_Length">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Handle_Length"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Handle_Length_Digits">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Handle_Length_Digits"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_TC_PPR">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_TC_PPR"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Box_Length">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Box_Length"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Box_Length_Digit">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Box_Length_Digit"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Makeup_Length">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Makeup_Length"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Makeup_Length_Digits">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Makeup_Length_Digits"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Tq_Max">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Tq_Max"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Machine_No">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Machine_No"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Cal_Factor">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Cal_Factor"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Cal_User">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Cal_User"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Cal_Timestamp">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Cal_Timestamp"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="MP_Makeup_Length_Offset">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="MP_OP_SPS"."MP_Makeup_Length_Offset"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<Processor Name ="MachineParamObserver" TargetProperty="ObservableMachineParameters"/>
+						
+		</DpValue>
+										
+		
+	</DataPointDefinition>	
+</DpConfiguration>

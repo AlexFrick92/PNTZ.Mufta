@@ -13,8 +13,20 @@ namespace PNTZ.Mufta.App.Domain
         public MachineParameterObserver()
         {
             DpInitialized += MachineParameterObserver_DpInitialized;
+            DpInitialized += MachineParameterObserver_DpInitialized1;
                 
                 
+        }
+
+        private void MachineParameterObserver_DpInitialized1(object sender, EventArgs e)
+        {
+            Console.WriteLine(CommandFeedback.Value);
+            CommandFeedback.ValueUpdated += CommandFeedback_ValueUpdated;
+        }
+
+        private void CommandFeedback_ValueUpdated(object sender, uint e)
+        {
+            Console.WriteLine(e);
         }
 
         private void MachineParameterObserver_DpInitialized(object sender, EventArgs e)
@@ -71,21 +83,21 @@ namespace PNTZ.Mufta.App.Domain
             var mp = ObservableMachineParameters.Value;
             
             AppInstance.AppCli.WriteLine("Считаны параметры машин!");
-            AppInstance.AppCli.WriteLine(mp.MP_Load_Cell_Span.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Load_Span_Digits.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Handle_Length.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Handle_Length_Digits.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_TC_PPR.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Box_Length.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Box_Length_Digit.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Makeup_Length.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Makeup_Length_Digits.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Tq_Max.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Machine_No.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Cal_Factor.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Cal_User.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Cal_Timestamp.ToString());
-            AppInstance.AppCli.WriteLine(mp.MP_Makeup_Length_Offset.ToString());
+            AppInstance.AppCli.WriteLine("MP_Load_Cell_Span: " + mp.MP_Load_Cell_Span.ToString());
+            AppInstance.AppCli.WriteLine("MP_Load_Span_Digits: " + mp.MP_Load_Span_Digits.ToString());
+            AppInstance.AppCli.WriteLine("MP_Handle_Length: " + mp.MP_Handle_Length.ToString());
+            AppInstance.AppCli.WriteLine("MP_Handle_Length_Digits: " + mp.MP_Handle_Length_Digits.ToString());
+            AppInstance.AppCli.WriteLine("MP_TC_PPR: " + mp.MP_TC_PPR.ToString());
+            AppInstance.AppCli.WriteLine("MP_Box_Length: " + mp.MP_Box_Length.ToString());
+            AppInstance.AppCli.WriteLine("MP_Box_Length_Digit: " + mp.MP_Box_Length_Digit.ToString());
+            AppInstance.AppCli.WriteLine("MP_Makeup_Length: " + mp.MP_Makeup_Length.ToString());
+            AppInstance.AppCli.WriteLine("MP_Makeup_Length_Digits: " + mp.MP_Makeup_Length_Digits.ToString());
+            AppInstance.AppCli.WriteLine("MP_Tq_Max: " + mp.MP_Tq_Max.ToString());
+            AppInstance.AppCli.WriteLine("MP_Machine_No: " + mp.MP_Machine_No.ToString());
+            AppInstance.AppCli.WriteLine("MP_Cal_Factor: " + mp.MP_Cal_Factor.ToString());
+            AppInstance.AppCli.WriteLine("MP_Cal_User: " + mp.MP_Cal_User.ToString());
+            AppInstance.AppCli.WriteLine("MP_Cal_Timestamp: " + mp.MP_Cal_Timestamp.ToString());
+            AppInstance.AppCli.WriteLine("MP_Makeup_Length_Offset: " + mp.MP_Makeup_Length_Offset.ToString());
 
             SetMPCommand.Value = 10;
 

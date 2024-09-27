@@ -71,11 +71,11 @@ namespace PNTZ.Mufta.App
 
             dataPointConfigurator = new DpFluentBuilder()
                 .SetLogger(logger)
-                .AddConfiguration($"{currentDirectory}/DpConfig.xml")
-                
+                //.AddConfiguration($"{currentDirectory}/DpConfig.xml")
+                .AddConfiguration($"{currentDirectory}/DpConfigStendPNTZ.xml")
                 .SetProviders(new Type[] { typeof(OpcUaProvider) })
-                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver, commonParam, machineParameterObserver })
-
+                //.SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver, commonParam, machineParameterObserver })
+                .SetProcessors(new IDpProcessor[] {machineParameterObserver})
                 .Build();             
 
 
