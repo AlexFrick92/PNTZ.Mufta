@@ -38,6 +38,7 @@ namespace PNTZ.Mufta.App
             CurrentDirectory = currentDirectory;
 
             RecipeFolder = "Рецепты";
+            MachineParametersFolder = "Параметры машин";
 
             AppCli = cli;
 
@@ -100,6 +101,7 @@ namespace PNTZ.Mufta.App
 
         public string CurrentDirectory { get; set; }
         public string RecipeFolder { get; set; }
+        public string MachineParametersFolder { get; set; }
 
         public RecipeLoader CamRecipeLoader { get; set; }
 
@@ -131,6 +133,53 @@ namespace PNTZ.Mufta.App
                 Console.WriteLine($"Рецепт: {joint.Name} сохранен в {path}");
             }
         }
+
+        public void SaveMachineParameters(MachineParameters mp)
+        {
+            if (mp == null)
+                throw new ArgumentNullException();            
+
+            string mpDirectory = $"{AppInstance.CurrentDirectory}/{AppInstance.MachineParametersFolder}";
+
+            if (!Directory.Exists(mpDirectory))
+            {
+                Directory.CreateDirectory(mpDirectory);
+            }
+
+            string path = $"{mpDirectory}/MpActual.json";
+
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                JsonSerializer.Serialize<MachineParameters>(fs, mp);
+                Console.WriteLine($"Рецепт: параметры машин сохранены в {path}");
+            }
+        }
+
+        public MachineParameters OpenMachineParameters()
+        {
+
+            string mpDirectory = $"{AppInstance.CurrentDirectory}/{AppInstance.MachineParametersFolder}";
+
+            string path = $"{mpDirectory}/MpActual.json";
+
+            if (!File.Exists(path))
+            {
+                if (!Directory.Exists(mpDirectory))
+                {
+                    Directory.CreateDirectory(mpDirectory);
+                }
+
+                MachineParameters mp = new MachineParameters();
+                SaveMachineParameters(mp);
+            }
+
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                return JsonSerializer.Deserialize<MachineParameters>(fs);               
+            }
+        }
+
+
         public ushort JointModeToMakeUpMode(JointMode jointMode)
         {
             switch (jointMode)
