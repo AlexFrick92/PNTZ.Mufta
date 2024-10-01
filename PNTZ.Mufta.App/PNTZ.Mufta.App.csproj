@@ -190,6 +190,7 @@
     <Compile Include="ViewModel\Chart\ChartViewModel.cs" />
     <Compile Include="ViewModel\CreateRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointViewModel.cs" />
+    <Compile Include="ViewModel\MachineParametersViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>

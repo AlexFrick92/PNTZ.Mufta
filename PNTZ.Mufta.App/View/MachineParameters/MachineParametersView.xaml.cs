@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PNTZ.Mufta.App.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace PNTZ.Mufta.App.View.MachineParameters
     /// </summary>
     public partial class MachineParametersView : UserControl
     {
-        public MachineParametersView()
+        public MachineParametersView(MachineParametersViewModel vm)
         {
             InitializeComponent();
+            this.DataContext = vm;
         }
     }
 }

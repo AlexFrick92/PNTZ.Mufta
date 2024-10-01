@@ -37,15 +37,15 @@
                 <StackPanel>
                     <Label Content="Значение" HorizontalAlignment="Center" FontSize="14" FontWeight="Black"/>
                     <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Load_Span_Digits}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Load_Cell_Span}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Tq_Max}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Makeup_Length_Digits}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Makeup_Length}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Handle_Length}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Cal_Factor}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_Machine_No}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding SavedMp.MP_TC_PPR}" HorizontalAlignment="Center"/>
                     
                 </StackPanel>
             </Border>
@@ -56,15 +56,15 @@
                 <StackPanel>
                     <Label Content="Новое значение" HorizontalAlignment="Center" FontSize="14" FontWeight="Black"/>
                     <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
-                    <Label Content="0" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Load_Span_Digits}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Load_Cell_Span}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Tq_Max}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Makeup_Length_Digits}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Makeup_Length}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Handle_Length}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Cal_Factor}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_Machine_No}" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding PlcMp.MP_TC_PPR}" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
         </ContentControl>
