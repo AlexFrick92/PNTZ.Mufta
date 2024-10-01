@@ -148,6 +148,10 @@ KOM_REG.CAM_LOG_NO                          UINT            номер. Инкр
 KOM_REG.CAM_CON_NO                          UINT            номер соединения. Инкрементируется ПЛК
 KOM_REG.CAM_OPERATE_MODE                    UINT            Режим. 1 - ручной, 2 - авто
 KOM_REG.CAM_TPC_READY                       UINT            Готовность АРМа к работе
-KOM_REG.TPC_Heartbeat                       Boolean         Прямоугольный сигнал. Период 2 с. АРМ
-KOM_REG.PLC_Heartbeat                       Boolean         Прямоугольный сигнал. Период 2 с. ПЛК
+
+CommCheck.TPC_Heartbeat                     Boolean         Прямоугольный сигнал. Период 2 с. АРМ
+CommCheck.PLC_Heartbeat                     Boolean         Прямоугольный сигнал. Период 2 с. ПЛК
+
+CommCheck.PLC400_CommError                  Boolean         Ошибка связи с ПЛК400. Устанавливается при любой ошибке в коммуникациях.
+                                                            АРМ сбрасывает этот бит для сброса ошибки.
 ```
