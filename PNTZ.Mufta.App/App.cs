@@ -151,7 +151,7 @@ namespace PNTZ.Mufta.App
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
                 JsonSerializer.Serialize<MachineParameters>(fs, mp);
-                Console.WriteLine($"Рецепт: параметры машин сохранены в {path}");
+                Console.WriteLine($"Параметры машин сохранены в {path}");
             }
         }
 

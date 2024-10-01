@@ -23,8 +23,6 @@ namespace PNTZ.Mufta.App.ViewModel
         public MachineParameters PlcMp { get; set; }
         public MachineParameters SavedMp { get; set; }
 
-
-
         public ICommand SaveMpCommand { get; set; }
     }
 }
