@@ -76,7 +76,7 @@ namespace PNTZ.Mufta.App
                 .AddConfiguration($"{currentDirectory}/DpConfigStendPNTZ.xml")
                 .SetProviders(new Type[] { typeof(OpcUaProvider) })
                 //.SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver, commonParam, machineParameterObserver })
-                .SetProcessors(new IDpProcessor[] {machineParameterObserver})
+                .SetProcessors(new IDpProcessor[] {machineParameterObserver, recipeLoader, heartbeat, heartbeatCheck })
                 .Build();             
 
 

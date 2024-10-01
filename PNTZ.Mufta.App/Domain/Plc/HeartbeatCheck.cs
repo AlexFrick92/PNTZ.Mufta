@@ -10,7 +10,7 @@ namespace PNTZ.Mufta.App.Domain.Plc
     public class HeartbeatCheck : IDpProcessor
         {
             readonly ICliProgram _cli;
-            TimeSpan _heartbeatInterval = TimeSpan.FromMilliseconds(3000);
+            TimeSpan _heartbeatInterval = TimeSpan.FromMilliseconds(4000);
             ManualResetEvent newBeat = new ManualResetEvent(false);
             CancellationTokenSource cts;
             public bool Beating { get; set; }
@@ -51,7 +51,7 @@ namespace PNTZ.Mufta.App.Domain.Plc
                                     if (!Beating)
                                     {
                                         Beating = true;
-                                        _cli.WriteLine($"{Name}: Появился хартбит!");
+                                        _cli.WriteLine($"{Name}: Обнаружен хартбит!");
                                     }
                                 }
                                 else
@@ -59,7 +59,7 @@ namespace PNTZ.Mufta.App.Domain.Plc
                                     if (Beating)
                                     {
                                         Beating = false;
-                                        _cli.WriteLine($"{Name}: пропал хартбит!");
+                                        _cli.WriteLine($"{Name}: Потерян хартбит!");
                                     }
                                 }
                             }

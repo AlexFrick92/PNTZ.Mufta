@@ -53,7 +53,7 @@ namespace PNTZ.Mufta.App.Domain.Plc
                             _cli.WriteLine($"{Name} запущен");
                             running = true;
                         }
-                        Thread.Sleep(2000);
+                        Thread.Sleep(1000);
 
                     }
                 }, cts.Token);
@@ -67,6 +67,10 @@ namespace PNTZ.Mufta.App.Domain.Plc
 
                 if (!running) _cli.WriteLine($"Не удалось запустить {Name} по причине: {e.Message}");
                 else _cli.WriteLine($"Ошибка во время выполнения {Name} по причине: {e.Message}");
+                running = false;
+            }
+            finally
+            {
                 running = false;
             }
 

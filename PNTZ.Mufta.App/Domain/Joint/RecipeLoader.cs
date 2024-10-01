@@ -47,13 +47,13 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
             var timeout = Task.Delay(TimeSpan.FromSeconds(10));
 
-            DpJointRecipe.Value = recipe;
 
-            _logger.Info("Загрузка рецепта...");
-
+            _logger.Info("Загрузка рецепта...");            
 
             awaitCommandFeedback = new TaskCompletionSource<uint>();
             CommandFeedback.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+
+            _logger.Info("Отправляем 10");
 
             SetLoadCommand.Value = 10;
 
@@ -62,11 +62,23 @@ namespace PNTZ.Mufta.App.Domain.Joint
             if(first == awaitCommandFeedback.Task && awaitCommandFeedback.Task.Result != 20)
             {
                 _recipeLoading = false;
-                throw new Exception("Не удалось загрузить. Неверный ответ на команду 10");
+                throw new Exception($"Не удалось загрузить. Неверный ответ ({awaitCommandFeedback.Task.Result}) на команду 10");
             }
+
+            _logger.Info("Ответ ПЛК: " + awaitCommandFeedback.Task.Result);
 
             awaitCommandFeedback = new TaskCompletionSource<uint>();
             CommandFeedback.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+
+            _logger.Info("Пишем данные!");
+
+            DpJointRecipe.Value = recipe;
+
+            _logger.Info("Данные отправлены, ждем чуть-чуть");
+
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
+            
+            _logger.Info("Отправляем 40");
 
             SetLoadCommand.Value = 40;
 
@@ -77,14 +89,18 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 if (awaitCommandFeedback.Task.Result != 50)
                 {
                     _recipeLoading = false;
-                    throw new Exception("Не удалось загрузить. Неверный ответ на команду 40");
+                    throw new Exception($"Не удалось загрузить. Неверный ответ ({awaitCommandFeedback.Task.Result}) на команду 40");
                 }
             }
             else if (first == timeout)
             {
                 _recipeLoading = false;
-                throw new Exception("Не удалось загрузить");
+                throw new Exception("Не удалось загрузить по таймауту");
             }
+
+            _logger.Info("Ответ ПЛК: " + awaitCommandFeedback.Task.Result);
+
+            _logger.Info("Отправляем 0");
 
             SetLoadCommand.Value = 0;
 

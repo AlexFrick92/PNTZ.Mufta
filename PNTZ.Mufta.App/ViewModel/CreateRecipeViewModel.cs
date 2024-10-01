@@ -20,14 +20,13 @@ namespace PNTZ.Mufta.App.ViewModel
             LoadRecipeCommand = new RelayCommand(async (arg) =>
             {
 
-                AppInstance.LoadedRecipe = JointRecipe;            
-                return;
 
                 Task task = AppInstance.CamRecipeLoader.LoadRecipeAsync(JointRecipe);
 
                 try
                 {
                     await task;
+                    AppInstance.LoadedRecipe = JointRecipe;                            
                 }
                 catch (Exception ex)
                 {
