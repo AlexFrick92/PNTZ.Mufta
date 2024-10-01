@@ -99,7 +99,7 @@
 
                                 <Border Margin="0,7,0,7" BorderBrush="{StaticResource OutlineColorBrush}" BorderThickness="1,0,0,0"/>
 
-                                <Button Margin="3,0,5,0" Style="{StaticResource NaviButton}">
+                                <Button Margin="3,0,5,0" Style="{StaticResource NaviButton}" Command="{Binding NaviToMpViewCommand}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
