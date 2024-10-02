@@ -229,6 +229,7 @@
     <Compile Include="View\Joint\JointView.xaml.cs">
       <DependentUpon>JointView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Joint\BoolToVisibilityConverter.cs" />
     <Compile Include="View\Joint\ResultToStringConverter.cs" />
     <Compile Include="View\MachineParameters\MachineParametersView.xaml.cs">
       <DependentUpon>MachineParametersView.xaml</DependentUpon>

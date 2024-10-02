@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using static PNTZ.Mufta.App.App;
 
 namespace PNTZ.Mufta.App.ViewModel
@@ -53,10 +54,21 @@ namespace PNTZ.Mufta.App.ViewModel
                 await RecordingParams(ctc.Token);
             };
 
+            AppInstance.ResultObserver.AwaitForEvaluation += (s, v) =>
+            {
+                EvaluationRequsted = true;
+                OnPropertyChanged(nameof(EvaluationRequsted));
+            };
+
+            EvaluateGoodCmd = new RelayCommand((p) => AppInstance.ResultObserver.Evaluate(1));
+
+            EvaluateBadCmd = new RelayCommand((p) => AppInstance.ResultObserver.Evaluate(2));
+
 
 
             Task refreshOperationValues = RefreshOperationValues();
         }
+
 
 
         async Task RecordingParams(CancellationToken token)
@@ -113,5 +125,9 @@ namespace PNTZ.Mufta.App.ViewModel
         public TqTnLen ActualTqTnLen { get; set; }
 
         public ObservableCollection<TqTnPoint> TqTnSeries { get; set; }
+
+        public ICommand EvaluateGoodCmd { get; private set; }
+        public ICommand EvaluateBadCmd { get; private set; }
+        public bool EvaluationRequsted { get; set; } = false;
     }
 }
