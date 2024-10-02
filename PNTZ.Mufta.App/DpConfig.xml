@@ -311,6 +311,16 @@
 			<Processor Name ="OpRecorder" TargetProperty="TqTnPoint"/>
 		</DpValue>
 		
+		<!--оценка-->
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>
+					ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_RESULT"
+				</NodeId>
+			</Provider>
+
+			<Processor Name ="JointResultObserver" TargetProperty="TpcResult"/>
+		</DpValue>
 		
 		<!--Heartbeat-->
 		<DpValue Name="AppHeartbeat">
