@@ -13,6 +13,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -185,13 +187,27 @@
         <ContentControl Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
+
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 
+                <!--Кнопка дать результат-->
+                <ContentControl Grid.Row="0"  Visibility="{Binding EvaluationRequsted, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <Label Content="ТРЕБУЕТСЯ ОЦЕНКА СОЕДИНЕНИЯ"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Width="100" Height="50" Content="Годное" Command="{Binding EvaluateGoodCmd}" Background="Green" Foreground="White"/>
+                            <Button Width="100" Height="50" Content="Брак" Command="{Binding EvaluateBadCmd}" Background="Red" Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ContentControl>
+                
+                
                 <!--Момент/время-->
-                <ContentControl Grid.Row="0">
+                <ContentControl Grid.Row="1">
                     <dxc:ChartControl Name="chartControl1" BorderThickness="0">
                         <dxc:ChartControl.Diagram>
                             <dxc:XYDiagram2D>
@@ -233,7 +249,7 @@
                 </ContentControl>
                 
                 <!--Момент/обороты-->
-                <ContentControl Grid.Row="1">
+                <ContentControl Grid.Row="2">
                     <dxc:ChartControl Name="chartControl2" BorderThickness="0">
                         <dxc:ChartControl.Diagram>
                             <dxc:XYDiagram2D>
@@ -275,7 +291,7 @@
                 </ContentControl>
 
                 <!--Момент/длина-->
-                <ContentControl Grid.Row="2">
+                <ContentControl Grid.Row="3">
                     <dxc:ChartControl Name="chartControl3" BorderThickness="0">
                         <dxc:ChartControl.Diagram>
                             <dxc:XYDiagram2D>
