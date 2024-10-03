@@ -9,7 +9,7 @@
 
         public override string ToString()
         {
-            return Torque.ToString() + " : " + Turns.ToString();
+            return Torque.ToString() + " : " + Turns.ToString() + " : " + Length.ToString() + " : " + TimeStamp.ToString();
         }
     }
 }
