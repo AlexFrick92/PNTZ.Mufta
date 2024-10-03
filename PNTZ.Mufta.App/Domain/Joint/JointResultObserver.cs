@@ -26,6 +26,11 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 {                    
                     AppInstance.ActualTqTnLen = v;
                 };
+
+                ActualTqTnLenArrays.ValueUpdated += (se, v) =>
+                {
+
+                };
             };
 
             AppInstance.AppCli.RegisterCommand("startreg", async (arg) =>
@@ -213,5 +218,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
         public IDpValue<uint> CommandFeedback { get; set; }
 
         public IDpValue<uint> TpcResult { get; set; }
+
+        public IDpValue<TqTnLenArrays> ActualTqTnLenArrays { get; set; }
     }
 }

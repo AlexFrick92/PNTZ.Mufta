@@ -179,6 +179,7 @@
     <Compile Include="Domain\Joint\RecipeCreator.cs" />
     <Compile Include="Domain\Joint\RecipeLoader.cs" />
     <Compile Include="Domain\Joint\TqTnLen.cs" />
+    <Compile Include="Domain\Joint\TqTnLenArrays.cs" />
     <Compile Include="Domain\Joint\TqTnPoint.cs" />
     <Compile Include="Domain\MachineParameterObserver.cs" />
     <Compile Include="Domain\MachineParameters.cs" />

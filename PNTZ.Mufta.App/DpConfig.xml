@@ -243,7 +243,132 @@
 			<Processor Name ="JointResultObserver" TargetProperty="ActualTqTnLen"/>
 			
 		</DpValue>
-		
+
+		<DpValue Name ="ActualTqTnLenArrays">
+			<DpProperty Name ="Torque0">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TorqueArray"[0]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Torque1">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TorqueArray"[1]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Torque2">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TorqueArray"[2]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Torque3">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TorqueArray"[3]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Torque4">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TorqueArray"[4]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Length0">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."LengthArray"[0]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Length1">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."LengthArray"[1]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Length2">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."LengthArray"[2]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+			
+			<DpProperty Name ="Length3">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."LengthArray"[3]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Length4">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."LengthArray"[4]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Turns0">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TurnsArray"[0]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Turns1">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TurnsArray"[1]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Turns2">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TurnsArray"[2]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Turns3">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TurnsArray"[3]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Turns4">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."TurnsArray"[4]
+					</NodeId>
+				</Provider>
+			</DpProperty>						
+
+			<Processor Name ="JointResultObserver" TargetProperty="ActualTqTnLenArrays"/>
+
+		</DpValue>
+
 		<!-- Joint Result -->
 		<DpValue Name ="JointResult">
 			<DpProperty Name ="FinalTorque">
