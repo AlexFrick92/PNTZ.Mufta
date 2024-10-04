@@ -17,7 +17,6 @@ using DpConnect.Provider.OpcUa;
 
 using PNTZ.Mufta.App.Domain.Plc;
 using PNTZ.Mufta.App.Domain.Joint;
-using PNTZ.Mufta.App.ViewModel.Chart;
 using PNTZ.Mufta.App.ViewModel;
 using PNTZ.Mufta.App.View;
 using System.ComponentModel;
@@ -62,9 +61,6 @@ namespace PNTZ.Mufta.App
             HeartbeatCheck heartbeatCheck = new HeartbeatCheck(cli) { Name = "HeartbeatCheck1" };
 
 
-            OpRecorder opRecorder = new OpRecorder("OpRecorder", cli);
-            ChartViewModel chartViewModel = new ChartViewModel(opRecorder);
-
             ResultObserver = new JointResultObserver() { Name = "JointResultObserver"};
             CommonParamObserver commonParam = new CommonParamObserver() { Name = "CommonParamObserver"};
 
@@ -75,7 +71,7 @@ namespace PNTZ.Mufta.App
                 .AddConfiguration($"{currentDirectory}/DpConfig.xml")
                 //.AddConfiguration($"{currentDirectory}/DpConfigStendPNTZ.xml")
                 .SetProviders(new Type[] { typeof(OpcUaProvider) })
-                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, opRecorder, chartViewModel, ResultObserver, commonParam, machineParameterObserver })
+                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, ResultObserver, commonParam, machineParameterObserver })
                 //.SetProcessors(new IDpProcessor[] {machineParameterObserver, recipeLoader, heartbeat, heartbeatCheck })
                 .Build();             
 
@@ -91,7 +87,7 @@ namespace PNTZ.Mufta.App
 
 
 
-            MainViewModel mainViewModel = new MainViewModel(cli, chartViewModel);
+            MainViewModel mainViewModel = new MainViewModel(cli);
             mainWindow = new MainView(mainViewModel);
         }
 

@@ -416,25 +416,7 @@
 
 			<Processor Name ="JointResultObserver" TargetProperty="ObservingJointResult"/>
 			
-		</DpValue>
-						
-		<!-- Operational parameters -->
-		<DpValue Name ="TqTnValues">
-			<DpProperty Name="Torque">
-				<Provider Name ="Stend AKF">
-					<NodeId>ns=3;s="OperationalParams"."Tq"</NodeId>
-				</Provider>
-			</DpProperty>
-
-			<DpProperty Name="Turns">
-				<Provider Name ="Stend AKF">
-					<NodeId>ns=3;s="OperationalParams"."Tn"</NodeId>
-				</Provider>
-			</DpProperty>						
-			
-			<Processor Name ="TqTnChart" TargetProperty="TqTnPoint"/>
-			<Processor Name ="OpRecorder" TargetProperty="TqTnPoint"/>
-		</DpValue>
+		</DpValue>						
 		
 		<!--оценка-->
 		<DpValue>
