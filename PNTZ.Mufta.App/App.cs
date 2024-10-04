@@ -130,6 +130,29 @@ namespace PNTZ.Mufta.App
             }
         }
 
+        public JointRecipe OpenJointRecipe(string fileName)
+        {
+            string mpDirectory = $"{AppInstance.CurrentDirectory}/{AppInstance.RecipeFolder}";
+
+            string path = $"{mpDirectory}/{fileName}";
+
+            if (!File.Exists(path))
+            {
+                if (!Directory.Exists(mpDirectory))
+                {
+                    Directory.CreateDirectory(mpDirectory);
+                }
+
+                MachineParameters mp = new MachineParameters();
+                SaveMachineParameters(mp);
+            }
+
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                return JsonSerializer.Deserialize<JointRecipe>(fs);
+            }            
+        }
+
         public void SaveMachineParameters(MachineParameters mp)
         {
             if (mp == null)
