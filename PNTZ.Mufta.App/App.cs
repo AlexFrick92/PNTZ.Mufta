@@ -21,6 +21,8 @@ using PNTZ.Mufta.App.ViewModel;
 using PNTZ.Mufta.App.View;
 using System.ComponentModel;
 using PNTZ.Mufta.App.Domain;
+using System.Collections.Generic;
+using System.Windows.Navigation;
 
 
 
@@ -130,21 +132,31 @@ namespace PNTZ.Mufta.App
             }
         }
 
-        public JointRecipe OpenJointRecipe(string fileName)
+        public List<JointRecipe> OpenJointRecipesFolder()
         {
             string mpDirectory = $"{AppInstance.CurrentDirectory}/{AppInstance.RecipeFolder}";
 
-            string path = $"{mpDirectory}/{fileName}";
+            var recipePaths = Directory.GetFiles(mpDirectory);
+
+            List<JointRecipe> recipes = new List<JointRecipe> ();
+
+            foreach(var path in recipePaths)
+            {
+                recipes.Add( OpenJointRecipe(path) );
+            }
+
+            return recipes;
+        }
+
+        public JointRecipe OpenJointRecipe(string path)
+        {
+            //string mpDirectory = $"{AppInstance.CurrentDirectory}/{AppInstance.RecipeFolder}";
+
+            //string path = $"{mpDirectory}/{path}";
 
             if (!File.Exists(path))
             {
-                if (!Directory.Exists(mpDirectory))
-                {
-                    Directory.CreateDirectory(mpDirectory);
-                }
-
-                MachineParameters mp = new MachineParameters();
-                SaveMachineParameters(mp);
+                throw new FileNotFoundException();
             }
 
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))

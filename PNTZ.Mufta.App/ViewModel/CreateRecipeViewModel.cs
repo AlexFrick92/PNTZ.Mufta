@@ -38,19 +38,29 @@ namespace PNTZ.Mufta.App.ViewModel
                 }
             });
 
-            SavedRecipes = new ObservableCollection<JointRecipe>
-            { 
-                new JointRecipe() { Name = "Первый рецепт"},
-                new JointRecipe() { Name = "Второй рецепт"},
-            };
 
-            OnPropertyChanged(nameof(SavedRecipes));
+            UpdateSavedRecipeList();                               
 
         }
         
 
-        public ObservableCollection<JointRecipe> SavedRecipes { get; private set; } 
-        public JointRecipe SelectedSavedRecipe { get; set; }
+        public ObservableCollection<JointRecipe> SavedRecipes { get; private set; }
+
+
+        JointRecipe _selectedSavedRecipe;
+        public JointRecipe SelectedSavedRecipe 
+        { 
+            get
+            {
+                return _selectedSavedRecipe;
+            }
+            set
+            {
+                this.JointRecipe = value;
+                OnPropertyChanged(nameof(JointRecipe));
+                _selectedSavedRecipe = value;
+            }
+        }
 
         public ICommand SetModeCommand { get; set; }
 
@@ -65,11 +75,20 @@ namespace PNTZ.Mufta.App.ViewModel
 
         public ICommand SaveRecipeCommand { get; set; }
         public ICommand LoadRecipeCommand { get; set; }
+
+        void UpdateSavedRecipeList()
+        {
+            SavedRecipes = new ObservableCollection<JointRecipe>(AppInstance.OpenJointRecipesFolder());
+            OnPropertyChanged(nameof(SavedRecipes));
+        }
+
         void SaveRecipe(JointRecipe newRecipe)
         {
             try
             {
                 AppInstance.SaveJointRecipe(newRecipe);
+                UpdateSavedRecipeList();
+
             }
             catch (Exception ex)
             {
