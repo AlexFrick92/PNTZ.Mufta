@@ -56,6 +56,10 @@ namespace PNTZ.Mufta.App.ViewModel
             }
             set
             {
+                if (value != null)
+                {
+                    SelectedMode = value.JointMode;
+                }
                 this.JointRecipe = value;
                 OnPropertyChanged(nameof(JointRecipe));
                 _selectedSavedRecipe = value;
@@ -105,6 +109,7 @@ namespace PNTZ.Mufta.App.ViewModel
                 if (_selectedMode != value)
                 {
                     _selectedMode = value;
+                    JointRecipe.JointMode = value;
                     JointRecipe.MU_Makeup_Mode = AppInstance.JointModeToMakeUpMode(value);
                     OnPropertyChanged(nameof(SelectedMode));                    
                 }

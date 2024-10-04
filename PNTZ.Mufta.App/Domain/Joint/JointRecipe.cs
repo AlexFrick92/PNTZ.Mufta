@@ -22,6 +22,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
         public float MU_Tq_Ref { get; set; }
         public float MU_Tq_Save {  get; set; }
         public ushort MU_Makeup_Mode { get; set; } // 0 - по моменту, 1 - по длине, 2 - по JVal
+        public JointMode JointMode { get; set; }
         public float MU_TqSpeedRed_1 { get; set; }
         public float MU_TqSpeedRed_2 { get; set; }
         public float MU_Tq_Dump { get; set; }
