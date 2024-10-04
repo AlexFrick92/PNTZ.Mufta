@@ -7,7 +7,7 @@
              xmlns:joint="clr-namespace:PNTZ.Mufta.App.Domain.Joint"
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.App.View.Control"
              mc:Ignorable="d" 
-             d:DesignHeight="850" d:DesignWidth="1200">
+             d:DesignHeight="850" d:DesignWidth="1200" Background="White">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,60 +18,88 @@
             <local:ModeToVisibilityConverter x:Key="ModeToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    <Grid Background="White">
+
+
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
         
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
+        <!--Список рецептов в папке -->
+        <Grid Grid.Column="0">
+            <ListView ItemsSource="{Binding SavedRecipes}" SelectedItem="{Binding SelectedSavedRecipe}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Path=Name}">Имя задания</GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
 
-        <TextBox Grid.Row="0" Text="{Binding JointRecipe.Name}"/>
 
-        <local:ParamGeneralView Grid.Row="1"/>
+        <!--Редактирование рецепта-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-        <local:SelectModeView Grid.Row="2"/>
-  
-        
-        <local:ParamModeTorqueView Grid.Row="3" 
+            <TextBox Grid.Row="0" Text="{Binding JointRecipe.Name}"/>
+
+            <local:ParamGeneralView Grid.Row="1"/>
+
+            <!--Выбор режима-->
+
+            <local:SelectModeView Grid.Row="2"/>
+
+            <!--Параметры для выбранного режима-->
+
+            <local:ParamModeTorqueView Grid.Row="3" 
                                  Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.Torque}}"/>
 
-        <local:ParamModeTorqShoulderView Grid.Row="3" 
+            <local:ParamModeTorqShoulderView Grid.Row="3" 
                                  Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.TorqueShoulder}}"/>
 
-        <local:ParamModeLengthView Grid.Row="3" 
+            <local:ParamModeLengthView Grid.Row="3" 
                                  Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.Length}}"/>
 
-        <local:ParamModeLengthTorqView Grid.Row="3" 
+            <local:ParamModeLengthTorqView Grid.Row="3" 
                                  Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.TorqueLength}}"/>
 
-        <local:ParamModeJValView Grid.Row="3" 
+            <local:ParamModeJValView Grid.Row="3" 
                          Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.Jval}}"/>
 
-        <local:ParamModeJvalTorqueView Grid.Row="3" 
+            <local:ParamModeJvalTorqueView Grid.Row="3" 
                  Visibility="{Binding SelectedMode, Converter={StaticResource ModeToVisibilityConverter}, ConverterParameter={x:Static joint:JointMode.TorqueJVal}}"/>
 
-        <!--Кнопки-->
+            <!--Кнопки-->
 
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" 
+            <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" 
                     Command="{Binding SaveRecipeCommand}"
                     Content="СОХРАНИТЬ"
                 
                     />
-            <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" 
+                <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50" 
                     Command="{Binding LoadRecipeCommand}"
                     Content="ЗАГРУЗИТЬ"
                 
                     />
 
-        </StackPanel>
-        
-        
-        
+            </StackPanel>
+
+
+
+        </Grid>
+
     </Grid>
+
 </UserControl>

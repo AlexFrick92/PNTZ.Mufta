@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Collections.Generic;
+
 
 using Desktop.MVVM;
 
 using static PNTZ.Mufta.App.App;    
 using PNTZ.Mufta.App.Domain.Joint;
+using System.Collections.ObjectModel;
+
 
 namespace PNTZ.Mufta.App.ViewModel
 {
@@ -26,16 +30,27 @@ namespace PNTZ.Mufta.App.ViewModel
                 try
                 {
                     await task;
-                    AppInstance.LoadedRecipe = JointRecipe;                            
+                    AppInstance.LoadedRecipe = JointRecipe;
                 }
                 catch (Exception ex)
                 {
                     AppInstance.AppCli.WriteLine(ex.Message);
                 }
             });
-            
+
+            SavedRecipes = new ObservableCollection<JointRecipe>
+            { 
+                new JointRecipe() { Name = "Первый рецепт"},
+                new JointRecipe() { Name = "Второй рецепт"},
+            };
+
+            OnPropertyChanged(nameof(SavedRecipes));
+
         }
-        public int SomeParamValue { get; set; } = 5;
+        
+
+        public ObservableCollection<JointRecipe> SavedRecipes { get; private set; } 
+        public JointRecipe SelectedSavedRecipe { get; set; }
 
         public ICommand SetModeCommand { get; set; }
 
