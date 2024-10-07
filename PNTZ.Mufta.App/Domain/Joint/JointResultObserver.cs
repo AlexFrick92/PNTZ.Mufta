@@ -42,7 +42,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
         async void BeginJointRecording(object sender, uint command)
         {
-            if(command == 10)
+            if (command == 10)
             {
                 CommandFeedback.ValueUpdated -= BeginJointRecording;
                 AppInstance.AppLogger.Info("Запись начата!");
@@ -68,10 +68,16 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     SetJointCommand.Value = 0;
                 }
             }
+            else
+                AppInstance.AppLogger.Info($"Получена записи соединения команда {command}, но ожидается 10");
         }
 
         async Task RecordJoint()
         {
+            jointResult = new JointResult();
+
+            jointResult.StartTimeStamp = DateTime.UtcNow;
+
             TaskCompletionSource<uint> awaitCommandFeedback = new TaskCompletionSource<uint>();
 
             CommandFeedback.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
@@ -109,6 +115,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
             jointResult.FinalLen = ObservingJointResult.Value.FinalLen;
             jointResult.FinalJVal = ObservingJointResult.Value.FinalJVal;
             jointResult.ResultPLC = ObservingJointResult.Value.ResultPLC;
+            jointResult.FinishTimeStamp = DateTime.UtcNow;
 
 
             AppInstance.AppLogger.Info("Ожидаем оценки оператора");
@@ -166,9 +173,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
                                 started = true;
                                 AppInstance.AppLogger.Info("Регистрация параметров начата!");
                                 RecordingOperationParamBegun?.Invoke(null, EventArgs.Empty);
-
-
-                                jointResult = new JointResult();
+                                
 
                                 RecordingBeginTimeStamp = DateTime.Now;
                                 ActualTqTnLen.ValueUpdated += ActualTqTnLen_ValueUpdated;

@@ -83,9 +83,6 @@ namespace PNTZ.Mufta.App
 
             cli.RegisterCommand("heartbeat", (_) => heartbeat.OnDpInitialized());
 
-
-
-
             MainViewModel mainViewModel = new MainViewModel(cli);
             mainWindow = new MainView(mainViewModel);
         }
@@ -226,7 +223,7 @@ namespace PNTZ.Mufta.App
                 Directory.CreateDirectory(recipeDirectory);
             }
 
-            string path = $"{recipeDirectory}/Соединение_1.json";
+            string path = $"{recipeDirectory}/Соединение_{DateTime.Now.ToString("yyyymmdd_hhmm")}.json";
 
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
