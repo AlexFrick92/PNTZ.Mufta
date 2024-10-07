@@ -86,53 +86,60 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
             await awaitCommandFeedback.Task;
 
-            if (awaitCommandFeedback.Task.Result != 30)
+            if (awaitCommandFeedback.Task.Result != 30 && awaitCommandFeedback.Task.Result != 28)
             {
                 throw new Exception($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
             }
-
-            AppInstance.AppLogger.Info("Труба в позиции свинчивания. Готовимся к записи параметров!");
-
-            await RecordOperationParams();
-
-            awaitCommandFeedback = new TaskCompletionSource<uint>();
-
-            CommandFeedback.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
-
-            SetJointCommand.Value = 38;
-
-            await awaitCommandFeedback.Task;
-
-            if(awaitCommandFeedback.Task.Result != 40)
+            if (awaitCommandFeedback.Task.Result == 28)
             {
-                throw new Exception($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
+                AppInstance.AppLogger.Info("Ошибка преднавёртки!");
             }
+            else if(awaitCommandFeedback.Task.Result == 30)
+            {
+                AppInstance.AppLogger.Info("Труба в позиции свинчивания. Готовимся к записи параметров!");
 
-            AppInstance.AppLogger.Info("Итоговый момент:" + ObservingJointResult.Value.FinalTorque);
+                await RecordOperationParams();
 
-            jointResult.FinalTurns = ObservingJointResult.Value.FinalTurns;
-            jointResult.FinalTorque = ObservingJointResult.Value.FinalTorque;
-            jointResult.FinalLen = ObservingJointResult.Value.FinalLen;
-            jointResult.FinalJVal = ObservingJointResult.Value.FinalJVal;
-            jointResult.ResultPLC = ObservingJointResult.Value.ResultPLC;
-            jointResult.FinishTimeStamp = DateTime.UtcNow;
+                awaitCommandFeedback = new TaskCompletionSource<uint>();
+
+                CommandFeedback.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+
+                SetJointCommand.Value = 38;
+
+                await awaitCommandFeedback.Task;
+
+                if(awaitCommandFeedback.Task.Result != 40)
+                {
+                    throw new Exception($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
+                }
+
+                AppInstance.AppLogger.Info("Итоговый момент:" + ObservingJointResult.Value.FinalTorque);
+
+                jointResult.FinalTurns = ObservingJointResult.Value.FinalTurns;
+                jointResult.FinalTorque = ObservingJointResult.Value.FinalTorque;
+                jointResult.FinalLen = ObservingJointResult.Value.FinalLen;
+                jointResult.FinalJVal = ObservingJointResult.Value.FinalJVal;
+                jointResult.ResultPLC = ObservingJointResult.Value.ResultPLC;
+                jointResult.FinishTimeStamp = DateTime.UtcNow;
 
 
-            AppInstance.AppLogger.Info("Ожидаем оценки оператора");
+                AppInstance.AppLogger.Info("Ожидаем оценки оператора");
 
-            TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
+                TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
 
-            Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
+                Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
 
-            AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
+                AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
 
-            await awaitEvaluation.Task;
+                await awaitEvaluation.Task;
 
-            AppInstance.AppLogger.Info("Оценка установлена: " + awaitEvaluation.Task.Result);
+                AppInstance.AppLogger.Info("Оценка установлена: " + awaitEvaluation.Task.Result);
 
-            TpcResult.Value = awaitEvaluation.Task.Result;
+                TpcResult.Value = awaitEvaluation.Task.Result;
 
-            jointResult.ResultTotal = awaitEvaluation.Task.Result;
+                jointResult.ResultTotal = awaitEvaluation.Task.Result;
+            }            
+
 
             awaitCommandFeedback = new TaskCompletionSource<uint>();
 
@@ -146,10 +153,6 @@ namespace PNTZ.Mufta.App.Domain.Joint
             {
                 throw new Exception($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
             }
-
-            
-
-
         }
         
         async Task RecordOperationParams()
