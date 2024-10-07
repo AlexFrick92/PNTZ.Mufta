@@ -51,6 +51,12 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 {
                     await RecordJoint();
                     AppInstance.AppLogger.Info("Запись закончена!");
+
+                    //Сохраним результаты
+
+                    AppInstance.SaveResult(jointResult);
+
+
                 }
                 catch (Exception e)
                 {
@@ -61,7 +67,6 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     CommandFeedback.ValueUpdated += BeginJointRecording;
                     SetJointCommand.Value = 0;
                 }
-
             }
         }
 
@@ -127,6 +132,9 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 throw new Exception($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
             }
 
+            
+
+
         }
         
         async Task RecordOperationParams()
@@ -151,6 +159,12 @@ namespace PNTZ.Mufta.App.Domain.Joint
                                 AppInstance.AppLogger.Info("Регистрация параметров начата!");
                                 RecordingOperationParamBegun?.Invoke(null, EventArgs.Empty);
 
+
+                                jointResult = new JointResult();
+
+                                RecordingBeginTimeStamp = DateTime.Now;
+                                ActualTqTnLen.ValueUpdated += ActualTqTnLen_ValueUpdated;
+
                                 //Отмена по таймауту. Предполагаю что monitoring time.
                                 Task.Run(async () =>
                                 {
@@ -165,6 +179,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
                             {
                                 if (ensureEnd > 5)
                                 {
+                                    ActualTqTnLen.ValueUpdated -= ActualTqTnLen_ValueUpdated;
                                     break;
                                 }
                                 else
@@ -193,6 +208,21 @@ namespace PNTZ.Mufta.App.Domain.Joint
             RecordingOperationParamFinished?.Invoke(null, EventArgs.Empty);
         }
 
+        JointResult jointResult;
+
+        DateTime RecordingBeginTimeStamp;
+        private void ActualTqTnLen_ValueUpdated(object sender, TqTnLen e)
+        {
+            jointResult.TqTnPoints.Add(
+                new TqTnPoint()
+                {
+                    Torque = e.Torque,
+                    Length = e.Length,
+                    Turns = e.Turns,
+                    TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(RecordingBeginTimeStamp)).TotalMilliseconds)                
+                });
+        }
+
         public event EventHandler RecordingOperationParamBegun;
 
         public event EventHandler RecordingOperationParamFinished;
@@ -204,10 +234,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
             Evaluated?.Invoke(this, result);
         }
 
-
-
         private event EventHandler<uint> Evaluated; 
-
 
         public IDpValue<JointResult> ObservingJointResult {  get; set; }
 

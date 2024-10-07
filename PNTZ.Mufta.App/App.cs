@@ -38,9 +38,6 @@ namespace PNTZ.Mufta.App
 
             CurrentDirectory = currentDirectory;
 
-            RecipeFolder = "Рецепты";
-            MachineParametersFolder = "Параметры машин";
-
             AppCli = cli;
 
             await Task.Run(() => dataPointConfigurator?.StopProviders());
@@ -98,8 +95,9 @@ namespace PNTZ.Mufta.App
         static public App AppInstance;
 
         public string CurrentDirectory { get; set; }
-        public string RecipeFolder { get; set; }
-        public string MachineParametersFolder { get; set; }
+        public string RecipeFolder { get; set; } = "Рецепты";
+        public string MachineParametersFolder { get; set; } = "Параметры машин";
+        public string ResultFolder { get; set; } = "Результаты";
 
         public RecipeLoader CamRecipeLoader { get; set; }
 
@@ -127,7 +125,12 @@ namespace PNTZ.Mufta.App
 
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
-                JsonSerializer.Serialize<JointRecipe>(fs, joint);
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,  // Включаем красивое форматирование                    
+                };
+
+                JsonSerializer.Serialize<JointRecipe>(fs, joint, options);
                 Console.WriteLine($"Рецепт: {joint.Name} сохранен в {path}");
             }
         }
@@ -210,6 +213,31 @@ namespace PNTZ.Mufta.App
             }
         }
 
+
+        public void SaveResult(JointResult result)
+        {
+            if (result == null)
+                throw new ArgumentNullException();
+
+            string recipeDirectory = $"{AppInstance.CurrentDirectory}/{AppInstance.ResultFolder}";
+
+            if (!Directory.Exists(recipeDirectory))
+            {
+                Directory.CreateDirectory(recipeDirectory);
+            }
+
+            string path = $"{recipeDirectory}/Соединение_1.json";
+
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,  // Включаем красивое форматирование                    
+                };
+                JsonSerializer.Serialize<JointResult>(fs, result, options);
+                Console.WriteLine($"Результат сохранен в {path}");
+            }
+        }
 
         public ushort JointModeToMakeUpMode(JointMode jointMode)
         {
