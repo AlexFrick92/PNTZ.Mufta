@@ -27,10 +27,10 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     AppInstance.ActualTqTnLen = v;
                 };
 
-                ActualTqTnLenArrays.ValueUpdated += (se, v) =>
-                {
+                //ActualTqTnLenArrays.ValueUpdated += (se, v) =>
+                //{
 
-                };
+                //};
             };
 
             AppInstance.AppCli.RegisterCommand("startreg", async (arg) =>
@@ -98,7 +98,8 @@ namespace PNTZ.Mufta.App.Domain.Joint
             {
                 AppInstance.AppLogger.Info("Труба в позиции свинчивания. Готовимся к записи параметров!");
 
-                await RecordOperationParams();
+                //await RecordOperationParams();
+                AppInstance.AppLogger.Info("Как будто записали параметры");
 
                 awaitCommandFeedback = new TaskCompletionSource<uint>();
 

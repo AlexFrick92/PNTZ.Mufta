@@ -7,6 +7,119 @@
 	</ProviderDefinition>	
 
 	<DataPointDefinition>
+		<!--New joint commands-->
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="Kom_REG"."CAM_CMD_TPC"</NodeId>
+			</Provider>
+
+			<Processor Name ="JointResultObserver" TargetProperty="SetJointCommand"/>
+		</DpValue>
+
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>ns=3;s="Kom_REG"."CAM_CMD_PLC"</NodeId>
+			</Provider>
+
+			<Processor Name ="JointResultObserver" TargetProperty="CommandFeedback"/>
+		</DpValue>
+		
+		<!--Actual tqtnlen-->
+
+		<DpValue Name ="ActualTqTnLen">
+			<DpProperty Name ="Torque">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Torque"[0]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Length">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Length"[0]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="Turns">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="JointOperationalParams"."Turns"[0]
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<Processor Name ="JointResultObserver" TargetProperty="ActualTqTnLen"/>
+			
+		</DpValue>
+
+		<!-- Joint Result -->
+		<DpValue Name ="JointResult">
+			<DpProperty Name ="FinalTorque">
+				<Provider Name = "Stend AKF">
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_MAKEUP_FIN_TQ"</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="FinalLen">
+				<Provider Name = "Stend AKF">
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_MAKEUP_LEN"</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="FinalJVal">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_MAKEUP_VAL"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="FinalTurns">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_MAKEUP_FIN_TN"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="ResultPLC">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_MAKEUP_RESULT"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<DpProperty Name ="ResultTotal">
+				<Provider Name = "Stend AKF">
+					<NodeId>
+						ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_RESULT"
+					</NodeId>
+				</Provider>
+			</DpProperty>
+
+			<Processor Name ="JointResultObserver" TargetProperty="ObservingJointResult"/>
+
+		</DpValue>
+
+		<!--оценка-->
+		<DpValue>
+			<Provider Name ="Stend AKF">
+				<NodeId>
+					ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_RESULT"
+				</NodeId>
+			</Provider>
+
+			<Processor Name ="JointResultObserver" TargetProperty="TpcResult"/>
+		</DpValue>
+		
+		
+		
+		
+		
 		<!--Heartbeat-->
 		<DpValue Name="AppHeartbeat">
 			<Provider Name ="Stend AKF">
