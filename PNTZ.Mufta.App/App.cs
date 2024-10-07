@@ -239,6 +239,13 @@ namespace PNTZ.Mufta.App
             }
         }
 
+        public List<JointResult> OpenJointResult()
+        {
+
+
+            return default;
+        }
+
         public ushort JointModeToMakeUpMode(JointMode jointMode)
         {
             switch (jointMode)

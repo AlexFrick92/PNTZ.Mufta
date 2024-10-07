@@ -104,6 +104,13 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
             AppInstance.AppLogger.Info("Итоговый момент:" + ObservingJointResult.Value.FinalTorque);
 
+            jointResult.FinalTurns = ObservingJointResult.Value.FinalTurns;
+            jointResult.FinalTorque = ObservingJointResult.Value.FinalTorque;
+            jointResult.FinalLen = ObservingJointResult.Value.FinalLen;
+            jointResult.FinalJVal = ObservingJointResult.Value.FinalJVal;
+            jointResult.ResultPLC = ObservingJointResult.Value.ResultPLC;
+
+
             AppInstance.AppLogger.Info("Ожидаем оценки оператора");
 
             TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
@@ -118,6 +125,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
 
             TpcResult.Value = awaitEvaluation.Task.Result;
 
+            jointResult.ResultTotal = awaitEvaluation.Task.Result;
 
             awaitCommandFeedback = new TaskCompletionSource<uint>();
 
