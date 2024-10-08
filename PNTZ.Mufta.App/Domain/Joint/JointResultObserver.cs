@@ -69,7 +69,11 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 }
             }
             else
+            {
                 AppInstance.AppLogger.Info($"Получена записи соединения команда {command}, но ожидается 10");
+                SetJointCommand.Value = 0;
+            }
+            
         }
 
         async Task RecordJoint()

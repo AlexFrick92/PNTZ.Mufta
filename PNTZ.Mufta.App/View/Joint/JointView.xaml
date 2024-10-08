@@ -229,7 +229,7 @@
                                     <dxc:AxisY2D x:Name="axisY">
                                         <dxc:AxisY2D.WholeRange>
                                             <dxc:Range MinValue="0" 
-                                    MaxValue="1000"/>
+                                    MaxValue="100000"/>
                                         </dxc:AxisY2D.WholeRange>
                                     </dxc:AxisY2D>
                                 </dxc:XYDiagram2D.AxisY>
@@ -262,7 +262,7 @@
                                     <dxc:AxisX2D x:Name="axisX2">
                                         <dxc:AxisX2D.WholeRange>
                                             <dxc:Range MinValue="0" 
-                                            MaxValue="10"/>
+                                            MaxValue="90000"/>
                                         </dxc:AxisX2D.WholeRange>
                                     </dxc:AxisX2D>
                                 </dxc:XYDiagram2D.AxisX>
@@ -271,7 +271,7 @@
                                     <dxc:AxisY2D x:Name="axisY2">
                                         <dxc:AxisY2D.WholeRange>
                                             <dxc:Range MinValue="0" 
-                                            MaxValue="1000"/>
+                                            MaxValue="10"/>
                                         </dxc:AxisY2D.WholeRange>
                                     </dxc:AxisY2D>
                                 </dxc:XYDiagram2D.AxisY>
@@ -279,8 +279,8 @@
                                 <dxc:LineSeries2D DisplayName="Day Temperature" 
                                      DataSource="{Binding TqTnSeries}" 
                                      ArgumentScaleType="Auto"                                         
-                                     ArgumentDataMember="Turns"
-                                     ValueDataMember="Torque"  
+                                     ArgumentDataMember="TimeStamp"
+                                     ValueDataMember="Turns"  
                                      ValueScaleType="Numerical"
                                  >
                                 </dxc:LineSeries2D>
@@ -304,7 +304,7 @@
                                     <dxc:AxisX2D x:Name="axisX3">
                                         <dxc:AxisX2D.WholeRange>
                                             <dxc:Range MinValue="0" 
-                                            MaxValue="500"/>
+                                            MaxValue="90000"/>
                                         </dxc:AxisX2D.WholeRange>
                                     </dxc:AxisX2D>
                                 </dxc:XYDiagram2D.AxisX>
@@ -313,7 +313,7 @@
                                     <dxc:AxisY2D x:Name="axisY3">
                                         <dxc:AxisY2D.WholeRange>
                                             <dxc:Range MinValue="0" 
-                                            MaxValue="1000"/>
+                                            MaxValue="1"/>
                                         </dxc:AxisY2D.WholeRange>
                                     </dxc:AxisY2D>
                                 </dxc:XYDiagram2D.AxisY>
@@ -321,8 +321,8 @@
                                 <dxc:LineSeries2D DisplayName="Day Temperature" 
                                      DataSource="{Binding TqTnSeries}" 
                                      ArgumentScaleType="Auto"                                         
-                                     ArgumentDataMember="Length"
-                                     ValueDataMember="Torque"  
+                                     ArgumentDataMember="TimeStamp"
+                                     ValueDataMember="Length"  
                                      ValueScaleType="Numerical"
                                  >
                                 </dxc:LineSeries2D>
