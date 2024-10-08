@@ -53,7 +53,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
                     AppInstance.AppLogger.Info("Запись закончена!");
 
                     //Сохраним результаты
-
+                    
                     AppInstance.SaveResult(jointResult);
 
 
@@ -98,7 +98,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
             {
                 AppInstance.AppLogger.Info("Труба в позиции свинчивания. Готовимся к записи параметров!");
 
-                //await RecordOperationParams();
+                await RecordOperationParams();
                 AppInstance.AppLogger.Info("Как будто записали параметры");
 
                 awaitCommandFeedback = new TaskCompletionSource<uint>();

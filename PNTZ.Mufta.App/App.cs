@@ -67,11 +67,11 @@ namespace PNTZ.Mufta.App
 
             dataPointConfigurator = new DpFluentBuilder()
                 .SetLogger(logger)
-                //.AddConfiguration($"{currentDirectory}/DpConfig.xml")
-                .AddConfiguration($"{currentDirectory}/DpConfigStendPNTZ.xml")
+                .AddConfiguration($"{currentDirectory}/DpConfig.xml")
+                //.AddConfiguration($"{currentDirectory}/DpConfigStendPNTZ.xml")
                 .SetProviders(new Type[] { typeof(OpcUaProvider) })
-                //.SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, ResultObserver, commonParam, machineParameterObserver })
-                .SetProcessors(new IDpProcessor[] {machineParameterObserver, recipeLoader, heartbeat, heartbeatCheck, ResultObserver })
+                .SetProcessors(new IDpProcessor[] { recipeLoader, heartbeat, heartbeatCheck, ResultObserver, commonParam, machineParameterObserver })
+                //.SetProcessors(new IDpProcessor[] {machineParameterObserver, recipeLoader, heartbeat, heartbeatCheck, ResultObserver })
                 .Build();             
 
 
@@ -223,7 +223,7 @@ namespace PNTZ.Mufta.App
                 Directory.CreateDirectory(recipeDirectory);
             }
 
-            string path = $"{recipeDirectory}/Соединение_{DateTime.Now.ToString("yyyymmdd_hhmm")}.json";
+            string path = $"{recipeDirectory}/Соединение_{DateTime.Now.ToString("yyyyMMdd_hhmm")}.json";
 
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
@@ -238,8 +238,6 @@ namespace PNTZ.Mufta.App
 
         public List<JointResult> OpenJointResult()
         {
-
-
             return default;
         }
 

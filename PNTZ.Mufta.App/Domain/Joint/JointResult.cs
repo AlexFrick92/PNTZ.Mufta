@@ -18,7 +18,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
         public uint ResultTotal { get; set; }        
         public DateTime StartTimeStamp {  get; set; }
         public DateTime FinishTimeStamp { get; set; }
-        public List<TqTnPoint> TqTnPoints { get; private set; } = new List<TqTnPoint>();
+        public List<TqTnPoint> TqTnPoints { get; private set; } = new List<TqTnPoint>();        
 
         public float ActualTorque { get; set; }
         public float ActualLen { get; set; }
