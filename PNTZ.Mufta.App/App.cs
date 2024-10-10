@@ -75,6 +75,7 @@ namespace PNTZ.Mufta.App
                 .Build();             
 
 
+
             cli.RegisterCommand("print", (args) => (cli as ICliProgram).WriteLine(args[0]));
 
             cli.RegisterCommand("init", (_) => recipeLoader.OnDpInitialized());

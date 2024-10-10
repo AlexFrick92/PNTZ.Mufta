@@ -119,6 +119,7 @@ namespace PNTZ.Mufta.App.Domain.Joint
                 }
 
                 AppInstance.AppLogger.Info("Итоговый момент:" + ObservingJointResult.Value.FinalTorque);
+                AppInstance.AppLogger.Info("Результат ПЛК:" + ObservingJointResult.Value.ResultPLC);
 
                 jointResult.FinalTurns = ObservingJointResult.Value.FinalTurns;
                 jointResult.FinalTorque = ObservingJointResult.Value.FinalTorque;
