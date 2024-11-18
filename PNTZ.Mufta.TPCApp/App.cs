@@ -14,9 +14,6 @@ using PNTZ.Mufta.TPCApp.View;
 using Promatis.Core;
 using Promatis.Core.Logging;
 using Promatis.IoC.DryIoc;
-using System.Linq.Expressions;
-using System.Windows.Navigation;
-using Toolkit.Logging;
 
 
 namespace PNTZ.Mufta.TPCApp

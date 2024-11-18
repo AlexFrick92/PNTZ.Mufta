@@ -11,8 +11,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 {
     public class MakeHeartBeat : IMakeHeartBeat
     {
-
-
         ILogger logger;
         CancellationTokenSource cts;
         bool running = false;
@@ -27,11 +25,22 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         public void DpBound()
         {
-            Task.Run(async () =>
-            {                
-                StartHeartbeat();
-            });
+            DpHeartbeat.StatusChanged += DpHeartbeat_StatusChanged;
+         
         }
+
+        private void DpHeartbeat_StatusChanged(object sender, EventArgs e)
+        {
+            if(DpHeartbeat.IsConnected)
+            {
+                StartHeartbeat();
+            }
+            else
+            {
+                cts?.Cancel();
+            }
+        }
+
         async void StartHeartbeat()
         {
             logger.Info("Запускаем heartbeat...");
@@ -49,12 +58,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         }
                         else
                         {
-                            if (DpHeartbeat.IsConnected)
-                                DpHeartbeat.Value = !DpHeartbeat.Value;
-                            else
-                            {
-                                logger.Warn("heartbeat не подключения");                                
-                            }
+                            DpHeartbeat.Value = !DpHeartbeat.Value;
                         }    
                         if(!running)
                         {
