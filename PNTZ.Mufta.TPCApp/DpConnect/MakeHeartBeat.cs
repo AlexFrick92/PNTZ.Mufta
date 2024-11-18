@@ -22,6 +22,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         }
 
         public IDpValue<bool> DpHeartbeat { get; set; }
+        public string status { get; set; }
 
         public void DpBound()
         {
@@ -63,6 +64,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         if(!running)
                         {
                             logger.Info("heartbeat запущен.");
+                            status = "Работает";
                             running = true;
                         }
                         await Task.Delay(TimeSpan.FromSeconds(1));
