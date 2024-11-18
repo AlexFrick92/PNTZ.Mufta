@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<DpConfiguration>
+
+	<Connections>
+		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa" ConnectionId ="Stend PNTZ">
+			<Endpoint>opc.tcp://10.10.10.96:4840</Endpoint>
+		</Connection>
+
+		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa" ConnectionId ="Stend AKF" Active="False">			
+			<Endpoint>opc.tcp://10.10.10.95:4840</Endpoint>
+		</Connection>
+	</Connections>
+
+	<Workers>
+
+
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.IMakeHeartBeat, PNTZ.Mufta.TPCApp">
+
+			<DpValue PropertyName="DpHeartbeat">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="CommCheck"."TPC_Heartbeat"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+		</Worker>
+
+	</Workers>
+
+</DpConfiguration>
