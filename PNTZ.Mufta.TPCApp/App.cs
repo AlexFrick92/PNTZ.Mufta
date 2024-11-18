@@ -54,6 +54,8 @@ namespace PNTZ.Mufta.TPCApp
         protected override void Init()
         {
             mainWindow = new MainView();
+
+            DpConnectionManager.OpenConnections();
         }
 
         protected override void AfterInit() 
