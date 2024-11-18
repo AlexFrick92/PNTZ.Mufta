@@ -9,8 +9,7 @@ using DpConnect.OpcUa;
 
 using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.View;
-
-
+using PNTZ.Mufta.TPCApp.ViewModel;
 using Promatis.Core;
 using Promatis.Core.Logging;
 using Promatis.IoC.DryIoc;
@@ -31,9 +30,11 @@ namespace PNTZ.Mufta.TPCApp
 
         public ILogger Logger { get; private set; }
 
+        public IIoCContainer container { get; private set; }
+
         protected override void BeforeInit()
         {
-            IIoCContainer container = new DryIocContainer();
+            container = new DryIocContainer();
 
             container.RegisterInstance(container);
 
@@ -50,17 +51,19 @@ namespace PNTZ.Mufta.TPCApp
             container.RegisterSingleton(typeof(IDpWorkerManager), typeof(ContainerizedWorkerManager));
             container.Register<IDpBuilder, DpXmlBuilder>();
 
+            container.Register<IMainViewModel, MainViewModel>();
+
             DpBuilder = container.Resolve<IDpBuilder>();            
 
-            Logger = container.Resolve<ILogger>();
-
-            DpBuilder.Build();
-            
+            Logger = container.Resolve<ILogger>();            
         }
 
         protected override void Init()
         {
+            DpBuilder.Build();
+            
             mainWindow = new MainView();
+            mainWindow.DataContext = container.Resolve<IMainViewModel>();
 
             DpConnectionManager.OpenConnections();            
         }
