@@ -15,9 +15,15 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
     }
     static public class REZ_MVS_Helper
     {
-        public static REZ_MVS FromRecipe(this REZ_MVS rez, JointRecipe recipe)
+        public static REZ_MVS FromRecipe(this REZ_MVS instance, JointRecipe recipe)
         {
-            return new REZ_MVS();
+            REZ_MVS rez = new REZ_MVS();
+
+            rez.Pre_Len_Max = recipe.Pre_Len_Max;
+            rez.Pre_Len_Min = recipe.Pre_Len_Min;
+            rez.Pre_Moni_Time = recipe.Pre_Moni_Time;
+
+            return rez;
         }
     }
 }

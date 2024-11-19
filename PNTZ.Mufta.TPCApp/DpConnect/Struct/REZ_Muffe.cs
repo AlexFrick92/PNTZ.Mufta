@@ -12,9 +12,15 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
 
     static public class REZ_Muffe_Helper
     {
-        public static REZ_Muffe FromRecipe(this REZ_Muffe rez, JointRecipe recipe)
+        public static REZ_Muffe FromRecipe(this REZ_Muffe instance, JointRecipe recipe)
         {
-            return new REZ_Muffe();
+            REZ_Muffe rez = new REZ_Muffe();
+
+            rez.Box_Len_Max = recipe.Box_Len_Max;
+            rez.Box_Len_Min = recipe.Box_Len_Min;
+            rez.Box_Moni_Time = recipe.Box_Moni_Time;
+
+            return rez;
         }
     }
 }
