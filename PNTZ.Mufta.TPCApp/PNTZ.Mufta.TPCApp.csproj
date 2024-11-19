@@ -52,7 +52,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Domain\JointRecipe.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
+    <Compile Include="DpConnect\RecipeToPlc.cs" />
+    <Compile Include="DpConnect\Struct\ERG_CAM.cs" />
+    <Compile Include="DpConnect\Struct\ERG_Muffe.cs" />
+    <Compile Include="DpConnect\Struct\ERG_MVS.cs" />
+    <Compile Include="DpConnect\Struct\REZ_ALLG.cs" />
+    <Compile Include="DpConnect\Struct\REZ_CAM.cs" />
+    <Compile Include="DpConnect\Struct\REZ_Muffe.cs" />
+    <Compile Include="DpConnect\Struct\REZ_MVS.cs" />
+    <Compile Include="DpConnect\Struct\ZEITSTEMPEL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -97,5 +107,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

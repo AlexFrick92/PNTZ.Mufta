@@ -14,12 +14,54 @@
 
 	<Workers>
 
-
+		<!--ХАРТ БИТЫ-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.MakeHeartBeat, PNTZ.Mufta.TPCApp">
 
 			<DpValue PropertyName="DpHeartbeat">
 				<SourceConfiguration ConnectionId ="Stend PNTZ">
 					<NodeId>ns=3;s="CommCheck"."TPC_Heartbeat"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+		</Worker>
+
+
+		<!--Загрузка рецепта-->
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.RecipeToPlc, PNTZ.Mufta.TPCApp">
+
+			<DpValue PropertyName="DpTpcCommand">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_REZ"."CMD_TPC"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="DpPlcCommand">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_REZ"."CMD_PLC"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="Dp_REZ_ALLG">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_ALLG"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="Dp_REZ_Muffe">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_Muffe"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="Dp_REZ_MVS">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_MVS"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="Dp_REZ_CAM">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_CAM"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 

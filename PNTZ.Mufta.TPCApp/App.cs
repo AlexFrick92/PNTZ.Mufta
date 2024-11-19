@@ -49,6 +49,7 @@ namespace PNTZ.Mufta.TPCApp
 
             container.Register<IOpcUaConnection, OpcUaConnection>();
             container.Register<MakeHeartBeat, MakeHeartBeat>();
+            container.Register<RecipeToPlc, RecipeToPlc>();
 
 
             container.RegisterSingleton(typeof(IDpConnectionManager), typeof(ContainerizedConnectionManager));
