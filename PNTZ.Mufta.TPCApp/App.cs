@@ -10,11 +10,15 @@ using DpConnect.OpcUa;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.View;
 using PNTZ.Mufta.TPCApp.ViewModel;
+
 using Promatis.Core;
 using Promatis.Core.Logging;
 using Promatis.IoC.DryIoc;
+
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+
 using Toolkit.IO;
 using Toolkit.Logging;
 
@@ -41,17 +45,17 @@ namespace PNTZ.Mufta.TPCApp
             container.RegisterInstance<ICliProgram>(cli);
             container.RegisterInstance<ICliUser>(cli);
 
-            container.RegisterSingleton(typeof(ILogger), typeof(ConsoleLogger));            
+            container.RegisterSingleton(typeof(ILogger), typeof(CliLogger)); ;            
 
             container.Register<IOpcUaConnection, OpcUaConnection>();
-            container.Register<IMakeHeartBeat, MakeHeartBeat>();
+            container.Register<MakeHeartBeat, MakeHeartBeat>();
 
 
             container.RegisterSingleton(typeof(IDpConnectionManager), typeof(ContainerizedConnectionManager));
             container.RegisterSingleton(typeof(IDpWorkerManager), typeof(ContainerizedWorkerManager));
             container.Register<IDpBuilder, DpXmlBuilder>();
 
-            container.Register<IMainViewModel, MainViewModel>();
+            container.Register<MainViewModel, MainViewModel>();
 
             DpBuilder = container.Resolve<IDpBuilder>();            
 
@@ -63,9 +67,9 @@ namespace PNTZ.Mufta.TPCApp
             DpBuilder.Build();
             
             mainWindow = new MainView();
-            mainWindow.DataContext = container.Resolve<IMainViewModel>();
+            mainWindow.DataContext = container.Resolve<MainViewModel>();
 
-            DpConnectionManager.OpenConnections();            
+            cli.RegisterCommand("start", (args) => Task.Run(()=> DpConnectionManager.OpenConnections()));            
         }
 
         protected override void AfterInit() 

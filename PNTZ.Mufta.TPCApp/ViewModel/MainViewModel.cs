@@ -8,7 +8,7 @@ using Toolkit.IO;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
-    internal class MainViewModel : BaseViewModel, IMainViewModel
+    internal class MainViewModel : BaseViewModel
     {
         IDpWorkerManager WorkerManager { get; set; }
         IDpConnectionManager ConnectionManager { get; set; }

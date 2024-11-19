@@ -15,7 +15,7 @@
 	<Workers>
 
 
-		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.IMakeHeartBeat, PNTZ.Mufta.TPCApp">
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.MakeHeartBeat, PNTZ.Mufta.TPCApp">
 
 			<DpValue PropertyName="DpHeartbeat">
 				<SourceConfiguration ConnectionId ="Stend PNTZ">

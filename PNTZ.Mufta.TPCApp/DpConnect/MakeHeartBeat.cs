@@ -9,7 +9,8 @@ using Promatis.Core.Logging;
 
 namespace PNTZ.Mufta.TPCApp.DpConnect
 {
-    public class MakeHeartBeat : IMakeHeartBeat
+
+    public class MakeHeartBeat : IDpWorker
     {
         ILogger logger;
         CancellationTokenSource cts;
