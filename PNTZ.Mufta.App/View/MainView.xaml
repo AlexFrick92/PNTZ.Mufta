@@ -54,7 +54,7 @@
                         </Style>
                     </Grid.Resources>
                     
-                    <Grid.RowDefinitions>
+                    <Grid.RowDefinitions>                             
                         <RowDefinition Height="100"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
