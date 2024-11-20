@@ -8,8 +8,24 @@ namespace PNTZ.Mufta.TPCApp.Domain
 {
     public class JointRecipe
     {
-        public string Name { get; set; } = "123";
-        public float HEAD_OPEN_PULSES { get; set; }
+        string name;
+        public string Name 
+        { 
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (value.Length < 10)
+                {
+                    name = value;
+                }
+                else
+                    throw new ArgumentException("Значение имени должно быть меньше 10 символов");
+            }
+        }
+        public float HEAD_OPEN_PULSES { get; set; } = 0.5f;
         public float TURNS_BREAK { get; set; }
         public ushort PLC_PROG_NR { get; set; }
         public ushort LOG_NO { get; set; }

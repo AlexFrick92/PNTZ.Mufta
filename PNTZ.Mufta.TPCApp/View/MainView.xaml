@@ -5,14 +5,78 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View"
         xmlns:layout="clr-namespace:Desktop.Layout;assembly=Desktop"
-        xmlns:control="clr-namespace:Desktop.Control;assembly=Desktop"  
+        xmlns:control="clr-namespace:Desktop.Control;assembly=Desktop" 
+        xmlns:lctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding NaviToRecipeViewCommand}"/>
+        <KeyBinding Key="F2" Command="{Binding NaviToJointViewCommand}"/>
+        <KeyBinding Key="F3" Command="{Binding NaviToMpViewCommand}"/>
+    </Window.InputBindings>
+    
     <Grid>
         <layout:RootControl x:Name="Root">
+
+            <!--****************************************** ПАНЕЛЬ СЛЕВА **************************************************************-->
+
+            <layout:RootControl.LeftSidebar>
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style x:Key="BorderSeparatorStyle" TargetType="Border">
+                            <Setter Property="BorderBrush" Value="#cecece"/>
+                            <Setter Property="BorderThickness" Value="0,1,0,0"/>
+                            <Setter Property="Margin" Value="2,2,2,2"/>
+                        </Style>
+                    </StackPanel.Resources>
+
+
+                    <lctrl:NaviButton 
+                        TopLabel="-F1-" 
+                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Recipe.drawio.png"
+                        BottomLabel="РЕЦЕПТЫ"
+                        ButtonCommand="{Binding NaviToRecipeViewCommand}"
+                        />
+                    
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+                    
+                    <lctrl:NaviButton                         
+                        TopLabel="-F2-" 
+                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Operation.drawio.png"
+                        BottomLabel="НАВЁРТКА"
+                        ButtonCommand="{Binding NaviToJointViewCommand}"
+                        />
+
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                    <lctrl:NaviButton 
+                        TopLabel="-F3-" 
+                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/MachinParam.drawio.png"
+                        BottomLabel="МАШИНА"
+                        />
+
+                </StackPanel>
+            </layout:RootControl.LeftSidebar>
+
+
+            <!--****************************************** ГЛАВНАЯ ПАНЕЛЬ **************************************************************-->
+
+            <layout:RootControl.MainContent>
+                <ContentControl Grid.Row="1" Content="{Binding MainContent}"/>
+            </layout:RootControl.MainContent>
+
+
+
+            <!--****************************************** НИЖНЯЯ ПАНЕЛЬ **************************************************************-->
+
             <layout:RootControl.OutputElementCollection>
-                <control:CliView DataContext="{Binding CliViewModel}" Header="LOGGER"/>
+                <control:CliView DataContext="{Binding CliViewModel}" Header="ВЫВОД"/>
             </layout:RootControl.OutputElementCollection>
-        </layout:RootControl>
+
+
+            </layout:RootControl>
+        
+
     </Grid>
 </Window>

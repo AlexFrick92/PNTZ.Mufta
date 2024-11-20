@@ -1,0 +1,166 @@
+﻿<UserControl x:Class="PNTZ.Mufta.TPCApp.View.Recipe.CreateRecipeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1600"             
+             >
+    <UserControl.Resources>
+        
+        <!-- Поля ввода-->
+        <Style x:Key="InputField" TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="80"/>
+        </Style>
+        <Style x:Key="InputFieldLabel" TargetType="Label">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!--Заголовок параметров-->
+        <Style x:Key="ParamHeaderLabel" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style x:Key="HeaderUnderStroke" TargetType="Border">
+            <Setter Property="BorderThickness" Value="0,1,0,0"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--****************************************** СПИСОК РЕЦЕПТОВ В ПАПКЕ **************************************************************-->
+        <Grid Grid.Column="0">
+            <ListView ItemsSource="{Binding SavedRecipes}" SelectedItem="{Binding SelectedSavedRecipe}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="300" DisplayMemberBinding="{Binding Path=Name}">Имя задания</GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <!--****************************************** РЕДАКТИРОВАНИЕ РЕЦЕПТА **************************************************************-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--********************* НАЗВАНИЕ РЕЦЕПТА ***************************-->
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Введите название задания:"/>
+                    <TextBox  
+                        Style="{StaticResource InputField}"
+                        HorizontalContentAlignment="Left"
+                        Width="300"
+                        PreviewTextInput="TextBox_PreviewTextInput" 
+                        x:Name="Input_RecipeName"
+                        PreviewKeyDown="InputField_KeyDown"
+                        Text="{Binding EditRecipe.Name, ValidatesOnExceptions=True}"
+                    />
+                </StackPanel>
+            </Grid>
+
+            <!--********************* ДАННЫЕ РЕЦЕПТА ***************************-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+
+                <!--********************* ОБЩИЕ ПАРАМЕТРЫ ***************************-->
+
+                <Grid Grid.Column="0" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <!--ЗАГОЛОВОК-->
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Общие параметры"/>
+                        <Border Style="{StaticResource HeaderUnderStroke}"/>
+                    </StackPanel>
+
+                    <!--ПАРАМЕТРЫ-->                   
+                    <StackPanel Grid.Row="1" Grid.Column="0">
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Обороты открытие головки"/>
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Обороты развинчивание"/>
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Тип резьбы"/>
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Шаг резьбы"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <TextBox x:Name="Input_HeadOpen" PreviewKeyDown="InputField_KeyDown" Style="{StaticResource InputField}" Text="{Binding JointRecipe.HEAD_OPEN_PULSES, ValidatesOnExceptions=True}"/>
+                        <TextBox x:Name="Input_TurnsBreak" PreviewKeyDown="InputField_KeyDown" Style="{StaticResource InputField}" Text="{Binding JointRecipe.TURNS_BREAK, ValidatesOnExceptions=True}"/>
+                        <TextBox x:Name="Input_ThreadType" PreviewKeyDown="InputField_KeyDown" Style="{StaticResource InputField}" Text="{Binding JointRecipe.Thread_type, ValidatesOnExceptions=True}" />
+                        <TextBox x:Name="Input_Thread_step" PreviewKeyDown="InputField_KeyDown" Style="{StaticResource InputField}" Text="{Binding JointRecipe.Thread_step, ValidatesOnExceptions=True}"/>
+                    </StackPanel>
+
+                    
+                </Grid>
+
+                <!--********************* ДАННЫЕ МУФТЫ ***************************-->
+
+                <Grid Grid.Column="1" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!--ЗАГОЛОВОК-->
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Данные муфты"/>
+                        <Border Style="{StaticResource HeaderUnderStroke}"/>
+                    </StackPanel>
+
+                    <!--ПАРАМЕТРЫ-->
+                    <StackPanel Grid.Row="1" Grid.Column="0">
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Время наблюдения"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <TextBox x:Name="Input_BoxMax" PreviewKeyDown="InputField_KeyDown" Style="{StaticResource InputField}" Text="{Binding JointRecipe.Box_Len_Max, ValidatesOnExceptions=True}"/>
+                        <TextBox x:Name="Input_BoxMin" PreviewKeyDown="InputField_KeyDown" Style="{StaticResource InputField}" Text="{Binding JointRecipe.Box_Len_Min, ValidatesOnExceptions=True}"/>
+                        <TextBox x:Name="Input_BoxTime" PreviewKeyDown="InputField_KeyDown" Style="{StaticResource InputField}" Text="{Binding JointRecipe.Box_Moni_Time, ValidatesOnExceptions=True}" />
+                    </StackPanel>
+
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
+
+
+
+    </Grid>
+</UserControl>

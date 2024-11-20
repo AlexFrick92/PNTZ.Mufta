@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -66,8 +69,18 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\RecipeViewModel.cs" />
+    <Compile Include="View\Control\NaviButton.xaml.cs">
+      <DependentUpon>NaviButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Joint\JointView.xaml.cs">
+      <DependentUpon>JointView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\CreateRecipeView.xaml.cs">
+      <DependentUpon>CreateRecipeView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -97,7 +110,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\Control\NaviButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Joint\JointView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Recipe\CreateRecipeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,5 +133,12 @@
     </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Resource Include="View\Resource\Images\help.drawio.png" />
+    <Resource Include="View\Resource\Images\MachinParam.drawio.png" />
+    <Resource Include="View\Resource\Images\Operation.drawio.png" />
+    <Resource Include="View\Resource\Images\Recipe.drawio.png" />
+    <Resource Include="View\Resource\Images\Settings.drawio.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
