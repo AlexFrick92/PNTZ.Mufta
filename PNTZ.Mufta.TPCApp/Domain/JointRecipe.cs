@@ -26,7 +26,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
             }
         }
         public float HEAD_OPEN_PULSES { get; set; } = 0.5f;
-        public float TURNS_BREAK { get; set; }
+        public float TURNS_BREAK { get; set; } = 0.5f;
         public ushort PLC_PROG_NR { get; set; }
         public ushort LOG_NO { get; set; }
         public ushort Tq_UNIT { get; set; }

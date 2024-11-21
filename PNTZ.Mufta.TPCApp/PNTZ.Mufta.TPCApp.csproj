@@ -132,7 +132,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="View\ViewConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Resource\Images\help.drawio.png" />
     <Resource Include="View\Resource\Images\MachinParam.drawio.png" />

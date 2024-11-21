@@ -27,7 +27,8 @@ namespace PNTZ.Mufta.TPCApp
 {
     internal class App : StagedApplication
     {
-
+        static public App AppInstance;
+        public string CurrentDirectory { get; private set; }
         public IDpBuilder DpBuilder { get; private set; }
         public IDpConnectionManager DpConnectionManager { get => DpBuilder.ConnectionManager; }
         public IDpWorkerManager DpWorkerManager { get => DpBuilder.WorkerManager; }
@@ -38,6 +39,9 @@ namespace PNTZ.Mufta.TPCApp
 
         protected override void BeforeInit()
         {
+            AppInstance = this;
+            CurrentDirectory = currentDirectory;
+
             container = new DryIocContainer();
 
             container.RegisterInstance(container);
