@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<JointRecipeConfig>
+	<HEAD_OPEN_PULSES Min="5" Max="10"/>
+	<TURNS_BREAK Min="5" Max="10"/>
+	<Thread_step Min="5" Max="10"/>
+	
+	<Box_Moni_Time Min="5" Max="10"/>
+	<Box_Len_Min Min="5" Max="10"/>
+	<Box_Len_Max Min="5" Max="10"/>
+	
+	<Pre_Moni_Time Min="5" Max="10"/>
+	<Pre_Len_Min Min="5" Max="10"/>
+	<Pre_Len_Max Min="5" Max="10"/>
+	
+	<MU_Moni_Time Min="5" Max="10"/>
+	
+	<MU_Tq_Ref Min="5" Max="10"/>
+	<MU_Tq_Save Min="5" Max="10"/>
+	<MU_TqSpeedRed_1 Min="5" Max="10"/>
+	<MU_TqSpeedRed_2 Min="5" Max="10"/>
+	<MU_Tq_Dump Min="5" Max="10"/>
+	<MU_Tq_Max Min="5" Max="10"/>
+	<MU_Tq_Min Min="5" Max="10"/>
+	<MU_Tq_Opt Min="5" Max="10"/>
+	<MU_TqShoulder_Min Min="5" Max="10"/>
+	<MU_TqShoulder_Max Min="5" Max="10"/>
+	
+	<MU_Len_Speed_1 Min="5" Max="10"/>
+	<MU_Len_Speed_2 Min="5" Max="10"/>
+	<MU_Len_Dump Min="5" Max="10"/>
+	<MU_Len_Min Min="5" Max="10"/>
+	<MU_Len_Max Min="5" Max="10"/>
+	
+	<MU_Jval_Speed_1 Min="5" Max="10"/>
+	<MU_Jval_Speed_2 Min="5" Max="10"/>
+	<MU_Jval_Dump Min="5" Max="10"/>
+	<MU_Jval_Min Min="5" Max="10"/>
+	<MU_Jval_Max Min="5" Max="10"/>
+
+	
+	
+	
+</JointRecipeConfig>

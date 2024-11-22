@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Domain\JointRecipe.cs" />
+    <Compile Include="Domain\ValidatedFloatPropertyAttribute.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
     <Compile Include="DpConnect\RecipeToPlc.cs" />
     <Compile Include="DpConnect\Struct\ERG_CAM.cs" />
@@ -143,6 +144,11 @@
     <Resource Include="View\Resource\Images\Operation.drawio.png" />
     <Resource Include="View\Resource\Images\Recipe.drawio.png" />
     <Resource Include="View\Resource\Images\Settings.drawio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Domain\JointRecipeConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
