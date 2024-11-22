@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<JointRecipeConfig>
+	<HEAD_OPEN_PULSES Min="5" Max="10" Default ="7" Name="Обороты на открытие головки"/>
+	<TURNS_BREAK Min="5" Max="10" Default ="6" Name="Обороты на развинчивание"/>
+	<Thread_step Min="5" Max="10" Default ="6" Name="Шаг резьбы"/>
+	<Thread_type Min="0" Max="10" Default ="6" Name="Тип резьбы"/>
+
+	<Box_Moni_Time Min="5" Max="10" Default ="6" Name="Время измерения муфты"/>
+	<Box_Len_Min Min="5" Max="10" Default ="6" Name="Мин. длина муфты"/>
+	<Box_Len_Max Min="5" Max="10" Default ="6" Name="Макс. длина муфты"/>
+	
+	<Pre_Moni_Time Min="5" Max="10" Default ="6" Name="Время преднавёртки"/>
+	<Pre_Len_Min Min="5" Max="10" Default ="6" Name="Мин. длина преднавёртки"/>
+	<Pre_Len_Max Min="5" Max="10" Default ="6" Name="Макс. длина преднавёртки"/>
+	
+	<MU_Moni_Time Min="5" Max="10" Default ="6" Name="Время силового свинчивания"/>
+	
+	<MU_Tq_Ref Min="5" Max="10" Default ="6" Name="Опорный момент"/>
+	<MU_Tq_Save Min="5" Max="10" Default ="6" Name="Момент автосохранения"/>
+	<MU_TqSpeedRed_1 Min="5" Max="10" Default ="6" Name="Уменьшение скорости 1 крут. момента"/>
+	<MU_TqSpeedRed_2 Min="5" Max="10" Default ="6" Name="Уменьшение скорости 2 крут. момента"/>
+	<MU_Tq_Dump Min="5" Max="10" Default ="6" Name="Крутящий момент сброса"/>
+	<MU_Tq_Max Min="5" Max="10" Default ="6" Name="Минимальный крутящий момент"/>
+	<MU_Tq_Min Min="5" Max="10" Default ="6" Name="Максимальный крутящий момент"/>
+	<MU_Tq_Opt Min="5" Max="10" Default ="6" Name="Оптимальный крутящий момент"/>
+	<MU_TqShoulder_Min Min="5" Max="10" Default ="6" Name="Минимальный крутящий момент плеча"/>
+	<MU_TqShoulder_Max Min="5" Max="10" Default ="6" Name="Максимальный крутящий момент плеча"/>
+	
+	<MU_Len_Speed_1 Min="5" Max="10" Default ="6" Name="Уменьшение скорости 1 при длине"/>
+	<MU_Len_Speed_2 Min="5" Max="10" Default ="6" Name="Уменьшение скорости 2 при длине"/>
+	<MU_Len_Dump Min="5" Max="10" Default ="6" Name="Длина сброса"/>
+	<MU_Len_Min Min="5" Max="10" Default ="6" Name="Минимальная длина"/>
+	<MU_Len_Max Min="5" Max="10" Default ="6" Name="Максимальная длина"/>
+	
+	<MU_Jval_Speed_1 Min="5" Max="10" Default ="6" Name="Уменьшение скорости 1 при J"/>
+	<MU_Jval_Speed_2 Min="5" Max="10" Default ="6" Name="Уменьшение скорости 2 при J"/>
+	<MU_Jval_Dump Min="5" Max="10" Default ="6" Name="Значение J сброса"/>
+	<MU_Jval_Min Min="5" Max="10" Default ="6" Name="Минимальное значение J"/>
+	<MU_Jval_Max Min="5" Max="10" Default ="6" Name="Максимально значение J"/>
+
+</JointRecipeConfig>
