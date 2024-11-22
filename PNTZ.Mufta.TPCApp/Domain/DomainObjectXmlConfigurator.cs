@@ -18,14 +18,14 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
             InitValidators();
         }
-        public T GetFloatValue<T>(string propName) where T : IComparable<T> => ((ComparableValueValidator<T>)Validators[propName]).ActualValue;
-        public void SetFloatValue<T>(string propName, T value) where T : IComparable<T> => ((ComparableValueValidator<T>)Validators[propName]).ActualValue = value;
+        public T1 GetFloatValue<T1>(string propName) where T1 : IComparable<T1> => ((ComparableValueValidator<T1>)Validators[propName]).ActualValue;
+        public void SetFloatValue<T1>(string propName, T1 value) where T1 : IComparable<T1> => ((ComparableValueValidator<T1>)Validators[propName]).ActualValue = value;
 
         Dictionary<string, object> Validators = new Dictionary<string, object>();
-        public T GetValueFromXml<T>(string propName, string attribute)
+        public T1 GetValueFromXml<T1>(string propName, string attribute)
         {
             string xmlVal = config.Root.Element(propName).Attribute(attribute).Value;
-            return (T)Convert.ChangeType(xmlVal, typeof(T));
+            return (T1)Convert.ChangeType(xmlVal, typeof(T1));
         }
 
         void InitValidators()

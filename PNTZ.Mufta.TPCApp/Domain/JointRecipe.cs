@@ -78,7 +78,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
 
         public ushort MU_Makeup_Mode { get; set; } // 0 - по моменту, 1 - по длине, 2 - по JVal
-        public JointModeEnum JointMode { get; set; }
+        public JointMode JointMode { get; set; }
 
 
         [ComparableValidationProperty("MU_TqSpeedRed_1")]
@@ -122,15 +122,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
         [ComparableValidationProperty("MU_TqShoulder_Min")]
         public float MU_TqShoulder_Min { get => Configurator.GetFloatValue<float>(nameof(MU_TqShoulder_Min)); set => Configurator.SetFloatValue(nameof(MU_TqShoulder_Min), value); }
         [ComparableValidationProperty("MU_TqShoulder_Max")]
-        public float MU_TqShoulder_Max { get => Configurator.GetFloatValue<float>(nameof(MU_TqShoulder_Max)); set => Configurator.SetFloatValue(nameof(MU_TqShoulder_Max), value); }
-        public enum JointModeEnum
-        {
-            Torque, //Контроль момента
-            TorqueShoulder, //Контроль момента и заплечника
-            Length, //Контроль длины
-            TorqueLength, //Контроль длины и момента
-            Jval, //Контроль значения J
-            TorqueJVal //Контроль значения J и момента
-        }
+        public float MU_TqShoulder_Max { get => Configurator.GetFloatValue<float>(nameof(MU_TqShoulder_Max)); set => Configurator.SetFloatValue(nameof(MU_TqShoulder_Max), value); }        
     }    
 }

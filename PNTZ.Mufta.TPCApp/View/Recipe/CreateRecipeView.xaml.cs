@@ -80,7 +80,24 @@ namespace PNTZ.Mufta.TPCApp.View.Recipe
         private void RecipeNameInputPreview(object sender, TextCompositionEventArgs e)
         {
             CheckTextForRegex(sender as TextBox, e, RecipeNameRegexAllow);
-        } 
-       
+        }                
+
+    }
+    public class EnumEqualityConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {            
+            if (values.Length == 2 && values[0] != null && values[1] != null)
+            {
+                
+                return values[0].Equals(values[1]);
+            }
+            return false;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

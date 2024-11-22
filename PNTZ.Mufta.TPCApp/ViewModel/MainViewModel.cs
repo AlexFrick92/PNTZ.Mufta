@@ -28,6 +28,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ICommand NaviToJointViewCommand { get; private set; }
         public ICommand NaviToMpViewCommand { get; private set; }        
 
+
         UIElement _mainContent = null;
         public UIElement MainContent
         {

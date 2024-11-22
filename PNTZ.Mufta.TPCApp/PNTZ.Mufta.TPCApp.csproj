@@ -55,8 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Domain\JointMode.cs" />
+    <Compile Include="Domain\DomainObjectXmlConfigurator.cs" />
     <Compile Include="Domain\JointRecipe.cs" />
-    <Compile Include="Domain\ValidatedFloatPropertyAttribute.cs" />
+    <Compile Include="Domain\ComparableValidationPropertyAttribute.cs" />
+    <Compile Include="Domain\ComparableValueValidator.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
     <Compile Include="DpConnect\RecipeToPlc.cs" />
     <Compile Include="DpConnect\Struct\ERG_CAM.cs" />
@@ -129,7 +132,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DpConfig.xml">
+    <None Include="DpConnect\DpConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -146,7 +149,7 @@
     <Resource Include="View\Resource\Images\Settings.drawio.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Domain\JointRecipeConfig.xml">
+    <None Include="Domain\JointRecipe.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

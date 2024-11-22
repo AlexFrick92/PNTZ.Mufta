@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
+             xmlns:joint="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1600"             
              >
@@ -57,6 +58,8 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -70,12 +73,13 @@
                         Width="300"
                         x:Name="Input_RecipeName"
                         PreviewTextInput="RecipeNameInputPreview"
+
                         Text="{Binding EditRecipe.Name, ValidatesOnExceptions=True}"
                     />
                 </StackPanel>
             </Grid>
 
-            <!--********************* ДАННЫЕ РЕЦЕПТА ***************************-->
+            <!--********************* ДАННЫЕ РЕЦЕПТА ДЛЯ ВСЕХ РЕЖИМОВ ***************************-->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -111,7 +115,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Grid.Column="1">
-                            <TextBox x:Name="Input_HeadOpen" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.HEAD_OPEN_PULSES, ValidatesOnExceptions=True}"/>
+                            <TextBox x:Name="Input_HeadOpen" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.HEAD_OPEN_PULSES, ValidatesOnExceptions=True, StringFormat=F1}"/>
                             <TextBox x:Name="Input_TurnsBreak" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.TURNS_BREAK, ValidatesOnExceptions=True}"/>
                             <TextBox x:Name="Input_ThreadType" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Thread_type, ValidatesOnExceptions=True}" />
                             <TextBox x:Name="Input_Thread_step" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Thread_step, ValidatesOnExceptions=True}"/>
@@ -188,6 +192,73 @@
 
 
             </Grid>
+
+            <!--********************* ВЫБОР РЕЖИМА **********************************************-->
+            <Grid Grid.Row="2">
+                <Grid.Resources>
+                    <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
+                    
+                    <Style x:Key="PressableButton" TargetType="Button">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Padding" Value="0"/>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="AliceBlue"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Azure"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                                       
+
+                    <Style TargetType="Button" x:Key="SelectModeButtonColored" >
+                        <Setter Property="Margin" Value="3"/>
+                        <Setter Property="Command" Value="{Binding SetModeCommand}"/>
+                        <Setter Property="Height" Value="70"/>
+                        <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+                        <Style.Triggers>
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource EnumEqualityConverter}">
+                                        <Binding Path="Tag" RelativeSource="{RelativeSource Self}" />
+                                        <Binding Path="EditRecipe.JointMode" />
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+                                <DataTrigger.Setters>
+                                    <Setter Property="Background" Value="LightGreen" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Tag="{x:Static joint:JointMode.Torque}" Grid.Column="0" Content="- МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}" />
+
+
+                <Button Tag="{x:Static joint:JointMode.TorqueShoulder}" Grid.Column="1" Content="- МОМЕНТ -&#10; - ВЫСТУП -" Style="{StaticResource SelectModeButtonColored}"/>
+
+                <Button Tag="{x:Static joint:JointMode.Length}" Grid.Column="2" Content="- ДЛИНА -" Style="{StaticResource SelectModeButtonColored}"/>
+
+                <Button Tag="{x:Static joint:JointMode.TorqueLength}" Grid.Column="3" Content=" - ДЛИНА -&#10;- МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
+
+                <Button Tag="{x:Static joint:JointMode.Jval}" Grid.Column="4" Content="- Значение J -" Style="{StaticResource SelectModeButtonColored}"/>
+
+                <Button Tag="{x:Static joint:JointMode.TorqueJVal}" Grid.Column="5" Content="- Значение J -&#10;  - МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
+
+            </Grid>
+
 
         </Grid>
 
