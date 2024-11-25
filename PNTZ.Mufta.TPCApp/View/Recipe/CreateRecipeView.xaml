@@ -60,6 +60,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -246,7 +247,6 @@
 
                 <Button Tag="{x:Static joint:JointMode.Torque}" Grid.Column="0" Content="- МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}" />
 
-
                 <Button Tag="{x:Static joint:JointMode.TorqueShoulder}" Grid.Column="1" Content="- МОМЕНТ -&#10; - ВЫСТУП -" Style="{StaticResource SelectModeButtonColored}"/>
 
                 <Button Tag="{x:Static joint:JointMode.Length}" Grid.Column="2" Content="- ДЛИНА -" Style="{StaticResource SelectModeButtonColored}"/>
@@ -258,6 +258,81 @@
                 <Button Tag="{x:Static joint:JointMode.TorqueJVal}" Grid.Column="5" Content="- Значение J -&#10;  - МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
 
             </Grid>
+
+            <!-- ******************** НАСТРОЙКИ ДЛЯ ВЫБРАННОГО РЕЖИМА ***************************** -->
+            <Grid Grid.Row="3">
+
+                    <!-- ******************** РЕЖИМ: ПО-МОМЕНТУ ***************************** -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
+                            <Border Style="{StaticResource HeaderUnderStroke}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+                            <Label Content="Базовый крутящий момент"/>
+                            <Label Content="Крутящий момент автосохранения"/>
+                            <Label Content="Время наблюдения" />
+                            <Label Content="Крутящий момент сброса"/>
+                            <Label Content="Оптимальный крутящий момент"/>
+                            <Label Content="Мин. крутящий момент"/>
+                            <Label Content="Макс крутящий момент"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1" >
+                            <TextBox x:Name="Input_TqRef" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
+                            <TextBox x:Name="Input_TqSave" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Save, ValidatesOnExceptions=True}"/>
+                            <TextBox x:Name="Input_MuMoniTime" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Moni_Time, ValidatesOnExceptions=True}" />
+                            <TextBox x:Name="Input_TqDump" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />
+                            <TextBox x:Name="Input_TqOpt" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Opt, ValidatesOnExceptions=True}" />
+                            <TextBox x:Name="Input_TqMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}" />
+                            <TextBox x:Name="Input_TqMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                            <Label Content=""/>
+                            <Border BorderThickness="0,1,0,0" BorderBrush="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5">
+                            <Label Content="Уменьшение скорости 1 крут. момента"/>
+                            <Label Content="Уменьшение скорости 2 крут. момента"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <TextBox x:Name="Input_TqRed1" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_TqSpeedRed_1, ValidatesOnExceptions=True}"/>
+                            <TextBox x:Name="Input_TqRed2" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_TqSpeedRed_2, ValidatesOnExceptions=True}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+
 
 
         </Grid>
