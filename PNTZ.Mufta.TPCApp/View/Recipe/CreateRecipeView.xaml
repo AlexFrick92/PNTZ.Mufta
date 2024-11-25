@@ -198,12 +198,19 @@
             <Grid Grid.Row="2">
                 <Grid.Resources>
                     <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
-                    
-                    <Style x:Key="PressableButton" TargetType="Button">
+
+                    <Style TargetType="Button" x:Key="SelectModeButtonColored">
+
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="Padding" Value="0"/>
 
+                        <Setter Property="Margin" Value="3"/>
+                        <Setter Property="Command" Value="{Binding SetModeCommand}"/>
+                        
+                        <Setter Property="Height" Value="70"/>
+                        <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+                        
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="AliceBlue"/>
@@ -211,16 +218,6 @@
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" Value="Azure"/>
                             </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                                       
-
-                    <Style TargetType="Button" x:Key="SelectModeButtonColored" >
-                        <Setter Property="Margin" Value="3"/>
-                        <Setter Property="Command" Value="{Binding SetModeCommand}"/>
-                        <Setter Property="Height" Value="70"/>
-                        <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
-                        <Style.Triggers>
                             <DataTrigger Value="True">
                                 <DataTrigger.Binding>
                                     <MultiBinding Converter="{StaticResource EnumEqualityConverter}">
@@ -233,6 +230,7 @@
                                 </DataTrigger.Setters>
                             </DataTrigger>
                         </Style.Triggers>
+                        
                     </Style>
                 </Grid.Resources>
 
