@@ -201,6 +201,12 @@
                 <Grid.Resources>
                     <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
 
+                    <Style x:Key="BorderSeparatorStyle" TargetType="Border">
+                        <Setter Property="BorderBrush" Value="#cecece"/>
+                        <Setter Property="BorderThickness" Value="1,0,0,0"/>
+                        <Setter Property="Margin" Value="2,2,2,2"/>
+                    </Style>
+                    
                     <Style TargetType="Button" x:Key="SelectModeButtonColored">
 
                         <Setter Property="BorderThickness" Value="0"/>
@@ -238,24 +244,41 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
+                
                 <Button Tag="{x:Static joint:JointMode.Torque}" Grid.Column="0" Content="- МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}" />
+                <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="1"/>
+                
+                
+                <Button Tag="{x:Static joint:JointMode.TorqueShoulder}" Grid.Column="2" Content="- МОМЕНТ -&#10; - ВЫСТУП -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="3"/>
+                
+                <Button Tag="{x:Static joint:JointMode.Length}" Grid.Column="4" Content="- ДЛИНА -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="5"/>
 
-                <Button Tag="{x:Static joint:JointMode.TorqueShoulder}" Grid.Column="1" Content="- МОМЕНТ -&#10; - ВЫСТУП -" Style="{StaticResource SelectModeButtonColored}"/>
-
-                <Button Tag="{x:Static joint:JointMode.Length}" Grid.Column="2" Content="- ДЛИНА -" Style="{StaticResource SelectModeButtonColored}"/>
-
-                <Button Tag="{x:Static joint:JointMode.TorqueLength}" Grid.Column="3" Content=" - ДЛИНА -&#10;- МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
-
-                <Button Tag="{x:Static joint:JointMode.Jval}" Grid.Column="4" Content="- Значение J -" Style="{StaticResource SelectModeButtonColored}"/>
-
-                <Button Tag="{x:Static joint:JointMode.TorqueJVal}" Grid.Column="5" Content="- Значение J -&#10;  - МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Button Tag="{x:Static joint:JointMode.TorqueLength}" Grid.Column="6" Content=" - ДЛИНА -&#10;- МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="7"/>
+                
+                <Button Tag="{x:Static joint:JointMode.Jval}" Grid.Column="8" Content="- Значение J -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="9"/>
+                
+                <Button Tag="{x:Static joint:JointMode.TorqueJVal}" Grid.Column="10" Content="- Значение J -&#10;  - МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
 
             </Grid>
 

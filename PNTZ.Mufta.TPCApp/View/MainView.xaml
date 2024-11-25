@@ -8,7 +8,7 @@
         xmlns:control="clr-namespace:Desktop.Control;assembly=Desktop" 
         xmlns:lctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
         mc:Ignorable="d"
-        Title="MainView" Height="450" Width="800">
+        Title="MainView" Height="800" Width="1200">
 
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding NaviToRecipeViewCommand}"/>
