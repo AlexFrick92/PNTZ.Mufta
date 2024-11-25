@@ -21,8 +21,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public ICommand SetModeCommand { get; set; }
 
+        public bool IsVisible { get; set; } = false;
+
         void SetMode(JointMode newMode)
         {
+            IsVisible = true;
+            OnPropertyChanged(nameof(IsVisible));
+
             EditRecipe.JointMode = newMode;
             OnPropertyChanged(nameof(EditRecipe));
 
