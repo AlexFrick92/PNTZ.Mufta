@@ -41,7 +41,24 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public ushort PLC_PROG_NR { get; set; }
         public ushort LOG_NO { get; set; }
         public ushort Tq_UNIT { get; set; }
-        public ushort Thread_type { get; set; }
+        public ushort Thread_type
+        {
+            get
+            {
+                switch(SelectedThreadType)
+                {
+                    case ThreadType.RIGHT:
+                        return 0;
+                    case ThreadType.LEFT:
+                        return 1;
+                    default:
+                        return 0;
+                }    
+            }
+        }
+
+        public ThreadType SelectedThreadType { get; set; }
+
         [ComparableValidationProperty("Thread_step")]
         public float Thread_step { get => Configurator.GetFloatValue<float>(nameof(Thread_step)); set => Configurator.SetFloatValue(nameof(Thread_step), value); }
         public string PIPE_TYPE { get; set; }

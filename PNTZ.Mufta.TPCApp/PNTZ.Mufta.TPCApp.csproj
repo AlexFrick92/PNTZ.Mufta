@@ -60,6 +60,7 @@
     <Compile Include="Domain\JointRecipe.cs" />
     <Compile Include="Domain\ComparableValidationPropertyAttribute.cs" />
     <Compile Include="Domain\ComparableValueValidator.cs" />
+    <Compile Include="Domain\ThreadType.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
     <Compile Include="DpConnect\RecipeToPlc.cs" />
     <Compile Include="DpConnect\Struct\ERG_CAM.cs" />
@@ -77,6 +78,8 @@
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EnumHelper.cs" />
+    <Compile Include="View\EnumToCollectionConverter.cs" />
     <Compile Include="View\Joint\JointView.xaml.cs">
       <DependentUpon>JointView.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,7 @@
     <Compile Include="View\Recipe\CreateRecipeView.xaml.cs">
       <DependentUpon>CreateRecipeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ValueDescription.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

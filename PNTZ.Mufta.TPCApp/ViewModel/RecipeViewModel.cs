@@ -32,6 +32,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             OnPropertyChanged(nameof(EditRecipe));
 
             AppInstance.Logger.Info("Установлен новый режим:" + newMode.ToString());
-        }              
+        }
     }
 }
