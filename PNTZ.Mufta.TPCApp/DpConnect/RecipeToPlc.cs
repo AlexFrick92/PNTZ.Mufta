@@ -37,10 +37,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             try
             {
                 if (LoadingProcedureStarted)
-                    throw new Exception("Рецепт уже загружается");
+                    throw new InvalidOperationException("Рецепт уже загружается");
 
                 LoadingProcedureStarted = true;
 
+
+                //Отправляем 10 и ждем 20
                 TaskCompletionSource<uint> awaitCommandFeedback;
 
                 var timeout = Task.Delay(TimeSpan.FromSeconds(10));
@@ -56,17 +58,18 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
                 var first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);
 
-                if (first == awaitCommandFeedback.Task && awaitCommandFeedback.Task.Result != 20)
-                {
-                    LoadingProcedureStarted = false;
-                    throw new Exception($"Не удалось загрузить. Неверный ответ ({awaitCommandFeedback.Task.Result}) на команду 10");
-                }
+                if (first == awaitCommandFeedback.Task && awaitCommandFeedback.Task.Result != 20)                                    
+                    throw new Exception($"Не удалось загрузить. Неверный ответ ({awaitCommandFeedback.Task.Result}) на команду 10");                
+                else if (first == timeout)                
+                    throw new TimeoutException("Время ожидания команды исткело");                
 
                 logger.Info("Ответ ПЛК: " + awaitCommandFeedback.Task.Result);
 
-                awaitCommandFeedback = new TaskCompletionSource<uint>();
-                DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
+
+                
+                //Отправляем рецепт
+                
                 logger.Info("Пишем данные!");
 
                 Dp_REZ_ALLG.Value = new REZ_ALLG().FromRecipe(recipe);
@@ -82,33 +85,34 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
                 await Task.Delay(TimeSpan.FromMilliseconds(500));
 
+
+
+
+                //Отправляем 40 и ждем 50
+
                 logger.Info("Отправляем 40");
+
+                awaitCommandFeedback = new TaskCompletionSource<uint>();
+                DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
                 DpTpcCommand.Value = 40;
 
                 first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);
 
-                if (first == awaitCommandFeedback.Task)
-                {
-                    if (awaitCommandFeedback.Task.Result != 50)
-                    {
-                        LoadingProcedureStarted = false;
-                        throw new Exception($"Не удалось загрузить. Неверный ответ ({awaitCommandFeedback.Task.Result}) на команду 40");
-                    }
-                }
-                else if (first == timeout)
-                {
-                    LoadingProcedureStarted = false;
-                    throw new Exception("Не удалось загрузить по таймауту");
-                }
+                if (first == awaitCommandFeedback.Task && awaitCommandFeedback.Task.Result != 50)
+                    throw new Exception($"Не удалось загрузить. Неверный ответ ({awaitCommandFeedback.Task.Result}) на команду 40");                                    
+                else if (first == timeout)                
+                    throw new TimeoutException("Время ожидания команды исткело");                
 
                 logger.Info("Ответ ПЛК: " + awaitCommandFeedback.Task.Result);
 
+
+
+                //Отправляем 0
+
                 logger.Info("Отправляем 0");
 
-                DpTpcCommand.Value = 0;
-
-                LoadingProcedureStarted = false;
+                DpTpcCommand.Value = 0;                
 
                 logger.Info("Рецепт загружен!");
             }
