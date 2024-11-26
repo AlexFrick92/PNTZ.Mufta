@@ -30,6 +30,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<DateTime> MP_Cal_Timestamp { get; set; }
         public IDpValue<float> MP_Makeup_Length_Offset { get; set; }
 
+        public IDpValue<string> MP_Machine_No { get; set; }
+
+        public IDpValue<string> MP_Cal_User { get; set; }
         public MachineParam ActualMachineParam { get; set; }
 
 
@@ -62,7 +65,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 MP_Tq_Max = MP_Tq_Max.Value,
                 MP_Cal_Factor = MP_Cal_Factor.Value,
                 MP_Cal_Timestamp = MP_Cal_Timestamp.Value,
-                MP_Makeup_Length_Offset = MP_Makeup_Length_Offset.Value
+                MP_Makeup_Length_Offset = MP_Makeup_Length_Offset.Value,
+                MP_Machine_No = MP_Machine_No.Value,
+                MP_Cal_User = MP_Cal_User.Value,
             };
         }
 

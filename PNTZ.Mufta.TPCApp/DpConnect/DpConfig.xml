@@ -160,7 +160,19 @@
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Makeup_Length_Offset"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
-			
+
+			<DpValue PropertyName="MP_Machine_No">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Machine_No"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Cal_User">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Cal_User"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
 		</Worker>
 		
 		
