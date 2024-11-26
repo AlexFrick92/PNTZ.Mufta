@@ -33,54 +33,17 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public MachineParam ActualMachineParam { get; set; }
 
 
-        CancellationTokenSource cts;
+        CancellationTokenSource cts = null;
         bool MpProcedureStarted = false;
 
         ILogger logger;
-        ICliProgram cliProgram;
-        public MachineParamFromPlc(ILogger logger, ICliProgram cliProgram)
+        public MachineParamFromPlc(ILogger logger)
         {
             this.logger = logger;
-            this.cliProgram = cliProgram;
         }
         public void DpBound()
         {
-            CancellationTokenSource ctc = null;
-            cliProgram.RegisterCommand("startmp", async (arg) =>
-            {
 
-                if (MpProcedureStarted)
-                    throw new Exception("Прослушивание МП уже активировано!");
-                    
-                logger.Info("Активировано прослушивание параметров машин. Ожидаем ПЛК!");
-                try
-                {
-                    DpTpcCommand.Value = 0;
-                    ctc = new CancellationTokenSource();
-                    MpProcedureStarted = true;
-                    await MachineParamListen(ctc.Token);
-                    logger.Info("Параметры машин записаны.");
-                }
-                catch (Exception ex)
-                {                    
-                    logger.Info(ex.Message);
-                }
-                finally
-                {                    
-                    if(DpTpcCommand.IsConnected)
-                        DpTpcCommand.Value = 0;
-                    MpProcedureStarted = false;
-                }
-                logger.Info("Прослушивание параметров машин завершено");
-            });
-            cliProgram.RegisterCommand("stopmp", (arg) =>
-            {
-                if (ctc != null)
-                {
-                    ctc.Cancel();
-                    ctc = null;
-                }
-            });
         }
 
         private MachineParam MakeMachineParam()
@@ -102,6 +65,52 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 MP_Makeup_Length_Offset = MP_Makeup_Length_Offset.Value
             };
         }
+
+        public void StopAwaitingForMp()
+        {
+            if (cts != null)
+            {
+                cts.Cancel();
+                cts = null;
+            }
+        }
+
+        public async Task StartAwaitingForMpAsync()
+        {
+            await Task.Run(async () =>
+            {
+                if (MpProcedureStarted)
+                    throw new InvalidOperationException("Прослушивание МП уже активировано!");
+
+                try
+                {
+                    logger.Info("Активировано прослушивание параметров машин. Ожидаем ПЛК!");
+                    DpTpcCommand.Value = 0;
+                    cts = new CancellationTokenSource();
+                    MpProcedureStarted = true;
+                    await MachineParamListen(cts.Token);
+                    logger.Info("Параметры машин записаны.");
+                }
+                catch (OperationCanceledException ex)
+                {
+                    logger.Info("Прослушивание параметров машин отменено.");
+                }
+                catch (Exception ex)
+                {
+                    logger.Info(ex.Message);
+                }
+                finally
+                {
+                    if (DpTpcCommand.IsConnected)
+                        DpTpcCommand.Value = 0;
+                    
+                    MpProcedureStarted = false;
+                    logger.Info("Прослушивание параметров машин завершено");
+                }
+            });
+        }
+
+
         async Task MachineParamListen(CancellationToken token)
         {
             if (DpPlcCommand.Value != 0)
@@ -109,11 +118,21 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw new Exception("Перед началом операции команда ПЛК должна быть 0. Сейчас - " + DpPlcCommand.Value);
             }
 
-            TaskCompletionSource<uint> awaitCommandFeedback = new TaskCompletionSource<uint>();
 
+            //Ожидаем 5. 5 - новые параметры
+            TaskCompletionSource<uint> awaitCommandFeedback = new TaskCompletionSource<uint>();
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();            
+            
+            token.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
+            
             DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
-            await awaitCommandFeedback.Task;
+            var first = await Task.WhenAny(awaitCommandFeedback.Task, tcs.Task);
+
+            if (first == tcs.Task)
+            {
+                throw new OperationCanceledException();
+            }
 
             logger.Info("МП. команда ПЛК:" + awaitCommandFeedback.Task.Result);
 
@@ -126,13 +145,20 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             logger.Info(ActualMachineParam.ToString());
 
+
+
+            //Отправляем 10 и ждем 20
             DpTpcCommand.Value = 10;
 
+            var timeout = Task.Delay(TimeSpan.FromSeconds(10));
             awaitCommandFeedback = new TaskCompletionSource<uint>();
 
             DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
-            await awaitCommandFeedback.Task;
+            first =  await Task.WhenAny(awaitCommandFeedback.Task, timeout);
+
+            if (first == timeout)           
+                throw new TimeoutException("Время ожидания команды истекло");            
 
             logger.Info("МП. команда ПЛК:" + awaitCommandFeedback.Task.Result);
 
@@ -141,13 +167,19 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw new Exception("Неверная команда ПЛК. Ожидаем 20");
             }
 
+
+
+            //Отправляем 40 и ждем 50.
             DpTpcCommand.Value = 40;
 
+            timeout = Task.Delay(TimeSpan.FromSeconds(10));
             awaitCommandFeedback = new TaskCompletionSource<uint>();
 
             DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
-            await awaitCommandFeedback.Task;
+            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);
+            if (first == timeout)
+                throw new TimeoutException("Время ожидания команды истекло");
 
             logger.Info("МП. команда ПЛК:" + awaitCommandFeedback.Task.Result);
 
@@ -156,6 +188,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw new Exception("Неверная комана ПЛК. Ожидаем 50");
             }
 
+
+            //Отправляем 0
             DpTpcCommand.Value = 0;
         }
     }

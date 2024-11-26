@@ -48,6 +48,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             CliViewModel = new CliViewModel(cliUI);
 
 
+            MachineParamFromPlc mpListener = workerManager.ResolveWorker<MachineParamFromPlc>().First();
+            cli.RegisterCommand("startmp", async (arg) => await mpListener.StartAwaitingForMpAsync());
+            cli.RegisterCommand("stopmp", (arg) => mpListener.StopAwaitingForMp());
+
             createRecipeView = new CreateRecipeView();
             createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeToPlc>().First(), logger);
 
