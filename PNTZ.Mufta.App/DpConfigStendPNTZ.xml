@@ -238,13 +238,7 @@
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name ="MP_Machine_No">
-				<Provider Name = "Stend AKF">
-					<NodeId>
-						ns=3;s="MP_OP_SPS"."MP_Machine_No"
-					</NodeId>
-				</Provider>
-			</DpProperty>
+
 
 			<DpProperty Name ="MP_Cal_Factor">
 				<Provider Name = "Stend AKF">
@@ -254,13 +248,7 @@
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name ="MP_Cal_User">
-				<Provider Name = "Stend AKF">
-					<NodeId>
-						ns=3;s="MP_OP_SPS"."MP_Cal_User"
-					</NodeId>
-				</Provider>
-			</DpProperty>
+
 
 			<DpProperty Name ="MP_Cal_Timestamp">
 				<Provider Name = "Stend AKF">
@@ -339,11 +327,7 @@
 				</Provider>
 			</DpProperty>
 
-			<DpProperty Name="PIPE_TYPE">
-				<Provider Name ="Stend AKF">
-					<NodeId> ns=3;s="REZ_TPC_DOWN"."REZ_ALLG"."PIPE_TYPE"</NodeId>
-				</Provider>
-			</DpProperty>
+
 
 			<DpProperty Name="Box_Moni_Time">
 				<Provider Name ="Stend AKF">
