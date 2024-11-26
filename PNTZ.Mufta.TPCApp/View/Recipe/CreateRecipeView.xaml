@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
              xmlns:joint="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
+             xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1600"             
              >
@@ -67,133 +68,138 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <!--********************* НАЗВАНИЕ РЕЦЕПТА ***************************-->
-            <Grid Grid.Row="0">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Введите название задания:"/>
+            <!--********************* ПАРАМЕТРЫ РЕЦЕПТА ДЛЯ ВСЕХ РЕЖИМОВ ***************************-->
+            <Grid Grid.Row="1" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!--********************* НАЗВАНИЕ РЕЦЕПТА ***************************-->
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal">
+                    <Label Content="Введите название задания:" FontSize="15"/>
                     <TextBox  
-                        Style="{StaticResource InputField}"
-                        HorizontalContentAlignment="Left"
+                        Style="{StaticResource InputField}"       
                         Width="300"
+                        FontSize="15"
+                        Height="30"
+                        FontWeight="DemiBold"                        
+                        HorizontalContentAlignment="Left"                        
                         x:Name="Input_RecipeName"
                         PreviewTextInput="RecipeNameInputPreview"
 
                         Text="{Binding EditRecipe.Name, ValidatesOnExceptions=True}"
                     />
                 </StackPanel>
-            </Grid>
 
-            <!--********************* ПАРАМЕТРЫ РЕЦЕПТА ДЛЯ ВСЕХ РЕЖИМОВ ***************************-->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-
-                <StackPanel Grid.Column="0" Margin="5">
-                    <!--********************* ОБЩИЕ ПАРАМЕТРЫ ***************************-->
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <!--ЗАГОЛОВОК-->
-                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
-                            <Label Style="{StaticResource ParamHeaderLabel}" Content="Общие параметры"/>
-                            <Border Style="{StaticResource HeaderUnderStroke}"/>
-                        </StackPanel>
-
-                        <!--ПАРАМЕТРЫ-->
-                        <StackPanel Grid.Row="1" Grid.Column="0">
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Обороты открытие головки"/>
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Обороты развинчивание"/>
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Тип резьбы"/>
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Шаг резьбы"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="1" Grid.Column="1">
-                            <TextBox x:Name="Input_HeadOpen" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.HEAD_OPEN_PULSES, ValidatesOnExceptions=True, StringFormat=F1}"/>
-                            <TextBox x:Name="Input_TurnsBreak" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.TURNS_BREAK, ValidatesOnExceptions=True}"/>
-                            <TextBox x:Name="Input_ThreadType" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Thread_type, ValidatesOnExceptions=True}" />
-                            <TextBox x:Name="Input_Thread_step" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Thread_step, ValidatesOnExceptions=True}"/>
-                        </StackPanel>
-
-                    </Grid>
+                <!--********************* ОБЩИЕ ПАРАМЕТРЫ ***************************-->
+                
+                <!--ЗАГОЛОВОК-->
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="Общие параметры"/>
+                    <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
-                    <!--********************* ДАННЫЕ МУФТЫ ***************************-->
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                <!--ПАРАМЕТРЫ-->
+                <Label Grid.Row="2" Grid.Column="0"
+                            Style="{StaticResource InputFieldLabel}" Content="Обороты на откр. гол., n"/>
+                <TextBox Grid.Row="2" Grid.Column="1"
+                            x:Name="Input_HeadOpen" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.HEAD_OPEN_PULSES, ValidatesOnExceptions=True, StringFormat=F1}"/>
 
-                        <!--ЗАГОЛОВОК-->
-                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
-                            <Label Style="{StaticResource ParamHeaderLabel}" Content="Данные муфты"/>
-                            <Border Style="{StaticResource HeaderUnderStroke}"/>
-                        </StackPanel>
 
-                        <!--ПАРАМЕТРЫ-->
-                        <StackPanel Grid.Row="1" Grid.Column="0">
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Время наблюдения"/>
-                        </StackPanel>
+                <Label Grid.Row="3" Grid.Column="0"
+                            Style="{StaticResource InputFieldLabel}" Content="Обороты развинчивание, n"/>
+                <TextBox Grid.Row="3" Grid.Column="1"
+                            x:Name="Input_TurnsBreak" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.TURNS_BREAK, ValidatesOnExceptions=True}"/>
 
-                        <StackPanel Grid.Row="1" Grid.Column="1">
-                            <TextBox x:Name="Input_BoxMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Box_Len_Max, ValidatesOnExceptions=True}"/>
-                            <TextBox x:Name="Input_BoxMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Box_Len_Min, ValidatesOnExceptions=True}"/>
-                            <TextBox x:Name="Input_BoxTime" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Box_Moni_Time, ValidatesOnExceptions=True}" />
-                        </StackPanel>
-                    </Grid>
 
-                    
-                    <!--********************* ДАННЫЕ ПРЕДНАВЁРТКИ ***************************-->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                <Label Grid.Row="4" Grid.Column="0"
+                            Style="{StaticResource InputFieldLabel}" Content="Тип резьбы"/>
+                <ComboBox Grid.Row="4" Grid.Column="1"
+                            ItemsSource="{Binding Path=EditRecipe.SelectedThreadType, Converter={view:EnumToCollectionConverter}, Mode=OneTime}" 
+                            SelectedValuePath="Value"
+                            DisplayMemberPath="Description"
+                            SelectedValue="{Binding Path=EditRecipe.SelectedThreadType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Width="80"
+                          HorizontalAlignment="Left"                                                                             
+                          HorizontalContentAlignment="Center"
+                        />
 
-                        <!--ЗАГОЛОВОК-->
-                        <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
-                            <Label Style="{StaticResource ParamHeaderLabel}" Content="Преднавёртка"/>
-                            <Border Style="{StaticResource HeaderUnderStroke}"/>
-                        </StackPanel>
-                        
-                        <!--ПАРАМЕТРЫ-->
-                        <StackPanel Grid.Row="1" Grid.Column="0">
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
-                            <Label Style="{StaticResource InputFieldLabel}" Content="Время наблюдения"/>
-                        </StackPanel>
 
-                        <StackPanel Grid.Row="1" Grid.Column="1">
-                            <TextBox x:Name="Input_PreMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Max, ValidatesOnExceptions=True}"/>
-                            <TextBox x:Name="Input_PreMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Min, ValidatesOnExceptions=True}"/>
-                            <TextBox x:Name="Input_PreTime" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Moni_Time, ValidatesOnExceptions=True}" />
-                        </StackPanel>
+                <Label Grid.Row="5" Grid.Column="0" 
+                            Style="{StaticResource InputFieldLabel}" Content="Шаг резьбы"/>
+                <TextBox Grid.Row="5" Grid.Column="1"
+                            x:Name="Input_Thread_step" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Thread_step, ValidatesOnExceptions=True}"/>
 
-                    </Grid>
+
+                <!--********************* ДАННЫЕ МУФТЫ ***************************-->
+
+
+                <!--ЗАГОЛОВОК-->
+                <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="Данные муфты"/>
+                    <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
 
+                <!--ПАРАМЕТРЫ-->
 
+                <Label Grid.Row="2" Grid.Column="2"
+                    Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
+                <TextBox Grid.Row="2" Grid.Column="3"
+                    x:Name="Input_BoxMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Box_Len_Max, ValidatesOnExceptions=True}"/>
+                
+                
+                <Label Grid.Row="3" Grid.Column="2"
+                    Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
+                <TextBox Grid.Row="3" Grid.Column="3"
+                    x:Name="Input_BoxMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Box_Len_Min, ValidatesOnExceptions=True}"/>
+                
+                <Label Grid.Row="4" Grid.Column="2"
+                    Style="{StaticResource InputFieldLabel}" Content="Время наблюдения"/>
+                <TextBox Grid.Row="4" Grid.Column="3"
+                    x:Name="Input_BoxTime" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Box_Moni_Time, ValidatesOnExceptions=True}" />
+
+
+                <!--********************* ДАННЫЕ ПРЕДНАВЁРТКИ ***************************-->
+                
+                <!--ЗАГОЛОВОК-->
+                <StackPanel Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2">
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="Преднавёртка"/>
+                    <Border Style="{StaticResource HeaderUnderStroke}"/>
+                </StackPanel>
+
+                <!--ПАРАМЕТРЫ-->
+                
+                <Label Grid.Row="6" Grid.Column="2"
+                    Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
+                <TextBox Grid.Row="6" Grid.Column="3"                    
+                    x:Name="Input_PreMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Max, ValidatesOnExceptions=True}"/>
+                
+                <Label Grid.Row="7" Grid.Column="2"
+                    Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
+                <TextBox Grid.Row="7" Grid.Column="3"
+                    x:Name="Input_PreMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Min, ValidatesOnExceptions=True}"/>
+                
+                <Label Grid.Row="8" Grid.Column="2"
+                    Style="{StaticResource InputFieldLabel}" Content="Время наблюдения"/>
+                <TextBox Grid.Row="8" Grid.Column="3"
+                    x:Name="Input_PreTime" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Moni_Time, ValidatesOnExceptions=True}" />
+                
+                <!--////////////////////////////// ПАРАМЕТРЫ ДЛЯ ВСЕХ РЕЖИМОВ ***************************-->
             </Grid>
 
             <!--********************* ВЫБОР РЕЖИМА **********************************************-->
@@ -283,10 +289,32 @@
             </Grid>
 
             <!-- ******************** НАСТРОЙКИ ДЛЯ ВЫБРАННОГО РЕЖИМА ***************************** -->
-            <Grid Grid.Row="3">
+            <Grid Grid.Row="3" Margin="5">
 
                 <!-- ******************** РЕЖИМ: ПО-МОМЕНТУ ( С ПЛЕЧЕМ И БЕЗ) ***************************** -->
                 <Grid>
+                    <Grid.Resources>
+                        <!--Видимость лейблов для режима с плечом-->
+                        <Style TargetType="Label" x:Key="ShoulderModeLabelVisibility" BasedOn="{StaticResource InputFieldLabel}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueShoulder}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                        
+                        <!--Видимость полей для режима с плечом-->
+                        <Style TargetType="TextBox" x:Key="ShoulderModeInputVisibility" BasedOn="{StaticResource InputField}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueShoulder}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -300,6 +328,7 @@
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition/>
@@ -309,6 +338,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
 
                     <!--ЗАГОЛОВОК-->
@@ -317,68 +353,98 @@
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
                     </StackPanel>
 
-                    <!--ПАРАМЕТРЫ-->
-                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="5">
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Базовый крутящий момент"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Крутящий момент автосохранения"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Время наблюдения" />
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Крутящий момент сброса"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Оптимальный крутящий момент"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Мин. крутящий момент"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Макс крутящий момент"/>
-                    </StackPanel>
+                    <!--ПАРАМЕТРЫ-->                    
+                    <Label Grid.Row="1" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Базовый крутящий момент"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
+                    
+                    <Label Grid.Row="2" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Крутящий момент автосохранения"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Save, ValidatesOnExceptions=True}"/>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Save, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Moni_Time, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Opt, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}" />
-                    </StackPanel>
+                    <Label Grid.Row="3" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Время наблюдения" />
+                    <TextBox Grid.Row="3" Grid.Column="1"
+                        PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Moni_Time, ValidatesOnExceptions=True}" />
 
-                    <StackPanel Grid.Column="2" Grid.Row="1" Margin="5">
-                        <StackPanel.Resources>
-                            <Style TargetType="Label" x:Key="VisibleStyle" BasedOn="{StaticResource InputFieldLabel}">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueShoulder}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Resources>
-                        
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 1 крут. момента"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 2 крут. момента"/>
-                        <Label Style="{StaticResource VisibleStyle}" Content="Минимальный момент на плече"/>
-                        <Label Style="{StaticResource VisibleStyle}" Content="Максимальный момент на плече"/>
-                    </StackPanel>
+                    <Label Grid.Row="4" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Крутящий момент сброса"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />
 
-                    <StackPanel Grid.Row="1" Grid.Column="3">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBox" x:Key="VisibleStyle" BasedOn="{StaticResource InputField}">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueShoulder}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Resources>
+                    
+                    
+                    
+                    <Label Grid.Row="5" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Оптимальный крутящий момент"/>
+                    <TextBox Grid.Row="5" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Opt, ValidatesOnExceptions=True}" />
 
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_TqSpeedRed_1, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_TqSpeedRed_2, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource VisibleStyle}" Text="{Binding EditRecipe.MU_TqShoulder_Min, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource VisibleStyle}" Text="{Binding EditRecipe.MU_TqShoulder_Max, ValidatesOnExceptions=True}"/>
-                    </StackPanel>
+                    <Label Grid.Row="6" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Мин. крутящий момент"/>
+                    <TextBox Grid.Row="6" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}" />
+
+                    <Label Grid.Row="7" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Макс крутящий момент"/>
+                    <TextBox Grid.Row="7" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}" />
+
+                    
+                    
+
+                    <Label Grid.Row="1" Grid.Column="2"
+                        Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 1 крут. момента"/>
+                    <TextBox Grid.Row="1" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_TqSpeedRed_1, ValidatesOnExceptions=True}"/>
+
+                    <Label Grid.Row="2" Grid.Column="2"
+                        Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 2 крут. момента"/>
+                    <TextBox Grid.Row="2" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_TqSpeedRed_2, ValidatesOnExceptions=True}"/>
+
+                    <Label Grid.Row="3" Grid.Column="2"
+                        Style="{StaticResource ShoulderModeLabelVisibility}" Content="Минимальный момент на плече"/>
+                    <TextBox Grid.Row="3" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource ShoulderModeInputVisibility}" Text="{Binding EditRecipe.MU_TqShoulder_Min, ValidatesOnExceptions=True}"/>
+
+                    <Label Grid.Row="4" Grid.Column="2"
+                        Style="{StaticResource ShoulderModeLabelVisibility}" Content="Максимальный момент на плече"/>
+                    <TextBox Grid.Row="4" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource ShoulderModeInputVisibility}" Text="{Binding EditRecipe.MU_TqShoulder_Max, ValidatesOnExceptions=True}"/>
+
 
                     <!-- /////////////////////////////////////РЕЖИМ: ПО-МОМЕНТУ (С ПЛЕЧОМ И БЕЗ) //////////////////////////////////-->
                 </Grid>
 
+                
+                
                 <!-- ******************** РЕЖИМ: ПО-ДЛИНЕ (С КОНТРОЛЕМ МОМЕНТА И БЕЗ) ***************************** -->
                 <Grid>
+                    <Grid.Resources>
+                        <!--Видимость лейблов для режима с контролем момента-->
+                        <Style TargetType="Label" x:Key="ModeLabelVisibility" BasedOn="{StaticResource InputFieldLabel}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueLength}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+
+                        <!--Видимость полей для режима с плечом-->
+                        <Style TargetType="TextBox" x:Key="ModeInputVisibility" BasedOn="{StaticResource InputField}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueLength}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -392,6 +458,7 @@
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition/>
@@ -401,82 +468,110 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
 
                     <!--ЗАГОЛОВОК-->
                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,5,0,0">
-                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ ДЛИНЫ"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
                     </StackPanel>
 
                     <!--ПАРАМЕТРЫ-->
-                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="5">
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Базовый крутящий момент"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Крутящий момент автосохранения"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Время наблюдения" />
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Крутящий момент сброса"/>
+                    <Label Grid.Row="1" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Базовый крутящий момент"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
 
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Минимальная длина"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Максимальная длина"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Длина сброса"/>
+                    <Label Grid.Row="2" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Крутящий момент автосохранения"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Save, ValidatesOnExceptions=True}"/>
+
+                    <Label Grid.Row="3" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Время наблюдения" />
+                    <TextBox Grid.Row="3" Grid.Column="1"
+                        PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Moni_Time, ValidatesOnExceptions=True}" />
+
+                    <Label Grid.Row="4" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Крутящий момент сброса"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />
+
+                                        
+                    
+                    <Label Grid.Row="5" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
+                    <TextBox Grid.Row="5" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Min, ValidatesOnExceptions=True}" />
+
+                    <Label Grid.Row="6" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
+                    <TextBox Grid.Row="6" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Max, ValidatesOnExceptions=True}" />
+
+                    <Label Grid.Row="7" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Длина сброса"/>
+                    <TextBox Grid.Row="7" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Dump, ValidatesOnExceptions=True}" />
 
 
-                    </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Save, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Moni_Time, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />
 
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Min, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Max, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Dump, ValidatesOnExceptions=True}" />
-                    </StackPanel>
+                    <Label Grid.Row="1" Grid.Column="2"
+                        Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 1 при длине"/>
+                    <TextBox Grid.Row="1" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Speed_1, ValidatesOnExceptions=True}"/>
 
-                    <StackPanel Grid.Column="2" Grid.Row="1" Margin="5">
-                        <StackPanel.Resources>
-                            <Style TargetType="Label" x:Key="VisibleStyle" BasedOn="{StaticResource InputFieldLabel}">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueLength}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Resources>
+                    <Label Grid.Row="2" Grid.Column="2"
+                        Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 2 при длине"/>
+                    <TextBox Grid.Row="2" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Speed_2, ValidatesOnExceptions=True}"/>
 
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 1 при длине"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 2 при длине"/>
-                        
-                        <Label Style="{StaticResource VisibleStyle}" Content="Мин. крутящий момент"/>
-                        <Label Style="{StaticResource VisibleStyle}" Content="Макс крутящий момент"/>
-                    </StackPanel>
+                    <Label Grid.Row="3" Grid.Column="2"
+                        Style="{StaticResource ModeLabelVisibility}" Content="Минимальный момент"/>
+                    <TextBox Grid.Row="3" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource ModeInputVisibility}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}"/>
 
-                    <StackPanel Grid.Row="1" Grid.Column="3">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBox" x:Key="VisibleStyle" BasedOn="{StaticResource InputField}">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueLength}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Resources>
+                    <Label Grid.Row="4" Grid.Column="2"
+                        Style="{StaticResource ModeLabelVisibility}" Content="Максимальный момент"/>
+                    <TextBox Grid.Row="4" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource ModeInputVisibility}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}"/>
 
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Speed_1, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Len_Speed_2, ValidatesOnExceptions=True}"/>
-
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource VisibleStyle}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource VisibleStyle}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}"/>
-                    </StackPanel>
-
-                    <!-- /////////////////////////////////////РЕЖИМ: ПО-ДЛИНЕ (С КОНТРОЛЕМ МОМЕНТА И БЕЗ) //////////////////////////////////-->
+                    <!-- /////////////////////////////////////РЕЖИМ: ПО-ДЛИНЕ (С С КОНТРОЛЕМ МОМЕНТА И БЕЗ) //////////////////////////////////-->
                 </Grid>
 
-                <!-- ******************** РЕЖИМ: ПО-JVal (С КОНТРОЛЕМ МОМЕНТА И БЕЗ) ***************************** -->
+
+                <!-- ******************** РЕЖИМ: ПО-J (С КОНТРОЛЕМ МОМЕНТА И БЕЗ) ***************************** -->
                 <Grid>
+                    <Grid.Resources>
+                        <!--Видимость лейблов для режима с контролем момента-->
+                        <Style TargetType="Label" x:Key="ModeLabelVisibility" BasedOn="{StaticResource InputFieldLabel}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueJVal}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+
+                        <!--Видимость полей для режима с плечом-->
+                        <Style TargetType="TextBox" x:Key="ModeInputVisibility" BasedOn="{StaticResource InputField}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueJVal}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -490,8 +585,9 @@
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
+
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -499,78 +595,83 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
 
                     <!--ЗАГОЛОВОК-->
                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,5,0,0">
-                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ ЗНАЧЕНИЯ J"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
                     </StackPanel>
 
                     <!--ПАРАМЕТРЫ-->
-                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="5">
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Базовый крутящий момент"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Крутящий момент автосохранения"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Время наблюдения" />
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Крутящий момент сброса"/>
+                    <Label Grid.Row="1" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Базовый крутящий момент"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
 
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Минимальная значение J"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Максимальная значение J"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Значение J сброса"/>
+                    <Label Grid.Row="2" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Крутящий момент автосохранения"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Save, ValidatesOnExceptions=True}"/>
+
+                    <Label Grid.Row="3" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Время наблюдения" />
+                    <TextBox Grid.Row="3" Grid.Column="1"
+                        PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Moni_Time, ValidatesOnExceptions=True}" />
+
+                    <Label Grid.Row="4" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Крутящий момент сброса"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />
 
 
-                    </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Save, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Moni_Time, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />
+                    <Label Grid.Row="5" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Мин. значение J"/>
+                    <TextBox Grid.Row="5" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Min, ValidatesOnExceptions=True}" />
 
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Min, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Max, ValidatesOnExceptions=True}" />
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Dump, ValidatesOnExceptions=True}" />
-                    </StackPanel>
+                    <Label Grid.Row="6" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Макс. значение J"/>
+                    <TextBox Grid.Row="6" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Max, ValidatesOnExceptions=True}" />
 
-                    <StackPanel Grid.Column="2" Grid.Row="1" Margin="5">
-                        <StackPanel.Resources>
-                            <Style TargetType="Label" x:Key="VisibleStyle" BasedOn="{StaticResource InputFieldLabel}">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueJVal}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Resources>
+                    <Label Grid.Row="7" Grid.Column="0"
+                        Style="{StaticResource InputFieldLabel}" Content="Значение J сброса"/>
+                    <TextBox Grid.Row="7" Grid.Column="1"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Dump, ValidatesOnExceptions=True}" />
 
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 1 при J"/>
-                        <Label Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 2 при J"/>
 
-                        <Label Style="{StaticResource VisibleStyle}" Content="Мин. крутящий момент"/>
-                        <Label Style="{StaticResource VisibleStyle}" Content="Макс крутящий момент"/>
-                    </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="3">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBox" x:Key="VisibleStyle" BasedOn="{StaticResource InputField}">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueJVal}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Resources>
 
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Speed_1, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Speed_2, ValidatesOnExceptions=True}"/>
+                    <Label Grid.Row="1" Grid.Column="2"
+                        Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 1 при значении J"/>
+                    <TextBox Grid.Row="1" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Speed_1, ValidatesOnExceptions=True}"/>
 
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource VisibleStyle}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}"/>
-                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource VisibleStyle}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}"/>
-                    </StackPanel>
+                    <Label Grid.Row="2" Grid.Column="2"
+                        Style="{StaticResource InputFieldLabel}" Content="Уменьш. скор. 2 при значении J"/>
+                    <TextBox Grid.Row="2" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Jval_Speed_2, ValidatesOnExceptions=True}"/>
 
-                    <!-- /////////////////////////////////////РЕЖИМ: ПО-JVal (С КОНТРОЛЕМ МОМЕНТА И БЕЗ) //////////////////////////////////-->
+                    <Label Grid.Row="3" Grid.Column="2"
+                        Style="{StaticResource ModeLabelVisibility}" Content="Минимальный момент"/>
+                    <TextBox Grid.Row="3" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource ModeInputVisibility}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}"/>
+
+                    <Label Grid.Row="4" Grid.Column="2"
+                        Style="{StaticResource ModeLabelVisibility}" Content="Максимальный момент"/>
+                    <TextBox Grid.Row="4" Grid.Column="3"
+                        PreviewTextInput="FloatInputPreview" Style="{StaticResource ModeInputVisibility}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}"/>
+
+                    <!-- /////////////////////////////////////РЕЖИМ: ПО-J (С С КОНТРОЛЕМ МОМЕНТА И БЕЗ) //////////////////////////////////-->
                 </Grid>
 
                 <!-- ///////////////////// НАСТРОЙКИ ДЛЯ ВЫБРАННОГО РЕЖИМА //////////////////////////////////-->
