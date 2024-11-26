@@ -3,10 +3,11 @@ using Desktop.Control;
 using Desktop.MVVM;
 
 using DpConnect;
-
+using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.View.Joint;
 using PNTZ.Mufta.TPCApp.View.Recipe;
-
+using Promatis.Core.Logging;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -39,7 +40,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 OnPropertyChanged(nameof(MainContent));
             }
         }
-        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI)
+        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger)
         {
             this.WorkerManager = workerManager;
             this.ConnectionManager = connectionManager;
@@ -48,7 +49,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
             createRecipeView = new CreateRecipeView();
-            createRecipeView.DataContext = new RecipeViewModel();
+            createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeToPlc>().First(), logger);
 
             jointView = new JointView();
 
