@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="Promatis.Core, Version=2.5.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Promatis.Core.2.5.12\lib\net461\Promatis.Core.dll</HintPath>
     </Reference>
@@ -60,7 +61,9 @@
     <Compile Include="Domain\JointRecipe.cs" />
     <Compile Include="Domain\ComparableValidationPropertyAttribute.cs" />
     <Compile Include="Domain\ComparableValueValidator.cs" />
+    <Compile Include="Domain\MachineParam.cs" />
     <Compile Include="Domain\ThreadType.cs" />
+    <Compile Include="DpConnect\MachineParamFromPlc.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
     <Compile Include="DpConnect\RecipeToPlc.cs" />
     <Compile Include="DpConnect\Struct\ERG_CAM.cs" />

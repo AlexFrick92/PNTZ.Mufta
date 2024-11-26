@@ -67,6 +67,103 @@
 
 		</Worker>
 
+		
+		<!--Параметры машин-->
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.MachineParamFromPlc, PNTZ.Mufta.TPCApp">
+			
+			<DpValue PropertyName="DpTpcCommand">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_MDAT"."CMD_TPC"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="DpPlcCommand">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_MDAT"."CMD_PLC"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Load_Cell_Span">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Load_Cell_Span"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Load_Span_Digits">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Load_Span_Digits"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Handle_Length">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Handle_Length"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Handle_Length_Digits">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Handle_Length_Digits"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_TC_PPR">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_TC_PPR"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Box_Length">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Box_Length"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Box_Length_Digit">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Box_Length_Digit"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Makeup_Length">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Makeup_Length"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Makeup_Length_Digits">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Makeup_Length_Digits"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Tq_Max">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Tq_Max"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Cal_Factor">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Cal_Factor"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Cal_Timestamp">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Cal_Timestamp"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="MP_Makeup_Length_Offset">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="MP_OP_SPS"."MP_Makeup_Length_Offset"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+			
+		</Worker>
+		
+		
 	</Workers>
 
 </DpConfiguration>

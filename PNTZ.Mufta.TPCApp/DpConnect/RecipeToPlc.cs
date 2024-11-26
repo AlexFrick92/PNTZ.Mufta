@@ -36,8 +36,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         {
             try
             {
-
-
                 if (LoadingProcedureStarted)
                     throw new Exception("Рецепт уже загружается");
 
