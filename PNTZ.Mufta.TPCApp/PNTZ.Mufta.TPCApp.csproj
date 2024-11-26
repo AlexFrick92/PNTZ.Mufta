@@ -63,6 +63,7 @@
     <Compile Include="Domain\ComparableValueValidator.cs" />
     <Compile Include="Domain\MachineParam.cs" />
     <Compile Include="Domain\ThreadType.cs" />
+    <Compile Include="DpConnect\HeartbeatCheck.cs" />
     <Compile Include="DpConnect\MachineParamFromPlc.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
     <Compile Include="DpConnect\RecipeToPlc.cs" />

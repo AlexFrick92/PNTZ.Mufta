@@ -24,7 +24,16 @@
 			</DpValue>
 
 		</Worker>
+		
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.HeartbeatCheck, PNTZ.Mufta.TPCApp">
 
+			<DpValue PropertyName="DpPlcHeartbeat">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="CommCheck"."PLC_Heartbeat"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+		</Worker>
 
 		<!--Загрузка рецепта-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.RecipeToPlc, PNTZ.Mufta.TPCApp">

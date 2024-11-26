@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DpConnect;
 
 using Promatis.Core.Logging;
+using Toolkit.IO;
 
 
 namespace PNTZ.Mufta.TPCApp.DpConnect
@@ -15,15 +16,15 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         ILogger logger;
         CancellationTokenSource cts;
         bool running = false;
-        
-        
+        private bool CheckProcedureStarted = false;
+
         public MakeHeartBeat(ILogger logger)
         {
             this.logger = logger;
         }
 
         public IDpValue<bool> DpHeartbeat { get; set; }
-        public string status { get; set; }
+        public string status { get; set; }        
 
         public void DpBound()
         {
@@ -35,7 +36,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         {
             if(DpHeartbeat.IsConnected)
             {
-                StartHeartbeat();
+                if(!CheckProcedureStarted)
+                    StartHeartbeat();
             }
             else
             {
@@ -45,6 +47,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         async void StartHeartbeat()
         {
+            if (CheckProcedureStarted)
+                throw new InvalidOperationException();
+
             logger.Info("Запускаем heartbeat...");
 
             cts = new CancellationTokenSource();
@@ -52,8 +57,10 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             {
                 await Task.Run(async () =>
                 {
+                    CheckProcedureStarted = true;
                     while (true)
                     {
+                        
                         if(cts.Token.IsCancellationRequested)
                         {
                             cts.Token.ThrowIfCancellationRequested();
@@ -83,6 +90,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             finally
             {
                 running = false;
+                CheckProcedureStarted = false;
             }
         }
     }

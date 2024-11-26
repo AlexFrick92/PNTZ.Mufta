@@ -93,6 +93,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 logger.Info("Отправляем 40");
 
                 awaitCommandFeedback = new TaskCompletionSource<uint>();
+                timeout = Task.Delay(TimeSpan.FromSeconds(10));
                 DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
                 DpTpcCommand.Value = 40;

@@ -55,6 +55,7 @@ namespace PNTZ.Mufta.TPCApp
             container.Register<MakeHeartBeat, MakeHeartBeat>();
             container.Register<RecipeToPlc, RecipeToPlc>();
             container.Register<MachineParamFromPlc, MachineParamFromPlc>();
+            container.Register<HeartbeatCheck, HeartbeatCheck>();
 
             container.RegisterSingleton(typeof(IDpConnectionManager), typeof(ContainerizedConnectionManager));
             container.RegisterSingleton(typeof(IDpWorkerManager), typeof(ContainerizedWorkerManager));
