@@ -65,7 +65,7 @@
 
             <Label Grid.Row="1" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Момент"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTorque}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTorque, StringFormat=N0}"/>
 
             <Label Grid.Row="2" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Длина"/>
