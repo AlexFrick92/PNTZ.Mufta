@@ -4,7 +4,7 @@
 
 	<Connections>
 		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa" ConnectionId ="Stend PNTZ">
-			<Endpoint>opc.tcp://10.10.10.96:4840</Endpoint>
+			<Endpoint>opc.tcp://10.10.10.95:4840</Endpoint>
 		</Connection>
 
 		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa" ConnectionId ="Stend AKF" Active="False">			
@@ -75,7 +75,6 @@
 			</DpValue>
 
 		</Worker>
-
 		
 		<!--Параметры машин-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.MachineParamFromPlc, PNTZ.Mufta.TPCApp">
@@ -184,6 +183,16 @@
 
 		</Worker>
 		
+		<!--АКТУАЛЬНЫЕ ПАРАМЕТРЫ-->
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointOperationalParam, PNTZ.Mufta.TPCApp">
+
+			<DpValue PropertyName="DpParam">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="JointOperationalParam"."TqTnLen"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+		</Worker>
 		
 	</Workers>
 

@@ -37,6 +37,16 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Charts.Designer.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Charts.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataVisualization.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Drawing.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Mvvm.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Charts.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Core.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Printing.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationFramework.Aero2" />
@@ -45,6 +55,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,6 +64,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -64,12 +77,15 @@
     <Compile Include="Domain\MachineParam.cs" />
     <Compile Include="Domain\ThreadType.cs" />
     <Compile Include="DpConnect\HeartbeatCheck.cs" />
+    <Compile Include="DpConnect\JointOperationalParam.cs" />
+    <Compile Include="DpConnect\JointResult.cs" />
     <Compile Include="DpConnect\MachineParamFromPlc.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
     <Compile Include="DpConnect\RecipeToPlc.cs" />
     <Compile Include="DpConnect\Struct\ERG_CAM.cs" />
     <Compile Include="DpConnect\Struct\ERG_Muffe.cs" />
     <Compile Include="DpConnect\Struct\ERG_MVS.cs" />
+    <Compile Include="DpConnect\Struct\OperationalParam.cs" />
     <Compile Include="DpConnect\Struct\REZ_ALLG.cs" />
     <Compile Include="DpConnect\Struct\REZ_CAM.cs" />
     <Compile Include="DpConnect\Struct\REZ_Muffe.cs" />
@@ -77,6 +93,7 @@
     <Compile Include="DpConnect\Struct\ZEITSTEMPEL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\JointViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RecipeViewModel.cs" />
