@@ -5,6 +5,7 @@ using Desktop.MVVM;
 using DpConnect;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.View.Joint;
+using PNTZ.Mufta.TPCApp.View.MP;
 using PNTZ.Mufta.TPCApp.View.Recipe;
 using Promatis.Core.Logging;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         CreateRecipeView createRecipeView { get; set; }
         JointView jointView { get; set; }
+        MachineParamView MachineParamView { get; set; }
         public ICommand NaviToRecipeViewCommand { get; private set; }
         public ICommand NaviToJointViewCommand { get; private set; }
         public ICommand NaviToMpViewCommand { get; private set; }        
@@ -45,21 +47,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             this.WorkerManager = workerManager;
             this.ConnectionManager = connectionManager;
 
-            CliViewModel = new CliViewModel(cliUI);
-
-
-            MachineParamFromPlc mpListener = workerManager.ResolveWorker<MachineParamFromPlc>().First();
-            cli.RegisterCommand("startmp", async (arg) => await mpListener.StartAwaitingForMpAsync());
-            cli.RegisterCommand("stopmp", (arg) => mpListener.StopAwaitingForMp());
+            CliViewModel = new CliViewModel(cliUI);            
 
             createRecipeView = new CreateRecipeView();
             createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeToPlc>().First(), logger);
+
+            MachineParamView = new MachineParamView();
+            MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
             jointView = new JointView();
 
             NaviToRecipeViewCommand = new RelayCommand((p) => MainContent = createRecipeView);
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);
-            //NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParametersView);
+            NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParamView);
         }
     }
 }

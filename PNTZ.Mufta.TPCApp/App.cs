@@ -75,7 +75,8 @@ namespace PNTZ.Mufta.TPCApp
             mainWindow = new MainView();
             mainWindow.DataContext = container.Resolve<MainViewModel>();
 
-            cli.RegisterCommand("start", (args) => Task.Run(()=> DpConnectionManager.OpenConnections()));            
+            cli.RegisterCommand("start", (args) => Task.Run(()=> DpConnectionManager.OpenConnections()));
+            cli.RegisterCommand("stop", (args) => Task.Run(() => DpConnectionManager.CloseConnections()));
         }
 
         protected override void AfterInit() 

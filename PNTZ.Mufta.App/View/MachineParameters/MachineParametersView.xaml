@@ -50,7 +50,6 @@
                     <Label Content="{Binding SavedMp.MP_Cal_Factor}" HorizontalAlignment="Center"/>
                     <Label Content="{Binding SavedMp.MP_Machine_No}" HorizontalAlignment="Center"/>
                     <Label Content="{Binding SavedMp.MP_TC_PPR}" HorizontalAlignment="Center"/>
-                    
                 </StackPanel>
             </Border>
         </ContentControl>

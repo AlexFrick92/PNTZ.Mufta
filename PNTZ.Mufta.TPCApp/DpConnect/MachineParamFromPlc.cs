@@ -33,11 +33,76 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<string> MP_Machine_No { get; set; }
 
         public IDpValue<string> MP_Cal_User { get; set; }
-        public MachineParam ActualMachineParam { get; set; }
 
+
+        MachineParam actualMachineParam;
+        public MachineParam ActualMachineParam
+        {
+            get => actualMachineParam ?? (actualMachineParam = new MachineParam());
+            set 
+            {
+                actualMachineParam = value;
+                MachineParamUpdate(this, value);
+            }
+        }
+        public event EventHandler<MachineParam> MachineParamUpdate;
 
         CancellationTokenSource cts = null;
         bool MpProcedureStarted = false;
+
+
+        bool cyclicallyListen = false;
+        public bool CyclicallyListenMp
+        {
+            get => cyclicallyListen;
+            set
+            {
+                if (!value)
+                {
+                    StopAwaitingForMp();                    
+                }
+                else
+                {                    
+                    if (!MpProcedureStarted && !CyclicallyListenMp)
+                    {
+                        logger.Info("Цикличное прослушивание параметров машин.");
+                        if (DpTpcCommand.IsConnected)
+                        {
+                            StartAwaitingForMpAsync();
+                        }
+                        else
+                        {                            
+                            DpTpcCommand.StatusChanged += StartOnConnect;
+                        }
+                    }
+                }
+            }
+        }
+
+        private async void StartOnConnect(object sender, EventArgs e)
+        {
+            if(DpTpcCommand.IsConnected)
+            {                                
+                await StartAwaitingForMpAsync();
+            }
+        }
+        private async void StartOnCommandUpdate(object sender, uint value)
+        {
+            logger.Info("Получена команда от ПЛК для параметров машин: " + value);
+            await StartAwaitingForMpAsync();
+        }
+        private void StopOnDisconnect(object sender, EventArgs e)
+        {
+
+
+            if (!DpTpcCommand.IsConnected && CyclicallyListenMp)
+            {
+                StopAwaitingForMp();
+                logger.Info("Прослушивание МП будет возобновлено при подключении");
+                DpTpcCommand.StatusChanged += StartOnConnect;
+            }
+
+        }
 
         ILogger logger;
         public MachineParamFromPlc(ILogger logger)
@@ -46,8 +111,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         }
         public void DpBound()
         {
-
+            DpPlcCommand.StatusChanged += StopOnDisconnect;
         }
+
 
         private MachineParam MakeMachineParam()
         {
@@ -71,8 +137,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             };
         }
 
-        public void StopAwaitingForMp()
+        private void StopAwaitingForMp()
         {
+            cyclicallyListen = false;
+            DpPlcCommand.ValueUpdated -= StartOnCommandUpdate;
+            DpTpcCommand.StatusChanged -= StartOnConnect;
+            logger.Info("Цикличное прослушивание МП остановлено");
+
             if (cts != null)
             {
                 cts.Cancel();
@@ -80,47 +151,64 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
         }
 
-        public async Task StartAwaitingForMpAsync()
+        private async Task StartAwaitingForMpAsync()
         {
+            cyclicallyListen = true;
+            DpPlcCommand.ValueUpdated -= StartOnCommandUpdate;
+            DpTpcCommand.StatusChanged -= StartOnConnect;
+
             await Task.Run(async () =>
             {
                 if (MpProcedureStarted)
                     throw new InvalidOperationException("Прослушивание МП уже активировано!");
 
-                try
+                logger.Info("Активировано прослушивание параметров машин. Ожидаем ПЛК!");
+                while (CyclicallyListenMp)
                 {
-                    logger.Info("Активировано прослушивание параметров машин. Ожидаем ПЛК!");
-                    DpTpcCommand.Value = 0;
-                    cts = new CancellationTokenSource();
-                    MpProcedureStarted = true;
-                    await MachineParamListen(cts.Token);
-                    logger.Info("Параметры машин записаны.");
-                }
-                catch (OperationCanceledException ex)
-                {
-                    logger.Info("Прослушивание параметров машин отменено.");
-                }
-                catch (Exception ex)
-                {
-                    logger.Info(ex.Message);
-                }
-                finally
-                {
-                    if (DpTpcCommand.IsConnected)
+                    //await Task.Delay(TimeSpan.FromSeconds(2));
+
+                    try
+                    {                        
                         DpTpcCommand.Value = 0;
-                    
-                    MpProcedureStarted = false;
-                    logger.Info("Прослушивание параметров машин завершено");
+                        cts = new CancellationTokenSource();
+                        MpProcedureStarted = true;
+                        await MachineParamListen(cts.Token);
+                        logger.Info("Параметры машин записаны.");
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        logger.Info("Прослушивание параметров машин отменено.");
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        logger.Info(ex.Message);
+                        CyclicallyListenMp = false;
+                        logger.Info("Прослушивание параметров будет возобновится после новой команды от ПЛК.");
+                        DpPlcCommand.ValueUpdated += StartOnCommandUpdate;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Info("Незивестная ошибка при попытке считать параметры");
+                        logger.Info(ex.Message);
+                        CyclicallyListenMp = false;
+                    }
+                    finally
+                    {
+                        if (DpTpcCommand.IsConnected)
+                            DpTpcCommand.Value = 0;                                                                
+                    }
                 }
+                logger.Info("Прослушивание параметров машин завершено");
+                MpProcedureStarted = false;
             });
         }
-
-
+        
         async Task MachineParamListen(CancellationToken token)
         {
             if (DpPlcCommand.Value != 0)
             {
-                throw new Exception("Перед началом операции команда ПЛК должна быть 0. Сейчас - " + DpPlcCommand.Value);
+                throw new InvalidOperationException("Перед началом операции команда ПЛК должна быть 0. Сейчас - " + DpPlcCommand.Value);
             }
 
 
@@ -143,7 +231,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             if (awaitCommandFeedback.Task.Result != 5)
             {
-                throw new Exception("Неверный ответ ПЛК. Ожидаем 5");
+                throw new InvalidOperationException("Неверный ответ ПЛК. Ожидаем 5");
             }
 
             ActualMachineParam = MakeMachineParam();
@@ -169,7 +257,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             if (awaitCommandFeedback.Task.Result != 20)
             {
-                throw new Exception("Неверная команда ПЛК. Ожидаем 20");
+                throw new InvalidOperationException("Неверная команда ПЛК. Ожидаем 20");
             }
 
 
@@ -190,7 +278,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             if (awaitCommandFeedback.Task.Result != 50)
             {
-                throw new Exception("Неверная комана ПЛК. Ожидаем 50");
+                throw new InvalidOperationException("Неверная комана ПЛК. Ожидаем 50");
             }
 
 
