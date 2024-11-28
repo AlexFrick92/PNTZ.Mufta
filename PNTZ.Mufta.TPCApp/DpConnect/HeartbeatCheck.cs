@@ -1,7 +1,9 @@
-﻿using DpConnect;
+﻿using DevExpress.Xpf.Charts;
+using DpConnect;
 using Promatis.Core.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,8 +14,25 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
     public class HeartbeatCheck : IDpWorker
     {
         public IDpValue<bool> DpPlcHeartbeat {  get; set; }
-        public bool Beating { get; set; }
+
+        bool beating;
+        public bool Beating
+        {
+            get => beating;
+
+            set
+            {
+                beating = value;
+                if (value)
+                    HeartBeatApper?.Invoke(this, EventArgs.Empty);
+                else
+                    HeartBeatDisapper?.Invoke(this, EventArgs.Empty);
+            }
+        }
         private bool CheckProcedureStarted = false;
+
+        public event EventHandler<EventArgs> HeartBeatApper;
+        public event EventHandler<EventArgs> HeartBeatDisapper;
 
         ILogger logger;
         CancellationTokenSource cts;
@@ -54,37 +73,31 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 try
                 {
                     while (true)
-                    {
-                        try
+                    {                
+                        if (cts.Token.IsCancellationRequested)
                         {
-                            if (cts.Token.IsCancellationRequested)
-                            {
-                                throw new OperationCanceledException();
-                            }
-                            var awaitHeartbeat = new TaskCompletionSource<bool>();
-                            var timeout = Task.Delay(TimeSpan.FromSeconds(2));
-                            DpPlcHeartbeat.ValueUpdated += (s, v) => awaitHeartbeat.TrySetResult(v);
-
-                            var first = await Task.WhenAny(awaitHeartbeat.Task, timeout);
-
-                            if (first == timeout)
-                            {
-                                throw new TimeoutException("Время heartbeat истекло");
-                            }
-                            if (!Beating)
-                            {
-                                Beating = true;
-                                logger.Info("Появился бит жизни от ПЛК");
-                            }
+                            throw new OperationCanceledException();
                         }
-                        catch (TimeoutException)
+
+                        var awaitHeartbeat = new TaskCompletionSource<bool>();
+                        var timeout = Task.Delay(TimeSpan.FromSeconds(2));
+                        DpPlcHeartbeat.ValueUpdated += (s, v) => awaitHeartbeat.TrySetResult(v);
+
+                        var first = await Task.WhenAny(awaitHeartbeat.Task, timeout);
+
+                        if (first == timeout)
                         {
-                            if(Beating)
+                            if (Beating)
                             {
                                 Beating = false;
                                 logger.Info("Пропал Бит жизни от ПЛК");
-                            }
-                        }                        
+                            }                                
+                        }
+                        if (!Beating)
+                        {
+                            Beating = true;
+                            logger.Info("Появился бит жизни от ПЛК");
+                        }                                           
                     }
                 }
                 catch (OperationCanceledException)
@@ -96,7 +109,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 {
                     logger.Error($"Не удалось запустить heartbeatCheck по причине: {ex.Message}");         
 
-                }                
+                }            
                 finally
                 {
                     Beating = false;
