@@ -19,7 +19,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointViewModel : BaseViewModel
     {
-        public JointViewModel(JointOperationalParamDpWorker paramWorker, JointResultDpWorker resultWorker, ILogger logger)
+        public JointViewModel(JointOperationalParamDpWorker paramWorker, JointResultDpWorker resultWorker, RecipeToPlc recipeLoader, ILogger logger)
         {
             this.logger = logger;
 
@@ -29,6 +29,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 UpdateInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("UpdateInterval").Value));
                 RecordingInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("RecordingInterval").Value));
                 MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));
+
+                TorqueTimeChartTorqueMaxValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("TorqueMaxVal").Value);
+
             }
             catch (Exception ex)
             {
@@ -37,10 +40,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 logger.Info("Будут использованы значения по-умолчанию");
             }
 
+            //Настройки графиков
+            OnPropertyChanged(nameof(TorqueTimeChartTorqueMaxValue));
+
 
             this.ParamWorker = paramWorker;
 
             this.ResultDpWorker = resultWorker;
+
+            this.RecipeLoader = recipeLoader;
 
             SetGoodResultCommand = new RelayCommand((arg) =>
             {
@@ -93,6 +101,27 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             jointOperationalParam.DpParam.ValueUpdated -= SubscribeToValues;
         }
 
+        //***************** ДАННЫЕ РЕЦЕПТА **********************
+        RecipeToPlc recipeLoader;
+        RecipeToPlc RecipeLoader
+        {
+            get => recipeLoader;
+            set 
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+
+                recipeLoader = value;
+
+                recipeLoader.RecipeLoaded += (s, v) =>
+                {
+                    LoadedRecipe = v;
+                    OnPropertyChanged(nameof(LoadedRecipe));
+                };
+            }
+        }
+        
+        public JointRecipe LoadedRecipe { get; set; }
 
 
 
@@ -205,7 +234,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
         }
 
+        //************** НАСТРОЙКА ГРАФИКОВ ***************************
 
+        public double TorqueTimeChartTorqueMaxValue { get; set; } = 2000;
 
 
 

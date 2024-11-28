@@ -11,7 +11,7 @@ using Promatis.Core.Logging;
 
 namespace PNTZ.Mufta.TPCApp.DpConnect
 {
-    internal class RecipeToPlc : IDpWorker
+    public class RecipeToPlc : IDpWorker
     {
         public IDpValue<uint> DpTpcCommand { get; set; }
         public IDpValue<uint> DpPlcCommand { get; set; }
@@ -23,6 +23,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         ILogger logger;
 
         public bool LoadingProcedureStarted { get; private set; }
+
+        public event EventHandler<JointRecipe> RecipeLoaded;
 
         public RecipeToPlc(ILogger logger)
         {
@@ -116,9 +118,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 DpTpcCommand.Value = 0;                
 
                 logger.Info("Рецепт загружен!");
+
+                RecipeLoaded?.Invoke(this,recipe);
             }
             catch
             {
+                RecipeLoaded?.Invoke(this, recipe);
                 throw;
             }
             finally

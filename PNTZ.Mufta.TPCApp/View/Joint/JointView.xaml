@@ -135,10 +135,18 @@
                             <dxc:ChartControl.Diagram>
                                 <dxc:XYDiagram2D>
 
+                                    <dxc:XYDiagram2D.DefaultPane>
+                                        <dxc:Pane DomainBrush="Transparent"/>
+                                    </dxc:XYDiagram2D.DefaultPane>
+                                    
+                                    
+
                                     <dxc:XYDiagram2D.NavigationOptions>
                                         <dxc:NavigationOptions/>
                                     </dxc:XYDiagram2D.NavigationOptions>
 
+    
+    
                                     <dxc:XYDiagram2D.AxisX>
                                         <dxc:AxisX2D x:Name="axisX">
                                             <dxc:AxisX2D.WholeRange>
@@ -152,18 +160,34 @@
                                         <dxc:AxisY2D x:Name="axisY">
                                             <dxc:AxisY2D.WholeRange>
                                                 <dxc:Range MinValue="0" 
-                                    MaxValue="100000"/>
+                                                    MaxValue="{Binding TorqueTimeChartTorqueMaxValue}"/>
                                             </dxc:AxisY2D.WholeRange>
+
+
+                                            <dxc:AxisY2D.ConstantLinesInFront>
+                                                <dxc:ConstantLine Value="{Binding LoadedRecipe.MU_Tq_Max}" 
+                                                                  Brush="Orange">
+                                                    <dxc:ConstantLine.Title>
+                                                        <dxc:ConstantLineTitle>
+                                                            <Label Foreground="Orange"
+                                                                FontSize="8"   
+                                                                   >
+                                                                Макс. момент</Label>
+                                                        </dxc:ConstantLineTitle>
+                                                    </dxc:ConstantLine.Title>
+                                                </dxc:ConstantLine>
+                                            </dxc:AxisY2D.ConstantLinesInFront>
+                                            <!--...-->
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
 
                                     <dxc:LineSeries2D DisplayName="Day Temperature" 
-                         DataSource="{Binding ChartSeries}" 
-                         ArgumentScaleType="Auto"                                         
-                         ArgumentDataMember="TimeStamp"
-                         ValueDataMember="Torque"  
-                         ValueScaleType="Numerical"
-                     />
+                                         DataSource="{Binding ChartSeries}" 
+                                         ArgumentScaleType="Auto"                                         
+                                         ArgumentDataMember="TimeStamp"
+                                         ValueDataMember="Torque"  
+                                         ValueScaleType="Numerical"
+                                     />
 
                                 </dxc:XYDiagram2D>
                             </dxc:ChartControl.Diagram>

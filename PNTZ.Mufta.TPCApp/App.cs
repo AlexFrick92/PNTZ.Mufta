@@ -25,6 +25,14 @@ using Toolkit.Logging;
 
 namespace PNTZ.Mufta.TPCApp
 {
+    /// <summary>
+    /// Класс унаследованный от StagedAplication
+    /// StagedApplication - база для wpf приложения, в которой организована
+    /// поэтапный запуск приложения. 
+    /// Сначала показывается окно загрузки
+    /// В это время можно запустить процесс инициализации
+    /// Затем открывается основное окно    
+    /// </summary>
     internal class App : StagedApplication
     {
         static public App AppInstance;
@@ -42,6 +50,8 @@ namespace PNTZ.Mufta.TPCApp
             AppInstance = this;
             CurrentDirectory = currentDirectory;
 
+
+            //В контейнере регистрируем все необходимые классы для работы с ПЛК
             container = new DryIocContainer();
 
             container.RegisterInstance(container);
@@ -76,9 +86,6 @@ namespace PNTZ.Mufta.TPCApp
             
             mainWindow = new MainView();
             mainWindow.DataContext = container.Resolve<MainViewModel>();
-
-            cli.RegisterCommand("start", (args) => Task.Run(()=> DpConnectionManager.OpenConnections()));
-            cli.RegisterCommand("stop", (args) => Task.Run(() => DpConnectionManager.CloseConnections()));
         }
 
         protected override void AfterInit() 

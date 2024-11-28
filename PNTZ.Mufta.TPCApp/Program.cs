@@ -8,6 +8,7 @@ namespace PNTZ.Mufta.TPCApp
 {
     internal class Program
     {
+        // Здесь будет вызван класс в UI потоке
         [STAThread]
         static void Main(string[] args)
         {

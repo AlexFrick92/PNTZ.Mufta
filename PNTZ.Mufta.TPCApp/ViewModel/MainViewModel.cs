@@ -9,6 +9,7 @@ using PNTZ.Mufta.TPCApp.View.MP;
 using PNTZ.Mufta.TPCApp.View.Recipe;
 using Promatis.Core.Logging;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -47,6 +48,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             this.WorkerManager = workerManager;
             this.ConnectionManager = connectionManager;
 
+
+
+            //Создаем ViewModels
             CliViewModel = new CliViewModel(cliUI);            
 
             createRecipeView = new CreateRecipeView();
@@ -58,14 +62,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             jointView = new JointView();
             jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointOperationalParamDpWorker>().First(),
                         workerManager.ResolveWorker<JointResultDpWorker>().First(),
+                        workerManager.ResolveWorker<RecipeToPlc>().First(),
                         logger);
 
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First());
             OnPropertyChanged(nameof(StatusBarViewModel));
 
+
+
+            //Навигация между окнами
             NaviToRecipeViewCommand = new RelayCommand((p) => MainContent = createRecipeView);
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);            
             NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParamView);
+
+
+            //Кнопки подключения к ПЛК
+            cli.RegisterCommand("start", (args) => Task.Run(() => connectionManager.OpenConnections()));
+            cli.RegisterCommand("stop", (args) => Task.Run(() => connectionManager.CloseConnections()));
         }
     }
 }
