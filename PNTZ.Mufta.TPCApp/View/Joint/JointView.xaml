@@ -128,7 +128,7 @@
                         <RowDefinition Height="300"/>
                     </Grid.RowDefinitions>
 
-
+                                        
                     <!--Момент/время-->
                     <ContentControl Grid.Row="0">
                         <dxc:ChartControl Name="chartControl1" BorderThickness="0">
@@ -145,26 +145,51 @@
                                         <dxc:NavigationOptions/>
                                     </dxc:XYDiagram2D.NavigationOptions>
 
-    
-    
                                     <dxc:XYDiagram2D.AxisX>
-                                        <dxc:AxisX2D x:Name="axisX">
+                                        <dxc:AxisX2D x:Name="axisX" GridLinesVisible="True"
+                                                     GridLinesBrush="#F0F0F0">
                                             <dxc:AxisX2D.WholeRange>
                                                 <dxc:Range MinValue="0" 
-                                    MaxValue="90000"/>
+                                                    MaxValue="90000"/>
                                             </dxc:AxisX2D.WholeRange>
+
+                                            <dxc:AxisX2D.GridSpacing>1000</dxc:AxisX2D.GridSpacing>
+
+                                            <dxc:AxisX2D.Label>
+                                                <dxc:AxisLabel Visible="False" />
+                                            </dxc:AxisX2D.Label>
+
+
+                                            <dxc:AxisX2D.ConstantLinesInFront>
+                                                <dxc:ConstantLine Value="{Binding LastTimeStamp}" 
+                                                                        Brush="Gray">
+                                                    <dxc:ConstantLine.Title>
+                                                        <dxc:ConstantLineTitle>
+                                                            <Label Foreground="Gray"
+                                                                FontSize="8"   
+                                                                   Content="{Binding LastTimeStamp}"
+                                                                   />
+                                                        </dxc:ConstantLineTitle>
+                                                    </dxc:ConstantLine.Title>
+                                                </dxc:ConstantLine>
+                                            </dxc:AxisX2D.ConstantLinesInFront>
                                         </dxc:AxisX2D>
+
                                     </dxc:XYDiagram2D.AxisX>
 
                                     <dxc:XYDiagram2D.AxisY>
-                                        <dxc:AxisY2D x:Name="axisY">
+                                        <dxc:AxisY2D x:Name="axisY" Interlaced="False"
+                                                     GridLinesBrush="#F0F0F0">
+
+                                            <dxc:AxisY2D.GridSpacing>500</dxc:AxisY2D.GridSpacing>
+                                            
                                             <dxc:AxisY2D.WholeRange>
                                                 <dxc:Range MinValue="0" 
                                                     MaxValue="{Binding TorqueTimeChartTorqueMaxValue}"/>
                                             </dxc:AxisY2D.WholeRange>
 
 
-                                            <dxc:AxisY2D.ConstantLinesInFront>
+                                            <dxc:AxisY2D.ConstantLinesBehind>
                                                 <dxc:ConstantLine Value="{Binding LoadedRecipe.MU_Tq_Max}" 
                                                                   Brush="Orange">
                                                     <dxc:ConstantLine.Title>
@@ -176,17 +201,35 @@
                                                         </dxc:ConstantLineTitle>
                                                     </dxc:ConstantLine.Title>
                                                 </dxc:ConstantLine>
-                                            </dxc:AxisY2D.ConstantLinesInFront>
-                                            <!--...-->
+                                                
+                                                <dxc:ConstantLine Value="{Binding ActualTorque}" 
+                                                                  Brush="Gray"                                                                  
+                                                                  >
+                                                    <dxc:ConstantLine.Title>
+                                                        <dxc:ConstantLineTitle>
+                                                            <TextBox Foreground="Gray"
+                                                                FontSize="8"   
+                                                                     Background="Transparent"
+                                                                     BorderThickness="0"
+                                                                     IsReadOnly="True"
+                                                                   Text="{Binding ActualTorque, StringFormat=F2}"
+                                                                   />
+                                                        </dxc:ConstantLineTitle>
+                                                    </dxc:ConstantLine.Title>
+                                                </dxc:ConstantLine>
+                                            </dxc:AxisY2D.ConstantLinesBehind>
+
+
+
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
 
-                                    <dxc:LineSeries2D DisplayName="Day Temperature" 
-                                         DataSource="{Binding ChartSeries}" 
-                                         ArgumentScaleType="Auto"                                         
+                                    <dxc:LineSeries2D 
+                                        DataSource="{Binding ChartSeries}"                                          
                                          ArgumentDataMember="TimeStamp"
-                                         ValueDataMember="Torque"  
-                                         ValueScaleType="Numerical"
+                                         ValueDataMember="Torque"     
+                                         ArgumentScaleType="Numerical"
+                                                     
                                      />
 
                                 </dxc:XYDiagram2D>
@@ -199,6 +242,7 @@
                     <ContentControl Grid.Row="1">
                         <dxc:ChartControl Name="chartControl2" BorderThickness="0">
                             <dxc:ChartControl.Diagram>
+                                
                                 <dxc:XYDiagram2D>
 
                                     <dxc:XYDiagram2D.NavigationOptions>
@@ -209,7 +253,7 @@
                                         <dxc:AxisX2D x:Name="axisX2">
                                             <dxc:AxisX2D.WholeRange>
                                                 <dxc:Range MinValue="0" 
-                                    MaxValue="90000"/>
+                                                MaxValue="90000"/>
                                             </dxc:AxisX2D.WholeRange>
                                         </dxc:AxisX2D>
                                     </dxc:XYDiagram2D.AxisX>
@@ -218,18 +262,18 @@
                                         <dxc:AxisY2D x:Name="axisY2">
                                             <dxc:AxisY2D.WholeRange>
                                                 <dxc:Range MinValue="0" 
-                                    MaxValue="10"/>
+                                                    MaxValue="10"/>
                                             </dxc:AxisY2D.WholeRange>
                                         </dxc:AxisY2D>
                                     </dxc:XYDiagram2D.AxisY>
 
                                     <dxc:LineSeries2D DisplayName="Day Temperature" 
-                         DataSource="{Binding ChartSeries}" 
-                         ArgumentScaleType="Auto"                                         
-                         ArgumentDataMember="TimeStamp"
-                         ValueDataMember="Turns"  
-                         ValueScaleType="Numerical"
-                     >
+                                        DataSource="{Binding ChartSeries}" 
+                                        ArgumentScaleType="Auto"                                         
+                                        ArgumentDataMember="TimeStamp"
+                                        ValueDataMember="Turns"  
+                                        ValueScaleType="Numerical"
+                                    >
                                     </dxc:LineSeries2D>
 
                                 </dxc:XYDiagram2D>

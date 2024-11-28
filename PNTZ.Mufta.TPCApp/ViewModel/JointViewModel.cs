@@ -81,6 +81,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float ActualTorque { get; set; } = 0;
         public float ActualLength { get; set; } = 0;
         public float ActualTurns { get; set; } = 0;
+        public int LastTimeStamp { get; set; } = 0;
         private void SubscribeToValues(object sender, DpConnect.Struct.OperationalParam e)
         {
             Task.Run(async () =>
@@ -170,7 +171,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 var timeout = Task.Delay(MaxRecordingTime);
 
                 Task first = await Task.WhenAny(RecordSeriesCycle(RecordingCts.Token), timeout);
-
+                //Этот код нужно перенести в DpWorker результата!
                 await first;
                 if (first == timeout)
                 {
@@ -213,13 +214,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
+                        LastTimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds);
+                        OnPropertyChanged(nameof(LastTimeStamp));
                         ChartSeries.Add(new TqTnLenPoint()
                         {
                             Torque = ActualTorque,
                             Turns = ActualTurns,
                             Length = ActualLength,
-                            TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds)
+                            TimeStamp = LastTimeStamp
                         });
+                        
                     });
                 }
                 await Task.Delay(RecordingInterval);

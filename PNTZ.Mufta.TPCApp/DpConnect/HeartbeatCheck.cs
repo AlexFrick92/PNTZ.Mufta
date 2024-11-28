@@ -90,14 +90,17 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                             if (Beating)
                             {
                                 Beating = false;
-                                logger.Info("Пропал Бит жизни от ПЛК");
+                                logger.Info("Пропал Бит жизни от ПЛК");                         
                             }                                
                         }
-                        if (!Beating)
+                        else
                         {
-                            Beating = true;
-                            logger.Info("Появился бит жизни от ПЛК");
-                        }                                           
+                            if (!Beating)
+                            {
+                                Beating = true;
+                                logger.Info("Появился бит жизни от ПЛК");
+                            }                                           
+                        }
                     }
                 }
                 catch (OperationCanceledException)
