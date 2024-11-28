@@ -8,7 +8,16 @@
         xmlns:control="clr-namespace:Desktop.Control;assembly=Desktop" 
         xmlns:lctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
         mc:Ignorable="d"
-        Title="MainView" Height="800" Width="1200">
+        Title="Контроль момента свинчивания"
+        Height="800" Width="1200">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Desktop;component/Styles/LayoutBlueStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding NaviToRecipeViewCommand}"/>
@@ -17,6 +26,8 @@
     </Window.InputBindings>
     
     <Grid>
+        
+        
         <layout:RootControl x:Name="Root">
 
             <!--****************************************** ПАНЕЛЬ СЛЕВА **************************************************************-->
@@ -38,9 +49,9 @@
                         BottomLabel="РЕЦЕПТЫ"
                         ButtonCommand="{Binding NaviToRecipeViewCommand}"
                         />
-                    
+
                     <Border Style="{StaticResource BorderSeparatorStyle}"/>
-                    
+
                     <lctrl:NaviButton                         
                         TopLabel="-F2-" 
                         IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Operation.drawio.png"
@@ -56,6 +67,25 @@
                         BottomLabel="МАШИНА"
                         />
 
+                    <Button>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="LightGreen"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="Azure"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        hello
+                    </Button>
                 </StackPanel>
             </layout:RootControl.LeftSidebar>
 

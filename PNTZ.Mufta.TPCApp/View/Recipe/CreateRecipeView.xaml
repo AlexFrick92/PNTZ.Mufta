@@ -138,7 +138,7 @@
                             SelectedValuePath="Value"
                             DisplayMemberPath="Description"
                             SelectedValue="{Binding Path=EditRecipe.SelectedThreadType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                            Width="80"                                                    
+                            Width="80"                                   
                           
                           HorizontalAlignment="Left"                                                                             
                           HorizontalContentAlignment="Center"

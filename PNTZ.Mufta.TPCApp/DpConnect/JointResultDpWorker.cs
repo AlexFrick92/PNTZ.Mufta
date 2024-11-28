@@ -29,7 +29,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         public void DpBound()
         {
-            DpTpcCommand.ValueUpdated += (s, v) =>
+            DpPlcCommand.ValueUpdated += (s, v) =>
             {
                 if(v == 5)
                 {                    

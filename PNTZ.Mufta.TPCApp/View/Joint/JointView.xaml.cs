@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PNTZ.Mufta.TPCApp.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
     /// </summary>
     public partial class JointView : UserControl
     {
-        public JointView()
+        public JointView(JointViewModel model)
         {
             InitializeComponent();
+            DataContext = model;
         }
     }
 }
