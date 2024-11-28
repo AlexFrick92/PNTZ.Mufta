@@ -184,7 +184,7 @@
 		</Worker>
 		
 		<!--АКТУАЛЬНЫЕ ПАРАМЕТРЫ-->
-		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointOperationalParam, PNTZ.Mufta.TPCApp">
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointOperationalParamDpWorker, PNTZ.Mufta.TPCApp">
 
 			<DpValue PropertyName="DpParam">
 				<SourceConfiguration ConnectionId ="Stend PNTZ">
@@ -194,6 +194,41 @@
 
 		</Worker>
 		
+		<!--Результат свинчивания-->
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointResultDpWorker, PNTZ.Mufta.TPCApp">
+
+			<DpValue PropertyName="DpTpcCommand">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="Kom_REG"."CAM_CMD_TPC"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="DpPlcCommand">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="Kom_REG"."CAM_CMD_PLC"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="Dp_ERG_CAM">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="Dp_ERG_Muffe">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_Muffe"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+			<DpValue PropertyName="Dp_ERG_MVS">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_MVS"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+		</Worker>
+
 	</Workers>
 
 </DpConfiguration>

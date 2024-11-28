@@ -1,5 +1,5 @@
 ﻿using Desktop.MVVM;
-
+using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using Promatis.Core.Logging;
 using System;
@@ -15,14 +15,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     public class JointViewModel : BaseViewModel
     {
 
+        public JointResult LastJointResult { get; set; }
+
         public double ActualTorque { get; set; } = 0;
         public double ActualLength { get; set; } = 0;
         public double ActualTurns { get; set; } = 0;
 
 
         ILogger logger;
-        JointOperationalParam jointOperationalParam;
-        JointOperationalParam JointOperationalParam
+        JointOperationalParamDpWorker jointOperationalParam;
+        JointOperationalParamDpWorker JointOperationalParam
         {
             get => jointOperationalParam;
             set
@@ -35,7 +37,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 jointOperationalParam.DpParam.ValueUpdated += SubscribeToValues;
             }
         }
-
         private void SubscribeToValues(object sender, DpConnect.Struct.OperationalParam e)
         {
             Task.Run(async () =>
@@ -58,7 +59,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
 
-        public JointViewModel(JointOperationalParam jointParam, ILogger logger)
+        public JointViewModel(JointOperationalParamDpWorker jointParam, ILogger logger)
         {
             this.logger = logger;
 

@@ -29,9 +29,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<float> MP_Cal_Factor { get; set; }        
         public IDpValue<DateTime> MP_Cal_Timestamp { get; set; }
         public IDpValue<float> MP_Makeup_Length_Offset { get; set; }
-
         public IDpValue<string> MP_Machine_No { get; set; }
-
         public IDpValue<string> MP_Cal_User { get; set; }
 
 

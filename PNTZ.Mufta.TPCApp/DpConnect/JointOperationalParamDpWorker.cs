@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PNTZ.Mufta.TPCApp.DpConnect
 {
-    public class JointOperationalParam : IDpWorker
+    public class JointOperationalParamDpWorker : IDpWorker
     {
 
 
@@ -18,7 +18,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         ILogger logger;
 
-        public JointOperationalParam(ILogger logger)
+        public JointOperationalParamDpWorker(ILogger logger)
         {
             this.logger = logger;
         }
