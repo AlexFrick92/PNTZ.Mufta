@@ -56,7 +56,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
             jointView = new JointView();
-            jointView.DataContext = new JointViewModel(workerManager.ResolveWorker<JointOperationalParamDpWorker>().First(), logger);
+            jointView.DataContext = new JointViewModel(workerManager.ResolveWorker<JointOperationalParamDpWorker>().First(),
+                workerManager.ResolveWorker<JointResultDpWorker>().First(), 
+                logger);
 
             NaviToRecipeViewCommand = new RelayCommand((p) => MainContent = createRecipeView);
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);

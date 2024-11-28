@@ -11,6 +11,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public float Torque { get; set; }
         public float Length { get; set; }
         public float Turns { get; set; }
-        public DateTime TimeStamp { get; set; }
+        public int TimeStamp { get; set; }
     }
 }

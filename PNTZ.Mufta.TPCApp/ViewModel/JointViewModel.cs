@@ -4,9 +4,12 @@ using PNTZ.Mufta.TPCApp.DpConnect;
 using Promatis.Core.Logging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using System.Xml.Linq;
 using static PNTZ.Mufta.TPCApp.App;
 
@@ -14,17 +17,48 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointViewModel : BaseViewModel
     {
+        public JointViewModel(JointOperationalParamDpWorker paramWorker, JointResultDpWorker resultWorker, ILogger logger)
+        {
+            this.logger = logger;
+
+            try
+            {
+                var config = XDocument.Load($"{AppInstance.CurrentDirectory}/ViewModel/JointViewModel.xml");
+                UpdateInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("UpdateInterval").Value));
+                RecordingInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("RecordingInterval").Value));
+                MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));
+            }
+            catch (Exception ex)
+            {
+                logger.Info("Не удалось загрузить конфигурацию для JointViewModel:");
+                logger.Info(ex.Message);
+                logger.Info("Будут использованы значения по-умолчанию");
+            }
+
+
+            this.ParamWorker = paramWorker;
+
+            this.ResultDpWorker = resultWorker;
+        }
 
         public JointResult LastJointResult { get; set; }
 
-        public double ActualTorque { get; set; } = 0;
-        public double ActualLength { get; set; } = 0;
-        public double ActualTurns { get; set; } = 0;
+        public float ActualTorque { get; set; } = 0;
+        public float ActualLength { get; set; } = 0;
+        public float ActualTurns { get; set; } = 0;
 
+        TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
+        TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
+        public ObservableCollection<TqTnLenPoint> ChartSeries { get; set; }
+        CancellationTokenSource RecordingCts;
+
+        bool RecordingProcedureStarted = false;
 
         ILogger logger;
+        public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
         JointOperationalParamDpWorker jointOperationalParam;
-        JointOperationalParamDpWorker JointOperationalParam
+        JointOperationalParamDpWorker ParamWorker
+
         {
             get => jointOperationalParam;
             set
@@ -37,6 +71,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 jointOperationalParam.DpParam.ValueUpdated += SubscribeToValues;
             }
         }
+
+        JointResultDpWorker resultWorker;
+        JointResultDpWorker ResultDpWorker
+        {
+            get => resultWorker;
+            set
+            {
+                if(value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                resultWorker = value;
+
+                resultWorker.JointBegun += StartChartRecording;
+                resultWorker.JointFinished += StopChartRecording;
+            }
+        }
+
         private void SubscribeToValues(object sender, DpConnect.Struct.OperationalParam e)
         {
             Task.Run(async () =>
@@ -55,27 +106,88 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
             });
             jointOperationalParam.DpParam.ValueUpdated -= SubscribeToValues;
-        }
-
-        public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
-
-        public JointViewModel(JointOperationalParamDpWorker jointParam, ILogger logger)
+        }    
+        
+        private async void StartChartRecording(object sender, EventArgs e)
         {
-            this.logger = logger;
+            if (RecordingProcedureStarted)
+                throw new InvalidOperationException("Операция записи графиков уже начата");
+
+            RecordingProcedureStarted = true;
+
+            logger.Info("Начинаем запись графиков для UI...");            
+
+            RecordingCts = new CancellationTokenSource();
 
             try
             {
-                var config = XDocument.Load($"{AppInstance.CurrentDirectory}/ViewModel/JointViewModel.xml");
-                UpdateInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("UpdateInterval").Value));
+
+                var timeout = Task.Delay(MaxRecordingTime);
+
+                Task first = await Task.WhenAny(RecordSeriesCycle(RecordingCts.Token), timeout);
+
+                await first;
+                if (first == timeout)
+                {
+                    StopChartRecording(this, EventArgs.Empty);
+                    throw new TimeoutException("Превышено максимальное время записи параметров.");
+                }
+
+            }
+            catch (TimeoutException ex)
+            {
+                logger.Info(ex.Message);
+            }
+            catch (OperationCanceledException)
+            {
+                logger.Info("Запись графиков для UI завершена");
             }
             catch (Exception ex)
             {
-                logger.Info("Не удалось загрузить конфигурацию для JointViewModel:");
-                logger.Info(ex.Message);
-                logger.Info("Будут использованы значения по-умолчанию");
+                logger.Info("Неизвестная ошибка во время записи графиков: " + ex.Message);
             }
+            finally
+            {
+                RecordingProcedureStarted = false;
+            }
+        }
+        private async Task RecordSeriesCycle(CancellationToken token)
+        {
+            ChartSeries = new ObservableCollection<TqTnLenPoint>();
+            OnPropertyChanged(nameof(ChartSeries));
 
-            this.JointOperationalParam = jointParam;
+            DateTime beginTime = DateTime.Now;
+
+            while (true)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException();
+                }
+                else
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        ChartSeries.Add(new TqTnLenPoint()
+                        {
+                            Torque = ActualTorque,
+                            Turns = ActualTurns,
+                            Length = ActualLength,
+                            TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds)
+                        });
+                    });
+                }
+                await Task.Delay(RecordingInterval);
+            }        
+        }
+        
+        private void StopChartRecording(object sender, EventArgs e)
+        {
+            if (RecordingCts != null)
+            {
+                RecordingCts.Cancel();
+                RecordingCts = null;
+            }
         }
     }
 }
