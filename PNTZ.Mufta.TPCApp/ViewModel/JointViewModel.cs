@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using System.Xml.Linq;
 using static PNTZ.Mufta.TPCApp.App;
 
@@ -41,23 +41,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             this.ParamWorker = paramWorker;
 
             this.ResultDpWorker = resultWorker;
+
+            SetGoodResultCommand = new RelayCommand((arg) =>
+            {
+                ShowResultButtons = false;
+                OnPropertyChanged(nameof(ShowResultButtons));
+            });
         }
-
-        public JointResult LastJointResult { get; set; }
-
-        public float ActualTorque { get; set; } = 0;
-        public float ActualLength { get; set; } = 0;
-        public float ActualTurns { get; set; } = 0;
-
-        TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
-        TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
-        public ObservableCollection<TqTnLenPoint> ChartSeries { get; set; }
-        CancellationTokenSource RecordingCts;
-
-        bool RecordingProcedureStarted = false;
-
         ILogger logger;
-        public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
+        
+
+
+
+        // ************** ОБНОВЛЕНИЕ ЗНАЧЕНИЙ ***********************
         JointOperationalParamDpWorker jointOperationalParam;
         JointOperationalParamDpWorker ParamWorker
 
@@ -65,7 +61,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             get => jointOperationalParam;
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentNullException(nameof(value));
 
                 jointOperationalParam = value;
@@ -73,23 +69,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 jointOperationalParam.DpParam.ValueUpdated += SubscribeToValues;
             }
         }
-
-        JointResultDpWorker resultWorker;
-        JointResultDpWorker ResultDpWorker
-        {
-            get => resultWorker;
-            set
-            {
-                if(value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                resultWorker = value;
-
-                resultWorker.JointBegun += StartChartRecording;
-                resultWorker.JointFinished += StopChartRecording;
-            }
-        }
-
+        public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
+        public float ActualTorque { get; set; } = 0;
+        public float ActualLength { get; set; } = 0;
+        public float ActualTurns { get; set; } = 0;
         private void SubscribeToValues(object sender, DpConnect.Struct.OperationalParam e)
         {
             Task.Run(async () =>
@@ -108,8 +91,39 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
             });
             jointOperationalParam.DpParam.ValueUpdated -= SubscribeToValues;
-        }    
-        
+        }
+
+
+
+
+        // ************** ЗАПИСЬ ГРАФИКОВ ***********************
+
+        JointResultDpWorker resultWorker;
+        JointResultDpWorker ResultDpWorker
+        {
+            get => resultWorker;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                resultWorker = value;
+
+                resultWorker.JointBegun += StartChartRecording;
+                resultWorker.JointFinished += StopChartRecording;
+
+                resultWorker.JointFinished += (s, v) =>
+                {
+                    ShowResultButtons = true;
+                    OnPropertyChanged(nameof(ShowResultButtons));
+                };
+            }
+        }
+        TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
+        TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
+        public ObservableCollection<TqTnLenPoint> ChartSeries { get; set; }
+        CancellationTokenSource RecordingCts;
+        bool RecordingProcedureStarted = false;
         private async void StartChartRecording(object sender, EventArgs e)
         {
             if (RecordingProcedureStarted)
@@ -181,8 +195,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
                 await Task.Delay(RecordingInterval);
             }        
-        }
-        
+        }        
         private void StopChartRecording(object sender, EventArgs e)
         {
             if (RecordingCts != null)
@@ -191,6 +204,22 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 RecordingCts = null;
             }
         }
+
+
+
+
+
+        // ************* УСТАНОВКА РЕЗУЛЬТАТА ******************
+
+        public ICommand SetGoodResultCommand { get; private set; }
+        public ICommand SetBadResultCommand { get; private set; }
+        public bool ShowResultButtons { get; set; }
+
+
+
+
+        // ************* РЕЗУЛЬТАТ ****************
+        public JointResult LastJointResult { get; set; }
     }
 }
 
