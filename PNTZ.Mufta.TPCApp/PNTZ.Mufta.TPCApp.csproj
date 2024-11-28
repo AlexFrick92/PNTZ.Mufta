@@ -114,8 +114,12 @@
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RecipeViewModel.cs" />
+    <Compile Include="ViewModel\StatusBarViewModel.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Control\StatusBar.xaml.cs">
+      <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EnumHelper.cs" />
     <Compile Include="View\EnumToCollectionConverter.cs" />
@@ -161,6 +165,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\Control\NaviButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Control\StatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

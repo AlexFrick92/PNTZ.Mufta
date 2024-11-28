@@ -87,7 +87,12 @@
             </layout:RootControl.OutputElementCollection>
 
 
-            </layout:RootControl>
+
+            <layout:RootControl.StatusBar>
+                <lctrl:StatusBar DataContext="{Binding StatusBarViewModel}"/>
+            </layout:RootControl.StatusBar>
+            
+        </layout:RootControl>
         
 
     </Grid>

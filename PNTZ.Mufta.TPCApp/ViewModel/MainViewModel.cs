@@ -22,7 +22,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         IDpConnectionManager ConnectionManager { get; set; }
 
         public CliViewModel CliViewModel { get; set; }
-
+        public StatusBarViewModel StatusBarViewModel { get; set; }
 
         CreateRecipeView createRecipeView { get; set; }
         JointView jointView { get; set; }
@@ -59,6 +59,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointOperationalParamDpWorker>().First(),
                         workerManager.ResolveWorker<JointResultDpWorker>().First(),
                         logger);
+
+            this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First());
+            OnPropertyChanged(nameof(StatusBarViewModel));
 
             NaviToRecipeViewCommand = new RelayCommand((p) => MainContent = createRecipeView);
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);            
