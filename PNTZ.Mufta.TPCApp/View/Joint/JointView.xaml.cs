@@ -21,10 +21,9 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
     /// </summary>
     public partial class JointView : UserControl
     {
-        public JointView(JointViewModel model)
+        public JointView()
         {
             InitializeComponent();
-            DataContext = model;
         }
     }
 }

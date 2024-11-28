@@ -230,12 +230,6 @@
                         <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
 
                         <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="AliceBlue"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="Azure"/>
-                            </Trigger>
                             <DataTrigger Value="True">
                                 <DataTrigger.Binding>
                                     <MultiBinding Converter="{StaticResource EnumEqualityConverter}">
