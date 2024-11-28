@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
              xmlns:joint="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
-             xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
+             xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View" 
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:RecipeViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1600"             
              >

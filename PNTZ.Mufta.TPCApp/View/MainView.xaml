@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View"
         xmlns:layout="clr-namespace:Desktop.Layout;assembly=Desktop"
         xmlns:control="clr-namespace:Desktop.Control;assembly=Desktop" 
-        xmlns:lctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
+        xmlns:lctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control" 
+        xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         mc:Ignorable="d"
         Title="Контроль момента свинчивания"
         Height="800" Width="1200">
