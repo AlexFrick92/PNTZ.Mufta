@@ -18,7 +18,7 @@ namespace PNTZ.Mufta.App.View
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainView : DevExpress.Xpf.Core.ThemedWindow
+    public partial class MainView : Window
     {
         public MainView(MainViewModel viewModel)
         {
