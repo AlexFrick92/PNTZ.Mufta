@@ -6,11 +6,17 @@
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
              xmlns:joint="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
              xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View" 
+             
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:RecipeViewModel}"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1600"             
              >
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding NewRecipeCommand}" />
+    </UserControl.InputBindings>
     <UserControl.Resources>
 
         <!-- Поля ввода-->
@@ -55,17 +61,43 @@
 
         <!--****************************************** СПИСОК РЕЦЕПТОВ В ПАПКЕ СЛЕВА **************************************************************-->
         <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-            <ListView ItemsSource="{Binding SavedRecipes}" SelectedItem="{Binding SelectedSavedRecipe}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0" ItemsSource="{Binding SavedRecipes}" SelectedItem="{Binding SelectedSavedRecipe}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="300" DisplayMemberBinding="{Binding Path=Name}">Имя задания</GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
+
+            <Button
+                Grid.Row="2"
+                Height="40"
+                Width="70"
+                Content="Ctrl + 1"
+                HorizontalAlignment="Left"
+                Margin="4"
+                Command="{Binding NewRecipeCommand}"
+                />
         </Grid>
 
         <!--****************************************** РЕДАКТИРОВАНИЕ РЕЦЕПТА **************************************************************-->
-        <Grid Grid.Column="1" Grid.Row="0">
+        <Grid Grid.Column="1" Grid.Row="0"              
+              >
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RecipeEditable}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -683,7 +715,7 @@
 
         <!--****************************************** КНОПКИ УПРАВЛЕНИЯ РЕЦЕПТОМ **************************************************************-->
         <Grid Grid.Row="1" Grid.Column="1">
-            <Button Margin="15" HorizontalAlignment="Right" Width="150" Height="50"                     
+            <Button Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
                     Command="{Binding LoadRecipeCommand}"
                     Content="ЗАГРУЗИТЬ"
                 

@@ -1,0 +1,70 @@
+﻿<Window x:Class="PNTZ.Mufta.TPCApp.View.Recipe.NewRecipeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        
+        xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:NewRecipeViewModel}"
+        
+        
+        Title="NewRecipeView" Height="120" Width="350">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CancelCmd}"/>
+        <KeyBinding Key="Enter" Command="{Binding CreateRecipeCmd}"/>
+    </Window.InputBindings>
+    
+    <Border BorderBrush="DarkGray" BorderThickness="3">
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+        
+            
+            <TextBox 
+                Grid.Row="0"
+                IsReadOnly="True" 
+                BorderThickness="0"
+                Text="Введите название рецепта:"/>
+
+            <TextBox      
+                x:Name="inputField"
+                Grid.Row="1"    
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,10"
+                BorderThickness="0,0,0,1"
+                Width="250"
+                BorderBrush="Gray"    
+                Text="{Binding RecipeName, UpdateSourceTrigger=PropertyChanged}"
+                />
+
+
+            <TextBox 
+                Foreground="Red"
+                Grid.Row="2"
+                IsReadOnly="True" 
+                Margin="0,0,0,10"
+                BorderThickness="0"
+                HorizontalAlignment="Center"
+                Text="{Binding Error}"/>
+
+            <TextBox 
+                Grid.Row="3"
+                IsReadOnly="True" 
+                BorderThickness="0"
+                HorizontalAlignment="Center"
+                Text="- Enter - *создать* - Esc - *отменить*"/>
+
+        </Grid>
+    </Border>
+</Window>

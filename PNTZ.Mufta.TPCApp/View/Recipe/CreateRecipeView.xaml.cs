@@ -38,6 +38,11 @@ namespace PNTZ.Mufta.TPCApp.View.Recipe
 
         }
 
+        public void Activated()
+        {
+            Input_HeadOpen.Focus();
+        }
+
         private readonly Regex floatRegexAllow;
         private readonly Regex intRegexAllow;
         private readonly Regex RecipeNameRegexAllow;

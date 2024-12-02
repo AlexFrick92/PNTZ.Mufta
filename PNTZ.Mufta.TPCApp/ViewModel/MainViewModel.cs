@@ -40,7 +40,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             private set
             {
                 _mainContent = value;
-                OnPropertyChanged(nameof(MainContent));
+                OnPropertyChanged(nameof(MainContent));                
             }
         }
         public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger)
@@ -71,7 +71,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
             //Навигация между окнами
-            NaviToRecipeViewCommand = new RelayCommand((p) => MainContent = createRecipeView);
+            NaviToRecipeViewCommand = new RelayCommand((p) =>
+            {
+                MainContent = createRecipeView;                
+            });
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);            
             NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParamView);
 

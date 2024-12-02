@@ -113,6 +113,7 @@
     <Compile Include="ViewModel\JointViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\NewRecipeViewModel.cs" />
     <Compile Include="ViewModel\RecipeViewModel.cs" />
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
@@ -134,6 +135,9 @@
     </Compile>
     <Compile Include="View\Recipe\CreateRecipeView.xaml.cs">
       <DependentUpon>CreateRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\NewRecipeView.xaml.cs">
+      <DependentUpon>NewRecipeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueDescription.cs" />
   </ItemGroup>
@@ -185,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Recipe\CreateRecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Recipe\NewRecipeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

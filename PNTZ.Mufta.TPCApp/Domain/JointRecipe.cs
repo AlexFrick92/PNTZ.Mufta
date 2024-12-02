@@ -22,12 +22,12 @@ namespace PNTZ.Mufta.TPCApp.Domain
             get => name;            
             set
             {
-                if (value.Length < 10)
+                if (value != null && value.Length < 20)
                 {
                     name = value;
                 }
                 else
-                    throw new ArgumentException("Значение имени должно быть меньше 10 символов");
+                    throw new ArgumentException("Значение имени должно быть от 1 до 20 символов");
             }
         }
 
@@ -57,6 +57,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
             }
         }
 
+        
         public ThreadType SelectedThreadType { get; set; }
 
         [ComparableValidationProperty("Thread_step")]
