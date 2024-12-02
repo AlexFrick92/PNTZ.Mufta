@@ -13,41 +13,63 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Styles/AppStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!--Заголовок параметров-->
+            <Style x:Key="ParamHeaderLabel" TargetType="Label">
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+            <Style x:Key="HeaderUnderStroke" TargetType="Border">
+                <Setter Property="BorderThickness" Value="0,1,0,0"/>
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
 
-        <!--Заголовок параметров-->
-        <Style x:Key="ParamHeaderLabel" TargetType="Label">
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-        <Style x:Key="HeaderUnderStroke" TargetType="Border">
-            <Setter Property="BorderThickness" Value="0,1,0,0"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
 
+            <Style x:Key="ParamLabel" TargetType="Label">
+                <Setter Property="Margin" Value="10,0,0,5"/>
 
-        <Style x:Key="ParamLabel" TargetType="Label">
-            <Setter Property="Margin" Value="10,0,0,5"/>
+            </Style>
 
-        </Style>
-
-        <Style x:Key="OutputLabel" TargetType="TextBox">
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="10,0,10,5"/>
-        </Style>
-
+            <Style x:Key="OutputLabel" TargetType="TextBox">
+                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="10,0,10,5"/>
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--ПАРАМЕТРЫ-->
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Border Grid.Column="1"
+                BorderBrush="{StaticResource GridColor}"
+                BorderThickness="0,0,0,1"
+                >
+                <Label                        
+                        Content="ПАРАМЕТРЫ"
+                        FontSize="18"         
+                        Margin="4"
+                        BorderThickness="0"                                        
+                        />
+            </Border>
+        </Grid>
         
         <!--ТЕКУЩИЕ ПОКАЗАНИЯ-->
-        <Grid Grid.Column="0">
+        <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -62,7 +84,7 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition/>
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
 
@@ -107,13 +129,27 @@
 
         </Grid>
 
-        <Border Grid.Column="1"
-                BorderBrush="#cecece"
+        <!--РАЗДЕЛИТЕЛЬ-->
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                BorderBrush="{StaticResource GridColor}"
                 BorderThickness="1,0,0,0"
                 />
 
-
-        <Grid Grid.Column="2">
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Border Grid.Column="1"
+                BorderBrush="{StaticResource GridColor}"
+                BorderThickness="0,0,0,1"
+                >
+                <Label                        
+                        Content="ГРАФИКИ"
+                        FontSize="18"         
+                        Margin="4"
+                        BorderThickness="0"                                        
+                        />
+            </Border>
+        </Grid>
+        <!--ГРАФИКИ И КНОПКИ РЕЗУЛЬТАТА-->
+        <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>

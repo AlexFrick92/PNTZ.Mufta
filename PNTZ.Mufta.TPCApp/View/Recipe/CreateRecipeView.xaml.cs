@@ -40,7 +40,7 @@ namespace PNTZ.Mufta.TPCApp.View.Recipe
 
         public void Activated()
         {
-            Input_HeadOpen.Focus();
+            //Input_HeadOpen.Focus();
         }
 
         private readonly Regex floatRegexAllow;

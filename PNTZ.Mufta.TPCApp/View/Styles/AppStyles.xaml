@@ -7,6 +7,7 @@
 
     <Style x:Key="Empty"/>
 
+    <SolidColorBrush x:Key="GridColor" Color="#cecece"/>
 
 
 </ResourceDictionary>

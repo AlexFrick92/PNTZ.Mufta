@@ -18,6 +18,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Desktop;component/Styles/LayoutBlueStyle.xaml"/>
+                <ResourceDictionary Source="/View/Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -39,7 +40,7 @@
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style x:Key="BorderSeparatorStyle" TargetType="Border">
-                            <Setter Property="BorderBrush" Value="#cecece"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource GridColor}"/>
                             <Setter Property="BorderThickness" Value="0,1,0,0"/>
                             <Setter Property="Margin" Value="2,2,2,2"/>
                         </Style>

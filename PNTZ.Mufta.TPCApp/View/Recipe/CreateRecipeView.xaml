@@ -17,62 +17,94 @@
     <UserControl.InputBindings>
         <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding NewRecipeCommand}" />
     </UserControl.InputBindings>
+    
     <UserControl.Resources>
 
-        <!-- Поля ввода-->
-        <Style x:Key="InputField" TargetType="TextBox">
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="MinWidth" Value="80"/>
-            <Setter Property="Width" Value="80"/>
-        </Style>
-        <Style x:Key="InputFieldLabel" TargetType="Label">
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="MinWidth" Value="180"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Styles/AppStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <!--Заголовок параметров-->
-        <Style x:Key="ParamHeaderLabel" TargetType="Label">
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-        <Style x:Key="HeaderUnderStroke" TargetType="Border">
-            <Setter Property="BorderThickness" Value="0,1,0,0"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
+            <!-- Поля ввода-->
+            <Style x:Key="InputField" TargetType="TextBox">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="MinWidth" Value="80"/>
+                <Setter Property="Width" Value="80"/>
+            </Style>
+            <Style x:Key="InputFieldLabel" TargetType="Label">
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="MinWidth" Value="180"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
 
+            <!--Заголовок параметров-->
+            <Style x:Key="ParamHeaderLabel" TargetType="Label">
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+            <Style x:Key="HeaderUnderStroke" TargetType="Border">
+                <Setter Property="BorderThickness" Value="0,1,0,0"/>
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
+
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <!--****************************************** СПИСОК РЕЦЕПТОВ В ПАПКЕ СЛЕВА **************************************************************-->
-        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+                <Label                        
+                        Content="Список рецептов"
+                        FontSize="18"         
+                        Margin="4"
+                        BorderThickness="0"                                        
+                        />
+            </Border>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" ItemsSource="{Binding SavedRecipes}" SelectedItem="{Binding SelectedSavedRecipe}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="300" DisplayMemberBinding="{Binding Path=Name}">Имя задания</GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            
+            
+            <ListBox Grid.Row="0" ItemsSource="{Binding JointRecipes}" SelectedItem="{Binding SelectedJointRecipe}"
+                     BorderThickness="0"
+                     HorizontalContentAlignment="Stretch"
+                     >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="4">
+                            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+                                <Label                                                                                                                                             
+                                    Content="{Binding Name}"
+                                     Background="Transparent"                                                                                                                                                      
+                                         />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
             <Button
                 Grid.Row="2"
@@ -85,8 +117,63 @@
                 />
         </Grid>
 
+        <!--РАЗДЕЛИТЕЛЬ-->
+        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" 
+                Margin="0,0,0,-5"
+            BorderThickness="0,0,1,0" BorderBrush="{StaticResource GridColor}">
+            
+        </Border>
+
         <!--****************************************** РЕДАКТИРОВАНИЕ РЕЦЕПТА **************************************************************-->
-        <Grid Grid.Column="1" Grid.Row="0"              
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label                 
+                        Grid.Column="0"
+                        Content="Редактирование рецепта"
+                        FontSize="18"
+                        Margin="4"
+                        BorderThickness="0"                        
+                        />
+                    <Label
+                        Grid.Column="1"
+                        Content="{Binding EditRecipe.Name}"
+                        FontSize="18"
+                        Margin="4"
+                        FontWeight="SemiBold"
+                        BorderThickness="0"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!--Фоновый текст-->
+        <Label
+                Grid.Row="1" Grid.RowSpan="3" Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Content="Выберите рецепт слева или создайте новый"
+                FontStyle="Italic"
+                FontSize="18"
+                BorderThickness="0"
+                          
+                >
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RecipeEditable}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+
+        <Grid Grid.Column="2" Grid.Row="1"              
               >
             <Grid.Style>
                 <Style TargetType="Grid">
@@ -99,6 +186,7 @@
                 </Style>
             </Grid.Style>
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -125,24 +213,6 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-
-                <!--********************* НАЗВАНИЕ РЕЦЕПТА ***************************-->
-                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                    Orientation="Horizontal">
-                    <Label Content="Введите название задания:" FontSize="15"/>
-                    <TextBox  
-                        Style="{StaticResource InputField}"       
-                        Width="300"
-                        FontSize="15"
-                        Height="30"
-                        FontWeight="DemiBold"                        
-                        HorizontalContentAlignment="Left"                        
-                        x:Name="Input_RecipeName"
-                        PreviewTextInput="RecipeNameInputPreview"
-
-                        Text="{Binding EditRecipe.Name, ValidatesOnExceptions=True}"
-                    />
-                </StackPanel>
 
                 <!--********************* ОБЩИЕ ПАРАМЕТРЫ ***************************-->
 
@@ -709,19 +779,16 @@
                 <!-- ///////////////////// НАСТРОЙКИ ДЛЯ ВЫБРАННОГО РЕЖИМА //////////////////////////////////-->
             </Grid>
 
-            <!--///////////////////////////////////////  РЕДАКТИРОВАНИЕ РЕЦЕПТА //////////////////////////////////-->
-        </Grid>
-
-
-        <!--****************************************** КНОПКИ УПРАВЛЕНИЯ РЕЦЕПТОМ **************************************************************-->
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Button Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
+            <Grid Grid.Row="4" Grid.Column="0">
+                <Button Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
                     Command="{Binding LoadRecipeCommand}"
-                    Content="ЗАГРУЗИТЬ"
-                
+                    Content="ЗАГРУЗИТЬ"                
                     />
-        </Grid>
+            </Grid>
 
+            <!--///////////////////////////////////////  РЕДАКТИРОВАНИЕ РЕЦЕПТА //////////////////////////////////-->
+
+        </Grid>
 
     </Grid>
 </UserControl>
