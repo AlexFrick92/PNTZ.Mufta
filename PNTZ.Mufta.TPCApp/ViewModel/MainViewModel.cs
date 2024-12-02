@@ -65,7 +65,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         workerManager.ResolveWorker<RecipeToPlc>().First(),
                         logger);
 
-            this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First());
+            this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), workerManager.ResolveWorker<HeartbeatCheck>().First());
             OnPropertyChanged(nameof(StatusBarViewModel));
 
 

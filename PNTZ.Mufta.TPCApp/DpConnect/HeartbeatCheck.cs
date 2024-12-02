@@ -33,6 +33,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         public event EventHandler<EventArgs> HeartBeatApper;
         public event EventHandler<EventArgs> HeartBeatDisapper;
+        public event EventHandler<bool> PlcHeartbeat;
+        public event EventHandler<bool> PlcStatusChanged;
 
         ILogger logger;
         CancellationTokenSource cts;
@@ -44,6 +46,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public void DpBound()
         {
             DpPlcHeartbeat.StatusChanged += DpPlcHeartbeat_StatusChanged;
+            DpPlcHeartbeat.ValueUpdated += (s, v) => PlcHeartbeat?.Invoke(s, v);
         }
 
         private void DpPlcHeartbeat_StatusChanged(object sender, EventArgs e)
@@ -54,7 +57,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                    StartHeartbeatCheck();            
             }
             else            
-                cts?.Cancel();           
+                cts?.Cancel();
+            PlcStatusChanged?.Invoke(this, DpPlcHeartbeat.IsConnected);
         }
 
         private async void StartHeartbeatCheck() 

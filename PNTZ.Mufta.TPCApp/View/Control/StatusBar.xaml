@@ -10,7 +10,20 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:StatusBarViewModel}"
              >
 
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Styles/AppStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="Label" x:Key="StatusBarLabel">
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+        </Grid.Resources>
         <Grid.Style>
             <Style TargetType="Grid">
                 <Setter Property="Background" Value="Transparent"/>
@@ -20,21 +33,86 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-            </Grid.Style>
-        <Label             
-            HorizontalAlignment="Center"                      
-            >
-            <Label.Style>
-                <Style TargetType="Label">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding JointInProgress}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Label.Style>
+        </Grid.Style>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
 
-            Идёт процесс свинчивания</Label>
+        <StackPanel Grid.Column="0" Orientation="Horizontal"
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center">
+            <Label Content="Статус:" 
+                   Style="{StaticResource StatusBarLabel}"
+                   />
+
+
+            <Label          
+                HorizontalAlignment="Center"                      
+                Content="Идёт процесс свинчивания">
+                <Label.Style>
+                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding JointInProgress}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+        </StackPanel>
+
+
+        <StackPanel Grid.Column="2" Orientation="Horizontal"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center">
+    
+            
+            <Label Content="Соединение ПЛК:"
+                   Style="{StaticResource StatusBarLabel}"
+                   />
+
+            <Label          
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                >
+                
+                <Label.Style>
+                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
+                        <Setter Property="Content" Value="НЕ ПОДКЛЮЧЕНО"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding PlcConnected}" Value="True">
+                                <Setter Property="Content" Value="ПОДКЛЮЧЕНО"/>
+                                <Setter Property="Foreground" Value="Green"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+
+            <!-- Круг -->
+            <Ellipse Width="20" Height="20" VerticalAlignment="Center"
+                     Margin="4,0,0,0"
+                     Stroke="Black" StrokeThickness="1"
+                     >
+                <Ellipse.Style>
+                    <Style TargetType="Ellipse">
+                        <Setter Property="Fill" Value="{StaticResource GridColor}"/>
+                        <Style.Triggers>
+                            <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
+                            <DataTrigger Binding="{Binding PlcHeartbeat}" Value="True">
+                                <Setter Property="Fill" Value="Green"/>
+
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+        </StackPanel>
+
     </Grid>
 </UserControl>
