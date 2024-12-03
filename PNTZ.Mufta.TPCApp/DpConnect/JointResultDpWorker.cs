@@ -1,5 +1,6 @@
 ﻿
 using DpConnect;
+using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect.Struct;
 using Promatis.Core.Logging;
 using System;
@@ -208,7 +209,10 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             if (awaitCommandFeedback.Task.Result != 10)
                 throw new InvalidOperationException("Неверный ответ от ПЛК. Ожидалось 10");
             PipeAppear?.Invoke(this, EventArgs.Empty);
-
+            JointResult = new JointResult()
+            {
+                StartTimeStamp = DateTime.Now,
+            };
 
 
 
@@ -251,9 +255,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 recordCtc.Cancel();
             });
 
-            RecordingBegun?.Invoke(this, EventArgs.Empty);
             var recordTask = RecordOperationParams(recordCtc.Token);
-
             first = await Task.WhenAny(recordTask, timeout);
 
             RecordingFinished?.Invoke(this, EventArgs.Empty);
@@ -327,9 +329,75 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
 
         async Task RecordOperationParams(CancellationToken token)
-        {            
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    bool started = false;
+
+                    int ensureEnd = 0;
+
+                    while (true)
+                    {
+                        if (!started)
+                        {
+                            if (DpParam.Value.Torque > 100)
+                            {
+                                started = true;
+                                logger.Info("Регистрация параметров начата!");
+                                RecordingBeginTimeStamp = DateTime.Now;
+                                RecordingBegun?.Invoke(this, EventArgs.Empty);
+                            }
+                        }
+                        else
+                        {
+                            if (DpParam.Value.Torque < 1)
+                            {
+                                if (ensureEnd > 5)
+                                {
+                                    DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
+                                    break;
+                                }
+                                else
+                                    ensureEnd++;
+                            }
+                            else
+                            {
+                                if (token.IsCancellationRequested)
+                                    throw new OperationCanceledException();
+
+                                ensureEnd = 0;
+                                //регистрируем параметры!
+                            }
+                        }
+                        await Task.Delay(10);
+                    }
+                });
+            }
+            catch (OperationCanceledException ex)
+            {
+                DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
+                logger.Info("JointRecord. Запись прервана по таймауту.");
+            }
         }
 
+        DateTime RecordingBeginTimeStamp;
+        private void ActualTqTnLen_ValueUpdated(object sender, OperationalParam e)
+        {
+            JointResult.Series.Add(
+                new TqTnLenPoint()
+                {
+                    Torque = e.Torque,
+                    Length = e.Length,
+                    Turns = e.Turns,
+                    TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(RecordingBeginTimeStamp)).TotalMilliseconds)
+                });
+        }
+
+        JointResult JointResult;
+
+        //Оценка оператором
         public void Evaluate(uint result)
         {
             Evaluated?.Invoke(this, result);
