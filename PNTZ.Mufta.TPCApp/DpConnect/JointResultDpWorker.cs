@@ -42,11 +42,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //Труба появилась на станке. 
         public event EventHandler<EventArgs> PipeAppear;
         //Труба в навёрточной головке. Началось свинчивания
-        public event EventHandler<EventArgs> JointBegun;
+        public event EventHandler<EventArgs> RecordingBegun;
+        public event EventHandler<EventArgs> RecordingFinished;
         //Ожидание оценки оператором
-        public event EventHandler AwaitForEvaluation;
+        public event EventHandler AwaitForEvaluation;       
         //Свинчивание завершено
-        public event EventHandler<EventArgs> JointFinished;
+        public event EventHandler<EventArgs> JointFinished;        
         
 
         //Процедура прослушивания запущена. Да, по этому флагу я определяю, можно ли запустить прослушнку. Конечно тут нужен lock...
@@ -155,6 +156,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 {
                     if (DpTpcCommand.IsConnected)
                         DpTpcCommand.Value = 0;
+
+                    JointFinished?.Invoke(this, EventArgs.Empty);
                 }
             }
             logger.Info("Прослушивание операции соединения завершено");
@@ -198,15 +201,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
 
 
-
             //Команда 10 - свинчивание начинается. Труба подводится к навёрточной головке
 
             logger.Info("Joint. команда ПЛК:" + awaitCommandFeedback.Task.Result);
 
             if (awaitCommandFeedback.Task.Result != 10)
                 throw new InvalidOperationException("Неверный ответ от ПЛК. Ожидалось 10");
-
-
+            PipeAppear?.Invoke(this, EventArgs.Empty);
 
 
 
@@ -238,8 +239,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
 
 
-
-
             //Труба в позиции. Запускаем таск записи параметров
 
             logger.Info("Joint. Труба в позиции свинчивания. Готовимся к записи параметров!");
@@ -252,14 +251,15 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 recordCtc.Cancel();
             });
 
+            RecordingBegun?.Invoke(this, EventArgs.Empty);
             var recordTask = RecordOperationParams(recordCtc.Token);
 
             first = await Task.WhenAny(recordTask, timeout);
 
+            RecordingFinished?.Invoke(this, EventArgs.Empty);
+
             if (first == timeout)
                 throw new TimeoutException("Время записи параметров истекло");
-
-
 
 
 
@@ -293,8 +293,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
 
 
-
-
             //Ожидается оценка
             TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
             Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
@@ -307,7 +305,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             var Value = awaitEvaluation.Task.Result;
 
             //jointResult.ResultTotal = awaitEvaluation.Task.Result;
-
 
 
 

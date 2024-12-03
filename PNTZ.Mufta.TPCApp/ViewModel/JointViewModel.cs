@@ -47,14 +47,29 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             this.RecipeLoader = recipeLoader;
 
+
+            //Кнопки установки результата
             SetGoodResultCommand = new RelayCommand((arg) =>
             {
+                resultWorker.Evaluate(1);
+                ShowResultButtons = false;
+                OnPropertyChanged(nameof(ShowResultButtons));
+            });
+            SetBadResultCommand = new RelayCommand((arg) =>
+            {
+                resultWorker.Evaluate(2);
                 ShowResultButtons = false;
                 OnPropertyChanged(nameof(ShowResultButtons));
             });
         }
+
+
+
         ILogger logger;
 
+
+
+        //Класс получения параметров из OpcUa
         JointResultDpWorker resultWorker;
         JointResultDpWorker ResultDpWorker
         {
@@ -66,10 +81,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 resultWorker = value;
 
-                resultWorker.PipeAppear += StartChartRecording;
-                resultWorker.JointFinished += StopChartRecording;
+                resultWorker.RecordingBegun += StartChartRecording;
+                resultWorker.RecordingFinished += StopChartRecording;
 
-                resultWorker.JointFinished += (s, v) =>
+                resultWorker.AwaitForEvaluation += (s, v) =>
                 {
                     ShowResultButtons = true;
                     OnPropertyChanged(nameof(ShowResultButtons));
@@ -84,6 +99,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float ActualLength { get; set; } = 0;
         public float ActualTurns { get; set; } = 0;
         public int LastTimeStamp { get; set; } = 0;
+
+
+
+
+
+
+        //Такс циклично обновляющий показания. Показания обновляются раз в заданный интервал
         private void SubscribeToValues(object sender, DpConnect.Struct.OperationalParam e)
         {
             Task.Run(async () =>
@@ -103,6 +125,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             });
             ResultDpWorker.DpParam.ValueUpdated -= SubscribeToValues;
         }
+
+
+
+
 
         //***************** ДАННЫЕ РЕЦЕПТА **********************
         RecipeToPlc recipeLoader;
@@ -128,13 +154,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
 
-        // ************** ЗАПИСЬ ГРАФИКОВ ***********************
 
+
+        // ************** ЗАПИСЬ ГРАФИКОВ ***********************
         TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
         TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
         public ObservableCollection<TqTnLenPoint> ChartSeries { get; set; }
         CancellationTokenSource RecordingCts;
         bool RecordingProcedureStarted = false;
+        //Вход в цикл записи графиков
         private async void StartChartRecording(object sender, EventArgs e)
         {
             if (RecordingProcedureStarted)
@@ -149,16 +177,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             try
             {
 
-                var timeout = Task.Delay(MaxRecordingTime);
-
-                Task first = await Task.WhenAny(RecordSeriesCycle(RecordingCts.Token), timeout);
-                //Этот код нужно перенести в DpWorker результата!
-                await first;
-                if (first == timeout)
-                {
-                    StopChartRecording(this, EventArgs.Empty);
-                    throw new TimeoutException("Превышено максимальное время записи параметров.");
-                }
+                await RecordSeriesCycle(RecordingCts.Token);                
 
             }
             catch (TimeoutException ex)
@@ -178,6 +197,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 RecordingProcedureStarted = false;
             }
         }
+        //Таск цикл записи графиков
         private async Task RecordSeriesCycle(CancellationToken token)
         {
             ChartSeries = new ObservableCollection<TqTnLenPoint>();
@@ -230,8 +250,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ICommand SetGoodResultCommand { get; private set; }
         public ICommand SetBadResultCommand { get; private set; }
         public bool ShowResultButtons { get; set; }
-
-
 
 
         // ************* РЕЗУЛЬТАТ ****************
