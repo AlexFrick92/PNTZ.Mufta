@@ -37,7 +37,7 @@
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
@@ -51,7 +51,7 @@
 
             <Label          
                 HorizontalAlignment="Center"                      
-                Content="Идёт процесс свинчивания">
+                Content="Идёт процесс свинчивания: ">
                 <Label.Style>
                     <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
                         <Setter Property="Visibility" Value="Hidden"/>
@@ -62,6 +62,12 @@
                         </Style.Triggers>
                     </Style>
                 </Label.Style>
+            </Label>
+
+            <Label
+                Content="{Binding JointStatus}"
+                Style="{StaticResource StatusBarLabel}">
+                
             </Label>
         </StackPanel>
 

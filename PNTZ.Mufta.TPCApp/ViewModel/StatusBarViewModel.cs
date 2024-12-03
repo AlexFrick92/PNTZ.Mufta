@@ -65,22 +65,48 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 resultDpWorker = value;
 
                 resultDpWorker.PipeAppear += ResultDpWorker_JointBegun;
+                resultDpWorker.RecordingBegun += ResultDpWorker_RecordingBegun;
+                resultDpWorker.AwaitForEvaluation += ResultDpWorker_AwaitForEvaluation;
+                resultDpWorker.RecordingFinished += ResultDpWorker_RecordingFinished;
                 resultDpWorker.JointFinished += ResultDpWorker_JointFinished;
             }
                
         }
-
+        public string JointStatus { get; set; } = "";
         public bool JointInProgress { get; set; } = false;
+        private void ResultDpWorker_RecordingFinished(object sender, EventArgs e)
+        {
+            JointStatus = "Запись завершена";
+            OnPropertyChanged(nameof(JointStatus));
+        }
+
+        private void ResultDpWorker_AwaitForEvaluation(object sender, EventArgs e)
+        {
+            JointStatus = "Ожидание оценки оператора";
+            OnPropertyChanged(nameof(JointStatus));
+        }
+
+        private void ResultDpWorker_RecordingBegun(object sender, EventArgs e)
+        {
+            JointStatus = "Запись параметров начата";
+            OnPropertyChanged(nameof(JointStatus));
+        }
+
         private void ResultDpWorker_JointFinished(object sender, EventArgs e)
         {
             JointInProgress = false;
             OnPropertyChanged(nameof(JointInProgress));
+
+            JointStatus = "Свинчивание завершено";
+            OnPropertyChanged(nameof(JointStatus));
         }
 
         private void ResultDpWorker_JointBegun(object sender, EventArgs e)
         {
             JointInProgress = true;
             OnPropertyChanged(nameof(JointInProgress));
+            JointStatus = "Труба в позиции";
+            OnPropertyChanged(nameof(JointStatus));
         }
 
     }
