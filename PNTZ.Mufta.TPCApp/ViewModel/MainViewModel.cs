@@ -83,7 +83,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             jointView = new JointView();
             jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(),
                         workerManager.ResolveWorker<RecipeToPlc>().First(),
-                        logger);
+                        logger,
+                        cli
+                        );
 
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), workerManager.ResolveWorker<HeartbeatCheck>().First());
             OnPropertyChanged(nameof(StatusBarViewModel));

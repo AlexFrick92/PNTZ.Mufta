@@ -37,6 +37,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         }
 
 
+        public TimeSpan CommandAwaitTimeout { get; set; } = TimeSpan.FromSeconds(60);
+        public TimeSpan RecordingTimeout { get; set; } = TimeSpan.FromSeconds(60);
 
         //События соединения
 
@@ -73,13 +75,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     if (!JointProcedureStarted && !CyclicallyListen)
                     {
                         logger.Info("Цикличное прослушивание операции соединения.");
-                        if (DpTpcCommand.IsConnected)
+                        if (DpPlcCommand.IsConnected)
                         {
-                            Task.Run(() => StartProcedure());
+                            StartProcedure();
                         }
                         else
                         {
-                            DpTpcCommand.StatusChanged += StartOnConnect;
+                            DpPlcCommand.StatusChanged += StartOnConnect;
                         }
                     }
                 }
@@ -89,11 +91,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //При пропаже соединения останавливаем прослушку. Если процедура уже начата, то не будет эффекта, но она отвалится по таймауту
         private void StopOnDisconnect(object sender, EventArgs e)
         {
-            if (!DpTpcCommand.IsConnected && CyclicallyListen)
+            if (!DpPlcCommand.IsConnected && CyclicallyListen)
             {
                 StopAwaiting();
                 logger.Info("Прослушивание операции соединения будет возобновлено при подключении");
-                DpTpcCommand.StatusChanged += StartOnConnect;
+                DpPlcCommand.StatusChanged += StartOnConnect;
+                DpPlcCommand.ValueUpdated -= StartOnCommandUpdate;
             }
 
         }
@@ -101,9 +104,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //При появлении соединения начинаем прослушивать
         private async void StartOnConnect(object sender, EventArgs e)
         {
-            if (DpTpcCommand.IsConnected)
+            if (DpPlcCommand.IsConnected)
             {
-                DpTpcCommand.StatusChanged -= StartOnConnect;
+                
                 await StartProcedure();
             }
         }
@@ -111,22 +114,29 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //Начинаем прослушивать, если изменилась команда от ПЛК
         private async void StartOnCommandUpdate(object sender, uint value)
         {
-            logger.Info("Получена команда от ПЛК для параметров машин: " + value);
-            DpTpcCommand.ValueUpdated -= StartOnCommandUpdate;
+            logger.Info("Получена команда от ПЛК для операции соединения: " + value);            
             await StartProcedure();
         }
 
         //Вход в таск прослушивания
         private async Task StartProcedure()
         {
-            CyclicallyListen = true;
+            cyclicallyListen = true;
+            DpPlcCommand.StatusChanged -= StartOnConnect;
+            DpPlcCommand.ValueUpdated -= StartOnCommandUpdate;
 
             if (JointProcedureStarted)
                 throw new InvalidOperationException("Прослушивание операции соединения уже активировано!");
 
-            logger.Info("Активировано Прослушивание операции соединения параметров машин. Ожидаем ПЛК!");
+            if(DpPlcCommand.Value != 0)
+            {
+                DpPlcCommand.ValueUpdated += StartOnCommandUpdate;
+                return;
+            }
 
-            while (CyclicallyListen)
+            logger.Info("Активировано Прослушивание операции соединения. Ожидаем ПЛК!");
+
+            while (cyclicallyListen)
             {
                 try
                 {
@@ -139,19 +149,27 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 catch (OperationCanceledException ex)
                 {
                     logger.Info("Прослушивание операции соединения отменено");
+                    cyclicallyListen = false;
                 }
                 catch (InvalidOperationException ex)
                 {
                     logger.Info(ex.Message);
-                    CyclicallyListen = false;
-                    logger.Info("Прослушивание операции соединения возобновитс после новой команды от ПЛК.");
-                    DpTpcCommand.ValueUpdated += StartOnCommandUpdate;
+                    cyclicallyListen = false;
+                    logger.Info("Прослушивание операции соединения возобновится после новой команды от ПЛК.");
+                    DpPlcCommand.ValueUpdated += StartOnCommandUpdate;
+                }
+                catch (TimeoutException ex)
+                {
+                    logger.Info(ex.Message);
+                    cyclicallyListen = false;
+                    logger.Info("Прослушивание операции соединения возобновится после новой команды от ПЛК.");
+                    DpPlcCommand.ValueUpdated += StartOnCommandUpdate;
                 }
                 catch (Exception ex)
                 {
                     logger.Info("Незивестная ошибка записи операции соединения");
                     logger.Info(ex.Message);
-                    CyclicallyListen = false;
+                    cyclicallyListen = false;
                 }
                 finally
                 {
@@ -159,18 +177,17 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         DpTpcCommand.Value = 0;
 
                     JointFinished?.Invoke(this, EventArgs.Empty);
-                }
+                }               
+                JointProcedureStarted = false;
             }
-            logger.Info("Прослушивание операции соединения завершено");
-            JointProcedureStarted = false;
         }
 
         //Отменить ожидание команды от ПЛК для нового соединения
         private void StopAwaiting()
         {
-            CyclicallyListen = false;
+            cyclicallyListen = false;
             DpPlcCommand.ValueUpdated -= StartOnCommandUpdate;
-            DpTpcCommand.StatusChanged -= StartOnConnect;
+            DpPlcCommand.StatusChanged -= StartOnConnect;
             logger.Info("Цикличное прослушивание операции соединения остановлено");
 
             if (cts != null)
@@ -186,13 +203,23 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         private async Task AwaitForJointProcess(CancellationToken token)
         {
             //Создаём токены для ожидания
-            TaskCompletionSource<uint> awaitCommandFeedback = new TaskCompletionSource<uint>();
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            TaskCompletionSource<uint> awaitCommandFeedback = null;
+            TaskCompletionSource<bool> tcs = null;
+            Task timeout = null;
+            Task first = null;
+
+
+
+            //Ожидаем команду 10. Цикл - если пришла 0 по подписке, хотя и так 0
+            //Команда 10 - свинчивание начинается. Труба подводится к навёрточной головке
+
+            awaitCommandFeedback = new TaskCompletionSource<uint>();
+            tcs = new TaskCompletionSource<bool>();
 
             token.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
             DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
-            var first = await Task.WhenAny(awaitCommandFeedback.Task, tcs.Task);
+            first = await Task.WhenAny(awaitCommandFeedback.Task, tcs.Task);
 
             if (first == tcs.Task)
             {
@@ -200,44 +227,51 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
 
 
-
-
-            //Команда 10 - свинчивание начинается. Труба подводится к навёрточной головке
-
             logger.Info("Joint. команда ПЛК:" + awaitCommandFeedback.Task.Result);
 
-            if (awaitCommandFeedback.Task.Result != 10)
-                throw new InvalidOperationException("Неверный ответ от ПЛК. Ожидалось 10");
-            PipeAppear?.Invoke(this, EventArgs.Empty);
-            JointResult = new JointResult()
+            if (awaitCommandFeedback.Task.Result == 10)
             {
-                StartTimeStamp = DateTime.Now,
-            };
+                logger.Info("Труба появилась на позиции муфтонавёртки");
+                PipeAppear?.Invoke(this, EventArgs.Empty);
+                JointResult = new JointResult()
+                {
+                    StartTimeStamp = DateTime.Now,
+                };
+            }
+            else
+                throw new InvalidOperationException("Неверный ответ от ПЛК. Ожидалось 10");
+            
+
 
 
 
             //Отправляем 20 и ждем 30 или 28 - Либо успешно, либо ошибка преднавёртки
             DpTpcCommand.Value = 20;
 
-            var timeout = Task.Delay(TimeSpan.FromSeconds(10));
+            timeout = Task.Delay(CommandAwaitTimeout);
             awaitCommandFeedback = new TaskCompletionSource<uint>();
 
             DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
-            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);
+            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout, tcs.Task);
 
             if (first == timeout)
                 throw new TimeoutException("Время ожидания команды истекло");
+            if (first == tcs.Task)
+            {
+                throw new OperationCanceledException();
+            }
 
             logger.Info("Joint. команда ПЛК:" + awaitCommandFeedback.Task.Result);
 
             if (awaitCommandFeedback.Task.Result != 30 && awaitCommandFeedback.Task.Result != 28)
             {
-                throw new InvalidOperationException($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
+                throw new InvalidOperationException($"Неверный ответ от ПЛК: Ожидалось 30 или 28");
             }
             if (awaitCommandFeedback.Task.Result == 28)
             {
                 logger.Info("Joint. Ошибка преднавёртки!");
+                throw new InvalidOperationException("Ошибка преднавёртки");
             }
 
 
@@ -245,24 +279,28 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             //Труба в позиции. Запускаем таск записи параметров
 
-            logger.Info("Joint. Труба в позиции свинчивания. Готовимся к записи параметров!");
+            logger.Info("Joint. Труба в позиции головки свинчивания. Готовимся к записи параметров!");
 
             CancellationTokenSource recordCtc = new CancellationTokenSource();
             //Отмена по таймауту. Предполагаю что monitoring time.
             timeout = Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(60));
-                recordCtc.Cancel();
+                await Task.Delay(RecordingTimeout);
+                recordCtc?.Cancel();
             });
 
             var recordTask = RecordOperationParams(recordCtc.Token);
-            first = await Task.WhenAny(recordTask, timeout);
+            first = await Task.WhenAny(recordTask, timeout, tcs.Task);
 
             RecordingFinished?.Invoke(this, EventArgs.Empty);
 
             if (first == timeout)
                 throw new TimeoutException("Время записи параметров истекло");
-
+            if (first == tcs.Task)
+            {
+                recordCtc?.Cancel();
+                throw new OperationCanceledException();
+            }
 
 
 
@@ -271,20 +309,25 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             logger.Info("Как будто записали параметры");
             awaitCommandFeedback = new TaskCompletionSource<uint>();
-            timeout = Task.Delay(TimeSpan.FromSeconds(10));
+            timeout = Task.Delay(CommandAwaitTimeout);
             DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
             //Устанавливаем 38 - ответ записали параметры
             DpTpcCommand.Value = 38;
 
-            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);
+            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout, tcs.Task);
 
             if (first == timeout)
                 throw new TimeoutException("Время ожидания команды истекло");
+            if (first == tcs.Task)
+            {
+                throw new OperationCanceledException();
+            }
+
 
             logger.Info("Joint. команда ПЛК:" + awaitCommandFeedback.Task.Result);
             if (awaitCommandFeedback.Task.Result != 40)
-                throw new InvalidOperationException($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
+                throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
 
 
             logger.Info("Итоговый момент:");
@@ -312,17 +355,25 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
 
             //Ожидаем завершения процедуры
-            timeout = Task.Delay(TimeSpan.FromSeconds(10));
+            timeout = Task.Delay(CommandAwaitTimeout);
             awaitCommandFeedback = new TaskCompletionSource<uint>();
             DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
 
             //Устанавливаем 50 - отправили оценку
             DpTpcCommand.Value = 50;
-            await awaitCommandFeedback.Task;
 
+            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout, tcs.Task);
+            if (first == timeout)
+                throw new TimeoutException("Время ожидания команды истекло");
+            if (first == tcs.Task)
+            {
+                throw new OperationCanceledException();
+            }
+
+            logger.Info("Joint. команда ПЛК:" + awaitCommandFeedback.Task.Result);
             if (awaitCommandFeedback.Task.Result != 0)
             {
-                throw new Exception($"Неверный ответ от ПЛК: {awaitCommandFeedback.Task.Result}");
+                throw new Exception($"Неверный ответ от ПЛК. Ожидалось 0");
             }
         }
 

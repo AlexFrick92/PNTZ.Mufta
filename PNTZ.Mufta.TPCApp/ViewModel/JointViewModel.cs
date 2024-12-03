@@ -13,15 +13,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Toolkit.IO;
 using static PNTZ.Mufta.TPCApp.App;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointViewModel : BaseViewModel
     {
-        public JointViewModel(JointResultDpWorker resultWorker, RecipeToPlc recipeLoader, ILogger logger)
+        public JointViewModel(JointResultDpWorker resultWorker, RecipeToPlc recipeLoader, ILogger logger, ICliProgram cliProgram)
         {
             this.logger = logger;
+            this.cliProgram = cliProgram;
 
             try
             {
@@ -66,6 +68,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         ILogger logger;
+        ICliProgram cliProgram;
 
 
 
@@ -91,6 +94,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 };
 
                 ResultDpWorker.DpParam.ValueUpdated += SubscribeToValues;
+
+                cliProgram.RegisterCommand("startjoint", (arg) => resultWorker.CyclicallyListen = true);
+                cliProgram.RegisterCommand("stopjoint", (arg) => resultWorker.CyclicallyListen = false);
+                ResultDpWorker.CyclicallyListen = true;
             }
         }
 
