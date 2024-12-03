@@ -34,15 +34,19 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         {
 
         }
+
+        private readonly object locker = new object();
         public async Task LoadRecipeAsync(JointRecipe recipe)
         {
-            try
+            lock (locker)
             {
                 if (LoadingProcedureStarted)
                     throw new InvalidOperationException("Рецепт уже загружается");
 
                 LoadingProcedureStarted = true;
-
+            }
+            try
+            {
 
                 //Отправляем 10 и ждем 20
                 TaskCompletionSource<uint> awaitCommandFeedback;
@@ -121,9 +125,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
                 RecipeLoaded?.Invoke(this,recipe);
             }
-            catch
+            catch (Exception ex)
             {
-                RecipeLoaded?.Invoke(this, recipe);
+                logger.Info("Не удалось загрузитЬ: " + ex.Message);
                 throw;
             }
             finally
