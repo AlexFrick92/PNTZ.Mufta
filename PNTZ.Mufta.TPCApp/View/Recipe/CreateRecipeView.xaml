@@ -106,15 +106,32 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <Button
-                Grid.Row="2"
-                Height="40"
-                Width="70"
-                Content="Ctrl + 1"
-                HorizontalAlignment="Left"
-                Margin="4"
-                Command="{Binding NewRecipeCommand}"
-                />
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0"          
+                    Height="40"
+                    Width="70"
+                    Content="Ctrl + 1"
+                    HorizontalAlignment="Left"
+                    Margin="4"
+                    Command="{Binding NewRecipeCommand}"
+                    />
+
+                <Button Grid.Column="2"     
+                    Height="40"
+                    Width="70"
+                    Content="Save"
+                    HorizontalAlignment="Left"
+                    Margin="4"
+                    Command="{Binding SaveRecipes}"
+                    />
+            </Grid>
         </Grid>
 
         <!--РАЗДЕЛИТЕЛЬ-->

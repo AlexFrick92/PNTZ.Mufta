@@ -4,6 +4,7 @@ using Desktop.MVVM;
 
 using DpConnect;
 using PNTZ.Mufta.TPCApp.DpConnect;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View.Joint;
 using PNTZ.Mufta.TPCApp.View.MP;
 using PNTZ.Mufta.TPCApp.View.Recipe;
@@ -48,7 +49,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
 
         bool connectOnStartup = false;
-        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger)
+        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger, RepositoryContext repositoryContext)
         {
             // Загрузка конфигурации
             try
@@ -75,7 +76,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             CliViewModel = new CliViewModel(cliUI);            
 
             createRecipeView = new CreateRecipeView();
-            createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeToPlc>().First(), logger);
+            createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeToPlc>().First(), logger, repositoryContext);
 
             MachineParamView = new MachineParamView();
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);

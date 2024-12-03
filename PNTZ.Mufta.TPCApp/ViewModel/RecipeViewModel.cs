@@ -3,6 +3,7 @@ using DevExpress.Charts.Designer.Native;
 using DevExpress.Xpo.DB;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View.Recipe;
 using Promatis.Core.Logging;
 using System;
@@ -19,14 +20,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     {
         RecipeToPlc recipeLoader;
         ILogger logger;
+        RepositoryContext repo;
 
-        public RecipeViewModel(RecipeToPlc recipeLoader, ILogger logger)
+        public RecipeViewModel(RecipeToPlc recipeLoader, ILogger logger, RepositoryContext repoContext)
         {
             this.logger = logger;
             this.recipeLoader = recipeLoader;
+            repo = repoContext;
+            
+
+
             SetModeCommand = new RelayCommand((mode) => SetMode((JointMode)mode));
 
             JointRecipes = new ObservableCollection<JointRecipe>();
+            foreach(JointRecipe jointRecipe in repo.LoadRecipes())
+            {
+                JointRecipes.Add(jointRecipe);
+            }
 
             LoadRecipeCommand = new RelayCommand((arg) =>
             Task.Run(async () =>
@@ -64,6 +74,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 newRecipeView.ShowDialog();
             });
+
+            SaveRecipes = new RelayCommand((arg) =>
+            {
+                repo.SaveRecipes(JointRecipes);
+            });
         }
 
         public ObservableCollection<JointRecipe> JointRecipes { get; set;  }
@@ -77,6 +92,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 selectedJointRecipe = value;
                 EditRecipe = value;
                 OnPropertyChanged(nameof(EditRecipe));
+                RecipeEditable = true;
+                OnPropertyChanged(nameof(RecipeEditable));
             }
         }
         public bool RecipeEditable { get; set; } = false;
@@ -87,6 +104,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ICommand LoadRecipeCommand { get; set; }
 
         public ICommand NewRecipeCommand { get; set; }
+
+        public ICommand SaveRecipes { get; set; }
 
         public bool IsVisible { get; set; } = false;
 
