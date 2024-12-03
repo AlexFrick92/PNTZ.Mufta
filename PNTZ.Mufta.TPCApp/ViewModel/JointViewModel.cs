@@ -19,7 +19,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointViewModel : BaseViewModel
     {
-        public JointViewModel(JointOperationalParamDpWorker paramWorker, JointResultDpWorker resultWorker, RecipeToPlc recipeLoader, ILogger logger)
+        public JointViewModel(JointResultDpWorker resultWorker, RecipeToPlc recipeLoader, ILogger logger)
         {
             this.logger = logger;
 
@@ -43,9 +43,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             //Настройки графиков
             OnPropertyChanged(nameof(TorqueTimeChartTorqueMaxValue));
 
-
-            this.ParamWorker = paramWorker;
-
             this.ResultDpWorker = resultWorker;
 
             this.RecipeLoader = recipeLoader;
@@ -57,26 +54,31 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             });
         }
         ILogger logger;
-        
 
-
-
-        // ************** ОБНОВЛЕНИЕ ЗНАЧЕНИЙ ***********************
-        JointOperationalParamDpWorker jointOperationalParam;
-        JointOperationalParamDpWorker ParamWorker
-
+        JointResultDpWorker resultWorker;
+        JointResultDpWorker ResultDpWorker
         {
-            get => jointOperationalParam;
+            get => resultWorker;
             set
             {
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
 
-                jointOperationalParam = value;
+                resultWorker = value;
 
-                jointOperationalParam.DpParam.ValueUpdated += SubscribeToValues;
+                resultWorker.PipeAppear += StartChartRecording;
+                resultWorker.JointFinished += StopChartRecording;
+
+                resultWorker.JointFinished += (s, v) =>
+                {
+                    ShowResultButtons = true;
+                    OnPropertyChanged(nameof(ShowResultButtons));
+                };
+
+                ResultDpWorker.DpParam.ValueUpdated += SubscribeToValues;
             }
         }
+
         public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
         public float ActualTorque { get; set; } = 0;
         public float ActualLength { get; set; } = 0;
@@ -88,9 +90,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 while (true)
                 {
-                    ActualTorque = jointOperationalParam.DpParam.Value.Torque;
-                    ActualLength = jointOperationalParam.DpParam.Value.Length;
-                    ActualTurns = jointOperationalParam.DpParam.Value.Turns;
+                    ActualTorque = ResultDpWorker.DpParam.Value.Torque;
+                    ActualLength = ResultDpWorker.DpParam.Value.Length;
+                    ActualTurns = ResultDpWorker.DpParam.Value.Turns;
 
                     OnPropertyChanged(nameof(ActualTorque));
                     OnPropertyChanged(nameof(ActualLength));
@@ -99,7 +101,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     await Task.Delay(UpdateInterval);
                 }
             });
-            jointOperationalParam.DpParam.ValueUpdated -= SubscribeToValues;
+            ResultDpWorker.DpParam.ValueUpdated -= SubscribeToValues;
         }
 
         //***************** ДАННЫЕ РЕЦЕПТА **********************
@@ -128,27 +130,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         // ************** ЗАПИСЬ ГРАФИКОВ ***********************
 
-        JointResultDpWorker resultWorker;
-        JointResultDpWorker ResultDpWorker
-        {
-            get => resultWorker;
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                resultWorker = value;
-
-                resultWorker.JointBegun += StartChartRecording;
-                resultWorker.JointFinished += StopChartRecording;
-
-                resultWorker.JointFinished += (s, v) =>
-                {
-                    ShowResultButtons = true;
-                    OnPropertyChanged(nameof(ShowResultButtons));
-                };
-            }
-        }
         TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
         TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
         public ObservableCollection<TqTnLenPoint> ChartSeries { get; set; }

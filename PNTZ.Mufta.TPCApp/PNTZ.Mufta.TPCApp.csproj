@@ -94,7 +94,6 @@
     <Compile Include="Domain\ThreadType.cs" />
     <Compile Include="Domain\TqTnLenPoint.cs" />
     <Compile Include="DpConnect\HeartbeatCheck.cs" />
-    <Compile Include="DpConnect\JointOperationalParamDpWorker.cs" />
     <Compile Include="DpConnect\JointResultDpWorker.cs" />
     <Compile Include="DpConnect\MachineParamFromPlc.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />

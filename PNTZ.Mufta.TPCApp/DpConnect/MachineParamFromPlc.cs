@@ -209,7 +209,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw new InvalidOperationException("Перед началом операции команда ПЛК должна быть 0. Сейчас - " + DpPlcCommand.Value);
             }
 
-
             //Ожидаем 5. 5 - новые параметры
             TaskCompletionSource<uint> awaitCommandFeedback = new TaskCompletionSource<uint>();
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();            

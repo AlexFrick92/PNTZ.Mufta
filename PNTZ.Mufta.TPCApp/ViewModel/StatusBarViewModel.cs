@@ -64,7 +64,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 resultDpWorker = value;
 
-                resultDpWorker.JointBegun += ResultDpWorker_JointBegun;
+                resultDpWorker.PipeAppear += ResultDpWorker_JointBegun;
                 resultDpWorker.JointFinished += ResultDpWorker_JointFinished;
             }
                

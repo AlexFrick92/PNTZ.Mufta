@@ -183,18 +183,7 @@
 
 		</Worker>
 		
-		<!--АКТУАЛЬНЫЕ ПАРАМЕТРЫ-->
-		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointOperationalParamDpWorker, PNTZ.Mufta.TPCApp">
-
-			<DpValue PropertyName="DpParam">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
-					<NodeId>ns=3;s="JointOperationalParam"."TqTnLen"</NodeId>
-				</SourceConfiguration>
-			</DpValue>
-
-		</Worker>
-		
-		<!--Результат свинчивания-->
+		<!--Результат свинчивания и АКТУАЛЬНЫЕ ПАРАМЕТРЫ-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointResultDpWorker, PNTZ.Mufta.TPCApp">
 
 			<DpValue PropertyName="DpTpcCommand">
@@ -208,7 +197,13 @@
 					<NodeId>ns=3;s="Kom_REG"."CAM_CMD_PLC"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
-
+			
+			<DpValue PropertyName="DpParam">
+				<SourceConfiguration ConnectionId ="Stend PNTZ">
+					<NodeId>ns=3;s="JointOperationalParam"."TqTnLen"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+			
 			<DpValue PropertyName="Dp_ERG_CAM">
 				<SourceConfiguration ConnectionId ="Stend PNTZ">
 					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"</NodeId>
