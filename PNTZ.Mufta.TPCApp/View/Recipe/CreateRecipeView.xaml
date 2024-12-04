@@ -125,23 +125,14 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Button Grid.Column="0"          
                     Height="40"
                     Width="70"
-                    Content="Ctrl + 1"
+                    Content="НОВЫЙ"
                     HorizontalAlignment="Left"
                     Margin="4"
                     Command="{Binding NewRecipeCommand}"
-                    />
-
-                <Button Grid.Column="2"     
-                    Height="40"
-                    Width="70"
-                    Content="Save"
-                    HorizontalAlignment="Left"
-                    Margin="4"
-                    Command="{Binding SaveRecipes}"
                     />
             </Grid>
         </Grid>
@@ -269,7 +260,7 @@
                 <Label Grid.Row="4" Grid.Column="0"
                             Style="{StaticResource InputFieldLabel}" Content="Тип резьбы"/>
                 <ComboBox Grid.Row="4" Grid.Column="1"
-                            ItemsSource="{Binding Path=EditRecipe.SelectedThreadType, Converter={view:EnumToCollectionConverter}, Mode=OneTime}" 
+                            ItemsSource="{Binding Path=EditRecipe.SelectedThreadType, Converter={view:EnumToCollectionConverter}, Mode=OneWay}" 
                             SelectedValuePath="Value"
                             DisplayMemberPath="Description"
                             SelectedValue="{Binding Path=EditRecipe.SelectedThreadType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -829,22 +820,30 @@
 
             <Grid Grid.Row="4" Grid.Column="0">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column ="0" Content="{Binding EditRecipe.TimeStamp}"></Label>
-                
+
                 <Button
-                    Grid.Column="1"
+                    Grid.Column="0"
+                    Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
+                    Command="{Binding RemoveRecipe}"
+                    Content="УДАЛИТЬ"                
+                    />
+
+                <Button
+                    Grid.Column="2"
                     Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
                     Command="{Binding SaveRecipe}"
                     Content="СОХРАНИТЬ"                
                     />
 
                 <Button 
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
                     Command="{Binding LoadRecipeCommand}"
                     Content="ЗАГРУЗИТЬ"                
@@ -856,4 +855,5 @@
         </Grid>
 
     </Grid>
+    
 </UserControl>

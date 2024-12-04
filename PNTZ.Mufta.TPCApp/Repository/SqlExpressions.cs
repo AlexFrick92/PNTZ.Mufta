@@ -115,6 +115,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
             "VALUES ";
 
         public static readonly string SelectRecipes =
-            "SELECT * FROM Recipes;";
+            "SELECT * FROM Recipes ORDER BY TimeStamp DESC;";
     }
 }

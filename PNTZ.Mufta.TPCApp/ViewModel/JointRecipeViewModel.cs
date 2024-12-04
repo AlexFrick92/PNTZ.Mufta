@@ -22,7 +22,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public string Name { get => recipe.Name; set => recipe.Name = value; }
         public float HEAD_OPEN_PULSES { get => recipe.HEAD_OPEN_PULSES; set => recipe.HEAD_OPEN_PULSES = value; }
         public float TURNS_BREAK { get => recipe.TURNS_BREAK; set => recipe.TURNS_BREAK = value; }
-        public ThreadType SelectedThreadType { get => recipe.SelectedThreadType; set => recipe.SelectedThreadType = value; }        
+        public ThreadType SelectedThreadType { get => recipe.SelectedThreadType; set => recipe.SelectedThreadType = value; }
         public float Thread_step { get => recipe.Thread_step; set => recipe.Thread_step = value; }        
 
 

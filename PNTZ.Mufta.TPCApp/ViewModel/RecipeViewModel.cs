@@ -64,9 +64,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     EditRecipe = new JointRecipeViewModel(r);                    
                     OnPropertyChanged(nameof(EditRecipe));
-                    newRecipeView.Close();
-                    RecipeEditable = true;
-                    OnPropertyChanged(nameof(RecipeEditable));
+                    UpdateEditRecipeField(true);
+                    newRecipeView.Close();                    
                 };
                 newRecvm.Canceled += (o, r) =>
                 {
@@ -77,14 +76,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 newRecipeView.ShowDialog();
             });
 
-
-            
-            SaveRecipes = new RelayCommand((arg) =>
-            {                
-                repo.SaveRecipes(JointRecipes.Select(vm => vm.Recipe));               
-            });
-
-
             
             SaveRecipe = new RelayCommand((arg) =>
             {
@@ -94,9 +85,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 if(!JointRecipes.Contains(EditRecipe))
                     JointRecipes.Add(EditRecipe);
 
-                var fromIndex =JointRecipes.IndexOf(EditRecipe);
-                JointRecipes.Move(fromIndex, 0);
+                var fromIndex = JointRecipes.IndexOf(EditRecipe);
+                if(fromIndex > 0)
+                    JointRecipes.Move(fromIndex, 0);
 
+                repo.SaveRecipe(EditRecipe.Recipe);
+            });
+
+            RemoveRecipe = new RelayCommand((arg) =>
+            {
+                repo.RemoveRecipe(EditRecipe.Recipe);
+                JointRecipes.Remove(EditRecipe);                
             });
         }
 
@@ -111,22 +110,40 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 selectedJointRecipe = value;
                 EditRecipe = value;
                 OnPropertyChanged(nameof(EditRecipe));
-                RecipeEditable = true;
-                OnPropertyChanged(nameof(RecipeEditable));
+                UpdateEditRecipeField(value != null);
             }
         }
-        public bool RecipeEditable { get; set; } = false;
+        void UpdateEditRecipeField(bool value)
+        {
+            if (value)
+                Task.Run(async () =>
+                {
+                    RecipeEditable = false;
+                    OnPropertyChanged(nameof(RecipeEditable));
+
+                    await Task.Delay(100);
+
+                    RecipeEditable = true;
+                    OnPropertyChanged(nameof(RecipeEditable));
+                });
+            else
+            {
+                RecipeEditable = false;
+                OnPropertyChanged(nameof(RecipeEditable));
+            }    
+
+        }
+        public bool RecipeEditable { get; set; }
         public JointRecipeViewModel EditRecipe { get; set; }
 
         public ICommand SetModeCommand { get; set; }
 
         public ICommand LoadRecipeCommand { get; set; }
 
-        public ICommand NewRecipeCommand { get; set; }
-
-        public ICommand SaveRecipes { get; set; }
+        public ICommand NewRecipeCommand { get; set; }        
 
         public ICommand SaveRecipe { get; set; }
+        public ICommand RemoveRecipe { get; set; }
 
         public bool IsVisible { get; set; } = false;
 
@@ -136,9 +153,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             OnPropertyChanged(nameof(IsVisible));
 
             EditRecipe.JointMode = newMode;
-            OnPropertyChanged(nameof(EditRecipe));
-
-            AppInstance.Logger.Info("Установлен новый режим:" + newMode.ToString());
+            OnPropertyChanged(nameof(EditRecipe));            
         }
     }
 }

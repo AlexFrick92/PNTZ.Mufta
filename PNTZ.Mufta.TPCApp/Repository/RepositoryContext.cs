@@ -6,6 +6,7 @@ using Promatis.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static PNTZ.Mufta.TPCApp.App;
 
 namespace PNTZ.Mufta.TPCApp.Repository
@@ -16,6 +17,8 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
         string conString;
+
+        List<JointRecipe> loadedRecipes;
 
         public RepositoryContext(ILogger logger)
         {
@@ -36,8 +39,151 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 command.ExecuteNonQuery();
             }
         }
+        public void RemoveRecipe(JointRecipe recipe)
+        {
+            string sqlExpressionBase = $"DELETE FROM Recipes WHERE Name = '{recipe.Name}'";
 
+            using (var connection = new SqliteConnection(conString))
+            {
+                connection.Open();
+                SqliteCommand command = new SqliteCommand();
+                command.Connection = connection;
+                command.CommandText = sqlExpressionBase;
+                command.ExecuteNonQuery();
+            }
 
+            logger.Info($"Рецепт {recipe.Name} удалён");
+        }
+        public void SaveRecipe(JointRecipe rec)
+        {
+            if(loadedRecipes.FirstOrDefault(r => r.Name == rec.Name) != null)
+                UpdateRecipe(rec);
+            else
+                InsertRecipe(rec);              
+
+        }
+        private void InsertRecipe(JointRecipe rec)
+        {
+            string sqlExpressionBase = SqlExpressions.InsertRecipe;
+            string sqlValues = $"('{rec.Name}'," +
+                    $"'{rec.HEAD_OPEN_PULSES}'," +
+                    $"'{rec.TURNS_BREAK}'," +
+                    $"'{rec.PLC_PROG_NR}'," +
+                    $"'{rec.LOG_NO}'," +
+                    $"'{rec.Tq_UNIT}'," +
+                    $"'{(int)rec.SelectedThreadType}'," +
+                    $"'{rec.Thread_step}'," +
+                    $"'{rec.PIPE_TYPE}'," +
+
+                    $"'{rec.Box_Moni_Time}'," +
+                    $"'{rec.Box_Len_Min}'," +
+                    $"'{rec.Box_Len_Max}'," +
+
+                    $"'{rec.Pre_Moni_Time}'," +
+                    $"'{rec.Pre_Len_Min}'," +
+                    $"'{rec.Pre_Len_Max}'," +
+
+                    $"'{rec.MU_Moni_Time}'," +
+                    $"'{rec.MU_Tq_Ref}'," +
+                    $"'{rec.MU_Tq_Save}'," +
+                    $"'{(int)rec.JointMode}'," +
+                    $"'{rec.MU_TqSpeedRed_1}'," +
+                    $"'{rec.MU_TqSpeedRed_2}'," +
+                    $"'{rec.MU_Tq_Dump}'," +
+                    $"'{rec.MU_Tq_Max}'," +
+                    $"'{rec.MU_Tq_Min}'," +
+                    $"'{rec.MU_Tq_Opt}'," +
+                    $"'{rec.MU_TqShoulder_Min}'," +
+                    $"'{rec.MU_TqShoulder_Max}'," +
+
+                    $"'{rec.MU_Len_Speed_1}'," +
+                    $"'{rec.MU_Len_Speed_2}'," +
+                    $"'{rec.MU_Len_Dump}'," +
+                    $"'{rec.MU_Len_Min}'," +
+                    $"'{rec.MU_Len_Max}'," +
+
+                    $"'{rec.MU_Jval_Speed_1}'," +
+                    $"'{rec.MU_Jval_Speed_2}'," +
+                    $"'{rec.MU_Jval_Dump}'," +
+                    $"'{rec.MU_Jval_Min}'," +
+                    $"'{rec.MU_Jval_Max}'," +
+
+                    $"'{rec.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}'" +
+
+                    $");";
+            using (var connection = new SqliteConnection(conString))
+            {
+                connection.Open();
+                SqliteCommand command = new SqliteCommand();
+                command.Connection = connection;
+                command.CommandText = sqlExpressionBase + sqlValues;
+                command.ExecuteNonQuery();
+            }
+
+            logger.Info($"Новый рецепт {rec.Name} сохранён.");
+        }
+        private void UpdateRecipe(JointRecipe rec)
+        {
+            string sqlExpressionBase = "UPDATE Recipes SET ";
+            string sqlValues = 
+                    $"HEAD_OPEN_PULSES = '{rec.HEAD_OPEN_PULSES}'," +
+                    $"TURNS_BREAK = '{rec.TURNS_BREAK}'," +
+                    $"PLC_PROG_NR = '{rec.PLC_PROG_NR}'," +
+                    $"LOG_NO = '{rec.LOG_NO}'," +
+                    $"Tq_UNIT = '{rec.Tq_UNIT}'," +
+                    $"SelectedThreadType = '{(int)rec.SelectedThreadType}'," +
+                    $"Thread_step = '{rec.Thread_step}'," +
+                    $"PIPE_TYPE = '{rec.PIPE_TYPE}'," +
+
+                    $"Box_Moni_Time = '{rec.Box_Moni_Time}'," +
+                    $"Box_Len_Min = '{rec.Box_Len_Min}'," +
+                    $"Box_Len_Min = '{rec.Box_Len_Max}'," +
+
+                    $"Pre_Moni_Time = '{rec.Pre_Moni_Time}'," +
+                    $"Pre_Len_Min = '{rec.Pre_Len_Min}'," +
+                    $"Pre_Len_Max = '{rec.Pre_Len_Max}'," +
+
+                    $"MU_Moni_Time = '{rec.MU_Moni_Time}'," +
+                    $"MU_Tq_Ref = '{rec.MU_Tq_Ref}'," +
+                    $"MU_Tq_Save = '{rec.MU_Tq_Save}'," +
+                    $"JointMode = '{(int)rec.JointMode}'," +
+                    $"MU_TqSpeedRed_1 = '{rec.MU_TqSpeedRed_1}'," +
+                    $"MU_TqSpeedRed_2 = '{rec.MU_TqSpeedRed_2}'," +
+                    $"MU_Tq_Dump = '{rec.MU_Tq_Dump}'," +
+                    $"MU_Tq_Max = '{rec.MU_Tq_Max}'," +
+                    $"MU_Tq_Min = '{rec.MU_Tq_Min}'," +
+                    $"MU_Tq_Opt = '{rec.MU_Tq_Opt}'," +
+                    $"MU_TqShoulder_Min = '{rec.MU_TqShoulder_Min}'," +
+                    $"MU_TqShoulder_Max = '{rec.MU_TqShoulder_Max}'," +
+
+                    $"MU_Len_Speed_1 = '{rec.MU_Len_Speed_1}'," +
+                    $"MU_Len_Speed_2 = '{rec.MU_Len_Speed_2}'," +
+                    $"MU_Len_Dump = '{rec.MU_Len_Dump}'," +
+                    $"MU_Len_Min = '{rec.MU_Len_Min}'," +
+                    $"MU_Len_Max = '{rec.MU_Len_Max}'," +
+
+                    $"MU_JVal_Speed_1 = '{rec.MU_Jval_Speed_1}'," +
+                    $"MU_Jval_Speed_2 = '{rec.MU_Jval_Speed_2}'," +
+                    $"MU_JVal_Dump = '{rec.MU_Jval_Dump}'," +
+                    $"MU_JVal_Min = '{rec.MU_Jval_Min}'," +
+                    $"MU_JVal_Max = '{rec.MU_Jval_Max}'," +
+
+                    $"TimeStamp = '{rec.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}'" +
+
+                    $" WHERE Name = '{rec.Name}';";
+            using (var connection = new SqliteConnection(conString))
+            {
+                connection.Open();
+                SqliteCommand command = new SqliteCommand();
+                command.Connection = connection;
+                command.CommandText = sqlExpressionBase + sqlValues;
+                command.ExecuteNonQuery();
+            }
+
+            logger.Info($"Рецепт {rec.Name} обновлён.");
+        }
+
+        
         public void SaveRecipes(IEnumerable<JointRecipe> jointRecipes)
         {
             string sqlExpressionBase = SqlExpressions.InsertRecipe;
@@ -89,7 +235,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     $"'{jr.MU_Jval_Speed_1}'," +
                     $"'{jr.MU_Jval_Speed_2}'," +
 
-                    $"'{jr.TimeStamp}'" +
+                    $"'{jr.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}'" +
 
                     $"),";
             }
@@ -110,7 +256,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         }
         public IEnumerable<JointRecipe> LoadRecipes()
         {
-            List<JointRecipe> recipes = new List<JointRecipe> ();
+            loadedRecipes = new List<JointRecipe> ();
             logger.Info("Загружаем рецепты...");
 
             using (var connection = new SqliteConnection(conString))
@@ -126,7 +272,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 {
                     while (reader.Read())
                     {
-                        recipes.Add(new JointRecipe() { 
+                        loadedRecipes.Add(new JointRecipe() { 
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             HEAD_OPEN_PULSES = (float)reader.GetDouble(reader.GetOrdinal("HEAD_OPEN_PULSES")),
                             TURNS_BREAK = (float)reader.GetDouble(reader.GetOrdinal("TURNS_BREAK")),
@@ -180,7 +326,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             }
 
             logger.Info("Рецепты загружены.");
-            return recipes;
+            return loadedRecipes;
         }
     }
 }
