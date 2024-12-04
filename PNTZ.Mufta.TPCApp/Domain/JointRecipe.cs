@@ -159,5 +159,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         [ComparableValidationProperty("MU_Jval_Max")]
         public float MU_Jval_Max { get => Configurator.GetFloatValue<float>(nameof(MU_Jval_Max)); set => Configurator.SetFloatValue(nameof(MU_Jval_Max), value); }
         
+
+        public DateTime TimeStamp { get; set; }
     }    
 }

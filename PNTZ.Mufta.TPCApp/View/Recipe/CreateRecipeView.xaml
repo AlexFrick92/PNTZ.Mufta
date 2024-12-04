@@ -94,14 +94,25 @@
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="2">
-                            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+                        <Border Margin="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
                                 <Label                                                                                                                                             
                                     Content="{Binding Name}"
-                                     Background="Transparent"                                                                                                                                                      
+                                    Background="Transparent"                                                                                                                                                      
                                          />
-                            </Border>
-                        </Grid>
+
+                                <Label 
+                                    Grid.Column="1"
+                                    Content="{Binding TimeStamp}"
+                                    Background="Transparent"                                                                                                                                                      
+                                         />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
