@@ -8,10 +8,13 @@ using PNTZ.Mufta.TPCApp.View.Recipe;
 using Promatis.Core.Logging;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 using static PNTZ.Mufta.TPCApp.App;
+using System.Linq;
 
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
@@ -32,10 +35,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             SetModeCommand = new RelayCommand((mode) => SetMode((JointMode)mode));
 
-            JointRecipes = new ObservableCollection<JointRecipe>();
+            JointRecipes = new ObservableCollection<JointRecipeViewModel>();
             foreach(JointRecipe jointRecipe in repo.LoadRecipes())
             {
-                JointRecipes.Add(jointRecipe);
+                JointRecipes.Add(new JointRecipeViewModel(jointRecipe));
             }
 
             LoadRecipeCommand = new RelayCommand((arg) =>
@@ -43,7 +46,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 try
                 {
-                    await recipeLoader.LoadRecipeAsync(EditRecipe);
+                    await recipeLoader.LoadRecipeAsync(EditRecipe.Recipe);
                 }
                 catch (Exception ex)
                 {
@@ -59,7 +62,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 NewRecipeView newRecipeView = new NewRecipeView(newRecvm);
                 newRecvm.RecipeCreated += (o, r) =>
                 {
-                    EditRecipe = r;                    
+                    EditRecipe = new JointRecipeViewModel(r);                    
                     OnPropertyChanged(nameof(EditRecipe));
                     newRecipeView.Close();
                     RecipeEditable = true;
@@ -74,9 +77,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 newRecipeView.ShowDialog();
             });
 
+
+            
             SaveRecipes = new RelayCommand((arg) =>
-            {
-                repo.SaveRecipes(JointRecipes);               
+            {                
+                repo.SaveRecipes(JointRecipes.Select(vm => vm.Recipe));               
             });
 
 
@@ -84,17 +89,21 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             SaveRecipe = new RelayCommand((arg) =>
             {
                 EditRecipe.TimeStamp = DateTime.UtcNow;
+                OnPropertyChanged(nameof(EditRecipe));                
 
                 if(!JointRecipes.Contains(EditRecipe))
                     JointRecipes.Add(EditRecipe);
 
+                var fromIndex =JointRecipes.IndexOf(EditRecipe);
+                JointRecipes.Move(fromIndex, 0);
+
             });
         }
 
-        public ObservableCollection<JointRecipe> JointRecipes { get; set;  }
+        public ObservableCollection<JointRecipeViewModel> JointRecipes { get; set;  }
 
-        JointRecipe selectedJointRecipe;
-        public JointRecipe SelectedJointRecipe
+        JointRecipeViewModel selectedJointRecipe;
+        public JointRecipeViewModel SelectedJointRecipe
         {
             get => selectedJointRecipe;
             set
@@ -107,7 +116,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
         }
         public bool RecipeEditable { get; set; } = false;
-        public JointRecipe EditRecipe { get; set; } = new JointRecipe();
+        public JointRecipeViewModel EditRecipe { get; set; }
 
         public ICommand SetModeCommand { get; set; }
 

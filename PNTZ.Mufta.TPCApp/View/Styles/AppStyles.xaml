@@ -9,5 +9,7 @@
 
     <SolidColorBrush x:Key="GridColor" Color="#cecece"/>
 
+    <SolidColorBrush x:Key="LightColor" Color="#F3F3F3"/>
+
 
 </ResourceDictionary>

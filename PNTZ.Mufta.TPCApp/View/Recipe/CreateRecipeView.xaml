@@ -70,7 +70,8 @@
 
         <!--****************************************** СПИСОК РЕЦЕПТОВ В ПАПКЕ СЛЕВА **************************************************************-->
         <Grid Grid.Row="0" Grid.Column="0">
-            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}"
+                    Background="{StaticResource LightColor}">
                 <Label                        
                         Content="Список рецептов"
                         FontSize="18"         
@@ -154,7 +155,7 @@
 
         <!--****************************************** РЕДАКТИРОВАНИЕ РЕЦЕПТА **************************************************************-->
         <Grid Grid.Row="0" Grid.Column="2">
-            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}" Background="{StaticResource LightColor}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -832,6 +833,8 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
+
+                <Label Grid.Column ="0" Content="{Binding EditRecipe.TimeStamp}"></Label>
                 
                 <Button
                     Grid.Column="1"
