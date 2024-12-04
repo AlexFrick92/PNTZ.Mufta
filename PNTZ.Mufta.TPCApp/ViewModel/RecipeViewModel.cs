@@ -59,8 +59,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 NewRecipeView newRecipeView = new NewRecipeView(newRecvm);
                 newRecvm.RecipeCreated += (o, r) =>
                 {
-                    EditRecipe = r;
-                    JointRecipes.Add(r);
+                    EditRecipe = r;                    
                     OnPropertyChanged(nameof(EditRecipe));
                     newRecipeView.Close();
                     RecipeEditable = true;
@@ -77,7 +76,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             SaveRecipes = new RelayCommand((arg) =>
             {
-                repo.SaveRecipes(JointRecipes);
+                repo.SaveRecipes(JointRecipes);               
+            });
+
+
+            
+            SaveRecipe = new RelayCommand((arg) =>
+            {
+                EditRecipe.TimeStamp = DateTime.UtcNow;
+
+                if(!JointRecipes.Contains(EditRecipe))
+                    JointRecipes.Add(EditRecipe);
+
             });
         }
 
@@ -106,6 +116,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ICommand NewRecipeCommand { get; set; }
 
         public ICommand SaveRecipes { get; set; }
+
+        public ICommand SaveRecipe { get; set; }
 
         public bool IsVisible { get; set; } = false;
 
