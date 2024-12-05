@@ -1,5 +1,4 @@
 ﻿
-using DevExpress.Mvvm.POCO;
 using DpConnect;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect.Struct;
@@ -79,7 +78,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         logger.Info("Цикличное прослушивание операции соединения.");
                         if (DpPlcCommand.IsConnected)
                         {
-                            StartProcedure();
+                            _ = StartProcedureAsync();
                         }
                         else
                         {
@@ -106,24 +105,24 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         }
 
         //При появлении соединения начинаем прослушивать
-        private async void StartOnConnect(object sender, EventArgs e)
+        private void StartOnConnect(object sender, EventArgs e)
         {
             if (DpPlcCommand.IsConnected)
             {
                 
-                await StartProcedure();
+                _ = StartProcedureAsync();
             }
         }
 
         //Начинаем прослушивать, если изменилась команда от ПЛК
-        private async void StartOnCommandUpdate(object sender, uint value)
+        private void StartOnCommandUpdate(object sender, uint value)
         {
             logger.Info("Получена команда от ПЛК для операции соединения: " + value);            
-            await StartProcedure();
+            _ = StartProcedureAsync();
         }
 
         //Вход в таск прослушивания
-        private async Task StartProcedure()
+        private async Task StartProcedureAsync()
         {
             lock(_lock)
             {

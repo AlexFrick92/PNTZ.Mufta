@@ -54,7 +54,7 @@
                 Content="Идёт процесс свинчивания: ">
                 <Label.Style>
                     <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
-                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding JointInProgress}" Value="True">
                                 <Setter Property="Visibility" Value="Visible"/>

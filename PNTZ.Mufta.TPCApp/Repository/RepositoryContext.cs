@@ -52,7 +52,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 command.ExecuteNonQuery();
             }
 
-            logger.Info($"Рецепт {recipe.Name} удалён");
+            logger.Info($"Рецепт {recipe.Name} удалён.");
         }
         public void SaveRecipe(JointRecipe rec)
         {

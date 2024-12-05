@@ -58,6 +58,7 @@
             <Border Grid.Column="1"
                 BorderBrush="{StaticResource GridColor}"
                 BorderThickness="0,0,0,1"
+                    Background="{StaticResource LightColor}"
                 >
                 <Label                        
                         Content="ПАРАМЕТРЫ"
@@ -139,6 +140,7 @@
             <Border Grid.Column="1"
                 BorderBrush="{StaticResource GridColor}"
                 BorderThickness="0,0,0,1"
+                    Background="{StaticResource LightColor}"
                 >
                 <Label                        
                         Content="ГРАФИКИ"

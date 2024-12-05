@@ -14,6 +14,7 @@ using PNTZ.Mufta.TPCApp.ViewModel;
 
 using Promatis.Core;
 using Promatis.Core.Logging;
+using Promatis.Core.Results;
 using Promatis.IoC.DryIoc;
 
 using System;
@@ -35,7 +36,8 @@ namespace PNTZ.Mufta.TPCApp
     /// Затем открывается основное окно    
     /// </summary>
     internal class App : StagedApplication
-    {
+    {        
+
         static public App AppInstance;
         public string CurrentDirectory { get; private set; }
         public IDpBuilder DpBuilder { get; private set; }
