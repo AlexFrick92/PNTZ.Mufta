@@ -74,7 +74,8 @@
                     Background="{StaticResource LightColor}">
                 <Label                        
                         Content="Список рецептов"
-                        FontSize="18"         
+                        FontSize="18"  
+                        
                         Margin="4"
                         BorderThickness="0"                                        
                         />
