@@ -39,6 +39,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 command.ExecuteNonQuery();
             }
         }
+
+
+        // ------------------- РЕЦЕПТЫ ---------------------------
         public void RemoveRecipe(JointRecipe recipe)
         {
             string sqlExpressionBase = $"DELETE FROM Recipes WHERE Name = '{recipe.Name}'";
@@ -330,6 +333,24 @@ namespace PNTZ.Mufta.TPCApp.Repository
         }
 
 
+        // ------------------------- СВИНЧИВАНИЯ ---------------------
+
+        List<JointResult> Joints = new List<JointResult>();
+
+        public void SaveResult(JointResult result)
+        {
+            Joints.Add(result);
+            logger.Info("Результат соединения сохранён.");
+        }
+
+        public IEnumerable<JointResult> GetResults()
+        {
+            logger.Info("Загрузка результатов...");
+            logger.Info("Результаты загружены.");
+            return Joints;
+        }
+
+        
 
     }
 }

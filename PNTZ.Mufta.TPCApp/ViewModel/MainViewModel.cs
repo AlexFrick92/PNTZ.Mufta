@@ -88,7 +88,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(),
                         workerManager.ResolveWorker<RecipeToPlc>().First(),
                         logger,
-                        cli
+                        cli,
+                        repositoryContext
                         );
 
             ResultsView = new ResultsView();

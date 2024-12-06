@@ -51,7 +51,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //Ожидание оценки оператором
         public event EventHandler AwaitForEvaluation;       
         //Свинчивание завершено
-        public event EventHandler<EventArgs> JointFinished;        
+        public event EventHandler<JointResult> JointFinished;        
         
 
         //Процедура прослушивания запущена. Да, по этому флагу я определяю, можно ли запустить прослушнку. Конечно тут нужен lock...
@@ -181,7 +181,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     if (DpTpcCommand.IsConnected)
                         DpTpcCommand.Value = 0;
 
-                    JointFinished?.Invoke(this, EventArgs.Empty);
+                    JointFinished?.Invoke(this, GetResult());
                 }               
             }
                 JointProcedureStarted = false;
@@ -393,8 +393,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
         }
 
-
-
         async Task RecordOperationParams(CancellationToken token)
         {
             try
@@ -470,6 +468,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             Evaluated?.Invoke(this, result);
         }
         private event EventHandler<uint> Evaluated;
+
+        //РЕЗУЛЬТАТ
+
+        JointResult GetResult()
+        {
+            return new JointResult() { FinalTorque = 123.123f};
+        }
     }
     
 }

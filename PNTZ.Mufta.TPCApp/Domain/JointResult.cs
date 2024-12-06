@@ -6,6 +6,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
 {
     public class JointResult
     {
+        public JointRecipe Recipe { get; set; }
         public float FinalTorque { get; set; }
         public float FinalLength { get; set; }
         public float FinalJVal { get; set; }

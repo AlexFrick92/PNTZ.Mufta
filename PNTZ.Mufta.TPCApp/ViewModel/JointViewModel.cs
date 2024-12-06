@@ -2,6 +2,7 @@
 
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
+using PNTZ.Mufta.TPCApp.Repository;
 
 using Promatis.Core.Logging;
 
@@ -20,10 +21,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointViewModel : BaseViewModel
     {
-        public JointViewModel(JointResultDpWorker resultWorker, RecipeToPlc recipeLoader, ILogger logger, ICliProgram cliProgram)
+        public JointViewModel(JointResultDpWorker resultWorker, RecipeToPlc recipeLoader, ILogger logger, ICliProgram cliProgram, RepositoryContext repo )
         {
             this.logger = logger;
             this.cliProgram = cliProgram;
+            this.repo = repo;
 
             try
             {
@@ -70,7 +72,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         ILogger logger;
         ICliProgram cliProgram;
 
-
+        RepositoryContext repo;
+        
 
         //Класс получения параметров из OpcUa
         JointResultDpWorker resultWorker;
@@ -94,6 +97,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 };
 
                 ResultDpWorker.DpParam.ValueUpdated += SubscribeToValues;
+
+                ResultDpWorker.JointFinished += (s, v) => SetResult(v);                
 
                 cliProgram.RegisterCommand("startjoint", (arg) => resultWorker.CyclicallyListen = true);
                 cliProgram.RegisterCommand("stopjoint", (arg) => resultWorker.CyclicallyListen = false);
@@ -260,6 +265,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         // ************* РЕЗУЛЬТАТ ****************
+
+        void SetResult(JointResult result)
+        {
+            result.Recipe = LoadedRecipe;
+
+            repo.SaveResult(result);
+
+            LastJointResult = result;
+            OnPropertyChanged(nameof(LastJointResult));
+
+        }
         public JointResult LastJointResult { get; set; }
     }
 }

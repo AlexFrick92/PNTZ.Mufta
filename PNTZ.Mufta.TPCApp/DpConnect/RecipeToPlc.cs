@@ -25,6 +25,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public bool LoadingProcedureStarted { get; private set; }
 
         public event EventHandler<JointRecipe> RecipeLoaded;
+        public JointRecipe LoadedRecipe;
 
         public RecipeToPlc(ILogger logger)
         {
@@ -124,6 +125,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 logger.Info("Рецепт загружен!");
 
                 RecipeLoaded?.Invoke(this,recipe);
+                LoadedRecipe = recipe;
             }
             catch (Exception ex)
             {
