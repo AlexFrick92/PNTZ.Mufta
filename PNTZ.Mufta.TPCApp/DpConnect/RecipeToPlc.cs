@@ -131,7 +131,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw;
             }
             finally
-            {
+            {                
                 LoadingProcedureStarted = false;
             }
         }

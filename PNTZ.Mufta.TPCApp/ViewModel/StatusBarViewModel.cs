@@ -1,4 +1,5 @@
 ﻿using Desktop.MVVM;
+using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     public class StatusBarViewModel : BaseViewModel
     {
 
-        public StatusBarViewModel(JointResultDpWorker resultDpWorker, HeartbeatCheck hbWorker)
+        public StatusBarViewModel(JointResultDpWorker resultDpWorker, HeartbeatCheck hbWorker, RecipeToPlc recWorker)
         {
             ResultDpWorker = resultDpWorker;
             HbCheckWorker = hbWorker;
+            RecWorker = recWorker;
         }
 
         HeartbeatCheck hbCheckWorker;
@@ -52,6 +54,29 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public bool PlcConnected { get; set; }
         public bool PlcHeartbeat { get; set; }
+
+        public bool RecipeLoaded { get; set; }
+        public JointRecipe LoadedRecipe { get; set; }
+        RecipeToPlc recWorker;
+        RecipeToPlc RecWorker
+        {
+            get => recWorker;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                recWorker = value;
+
+                recWorker.RecipeLoaded += (s, e) =>
+                {
+                    RecipeLoaded = true;
+                    OnPropertyChanged(nameof(RecipeLoaded));
+                    LoadedRecipe = e;
+                    OnPropertyChanged(nameof(LoadedRecipe));
+                };
+            }
+        }
 
         JointResultDpWorker resultDpWorker;
         JointResultDpWorker ResultDpWorker

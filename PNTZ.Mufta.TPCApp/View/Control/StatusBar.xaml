@@ -41,6 +41,8 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
+        
+        <!-- СТАТУС СВИНЧИВАНИЕ -->
         <StackPanel Grid.Column="0" Orientation="Horizontal"
                     Margin="8,0,0,0"
                     VerticalAlignment="Center">
@@ -71,7 +73,31 @@
             </Label>
         </StackPanel>
 
-
+        <!-- ЗАГРУЖЕННЫЙ РЕЦЕПТ -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal"
+                    Margin="8,0,8,0"
+                    VerticalAlignment="Center">
+            <Label Content="Рецепт:" 
+                   Style="{StaticResource StatusBarLabel}"
+                   />
+            
+            <Label          
+                HorizontalAlignment="Center">
+                <Label.Style>
+                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
+                        <Setter Property="Content" Value="не загружен"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RecipeLoaded}" Value="True">
+                                <Setter Property="Content" Value="{Binding LoadedRecipe.Name}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+        </StackPanel>
+        
+        
+        <!-- СТАТУС ПОДКЛЮЧЕНИЯ -->
         <StackPanel Grid.Column="2" Orientation="Horizontal"
                     Margin="0,0,8,0"
                     VerticalAlignment="Center">
