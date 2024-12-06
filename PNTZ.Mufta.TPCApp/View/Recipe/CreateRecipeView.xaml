@@ -64,8 +64,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition/>
+            
         </Grid.RowDefinitions>
 
         <!--****************************************** СПИСОК РЕЦЕПТОВ В ПАПКЕ СЛЕВА **************************************************************-->
@@ -81,7 +81,7 @@
             </Border>
         </Grid>
 
-        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -194,7 +194,7 @@
             </Label.Style>
         </Label>
 
-        <Grid Grid.Column="2" Grid.Row="1"              
+        <Grid Grid.Row="1" Grid.Column="2"               
               >
             <Grid.Style>
                 <Style TargetType="Grid">
@@ -211,8 +211,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <!--********************* ПАРАМЕТРЫ РЕЦЕПТА ДЛЯ ВСЕХ РЕЖИМОВ ***************************-->
@@ -818,7 +818,9 @@
                 <!-- ///////////////////// НАСТРОЙКИ ДЛЯ ВЫБРАННОГО РЕЖИМА //////////////////////////////////-->
             </Grid>
 
-            <Grid Grid.Row="4" Grid.Column="0">
+            
+            <!-- КНОПКИ -->
+            <Grid Grid.Row="5" Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
