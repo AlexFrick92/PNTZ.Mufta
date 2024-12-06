@@ -135,6 +135,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NewRecipeViewModel.cs" />
     <Compile Include="ViewModel\RecipeViewModel.cs" />
+    <Compile Include="ViewModel\ResultsViewModel.cs" />
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
@@ -158,6 +159,9 @@
     </Compile>
     <Compile Include="View\Recipe\NewRecipeView.xaml.cs">
       <DependentUpon>NewRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Results\ResultsView.xaml.cs">
+      <DependentUpon>ResultsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ValueDescription.cs" />
   </ItemGroup>
@@ -216,6 +220,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Results\ResultsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Styles\AppStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -264,6 +272,9 @@
     <None Include="ViewModel\MainViewModel.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Resource\Images\Results.drawio.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />

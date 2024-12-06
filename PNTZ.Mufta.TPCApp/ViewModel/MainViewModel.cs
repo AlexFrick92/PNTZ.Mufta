@@ -8,6 +8,7 @@ using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View.Joint;
 using PNTZ.Mufta.TPCApp.View.MP;
 using PNTZ.Mufta.TPCApp.View.Recipe;
+using PNTZ.Mufta.TPCApp.View.Results;
 using Promatis.Core.Logging;
 using System;
 using System.Linq;
@@ -32,9 +33,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         CreateRecipeView createRecipeView { get; set; }
         JointView jointView { get; set; }
         MachineParamView MachineParamView { get; set; }
+        ResultsView ResultsView { get; set; }
         public ICommand NaviToRecipeViewCommand { get; private set; }
         public ICommand NaviToJointViewCommand { get; private set; }
-        public ICommand NaviToMpViewCommand { get; private set; }        
+        public ICommand NaviToMpViewCommand { get; private set; }
+        public ICommand NaviToResultViewCommand { get; private set; }
 
 
         UIElement _mainContent = null;
@@ -88,6 +91,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         cli
                         );
 
+            ResultsView = new ResultsView();
+            ResultsView.DataContext = new ResultsViewModel();
+
+
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), workerManager.ResolveWorker<HeartbeatCheck>().First(),
                 workerManager.ResolveWorker<RecipeToPlc>().First());
             OnPropertyChanged(nameof(StatusBarViewModel));
@@ -101,7 +108,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             });
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);            
             NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParamView);
-
+            NaviToResultViewCommand = new RelayCommand((p) => MainContent = ResultsView);
 
             //Кнопки подключения к ПЛК
             cli.RegisterCommand("start", (args) => Task.Run(() => connectionManager.OpenConnections()));

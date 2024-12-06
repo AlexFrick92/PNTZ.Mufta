@@ -69,6 +69,16 @@
                         TopLabel="-F3-" 
                         IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/MachinParam.drawio.png"
                         BottomLabel="МАШИНА"
+                        ButtonCommand="{Binding NaviToMpViewCommand}"
+                        />
+
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                    <lctrl:NaviButton 
+                        TopLabel="-F4-" 
+                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Results.drawio.png"
+                        BottomLabel="РЕЗУЛЬТАТ"
+                        ButtonCommand="{Binding NaviToResultViewCommand}"
                         />
                 </StackPanel>
             </layout:RootControl.LeftSidebar>
