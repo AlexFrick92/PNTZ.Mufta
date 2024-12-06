@@ -93,7 +93,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         );
 
             ResultsView = new ResultsView();
-            ResultsView.DataContext = new ResultsViewModel();
+            ResultsView.DataContext = new ResultsViewModel(repositoryContext);
 
 
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), workerManager.ResolveWorker<HeartbeatCheck>().First(),

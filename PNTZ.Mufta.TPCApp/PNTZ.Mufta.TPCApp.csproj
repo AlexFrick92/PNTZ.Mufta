@@ -130,6 +130,7 @@
     <Compile Include="Repository\RepositoryContext.cs" />
     <Compile Include="Repository\SqlExpressions.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
+    <Compile Include="ViewModel\JointResultViewModel.cs" />
     <Compile Include="ViewModel\JointViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

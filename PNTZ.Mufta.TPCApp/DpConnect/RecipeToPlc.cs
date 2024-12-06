@@ -130,6 +130,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             catch (Exception ex)
             {
                 logger.Info("Не удалось загрузитЬ: " + ex.Message);
+                RecipeLoaded?.Invoke(this, recipe);
                 throw;
             }
             finally

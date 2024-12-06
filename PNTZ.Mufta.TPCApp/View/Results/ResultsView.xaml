@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              
-            xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:ResultsViewModel}"
              >
     <UserControl.Resources>
@@ -45,7 +45,48 @@
             </Border>
         </Grid>
 
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
+            <ListBox Grid.Row="0" ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedResult}"
+                  BorderThickness="0"
+                  HorizontalContentAlignment="Stretch"
+                  >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label                                                                                                                                             
+                                     Content="{Binding RecipeName}"
+                                     Background="Transparent"                                                                                                                                                      
+                              />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+
+            <StackPanel Grid.Row="1">
+                <Button
+                    Content="Обновить"
+                    Command="{Binding GetResultCommand}"
+                    >
+                    
+                </Button>
+            </StackPanel>
+            
+        </Grid>
+        
+        
         <!--РАЗДЕЛИТЕЛЬ-->
         <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" 
                 Margin="0,0,0,-5"

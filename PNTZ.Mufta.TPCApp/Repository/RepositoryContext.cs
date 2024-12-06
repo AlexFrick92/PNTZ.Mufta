@@ -346,7 +346,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         public IEnumerable<JointResult> GetResults()
         {
             logger.Info("Загрузка результатов...");
-            logger.Info("Результаты загружены.");
+            logger.Info("Результаты загружены " + Joints.Count);
             return Joints;
         }
 
