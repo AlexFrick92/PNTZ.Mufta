@@ -30,11 +30,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         public ObservableCollection<JointResultViewModel> Results { get; set;  }
-        public JointRecipeViewModel SelectedResult { get; set; }
+        public JointResultViewModel SelectedResult { get; set; }
 
 
         RepositoryContext repo;
 
         public ICommand GetResultCommand { get; set; }
+
+
+
     }
 }

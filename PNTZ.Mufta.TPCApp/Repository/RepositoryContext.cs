@@ -149,7 +149,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     $"MU_Moni_Time = '{rec.MU_Moni_Time}'," +
                     $"MU_Tq_Ref = '{rec.MU_Tq_Ref}'," +
                     $"MU_Tq_Save = '{rec.MU_Tq_Save}'," +
-                    $"JointMode = '{(int)rec.JointMode}'," +
+                    $"SelectedMode = '{(int)rec.JointMode}'," +
                     $"MU_TqSpeedRed_1 = '{rec.MU_TqSpeedRed_1}'," +
                     $"MU_TqSpeedRed_2 = '{rec.MU_TqSpeedRed_2}'," +
                     $"MU_Tq_Dump = '{rec.MU_Tq_Dump}'," +
@@ -297,7 +297,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                             MU_Tq_Ref = (float)reader.GetDouble(reader.GetOrdinal("MU_Tq_Ref")),
                             MU_Tq_Save = (float)reader.GetDouble(reader.GetOrdinal("MU_Tq_Save")),
 
-                            JointMode = (JointMode)reader.GetInt32(reader.GetOrdinal("JointMode")),
+                            JointMode = (JointMode)reader.GetInt32(reader.GetOrdinal("SelectedMode")),
 
                             MU_TqSpeedRed_1 = (float)reader.GetDouble(reader.GetOrdinal("MU_TqSpeedRed_1")),
                             MU_TqSpeedRed_2 = (float)reader.GetDouble(reader.GetOrdinal("MU_TqSpeedRed_2")),

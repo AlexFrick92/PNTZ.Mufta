@@ -19,5 +19,34 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public string RecipeName { get => ResultModel.Recipe.Name; }
 
+        public string SelectedMode
+        {
+            get
+            {
+                switch (ResultModel.Recipe.JointMode)
+                {
+                    case JointMode.Torque:
+                        return "По моменту";
+
+                    case JointMode.TorqueShoulder:
+                        return "По моменту с контролем заплечника";
+
+                    case JointMode.Length:
+                        return "По длине";
+
+                    case JointMode.TorqueLength:
+                        return "По длине с контролем момента";
+
+                    case JointMode.Jval:
+                        return "По значению J";
+
+                    case JointMode.TorqueJVal:
+                        return "По значению J с контролем момента";
+
+                    default:
+                        return "не выбран";
+                }
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Results"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="1200"
              
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:ResultsViewModel}"
@@ -143,6 +143,96 @@
                 </Style>
             </Label.Style>
         </Label>
+                
+        
+        <!-- РЕЗУЛЬТАТ -->
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--ПАРАМЕТРЫ-->
+            <Grid Grid.Row="1">
+                <Grid.Resources>
+                    <Style x:Key="ParaFieldStyle" TargetType="TextBox">
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <!---->
+                <Label 
+                    Grid.Row="0"
+                    Grid.Column="0"                    
+                    Content="Режим свинчивания "                    
+                    />
+                
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding JointModeText}"                    
+                    />
+
+                <!---->
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="0"                    
+                    Content="Итоговый момент "                    
+                    />
+
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"                    
+                    Style="{StaticResource ParaFieldStyle}"
+                    Text="{Binding SelectedResult.}"                    
+                    />
+                    
+                <!---->
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="0"                    
+                    Content="Итоговая длина "                    
+                    />
+
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"                    
+                    Style="{StaticResource ParaFieldStyle}"
+                    Text="{Binding JointModeText}"                    
+                    />
+
+
+
+
+            </Grid>
+
+
+            <!--ГРАФИКИ -->
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+
+            </Grid>
+        </Grid>
 
     </Grid>
 </UserControl>

@@ -33,7 +33,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             "MU_Tq_Ref REAL," +
             "MU_Tq_Save REAL," +
 
-            "JointMode INTEGER," +
+            "SelectedMode INTEGER," +
 
             "MU_TqSpeedRed_1 REAL," +
             "MU_TqSpeedRed_2 REAL," +
@@ -85,7 +85,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             "MU_Tq_Ref," +
             "MU_Tq_Save," +
 
-            "JointMode," +
+            "SelectedMode," +
 
             "MU_TqSpeedRed_1," +
             "MU_TqSpeedRed_2," +
