@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Results"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1200"
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
              
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:ResultsViewModel}"
@@ -153,7 +154,7 @@
             </Grid.RowDefinitions>
 
             <!--ПАРАМЕТРЫ-->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="0">
                 <Grid.Resources>
                     <Style x:Key="ParaFieldStyle" TargetType="TextBox">
                         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -254,13 +255,73 @@
 
 
             <!--ГРАФИКИ -->
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
+                <ContentControl Grid.Row="0">
+                    <dxc:ChartControl Name="chartControl1" BorderThickness="0">
+                        <dxc:ChartControl.Diagram>
+                            <dxc:XYDiagram2D>
 
+                                <dxc:XYDiagram2D.DefaultPane>
+                                    <dxc:Pane DomainBrush="Transparent"/>
+                                </dxc:XYDiagram2D.DefaultPane>
+
+
+
+                                <dxc:XYDiagram2D.NavigationOptions>
+                                    <dxc:NavigationOptions/>
+                                </dxc:XYDiagram2D.NavigationOptions>
+
+                                <dxc:XYDiagram2D.AxisX>
+                                    <dxc:AxisX2D x:Name="axisX" GridLinesVisible="True"
+                                 GridLinesBrush="#F0F0F0">
+                                        <dxc:AxisX2D.WholeRange>
+                                            <dxc:Range MinValue="0" 
+                                MaxValue="90000"/>
+                                        </dxc:AxisX2D.WholeRange>
+
+                                        <dxc:AxisX2D.GridSpacing>1000</dxc:AxisX2D.GridSpacing>
+
+                                        <dxc:AxisX2D.Label>
+                                            <dxc:AxisLabel Visible="False" />
+                                        </dxc:AxisX2D.Label>
+                                      
+                                    </dxc:AxisX2D>
+
+                                </dxc:XYDiagram2D.AxisX>
+
+                                <dxc:XYDiagram2D.AxisY>
+                                    <dxc:AxisY2D x:Name="axisY" Interlaced="False"
+                                 GridLinesBrush="#F0F0F0">
+
+                                        <dxc:AxisY2D.GridSpacing>500</dxc:AxisY2D.GridSpacing>
+
+                                        <dxc:AxisY2D.WholeRange>
+                                            <dxc:Range MinValue="0" 
+                                MaxValue="11000"/>
+                                        </dxc:AxisY2D.WholeRange>
+
+
+
+                                    </dxc:AxisY2D>
+                                </dxc:XYDiagram2D.AxisY>
+
+                                <dxc:LineSeries2D 
+                                    DataSource="{Binding SelectedResult.Series, Mode=OneWay}"                                          
+                                     ArgumentDataMember="TimeStamp"
+                                     ValueDataMember="Torque"     
+                                     ArgumentScaleType="Numerical"
+                                 
+                                 />
+
+                            </dxc:XYDiagram2D>
+                        </dxc:ChartControl.Diagram>
+                    </dxc:ChartControl>
+                </ContentControl>
             </Grid>
         </Grid>
 

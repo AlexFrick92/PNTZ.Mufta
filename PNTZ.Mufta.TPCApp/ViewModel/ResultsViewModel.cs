@@ -37,8 +37,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         {
             get => selectedResult;
             set
-            {
-                Console.WriteLine(value.FinalTorque);
+            {             
                 selectedResult = value;
                 OnPropertyChanged(nameof(SelectedResult));
             }

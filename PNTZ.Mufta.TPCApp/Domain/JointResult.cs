@@ -17,6 +17,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public uint ResultTotal { get; set; }
         public DateTime StartTimeStamp { get; set; }
         public DateTime FinishTimeStamp { get; set; }
-        public List<TqTnLenPoint> Series { get; private set; }
+        public List<TqTnLenPoint> Series { get; set; }
     }
 }

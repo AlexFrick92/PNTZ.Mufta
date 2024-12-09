@@ -411,6 +411,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                                 started = true;
                                 logger.Info("Регистрация параметров начата!");
                                 RecordingBeginTimeStamp = DateTime.Now;
+                                JointResult.Series = new List<TqTnLenPoint>();
+                                DpParam.ValueUpdated += ActualTqTnLen_ValueUpdated;
                                 RecordingBegun?.Invoke(this, EventArgs.Empty);
                             }
                         }
@@ -448,10 +450,10 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         DateTime RecordingBeginTimeStamp;
         private void ActualTqTnLen_ValueUpdated(object sender, OperationalParam e)
-        {
+        {            
             JointResult.Series.Add(
                 new TqTnLenPoint()
-                {
+                {                   
                     Torque = e.Torque,
                     Length = e.Length,
                     Turns = e.Turns,
@@ -472,13 +474,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         JointResult GetResult()
         {
-            return new JointResult() 
-            { 
-                FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ,
-                FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN,
-                FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL,
-                FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN,
-            };
+            JointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
+            JointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
+            JointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
+            JointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
+
+            return JointResult;           
         }
     }
     

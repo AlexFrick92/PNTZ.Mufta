@@ -53,5 +53,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float FinalJVal { get => ResultModel.FinalJVal; }
         public float FinalLength { get => ResultModel.FinalLength; }
         public float FinalTurns { get => ResultModel.FinalTurns; }
+        public List<TqTnLenPoint> Series { get => ResultModel.Series; }
     }
 }
