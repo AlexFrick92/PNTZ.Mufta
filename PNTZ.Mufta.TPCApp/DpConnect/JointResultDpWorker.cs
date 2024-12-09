@@ -33,8 +33,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<ERG_Muffe> Dp_ERG_Muffe { get; set; }
         public IDpValue<ERG_MVS> Dp_ERG_MVS { get; set; }
         public void DpBound()
-        {
-            
+        {            
         }
 
 
@@ -346,7 +345,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
 
 
-            logger.Info("Итоговый момент:");
+            logger.Info("Итоговый момент: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ);
             logger.Info("Результат ПЛК:");
 
             logger.Info("Ожидаем оценки оператора");
@@ -473,7 +472,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         JointResult GetResult()
         {
-            return new JointResult() { FinalTorque = 123.123f};
+            return new JointResult() 
+            { 
+                FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ,
+                FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN,
+                FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL,
+                FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN,
+            };
         }
     }
     

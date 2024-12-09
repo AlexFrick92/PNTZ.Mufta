@@ -65,7 +65,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label                                                                                                                                             
-                                     Content="{Binding RecipeName}"
+                                     Content="{Binding RecipeName, Mode=OneWay}"
                                      Background="Transparent"                                                                                                                                                      
                               />
                             </Grid>
@@ -157,6 +157,8 @@
                 <Grid.Resources>
                     <Style x:Key="ParaFieldStyle" TargetType="TextBox">
                         <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Setter Property="BorderThickness" Value="0"/>
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
@@ -173,52 +175,80 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
                 <!---->
                 <Label 
                     Grid.Row="0"
                     Grid.Column="0"                    
-                    Content="Режим свинчивания "                    
+                    Content="Режим свинчивания"                    
                     />
                 
                 <TextBox
                     Grid.Row="0"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    Text="{Binding JointModeText}"                    
+                    Text="ds"                    
                     />
 
                 <!---->
                 <Label 
                     Grid.Row="1"
                     Grid.Column="0"                    
-                    Content="Итоговый момент "                    
+                    Content="Итоговый момент"                    
                     />
 
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="1"                    
                     Style="{StaticResource ParaFieldStyle}"
-                    Text="{Binding SelectedResult.}"                    
+                    Text="{Binding SelectedResult.FinalTorque, Mode=OneWay}"                    
                     />
                     
+                
                 <!---->
                 <Label 
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="0"                    
-                    Content="Итоговая длина "                    
+                    Content="Итоговая длина"                    
                     />
 
                 <TextBox
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="1"                    
                     Style="{StaticResource ParaFieldStyle}"
-                    Text="{Binding JointModeText}"                    
+                    Text="{Binding SelectedResult.FinalLength, Mode=OneWay}"                    
                     />
 
+                <!---->
+                <Label 
+                    Grid.Row="3"
+                    Grid.Column="0"                    
+                    Content="Итоговые обороты"                    
+                    />
 
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="1"                    
+                    Style="{StaticResource ParaFieldStyle}"
+                    Text="{Binding SelectedResult.FinalTurns, Mode=OneWay}"                    
+                    />
+                
+                <!---->
+                <Label 
+                    Grid.Row="4"
+                    Grid.Column="0"                    
+                    Content="Итоговое значение J"                    
+                    />
 
+                <TextBox
+                    Grid.Row="4"
+                    Grid.Column="1"                    
+                    Style="{StaticResource ParaFieldStyle}"
+                    Text="{Binding SelectedResult.FinalJVal, Mode=OneWay}"                    
+                    />
 
             </Grid>
 

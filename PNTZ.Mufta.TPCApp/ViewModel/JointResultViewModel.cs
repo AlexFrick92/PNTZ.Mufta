@@ -22,7 +22,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public string SelectedMode
         {
             get
-            {
+            {                
                 switch (ResultModel.Recipe.JointMode)
                 {
                     case JointMode.Torque:
@@ -48,5 +48,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
             }
         }
+
+        public float FinalTorque { get => ResultModel.FinalTorque; }
+        public float FinalJVal { get => ResultModel.FinalJVal; }
+        public float FinalLength { get => ResultModel.FinalLength; }
+        public float FinalTurns { get => ResultModel.FinalTurns; }
     }
 }

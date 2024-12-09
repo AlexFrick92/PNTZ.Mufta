@@ -297,7 +297,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                             MU_Tq_Ref = (float)reader.GetDouble(reader.GetOrdinal("MU_Tq_Ref")),
                             MU_Tq_Save = (float)reader.GetDouble(reader.GetOrdinal("MU_Tq_Save")),
 
-                            JointMode = (JointMode)reader.GetInt32(reader.GetOrdinal("SelectedMode")),
+                            JointMode = (JointMode)reader.GetInt32(reader.GetOrdinal("JointMode")),
 
                             MU_TqSpeedRed_1 = (float)reader.GetDouble(reader.GetOrdinal("MU_TqSpeedRed_1")),
                             MU_TqSpeedRed_2 = (float)reader.GetDouble(reader.GetOrdinal("MU_TqSpeedRed_2")),

@@ -23,6 +23,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 Results = new ObservableCollection<JointResultViewModel>();
                 Results.AddRange(repo.GetResults().Select(r => new JointResultViewModel(r)));
                 Console.WriteLine("Results co" + Results.Count);
+                Console.WriteLine(Results.First().FinalTorque);
                 OnPropertyChanged(nameof(Results));
             });
 
@@ -30,7 +31,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         public ObservableCollection<JointResultViewModel> Results { get; set;  }
-        public JointResultViewModel SelectedResult { get; set; }
+
+        JointResultViewModel selectedResult;
+        public JointResultViewModel SelectedResult
+        {
+            get => selectedResult;
+            set
+            {
+                Console.WriteLine(value.FinalTorque);
+                selectedResult = value;
+                OnPropertyChanged(nameof(SelectedResult));
+            }
+
+        }
+                
 
 
         RepositoryContext repo;
