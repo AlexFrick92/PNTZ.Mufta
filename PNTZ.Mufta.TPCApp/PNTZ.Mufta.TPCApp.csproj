@@ -139,11 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\JointRecipeContext.cs" />
     <Compile Include="Repository\JointRecipeTable.cs" />
-    <Compile Include="Repository\JointRecipeMapper.cs" />
-    <Compile Include="Repository\JointRecipeMapperHelper.cs" />
     <Compile Include="Repository\RepositoryContext.cs" />
-    <Compile Include="Repository\RepositoryContext1.cs" />
-    <Compile Include="Repository\SqlQueriesGenerator.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />
     <Compile Include="ViewModel\JointViewModel.cs" />
