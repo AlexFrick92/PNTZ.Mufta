@@ -133,8 +133,6 @@
     <Compile Include="Repository\JointRecipeMapper.cs" />
     <Compile Include="Repository\JointRecipeMapperHelper.cs" />
     <Compile Include="Repository\RepositoryContext.cs" />
-    <Compile Include="Repository\RepositoryContext1.cs" />
-    <Compile Include="Repository\SqlExpressions.cs" />
     <Compile Include="Repository\SqlQueriesGenerator.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />
