@@ -22,8 +22,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 Results = new ObservableCollection<JointResultViewModel>();
                 Results.AddRange(repo.LoadResults().Select(r => new JointResultViewModel(r)));
-                Console.WriteLine("Results co" + Results.Count);                
-                Console.WriteLine("Result torq" + Results.First().FinalTorque);
                 OnPropertyChanged(nameof(Results));
             });
 

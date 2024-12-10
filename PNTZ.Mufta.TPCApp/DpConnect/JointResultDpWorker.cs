@@ -396,6 +396,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             {
                 throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 0");
             }
+
+            JointResult.FinishTimeStamp = DateTime.Now;
         }
 
         async Task RecordOperationParams(CancellationToken token)

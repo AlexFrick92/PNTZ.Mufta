@@ -66,9 +66,15 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label                                                                                                                                             
-                                     Content="{Binding RecipeName, Mode=OneWay}"
-                                     Background="Transparent"                                                                                                                                                      
-                              />
+                                    Grid.Column="0"
+                                    Content="{Binding RecipeName, Mode=OneWay}"
+                                    Background="Transparent"                                                                                                                                                      
+                                />
+                                <Label
+                                    Grid.Column="1"
+                                    Background="Transparent"
+                                    Content="{Binding FinishTimeStamp, Mode=OneWay}"
+                                    />
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -160,11 +166,14 @@
                         <Setter Property="FontWeight" Value="SemiBold"/>
                         <Setter Property="IsReadOnly" Value="True"/>
                         <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="Margin" Value="10,0,0,0"/>
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -190,9 +199,9 @@
                 <TextBox
                     Grid.Row="0"
                     Grid.Column="1"
-                    Grid.ColumnSpan="2"                    
+                    Grid.ColumnSpan="2"                      
                     Style="{StaticResource ParaFieldStyle}"               
-                    Text="{Binding SelectedResult.SelectedMode}"
+                    Text="{Binding SelectedResult.SelectedMode, Mode=OneWay}"
                     />
 
                 <!---->
