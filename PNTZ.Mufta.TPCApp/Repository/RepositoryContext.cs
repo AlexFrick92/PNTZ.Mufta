@@ -4,12 +4,10 @@ using Promatis.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 using LinqToDB;
-using LinqToDB.Data;
-using LinqToDB.Mapping;
+
 using System.Data.SQLite;
 
 namespace PNTZ.Mufta.TPCApp.Repository
@@ -19,8 +17,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
         ILogger logger;
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
         string recipesConnectionString;
-
-        List<JointRecipe> loadedRecipes = new List<JointRecipe> ();
         public RepositoryContext(ILogger logger)
         {
             this.logger = logger;
@@ -38,41 +34,45 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     logger.Info("Таблица с рецептами уже создана");
                 }
             }
-
-
         }
-        public void SaveRecipe(JointRecipe rec)
-        {
-
-            InsertRecipe(rec);
-        }
-
-        private void InsertRecipe(JointRecipe recipe)
+        public void SaveRecipe(JointRecipe recipe)
         {
             using (var db = new JointRecipeContext(recipesConnectionString))
             {
-                db.Insert(new JointRecipeTable().FromJointRecipe(recipe));
-            }
-        }
+                var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == recipe.Name);
 
-
-        public IEnumerable<JointRecipe> LoadRecipes()
-        {
-            loadedRecipes.Clear();
-            using (var db = new JointRecipeContext(recipesConnectionString))
-            {
-                foreach (var rec in db.Recipes.ToList())
+                if(recToUpdate != null)
                 {
-                    loadedRecipes.Add(rec.ToJointRecipe());
+                    recToUpdate.FromJointRecipe(recipe);
+                    db.Update(recToUpdate);
+                    logger.Info($"Рецепт {recipe.Name} обновлён.");
+                }
+                else
+                {
+                    db.Insert(new JointRecipeTable().FromJointRecipe(recipe));
+                    logger.Info($"Рецепт {recipe.Name} создан.");
                 }
             }
-            return loadedRecipes;
         }
-
         public void RemoveRecipe(JointRecipe recipe)
         {
+            using (var db = new JointRecipeContext(recipesConnectionString))
+            {
+                var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == recipe.Name);
+
+                db.Delete(recToUpdate);
+                logger.Info($"Рецепт {recipe.Name} удалён.");
+            }
+        }
+        public IEnumerable<JointRecipe> LoadRecipes()
+        {            
+            using (var db = new JointRecipeContext(recipesConnectionString))
+            {
+                return db.Recipes.ToList().Select(recTable => recTable.ToJointRecipe());
+            }
 
         }
+
         //Операции над результатами
 
         public void SaveResult(JointResult result)
