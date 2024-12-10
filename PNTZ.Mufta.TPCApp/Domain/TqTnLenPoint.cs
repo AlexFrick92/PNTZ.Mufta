@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace PNTZ.Mufta.TPCApp.Domain
 {
+    [Serializable]
     public class TqTnLenPoint
     {
         public float Torque { get; set; }

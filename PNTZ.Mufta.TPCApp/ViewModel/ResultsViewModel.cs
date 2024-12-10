@@ -21,9 +21,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             GetResultCommand = new RelayCommand((arg) =>
             {
                 Results = new ObservableCollection<JointResultViewModel>();
-                Results.AddRange(repo.GetResults().Select(r => new JointResultViewModel(r)));
-                Console.WriteLine("Results co" + Results.Count);
-                Console.WriteLine(Results.First().FinalTorque);
+                Results.AddRange(repo.LoadResults().Select(r => new JointResultViewModel(r)));
+                Console.WriteLine("Results co" + Results.Count);                
+                Console.WriteLine("Result torq" + Results.First().FinalTorque);
                 OnPropertyChanged(nameof(Results));
             });
 

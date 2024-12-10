@@ -143,8 +143,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 {
                     DpTpcCommand.Value = 0;
                     cts = new CancellationTokenSource();                    
-                    await AwaitForJointProcess(cts.Token);
-                    logger.Info("Соединение записано.");
+                    await AwaitForJointProcess(cts.Token);                    
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -179,8 +178,15 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 {
                     if (DpTpcCommand.IsConnected)
                         DpTpcCommand.Value = 0;
-
-                    JointFinished?.Invoke(this, GetResult());
+                    try
+                    {
+                        JointFinished?.Invoke(this, GetResult());
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Info(ex.Message);
+                    }
+                    logger.Info("Цикл записи завершен.");
                 }               
             }
                 JointProcedureStarted = false;

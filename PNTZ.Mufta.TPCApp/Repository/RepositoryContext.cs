@@ -17,14 +17,21 @@ namespace PNTZ.Mufta.TPCApp.Repository
         ILogger logger;
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
         string recipesConnectionString;
+        string resultsConnectionString;
         public RepositoryContext(ILogger logger)
         {
             this.logger = logger;
             recipesConnectionString = $"Data Source={StoragePath}/RecipesData.db;Mode=ReadWriteCreate";
+            resultsConnectionString = $"Data Source={StoragePath}/ResultsData.db;Mode=ReadWriteCreate";
 
             using (var db = new JointRecipeContext(recipesConnectionString))
-            {
+            {                              
                 db.CreateTable<JointRecipeTable>(tableOptions: TableOptions.CheckExistence);              
+            }
+
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                db.CreateTable<JointResultTable>(tableOptions: TableOptions.CheckExistence);
             }
         }
         public void SaveRecipe(JointRecipe recipe)
@@ -69,12 +76,19 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         public void SaveResult(JointResult result)
         {
-
+            using (var db = new JointResultContext(resultsConnectionString))
+            {                
+                db.Insert(new JointResultTable().FromJointResult(result));
+                logger.Info($"Соединение {result.Recipe.Name} сохранёно.");
+            }
         }
 
-        public IEnumerable<JointResult> GetResults()
+        public IEnumerable<JointResult> LoadResults()
         {
-            return new List<JointResult>();
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                return db.Results.ToList().Select(resTable => resTable.ToJointResult());
+            }
         }
     }
 }

@@ -270,10 +270,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         {
             result.Recipe = LoadedRecipe;
 
-            repo.SaveResult(result);
+            try
+            {
+                repo.SaveResult(result);
+                LastJointResult = result;
+                OnPropertyChanged(nameof(LastJointResult));
+            }
+            catch (Exception ex)
+            {
+                logger.Info("Ошибка при сохранении записи " + ex);
+            }
+            
 
-            LastJointResult = result;
-            OnPropertyChanged(nameof(LastJointResult));
 
         }
         public JointResult LastJointResult { get; set; }
