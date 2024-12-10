@@ -8,7 +8,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
 {
     static internal class SqlExpressions
     {
-        public static readonly string CreateTable =
+
+        //РЕЦЕПТЫ
+        public static readonly string CreateRecipeTable =
             "CREATE TABLE IF NOT EXISTS Recipes" +
 
             "(Name TEXT," +
@@ -116,5 +118,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         public static readonly string SelectRecipes =
             "SELECT * FROM Recipes ORDER BY TimeStamp DESC;";
+     
+
     }
 }
