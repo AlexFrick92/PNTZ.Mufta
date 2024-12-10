@@ -24,15 +24,12 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
             using (var db = new JointRecipeContext(recipesConnectionString))
             {
-                try
+                if (!db.DataProvider.GetSchemaProvider().GetSchema(db).Tables.Any(t => t.TableName == "Recipes"))
                 {
+                    //no required table-create it
                     db.CreateTable<JointRecipeTable>();
                     logger.Info("Создана таблица с рецептами.");
-                }
-                catch (SQLiteException ex)
-                {
-                    logger.Info("Таблица с рецептами уже создана");
-                }
+                }                
             }
         }
         public void SaveRecipe(JointRecipe recipe)
