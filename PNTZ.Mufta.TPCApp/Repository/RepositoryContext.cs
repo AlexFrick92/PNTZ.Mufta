@@ -12,6 +12,7 @@ using Promatis.Core.Logging;
 using Microsoft.Data.Sqlite;
 
 using System.Linq;
+using System.CodeDom;
 
 
 namespace PNTZ.Mufta.TPCApp.Repository
@@ -22,6 +23,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         ILogger logger;
 
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
+        readonly string recipeTableName = "Recipes";
         string recipesConnectionString;
 
         List<JointRecipe> loadedRecipes = new List<JointRecipe> ();
@@ -30,70 +32,58 @@ namespace PNTZ.Mufta.TPCApp.Repository
         {
             recipesConnectionString = $"Data Source={StoragePath}/RecipesData.db;Mode=ReadWriteCreate";
 
-            CreateRecipeTable();
+            CreateTable(recipeTableName, recipesConnectionString);
+
+            LoadRecipes();
 
         }
-
-        private void CreateRecipeTable()
+        private void CreateTable(string tableName, string connectionString)
         {
-            using (var connection = new SqliteConnection(recipesConnectionString))
+            using (var connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
-                var createTableQuery = @"
-                    CREATE TABLE IF NOT EXISTS Recipes
-
-                    (Name TEXT,
-                    HEAD_OPEN_PULSES REAL,
-                    TURNS_BREAK REAL,
-                    PLC_PROG_NR INTEGER,
-                    LOG_NO INTEGER,
-                    Tq_UNIT INTEGER,
-                    SelectedThreadType INTEGER,
-                    Thread_step REAL,
-                    PIPE_TYPE TEXT,
-
-                    Box_Moni_Time INTEGER,
-                    Box_Len_Min REAL,
-                    Box_Len_Max REAL,
-
-                    Pre_Moni_Time INTEGER,
-                    Pre_Len_Max REAL,
-                    Pre_Len_Min REAL,
-
-                    MU_Moni_Time INTERGER,
-                    MU_Tq_Ref REAL,
-                    MU_Tq_Save REAL,
-
-                    SelectedMode INTEGER,
-
-                    MU_TqSpeedRed_1 REAL,
-                    MU_TqSpeedRed_2 REAL,
-                    MU_Tq_Dump REAL,
-                    MU_Tq_Max REAL,
-                    MU_Tq_Min REAL,
-                    MU_Tq_Opt REAL,
-
-                    MU_TqShoulder_Min REAL,
-                    MU_TqShoulder_Max REAL,
-
-                    MU_Len_Speed_1 REAL,
-                    MU_Len_Speed_2 REAL,
-                    MU_Len_Dump REAL,
-                    MU_Len_Min REAL,
-                    MU_Len_Max REAL,
-
-                    MU_JVal_Speed_1 REAL,
-                    MU_JVal_Speed_2 REAL,
-                    MU_JVal_Dump REAL,
-                    MU_JVal_Min REAL,
-                    MU_JVal_Max REAL,
-
-                    TimeStamp TEXT
-                    )
-                ";
+                var createTableQuery = GenerateCreateTableSql<JointRecipeMapper>(tableName);
                 connection.Execute(createTableQuery);
             }
         }
+        private string GenerateCreateTableSql<T>(string TableName)
+        {           
+            var properties = typeof(T).GetProperties(); 
+
+            var columns = properties.Select(p =>
+            {
+                // Определение типа для каждого свойства
+                var columnType = GetSQLiteColumnType(p.PropertyType);
+
+                return $"{p.Name} {columnType}";
+            });
+
+            var sql = $"CREATE TABLE IF NOT EXISTS {TableName} ({string.Join(", ", columns)});";
+
+            return sql;
+        }
+        private static string GetSQLiteColumnType(Type propertyType)
+        {
+            // Маппинг типов .NET в типы SQLite
+            if (propertyType == typeof(int) || propertyType == typeof(long) || propertyType == typeof(short))
+                return "INTEGER";
+            if (propertyType == typeof(bool))
+                return "INTEGER"; // SQLite не имеет отдельного типа для boolean, используем INTEGER
+            if (propertyType == typeof(string))
+                return "TEXT";
+            if (propertyType == typeof(DateTime) || propertyType == typeof(DateTimeOffset))
+                return "TEXT"; // В SQLite DateTime обычно сохраняется в текстовом формате (ISO 8601)
+            if (propertyType == typeof(float) || propertyType == typeof(double) || propertyType == typeof(decimal))
+                return "REAL";
+            if (propertyType == typeof(byte[]) || propertyType == typeof(Guid))
+                return "BLOB";
+
+            return "TEXT"; // По умолчанию используем TEXT
+        }
+
+
+        //Операции над рецептами
+
         public void SaveRecipe(JointRecipe rec)
         {
 
@@ -212,7 +202,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     )
                 ";
 
-                var recipe = new
+                JointRecipeMapper recipe = new JointRecipeMapper()
                 {
                     Name = rec.Name,
                     HEAD_OPEN_PULSES = rec.HEAD_OPEN_PULSES,
@@ -265,14 +255,27 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 };
                 connection.Execute(insertQuery, recipe);
             };
+        }        
+
+
+        private void UpdateRecipe(JointRecipe rec)
+        {
+            using (var connection = new SqliteConnection(recipesConnectionString))
+            {
+                connection.Open();
+                var updateQuery = @"
+                    UPDATE Users SET
+                    Name = @Name
+
+
+                ";
+                var recipe = new JointRecipeMapper();
+
+                connection.Execute(updateQuery, recipe);
+            };
         }
         
         public void RemoveRecipe(JointRecipe recipe)
-        {
-
-        }
-
-        private void UpdateRecipe(JointRecipe rec)
         {
 
         }
@@ -283,7 +286,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             using (var connection = new SqliteConnection(recipesConnectionString))
             {
                 connection.Open();
-                var selectQuery = "SELECT * FROM Recipes";
+                var selectQuery = $"SELECT * FROM {recipeTableName}";
                 var recipesFromDb = connection.Query(selectQuery).ToList();
 
                 loadedRecipes.Clear();
@@ -346,6 +349,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
             return loadedRecipes;
         }
+
+
+        //Операции над результатами
 
         public void SaveResult(JointResult result)
         {

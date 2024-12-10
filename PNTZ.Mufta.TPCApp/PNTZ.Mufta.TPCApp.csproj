@@ -130,6 +130,7 @@
     <Compile Include="DpConnect\Struct\ZEITSTEMPEL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\JointRecipeMapper.cs" />
     <Compile Include="Repository\RepositoryContext.cs" />
     <Compile Include="Repository\RepositoryContext1.cs" />
     <Compile Include="Repository\SqlExpressions.cs" />
