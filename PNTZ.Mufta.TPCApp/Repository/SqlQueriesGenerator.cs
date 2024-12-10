@@ -74,8 +74,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         public static string SelectFrom<T>(string tableName)
         {
-            return $"SELECT * FROM {tableName}";
+            return $"SELECT * FROM {tableName};";
         }
-
     }
 }

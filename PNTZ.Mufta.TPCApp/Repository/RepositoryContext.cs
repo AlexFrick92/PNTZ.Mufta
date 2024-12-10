@@ -28,8 +28,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         List<JointRecipe> loadedRecipes = new List<JointRecipe> ();
 
-        public RepositoryContext()
+        public RepositoryContext(ILogger logger)
         {
+            this.logger = logger;
             recipesConnectionString = $"Data Source={StoragePath}/RecipesData.db;Mode=ReadWriteCreate";
 
             CreateTable(recipeTableName, recipesConnectionString);
@@ -68,6 +69,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
  
                 var mapper = new JointRecipeMapper().FromJointRecipe(recipe);
                 connection.Execute(insertQuery,  mapper);
+                logger.Info($"Рецепт {recipe.Name} создан.");
             };
         }        
         private void UpdateRecipe(JointRecipe recipe)
@@ -75,20 +77,26 @@ namespace PNTZ.Mufta.TPCApp.Repository
             using (var connection = new SqliteConnection(recipesConnectionString))
             {
                 connection.Open();
-                var updateQuery = SqlQueriesGenerator.Update<JointRecipeMapper>(recipeTableName, "WHERE Name = @Name");
-                Console.WriteLine(updateQuery);
+                var updateQuery = SqlQueriesGenerator.Update<JointRecipeMapper>(recipeTableName, "WHERE Name = @Name");                
                 var mapper = new JointRecipeMapper().FromJointRecipe(recipe);
 
                 connection.Execute(updateQuery, mapper);
+                logger.Info($"Рецепт {recipe.Name} обновлён.");
             };
         }        
         public void RemoveRecipe(JointRecipe recipe)
         {
-
+            using (var connection = new SqliteConnection(recipesConnectionString))
+            {
+                connection.Open();
+                var deleteQuery = $"DELETE FROM {recipeTableName} WHERE Name = @Name;";
+                var param = new {Name =  recipe.Name};
+                connection.Execute(deleteQuery, param);
+                logger.Info($"Рецепт {recipe.Name} удалён.");
+            }
         }
         public IEnumerable<JointRecipe> LoadRecipes()
-        {
-            
+        {            
             using (var connection = new SqliteConnection(recipesConnectionString))
             {
                 connection.Open();
@@ -107,8 +115,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
             return loadedRecipes;
         }
-
-
 
         //Операции над результатами
 
