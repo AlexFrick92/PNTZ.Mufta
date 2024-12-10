@@ -105,11 +105,11 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     $"'{rec.MU_Len_Min}'," +
                     $"'{rec.MU_Len_Max}'," +
 
-                    $"'{rec.MU_Jval_Speed_1}'," +
-                    $"'{rec.MU_Jval_Speed_2}'," +
-                    $"'{rec.MU_Jval_Dump}'," +
-                    $"'{rec.MU_Jval_Min}'," +
-                    $"'{rec.MU_Jval_Max}'," +
+                    $"'{rec.MU_JVal_Speed_1}'," +
+                    $"'{rec.MU_JVal_Speed_2}'," +
+                    $"'{rec.MU_JVal_Dump}'," +
+                    $"'{rec.MU_JVal_Min}'," +
+                    $"'{rec.MU_JVal_Max}'," +
 
                     $"'{rec.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}'" +
 
@@ -165,11 +165,11 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     $"MU_Len_Min = '{rec.MU_Len_Min}'," +
                     $"MU_Len_Max = '{rec.MU_Len_Max}'," +
 
-                    $"MU_JVal_Speed_1 = '{rec.MU_Jval_Speed_1}'," +
-                    $"MU_Jval_Speed_2 = '{rec.MU_Jval_Speed_2}'," +
-                    $"MU_JVal_Dump = '{rec.MU_Jval_Dump}'," +
-                    $"MU_JVal_Min = '{rec.MU_Jval_Min}'," +
-                    $"MU_JVal_Max = '{rec.MU_Jval_Max}'," +
+                    $"MU_JVal_Speed_1 = '{rec.MU_JVal_Speed_1}'," +
+                    $"MU_JVal_Speed_2 = '{rec.MU_JVal_Speed_2}'," +
+                    $"MU_JVal_Dump = '{rec.MU_JVal_Dump}'," +
+                    $"MU_JVal_Min = '{rec.MU_JVal_Min}'," +
+                    $"MU_JVal_Max = '{rec.MU_JVal_Max}'," +
 
                     $"TimeStamp = '{rec.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}'" +
 
@@ -230,11 +230,11 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     $"'{jr.MU_Len_Min}'," +
                     $"'{jr.MU_Len_Max}'," +
 
-                    $"'{jr.MU_Jval_Speed_1}'," +
-                    $"'{jr.MU_Jval_Speed_2}'," +
-                    $"'{jr.MU_Jval_Dump}'," +
-                    $"'{jr.MU_Jval_Speed_1}'," +
-                    $"'{jr.MU_Jval_Speed_2}'," +
+                    $"'{jr.MU_JVal_Speed_1}'," +
+                    $"'{jr.MU_JVal_Speed_2}'," +
+                    $"'{jr.MU_JVal_Dump}'," +
+                    $"'{jr.MU_JVal_Speed_1}'," +
+                    $"'{jr.MU_JVal_Speed_2}'," +
 
                     $"'{jr.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")}'" +
 
@@ -314,11 +314,11 @@ namespace PNTZ.Mufta.TPCApp.Repository
                             MU_Len_Min = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Min")),
                             MU_Len_Max = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
 
-                            MU_Jval_Speed_1 = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
-                            MU_Jval_Speed_2 = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
-                            MU_Jval_Dump = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
-                            MU_Jval_Min = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
-                            MU_Jval_Max = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
+                            MU_JVal_Speed_1 = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
+                            MU_JVal_Speed_2 = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
+                            MU_JVal_Dump = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
+                            MU_JVal_Min = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
+                            MU_JVal_Max = (float)reader.GetDouble(reader.GetOrdinal("MU_Len_Max")),
 
                             TimeStamp = DateTime.Parse(reader.GetString(reader.GetOrdinal("TimeStamp"))),
                         });;

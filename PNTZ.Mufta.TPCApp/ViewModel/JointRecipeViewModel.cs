@@ -70,11 +70,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         //Параметры силового свинчивания по J        
-        public float MU_Jval_Speed_1 { get => recipe.MU_Jval_Speed_1; set => recipe.MU_Jval_Speed_1 = value; }        
-        public float MU_Jval_Speed_2 { get => recipe.MU_Jval_Speed_2; set => recipe.MU_Jval_Speed_2 = value; }        
-        public float MU_Jval_Dump { get => recipe.MU_Jval_Dump; set => recipe.MU_Jval_Dump = value; }        
-        public float MU_Jval_Min { get => recipe.MU_Jval_Min; set => recipe.MU_Jval_Min = value; }        
-        public float MU_Jval_Max { get => recipe.MU_Jval_Max; set => recipe.MU_Jval_Max = value; }
+        public float MU_Jval_Speed_1 { get => recipe.MU_JVal_Speed_1; set => recipe.MU_JVal_Speed_1 = value; }        
+        public float MU_Jval_Speed_2 { get => recipe.MU_JVal_Speed_2; set => recipe.MU_JVal_Speed_2 = value; }        
+        public float MU_Jval_Dump { get => recipe.MU_JVal_Dump; set => recipe.MU_JVal_Dump = value; }        
+        public float MU_Jval_Min { get => recipe.MU_JVal_Min; set => recipe.MU_JVal_Min = value; }        
+        public float MU_Jval_Max { get => recipe.MU_JVal_Max; set => recipe.MU_JVal_Max = value; }
 
 
 

@@ -35,10 +35,10 @@
 	<MU_Len_Min Min="1" Max="200" Default ="108" Name="Минимальная длина"/>
 	<MU_Len_Max Min="1" Max="200" Default ="122.5" Name="Максимальная длина"/>
 	
-	<MU_Jval_Speed_1 Min="1" Max="200" Default ="100" Name="Уменьшение скорости 1 при J"/>
-	<MU_Jval_Speed_2 Min="1" Max="200" Default ="100" Name="Уменьшение скорости 2 при J"/>
-	<MU_Jval_Dump Min="1" Max="200" Default ="100" Name="Значение J сброса"/>
-	<MU_Jval_Min Min="1" Max="200" Default ="100" Name="Минимальное значение J"/>
-	<MU_Jval_Max Min="1" Max="200" Default ="100" Name="Максимально значение J"/>
+	<MU_JVal_Speed_1 Min="1" Max="200" Default ="100" Name="Уменьшение скорости 1 при J"/>
+	<MU_JVal_Speed_2 Min="1" Max="200" Default ="100" Name="Уменьшение скорости 2 при J"/>
+	<MU_JVal_Dump Min="1" Max="200" Default ="100" Name="Значение J сброса"/>
+	<MU_JVal_Min Min="1" Max="200" Default ="100" Name="Минимальное значение J"/>
+	<MU_JVal_Max Min="1" Max="200" Default ="100" Name="Максимально значение J"/>
 
 </JointRecipeConfig>

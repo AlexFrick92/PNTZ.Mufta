@@ -49,11 +49,11 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
             rez.MU_Tq_Ref = recipe.MU_Tq_Ref;
             rez.MU_Tq_Save = recipe.MU_Tq_Save;
 
-            rez.MU_JVal_Max = recipe.MU_Jval_Max;
-            rez.MU_JVal_Min = recipe.MU_Jval_Min;
-            rez.MU_JVAL_Dump = recipe.MU_Jval_Dump;
-            rez.MU_JVal_Speed_1 = recipe.MU_Jval_Speed_1;
-            rez.MU_JVAL_Speed_2 = recipe.MU_Jval_Speed_2;
+            rez.MU_JVal_Max = recipe.MU_JVal_Max;
+            rez.MU_JVal_Min = recipe.MU_JVal_Min;
+            rez.MU_JVAL_Dump = recipe.MU_JVal_Dump;
+            rez.MU_JVal_Speed_1 = recipe.MU_JVal_Speed_1;
+            rez.MU_JVAL_Speed_2 = recipe.MU_JVal_Speed_2;
 
             rez.Mu_Len_Max = recipe.MU_Len_Max;
             rez.Mu_Len_Min = recipe.MU_Len_Min;

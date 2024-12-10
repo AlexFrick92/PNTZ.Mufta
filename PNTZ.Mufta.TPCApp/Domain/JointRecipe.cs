@@ -148,16 +148,16 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
 
         //Параметры силового свинчивания по J
-        [ComparableValidationProperty("MU_Jval_Speed_1")]
-        public float MU_Jval_Speed_1 { get => Configurator.GetFloatValue<float>(nameof(MU_Jval_Speed_1)); set => Configurator.SetFloatValue(nameof(MU_Jval_Speed_1), value); }
-        [ComparableValidationProperty("MU_Jval_Speed_2")]
-        public float MU_Jval_Speed_2 { get => Configurator.GetFloatValue<float>(nameof(MU_Jval_Speed_2)); set => Configurator.SetFloatValue(nameof(MU_Jval_Speed_2), value); }
-        [ComparableValidationProperty("MU_Jval_Dump")]
-        public float MU_Jval_Dump { get => Configurator.GetFloatValue<float>(nameof(MU_Jval_Dump)); set => Configurator.SetFloatValue(nameof(MU_Jval_Dump), value); }
-        [ComparableValidationProperty("MU_Jval_Min")]
-        public float MU_Jval_Min { get => Configurator.GetFloatValue<float>(nameof(MU_Jval_Min)); set => Configurator.SetFloatValue(nameof(MU_Jval_Min), value); }
-        [ComparableValidationProperty("MU_Jval_Max")]
-        public float MU_Jval_Max { get => Configurator.GetFloatValue<float>(nameof(MU_Jval_Max)); set => Configurator.SetFloatValue(nameof(MU_Jval_Max), value); }
+        [ComparableValidationProperty("MU_JVal_Speed_1")]
+        public float MU_JVal_Speed_1 { get => Configurator.GetFloatValue<float>(nameof(MU_JVal_Speed_1)); set => Configurator.SetFloatValue(nameof(MU_JVal_Speed_1), value); }
+        [ComparableValidationProperty("MU_JVal_Speed_2")]
+        public float MU_JVal_Speed_2 { get => Configurator.GetFloatValue<float>(nameof(MU_JVal_Speed_2)); set => Configurator.SetFloatValue(nameof(MU_JVal_Speed_2), value); }
+        [ComparableValidationProperty("MU_JVal_Dump")]
+        public float MU_JVal_Dump { get => Configurator.GetFloatValue<float>(nameof(MU_JVal_Dump)); set => Configurator.SetFloatValue(nameof(MU_JVal_Dump), value); }
+        [ComparableValidationProperty("MU_JVal_Min")]
+        public float MU_JVal_Min { get => Configurator.GetFloatValue<float>(nameof(MU_JVal_Min)); set => Configurator.SetFloatValue(nameof(MU_JVal_Min), value); }
+        [ComparableValidationProperty("MU_JVal_Max")]
+        public float MU_JVal_Max { get => Configurator.GetFloatValue<float>(nameof(MU_JVal_Max)); set => Configurator.SetFloatValue(nameof(MU_JVal_Max), value); }
         
 
         public DateTime TimeStamp { get; set; }

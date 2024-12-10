@@ -11,6 +11,8 @@ using Promatis.Core.Logging;
 
 using Microsoft.Data.Sqlite;
 
+using System.Linq;
+
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
@@ -21,6 +23,8 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
         string recipesConnectionString;
+
+        List<JointRecipe> loadedRecipes = new List<JointRecipe> ();
 
         public RepositoryContext()
         {
@@ -250,11 +254,11 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     MU_Len_Min = rec.MU_Len_Min,
                     MU_Len_Max = rec.MU_Len_Max,
 
-                    MU_JVal_Speed_1 = rec.MU_Jval_Speed_1,
-                    MU_JVal_Speed_2 = rec.MU_Jval_Speed_2,
-                    MU_JVal_Dump = rec.MU_Jval_Dump,
-                    MU_JVal_Min = rec.MU_Jval_Min,
-                    MU_JVal_Max = rec.MU_Jval_Max,
+                    MU_JVal_Speed_1 = rec.MU_JVal_Speed_1,
+                    MU_JVal_Speed_2 = rec.MU_JVal_Speed_2,
+                    MU_JVal_Dump = rec.MU_JVal_Dump,
+                    MU_JVal_Min = rec.MU_JVal_Min,
+                    MU_JVal_Max = rec.MU_JVal_Max,
 
                     TimeStamp = rec.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss"),
 
@@ -273,11 +277,74 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         }
 
-
-
         public IEnumerable<JointRecipe> LoadRecipes()
         {
-            return new List<JointRecipe>();
+            
+            using (var connection = new SqliteConnection(recipesConnectionString))
+            {
+                connection.Open();
+                var selectQuery = "SELECT * FROM Recipes";
+                var recipesFromDb = connection.Query(selectQuery).ToList();
+
+                loadedRecipes.Clear();
+
+                foreach (var rec in recipesFromDb)
+                {
+                    loadedRecipes.Add(
+                        new JointRecipe()
+                        {
+                            Name = rec.Name,
+                            HEAD_OPEN_PULSES = (float)rec.HEAD_OPEN_PULSES,
+                            TURNS_BREAK = (float)rec.TURNS_BREAK,
+                            PLC_PROG_NR = (ushort)rec.PLC_PROG_NR,
+                            LOG_NO = (ushort)rec.LOG_NO,
+                            Tq_UNIT = (ushort)rec.Tq_UNIT,
+                            SelectedThreadType = (ThreadType)rec.SelectedThreadType,
+                            Thread_step = (float)rec.Thread_step,
+                            PIPE_TYPE = rec.PIPE_TYPE,
+
+                            Box_Moni_Time = (int)rec.Box_Moni_Time,
+                            Box_Len_Min = (float)rec.Box_Len_Min,
+                            Box_Len_Max = (float)rec.Box_Len_Max,
+
+                            Pre_Moni_Time = (int)rec.Pre_Moni_Time,
+                            Pre_Len_Max = (float)rec.Pre_Len_Max,
+                            Pre_Len_Min = (float)rec.Pre_Len_Min,
+
+                            MU_Moni_Time = (int)rec.MU_Moni_Time,
+                            MU_Tq_Ref = (float)rec.MU_Tq_Ref,
+                            MU_Tq_Save = (float)rec.MU_Tq_Save,
+
+                            JointMode = (JointMode)rec.SelectedMode,
+
+                            MU_TqSpeedRed_1 = (float)rec.MU_TqSpeedRed_1,
+                            MU_TqSpeedRed_2 = (float)rec.MU_TqSpeedRed_2,
+                            MU_Tq_Dump = (float)rec.MU_Tq_Dump,
+                            MU_Tq_Max = (float)rec.MU_Tq_Max,
+                            MU_Tq_Min = (float)rec.MU_Tq_Min,
+                            MU_Tq_Opt = (float)rec.MU_Tq_Opt,
+
+                            MU_TqShoulder_Min = (float)rec.MU_TqShoulder_Min,
+                            MU_TqShoulder_Max = (float)rec.MU_TqShoulder_Max,
+
+                            MU_Len_Speed_1 = (float)rec.MU_Len_Speed_1,
+                            MU_Len_Speed_2 = (float)rec.MU_Len_Speed_2,
+                            MU_Len_Dump = (float)rec.MU_Len_Dump,
+                            MU_Len_Min = (float)rec.MU_Len_Min,
+                            MU_Len_Max = (float)rec.MU_Len_Max,
+
+                            MU_JVal_Speed_1 = (float)rec.MU_JVal_Speed_1,
+                            MU_JVal_Speed_2 = (float)rec.MU_JVal_Speed_2,
+                            MU_JVal_Dump = (float)rec.MU_JVal_Dump,
+                            MU_JVal_Min = (float)rec.MU_JVal_Min,
+                            MU_JVal_Max = (float)rec.MU_JVal_Max,
+
+                            TimeStamp = DateTime.Parse(rec.TimeStamp())
+                        });                    
+                }
+            }
+
+            return loadedRecipes;
         }
 
         public void SaveResult(JointResult result)
