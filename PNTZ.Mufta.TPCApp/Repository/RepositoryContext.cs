@@ -1,121 +1,78 @@
-﻿using PNTZ.Mufta.TPCApp.Domain;
-
-using Dapper;
-
+﻿
+using PNTZ.Mufta.TPCApp.Domain;
+using Promatis.Core.Logging;
 using System;
 using System.Collections.Generic;
-
-using static PNTZ.Mufta.TPCApp.App;
-
-using Promatis.Core.Logging;
-
-using Microsoft.Data.Sqlite;
-
 using System.Linq;
-using System.CodeDom;
+using System.Text;
+using System.Threading.Tasks;
 
+using LinqToDB;
+using LinqToDB.Data;
+using LinqToDB.Mapping;
+using System.Data.SQLite;
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
     public class RepositoryContext
     {
-
         ILogger logger;
-
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
-        readonly string recipeTableName = "Recipes";
         string recipesConnectionString;
 
         List<JointRecipe> loadedRecipes = new List<JointRecipe> ();
-
         public RepositoryContext(ILogger logger)
         {
             this.logger = logger;
             recipesConnectionString = $"Data Source={StoragePath}/RecipesData.db;Mode=ReadWriteCreate";
 
-            CreateTable(recipeTableName, recipesConnectionString);
-
-            LoadRecipes();
-
-        }
-        private void CreateTable(string tableName, string connectionString)
-        {
-            using (var connection = new SqliteConnection(connectionString))
+            using (var db = new JointRecipeContext(recipesConnectionString))
             {
-                connection.Open();
-                var createTableQuery = SqlQueriesGenerator.CreateTable<JointRecipeMapper>(tableName);
-                connection.Execute(createTableQuery);
-            }
-        }       
-
-
-        //Операции над рецептами
-
-        public void SaveRecipe(JointRecipe rec)
-        {
-
-            if (loadedRecipes.FirstOrDefault(r => r.Name == rec.Name) != null)
-                UpdateRecipe(rec);
-            else
-                InsertRecipe(rec);            
-        }
-        private void InsertRecipe(JointRecipe recipe)
-        {
-            using (var connection = new SqliteConnection(recipesConnectionString))
-            {
-                connection.Open();
-                var insertQuery = SqlQueriesGenerator.Insert<JointRecipeMapper>(recipeTableName);                  
-
- 
-                var mapper = new JointRecipeMapper().FromJointRecipe(recipe);
-                connection.Execute(insertQuery,  mapper);
-                logger.Info($"Рецепт {recipe.Name} создан.");
-            };
-        }        
-        private void UpdateRecipe(JointRecipe recipe)
-        {
-            using (var connection = new SqliteConnection(recipesConnectionString))
-            {
-                connection.Open();
-                var updateQuery = SqlQueriesGenerator.Update<JointRecipeMapper>(recipeTableName, "WHERE Name = @Name");                
-                var mapper = new JointRecipeMapper().FromJointRecipe(recipe);
-
-                connection.Execute(updateQuery, mapper);
-                logger.Info($"Рецепт {recipe.Name} обновлён.");
-            };
-        }        
-        public void RemoveRecipe(JointRecipe recipe)
-        {
-            using (var connection = new SqliteConnection(recipesConnectionString))
-            {
-                connection.Open();
-                var deleteQuery = $"DELETE FROM {recipeTableName} WHERE Name = @Name;";
-                var param = new {Name =  recipe.Name};
-                connection.Execute(deleteQuery, param);
-                logger.Info($"Рецепт {recipe.Name} удалён.");
-            }
-        }
-        public IEnumerable<JointRecipe> LoadRecipes()
-        {            
-            using (var connection = new SqliteConnection(recipesConnectionString))
-            {
-                connection.Open();
-                var selectQuery = SqlQueriesGenerator.SelectFrom<JointRecipeMapper>(recipeTableName);
-                var recipesFromDb = connection.Query<JointRecipeMapper>(selectQuery).ToList();
-
-                loadedRecipes.Clear();
-
-                foreach (JointRecipeMapper rec in recipesFromDb)
+                try
                 {
-                    loadedRecipes.Add(
-                        rec.ToJointRecipe()
-                       );
+                    db.CreateTable<JointRecipeTable>();
+                    logger.Info("Создана таблица с рецептами.");
+                }
+                catch (SQLiteException ex)
+                {
+                    logger.Info("Таблица с рецептами уже создана");
                 }
             }
 
+
+        }
+        public void SaveRecipe(JointRecipe rec)
+        {
+
+            InsertRecipe(rec);
+        }
+
+        private void InsertRecipe(JointRecipe recipe)
+        {
+            using (var db = new JointRecipeContext(recipesConnectionString))
+            {
+                db.Insert(new JointRecipeTable().FromJointRecipe(recipe));
+            }
+        }
+
+
+        public IEnumerable<JointRecipe> LoadRecipes()
+        {
+            loadedRecipes.Clear();
+            using (var db = new JointRecipeContext(recipesConnectionString))
+            {
+                foreach (var rec in db.Recipes.ToList())
+                {
+                    loadedRecipes.Add(rec.ToJointRecipe());
+                }
+            }
             return loadedRecipes;
         }
 
+        public void RemoveRecipe(JointRecipe recipe)
+        {
+
+        }
         //Операции над результатами
 
         public void SaveResult(JointResult result)
