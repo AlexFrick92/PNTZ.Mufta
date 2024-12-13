@@ -268,6 +268,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         void SetResult(JointResult result)
         {
+            ShowResultButtons = false;
+            OnPropertyChanged(nameof(ShowResultButtons));
+
             result.Recipe = LoadedRecipe;
 
             try

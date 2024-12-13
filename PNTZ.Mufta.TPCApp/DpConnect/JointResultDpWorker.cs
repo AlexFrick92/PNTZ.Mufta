@@ -364,11 +364,16 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
             AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
 
-            await awaitEvaluation.Task;
+            timeout = Task.Delay(TimeSpan.FromSeconds(3));
+            first = await Task.WhenAny(awaitEvaluation.Task, timeout, tcs.Task);
+            if (first == timeout)
+                logger.Info("Автооценка");
+            else
+            {
+                logger.Info("Оценка установлена: " + awaitEvaluation.Task.Result);
+                var Value = awaitEvaluation.Task.Result;
+            }
 
-            logger.Info("Оценка установлена: " + awaitEvaluation.Task.Result);
-
-            var Value = awaitEvaluation.Task.Result;
 
             //jointResult.ResultTotal = awaitEvaluation.Task.Result;
 
