@@ -201,13 +201,13 @@
 
 
                                             <dxc:AxisX2D.ConstantLinesInFront>
-                                                <dxc:ConstantLine Value="{Binding LastTimeStamp}" 
-                                                                        Brush="Gray">
+                                                <dxc:ConstantLine Value="{Binding LastPoint.TimeStamp}" 
+                                                                        Brush="LightGray">
                                                     <dxc:ConstantLine.Title>
                                                         <dxc:ConstantLineTitle>
-                                                            <Label Foreground="Gray"
+                                                            <Label Foreground="Gray"                                                                   
                                                                 FontSize="8"   
-                                                                   Content="{Binding LastTimeStamp}"
+                                                                   Content="{Binding LastPoint.TimeStamp}"
                                                                    />
                                                         </dxc:ConstantLineTitle>
                                                     </dxc:ConstantLine.Title>
@@ -242,8 +242,8 @@
                                                     </dxc:ConstantLine.Title>
                                                 </dxc:ConstantLine>
 
-                                                <dxc:ConstantLine Value="{Binding ActualTorque}" 
-                                                                  Brush="Gray"                                                                  
+                                                <dxc:ConstantLine Value="{Binding LastPoint.Torque}" 
+                                                                  Brush="LightGray"                                                                  
                                                                   >
                                                     <dxc:ConstantLine.Title>
                                                         <dxc:ConstantLineTitle>

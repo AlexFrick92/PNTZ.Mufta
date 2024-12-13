@@ -110,7 +110,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float ActualTorque { get; set; } = 0;
         public float ActualLength { get; set; } = 0;
         public float ActualTurns { get; set; } = 0;
-        public int LastTimeStamp { get; set; } = 0;
 
 
 
@@ -174,6 +173,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ObservableCollection<TqTnLenPoint> ChartSeries { get; set; }
         CancellationTokenSource RecordingCts;
         bool RecordingProcedureStarted = false;
+
+        public TqTnLenPoint LastPoint { get; set; }
         //Вход в цикл записи графиков
         private async void StartChartRecording(object sender, EventArgs e)
         {
@@ -227,21 +228,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        LastTimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds);
-                        OnPropertyChanged(nameof(LastTimeStamp));
-                        ChartSeries.Add(new TqTnLenPoint()
+                        LastPoint = new TqTnLenPoint()
                         {
                             Torque = ActualTorque,
                             Turns = ActualTurns,
                             Length = ActualLength,
-                            TimeStamp = LastTimeStamp
-                        });
+                            TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds)
+                        };
+                        OnPropertyChanged(nameof(LastPoint));
+                        ChartSeries.Add(LastPoint);
                         
                     });
                 }
                 await Task.Delay(RecordingInterval);
             }        
-        }        
+        }       
+        
+
         private void StopChartRecording(object sender, EventArgs e)
         {
             if (RecordingCts != null)
