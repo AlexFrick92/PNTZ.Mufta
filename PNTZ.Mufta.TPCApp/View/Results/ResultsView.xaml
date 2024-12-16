@@ -55,6 +55,7 @@
             <ListBox Grid.Row="0" ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedResult}"
                   BorderThickness="0"
                   HorizontalContentAlignment="Stretch"
+                     SelectionMode="Extended"
                   >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
