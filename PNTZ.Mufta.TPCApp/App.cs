@@ -2,6 +2,7 @@
 
 
 using DpConnect;
+using DpConnect.Building;
 using DpConnect.Configuration.Xml;
 using DpConnect.Connection;
 using DpConnect.OpcUa;
@@ -74,6 +75,7 @@ namespace PNTZ.Mufta.TPCApp
 
             container.RegisterSingleton(typeof(IDpConnectionManager), typeof(ContainerizedConnectionManager));
             container.RegisterSingleton(typeof(IDpWorkerManager), typeof(ContainerizedWorkerManager));
+            container.RegisterSingleton<IDpBinder, DpBinder>();
             container.Register<IDpBuilder, DpXmlBuilder>();
 
             container.Register<MainViewModel, MainViewModel>();
