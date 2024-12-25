@@ -3,11 +3,8 @@
 <DpConfiguration>
 
 	<Connections>
-		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa" ConnectionId ="Stend PNTZ">
-			<Endpoint>opc.tcp://10.10.10.95:4840</Endpoint>
-		</Connection>
-
-		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa" ConnectionId ="Stend AKF" Active="False">			
+		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa">
+			<ConnectionId>Stend PNTZ</ConnectionId>
 			<Endpoint>opc.tcp://10.10.10.95:4840</Endpoint>
 		</Connection>
 	</Connections>
@@ -17,8 +14,10 @@
 		<!--ХАРТ БИТЫ-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.MakeHeartBeat, PNTZ.Mufta.TPCApp">
 
+			<ConnectionId>Stend PNTZ</ConnectionId>
+			
 			<DpValue PropertyName="DpHeartbeat">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="CommCheck"."TPC_Heartbeat"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
@@ -26,9 +25,9 @@
 		</Worker>
 		
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.HeartbeatCheck, PNTZ.Mufta.TPCApp">
-
+			<ConnectionId>Stend PNTZ</ConnectionId>
 			<DpValue PropertyName="DpPlcHeartbeat">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="CommCheck"."PLC_Heartbeat"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
@@ -37,39 +36,39 @@
 
 		<!--Загрузка рецепта-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.RecipeToPlc, PNTZ.Mufta.TPCApp">
-
+			<ConnectionId>Stend PNTZ</ConnectionId>
 			<DpValue PropertyName="DpTpcCommand">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_REZ"."CMD_TPC"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="DpPlcCommand">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_REZ"."CMD_PLC"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="Dp_REZ_ALLG">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_ALLG"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="Dp_REZ_Muffe">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_Muffe"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="Dp_REZ_MVS">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_MVS"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="Dp_REZ_CAM">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="REZ_TPC_DOWN"."REZ_CAM"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
@@ -78,105 +77,105 @@
 		
 		<!--Параметры машин-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.MachineParamFromPlc, PNTZ.Mufta.TPCApp">
-			
+			<ConnectionId>Stend PNTZ</ConnectionId>
 			<DpValue PropertyName="DpTpcCommand">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_MDAT"."CMD_TPC"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="DpPlcCommand">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="Kom_REG"."SPS_TPC_MDAT"."CMD_PLC"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Load_Cell_Span">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Load_Cell_Span"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Load_Span_Digits">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Load_Span_Digits"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Handle_Length">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Handle_Length"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Handle_Length_Digits">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Handle_Length_Digits"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_TC_PPR">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_TC_PPR"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Box_Length">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Box_Length"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Box_Length_Digit">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Box_Length_Digit"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Makeup_Length">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Makeup_Length"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Makeup_Length_Digits">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Makeup_Length_Digits"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Tq_Max">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Tq_Max"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Cal_Factor">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Cal_Factor"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Cal_Timestamp">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Cal_Timestamp"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Makeup_Length_Offset">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Makeup_Length_Offset"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Machine_No">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Machine_No"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="MP_Cal_User">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="MP_OP_SPS"."MP_Cal_User"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
@@ -185,39 +184,39 @@
 		
 		<!--Результат свинчивания и АКТУАЛЬНЫЕ ПАРАМЕТРЫ-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointResultDpWorker, PNTZ.Mufta.TPCApp">
-
+			<ConnectionId>Stend PNTZ</ConnectionId>
 			<DpValue PropertyName="DpTpcCommand">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="Kom_REG"."CAM_CMD_TPC"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="DpPlcCommand">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="Kom_REG"."CAM_CMD_PLC"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 			
 			<DpValue PropertyName="DpParam">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="JointOperationalParam"."TqTnLen"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 			
 			<DpValue PropertyName="Dp_ERG_CAM">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="Dp_ERG_Muffe">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_Muffe"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
 			<DpValue PropertyName="Dp_ERG_MVS">
-				<SourceConfiguration ConnectionId ="Stend PNTZ">
+				<SourceConfiguration>
 					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_MVS"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
