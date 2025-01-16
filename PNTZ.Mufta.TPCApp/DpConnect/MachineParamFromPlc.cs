@@ -209,24 +209,26 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw new InvalidOperationException("Перед началом операции команда ПЛК должна быть 0. Сейчас - " + DpPlcCommand.Value);
             }
 
-            //Ожидаем 5. 5 - новые параметры
-            TaskCompletionSource<uint> awaitCommandFeedback = new TaskCompletionSource<uint>();
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();            
-            
-            token.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
-            
-            DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+            TaskCompletionSource<uint> awaitFor5 = new TaskCompletionSource<uint>();
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 
-            var first = await Task.WhenAny(awaitCommandFeedback.Task, tcs.Task);
+            Task first;
+            
+            //Ожидаем 5. 5 - новые параметры
+            token.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
+
+            DpPlcCommand.ValueUpdated += (s, v) => awaitFor5.TrySetResult(v);
+
+            first = await Task.WhenAny(awaitFor5.Task, tcs.Task);
 
             if (first == tcs.Task)
             {
                 throw new OperationCanceledException();
             }
 
-            logger.Info("МП. команда ПЛК:" + awaitCommandFeedback.Task.Result);
+            logger.Info("МП. команда ПЛК:" + awaitFor5.Task.Result);
 
-            if (awaitCommandFeedback.Task.Result != 5)
+            if (awaitFor5.Task.Result != 5)
             {
                 throw new InvalidOperationException("Неверный ответ ПЛК. Ожидаем 5");
             }
@@ -241,18 +243,18 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             DpTpcCommand.Value = 10;
 
             var timeout = Task.Delay(TimeSpan.FromSeconds(10));
-            awaitCommandFeedback = new TaskCompletionSource<uint>();
+            var awaitFor20 = new TaskCompletionSource<uint>();
 
-            DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+            DpPlcCommand.ValueUpdated += (s, v) => awaitFor20.TrySetResult(v);
 
-            first =  await Task.WhenAny(awaitCommandFeedback.Task, timeout);
+            first =  await Task.WhenAny(awaitFor20.Task, timeout);
 
             if (first == timeout)           
                 throw new TimeoutException("Время ожидания команды истекло");            
 
-            logger.Info("МП. команда ПЛК:" + awaitCommandFeedback.Task.Result);
+            logger.Info("МП. команда ПЛК:" + awaitFor20.Task.Result);
 
-            if (awaitCommandFeedback.Task.Result != 20)
+            if (awaitFor20.Task.Result != 20)
             {
                 throw new InvalidOperationException("Неверная команда ПЛК. Ожидаем 20");
             }
@@ -263,17 +265,17 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             DpTpcCommand.Value = 40;
 
             timeout = Task.Delay(TimeSpan.FromSeconds(10));
-            awaitCommandFeedback = new TaskCompletionSource<uint>();
+            var awaitFor50 = new TaskCompletionSource<uint>();
 
-            DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+            DpPlcCommand.ValueUpdated += (s, v) => awaitFor50.TrySetResult(v);
 
-            first = await Task.WhenAny(awaitCommandFeedback.Task, timeout);
+            first = await Task.WhenAny(awaitFor50.Task, timeout);
             if (first == timeout)
                 throw new TimeoutException("Время ожидания команды истекло");
 
-            logger.Info("МП. команда ПЛК:" + awaitCommandFeedback.Task.Result);
+            logger.Info("МП. команда ПЛК:" + awaitFor50.Task.Result);
 
-            if (awaitCommandFeedback.Task.Result != 50)
+            if (awaitFor50.Task.Result != 50)
             {
                 throw new InvalidOperationException("Неверная комана ПЛК. Ожидаем 50");
             }
@@ -281,6 +283,23 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             //Отправляем 0
             DpTpcCommand.Value = 0;
+
+            timeout = Task.Delay(TimeSpan.FromSeconds(10));
+            var awaitFor0 = new TaskCompletionSource<uint>();
+
+            DpPlcCommand.ValueUpdated += (s, v) => awaitFor0.TrySetResult(v);
+
+            first = await Task.WhenAny(awaitFor0.Task, timeout);
+            if (first == timeout)
+                throw new TimeoutException("Время ожидания команды истекло");
+
+            logger.Info("МП. команда ПЛК:" + awaitFor0.Task.Result);
+
+            if (awaitFor0.Task.Result != 0)
+            {
+                throw new InvalidOperationException("Неверная комана ПЛК. Ожидаем 0");
+            }
+
         }
     }
 }

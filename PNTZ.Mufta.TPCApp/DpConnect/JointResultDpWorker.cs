@@ -132,7 +132,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
             cyclicallyListen = true;
             DpPlcCommand.StatusChanged -= StartOnConnect;
-            DpPlcCommand.ValueUpdated -= StartOnCommandUpdate;
+            DpPlcCommand.ValueUpdated -= StartOnCommandUpdate;                        
             DpPlcCommand.StatusChanged += StopOnDisconnect;
 
             logger.Info("Активировано Прослушивание операции соединения. Ожидаем ПЛК!");
@@ -486,7 +486,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //РЕЗУЛЬТАТ
 
         JointResult GetResult()
-        {
+        {            
             JointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
             JointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
             JointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
