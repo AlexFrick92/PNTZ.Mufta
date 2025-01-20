@@ -204,45 +204,51 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         
         async Task MachineParamListen(CancellationToken token)
         {
-            if (DpPlcCommand.Value != 0)
-            {
-                throw new InvalidOperationException("Перед началом операции команда ПЛК должна быть 0. Сейчас - " + DpPlcCommand.Value);
-            }
+            TaskCompletionSource<uint> awaitFor5 = null;
+            Task timeout = null;
+            Task first = null;
 
-            TaskCompletionSource<uint> awaitFor5 = new TaskCompletionSource<uint>();
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-
-            Task first;
+            token.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
             
             //Ожидаем 5. 5 - новые параметры
-            token.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
 
-            DpPlcCommand.ValueUpdated += (s, v) => awaitFor5.TrySetResult(v);
-
-            first = await Task.WhenAny(awaitFor5.Task, tcs.Task);
-
-            if (first == tcs.Task)
+            while(true)
             {
-                throw new OperationCanceledException();
+                awaitFor5 = new TaskCompletionSource<uint>();
+                DpPlcCommand.ValueUpdated += (s, v) => awaitFor5.TrySetResult(v);
+
+                first = await Task.WhenAny(awaitFor5.Task, tcs.Task);
+
+                if (first == tcs.Task)
+                {
+                    throw new OperationCanceledException();
+                }
+
+                logger.Info("МП. команда ПЛК:" + awaitFor5.Task.Result);
+
+
+                if (awaitFor5.Task.Result == 5)
+                {
+                    logger.Info("Новые параметры машин...");
+
+                    ActualMachineParam = MakeMachineParam();
+
+                    logger.Info(ActualMachineParam.ToString());
+                    break;
+                }
+                else if (awaitFor5.Task.Result == 0)
+                {
+                    continue;
+                }
+                else
+                    throw new InvalidOperationException("Неверный ответ ПЛК. Ожидаем 5");
             }
-
-            logger.Info("МП. команда ПЛК:" + awaitFor5.Task.Result);
-
-            if (awaitFor5.Task.Result != 5)
-            {
-                throw new InvalidOperationException("Неверный ответ ПЛК. Ожидаем 5");
-            }
-
-            ActualMachineParam = MakeMachineParam();
-
-            logger.Info(ActualMachineParam.ToString());
-
-
 
             //Отправляем 10 и ждем 20
             DpTpcCommand.Value = 10;
 
-            var timeout = Task.Delay(TimeSpan.FromSeconds(10));
+            timeout = Task.Delay(TimeSpan.FromSeconds(10));
             var awaitFor20 = new TaskCompletionSource<uint>();
 
             DpPlcCommand.ValueUpdated += (s, v) => awaitFor20.TrySetResult(v);
@@ -258,7 +264,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             {
                 throw new InvalidOperationException("Неверная команда ПЛК. Ожидаем 20");
             }
-
 
 
             //Отправляем 40 и ждем 50.
