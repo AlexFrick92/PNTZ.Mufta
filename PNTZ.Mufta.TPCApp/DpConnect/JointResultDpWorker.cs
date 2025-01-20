@@ -180,7 +180,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         DpTpcCommand.Value = 0;
                     try
                     {
-                        JointFinished?.Invoke(this, GetResult());
+                        if (JointResult != null)
+                        {
+                            JointFinished?.Invoke(this, GetResult(JointResult));
+                        }
+                        else
+                            JointFinished?.Invoke(this, GetResult(new JointResult()));
                     }
                     catch (Exception ex)
                     {
@@ -485,14 +490,14 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         //РЕЗУЛЬТАТ
 
-        JointResult GetResult()
-        {            
-            JointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
-            JointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
-            JointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
-            JointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
+        JointResult GetResult(JointResult jointResult)
+        {
+            jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
+            jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
+            jointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
+            jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
 
-            return JointResult;           
+            return jointResult;           
         }
     }
     
