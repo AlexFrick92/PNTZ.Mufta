@@ -301,6 +301,12 @@
                             x:Name="Input_Thread_step" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Thread_step, ValidatesOnExceptions=True}"/>
 
 
+                <Label Grid.Row="6" Grid.Column="0" 
+                            Style="{StaticResource InputFieldLabel}" Content="Программа SPS"/>
+
+                <TextBox Grid.Row="6" Grid.Column="1"
+                            x:Name="Input_SpsNum" PreviewTextInput="IntInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.PLC_PROGR_NUM, ValidatesOnExceptions=True}"/>
+
                 <!--********************* ДАННЫЕ МУФТЫ ***************************-->
 
 
