@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.App", "PNTZ.Mufta.App\PNTZ.Mufta.App.csproj", "{9676DDB8-C0C6-4229-821B-4990A32534A9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toolbox", "Toolbox", "{63F40D3A-25E0-44F0-91A5-CCDC53042ECA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "..\Toolbox\Toolkit\Toolkit.csproj", "{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}"
@@ -41,10 +39,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9676DDB8-C0C6-4229-821B-4990A32534A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAA5D1E1-AD76-4F44-BB42-6DAC7CC91207}.Release|Any CPU.ActiveCfg = Release|Any CPU
