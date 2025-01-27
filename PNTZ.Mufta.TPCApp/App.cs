@@ -7,8 +7,8 @@ using DpConnect.Configuration.Xml;
 using DpConnect.Connection;
 using DpConnect.OpcUa;
 
-
 using PNTZ.Mufta.TPCApp.DpConnect;
+using PNTZ.Mufta.TPCApp.Logging;
 using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View;
 using PNTZ.Mufta.TPCApp.ViewModel;
@@ -17,13 +17,16 @@ using Promatis.Core;
 using Promatis.Core.Logging;
 using Promatis.Core.Results;
 using Promatis.IoC.DryIoc;
+using Promatis.Logging.NLog;
 
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Toolkit.IO;
 using Toolkit.Logging;
+
 
 
 namespace PNTZ.Mufta.TPCApp
@@ -49,6 +52,8 @@ namespace PNTZ.Mufta.TPCApp
 
         public IIoCContainer container { get; private set; }
 
+        const string appSettingsKey_cliLogLayout = "cliLogLayout";
+
         protected override void BeforeInit()
         {
             AppInstance = this;
@@ -62,11 +67,27 @@ namespace PNTZ.Mufta.TPCApp
 
             container.RegisterInstance<ICliProgram>(cli);
             container.RegisterInstance<ICliUser>(cli);
+            
+            Logger = NLogManager.GetLogger("logger");
 
-            container.RegisterSingleton(typeof(ILogger), typeof(CliLogger)); ;
+
+            CliTarget cliTarget = new CliTarget("cli", cli)
+            {
+                Layout = ConfigurationManager.AppSettings[appSettingsKey_cliLogLayout]
+            };            
+            NLog.LogManager.Configuration.AddTarget(cliTarget);
+            NLog.LogManager.Configuration.AddRule(NLog.LogLevel.Debug, NLog.LogLevel.Fatal, cliTarget);
+            NLog.LogManager.ReconfigExistingLoggers();
+
+            //container.RegisterInstance<ICliUser>(cliTarget);
+
+            Logger.Info("********** ЗАПУСК *************");
+
+
+            container.RegisterInstance<ILogger>(Logger);
+            
             container.RegisterSingleton(typeof(RepositoryContext), typeof(RepositoryContext));
-
-            //container.Register<IOpcUaConnection, OpcUaConnection>();
+            
             container.Register<IDpConfigurableConnection<OpcUaConnectionConfiguration>, OpcUaConnection>();
             container.Register<MakeHeartBeat, MakeHeartBeat>();
             container.Register<RecipeToPlc, RecipeToPlc>();
@@ -81,9 +102,10 @@ namespace PNTZ.Mufta.TPCApp
 
             container.Register<MainViewModel, MainViewModel>();
 
-            DpBuilder = container.Resolve<IDpBuilder>();            
 
-            Logger = container.Resolve<ILogger>();            
+            Logger = container.Resolve<ILogger>();
+                        
+            DpBuilder = container.Resolve<IDpBuilder>();            
         }
 
         protected override void Init()
