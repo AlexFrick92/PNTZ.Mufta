@@ -52,13 +52,13 @@ namespace PNTZ.Mufta.TPCApp
 
         public IIoCContainer container { get; private set; }
 
-        const string appSettingsKey_cliLogLayout = "cliLogLayout";
-
         protected override void BeforeInit()
         {
             AppInstance = this;
             CurrentDirectory = currentDirectory;
-
+            
+            Logger = NLogManager.GetLogger("logger");
+            CliLogger cliLogger = new CliLogger(cli, Logger);
 
             //В контейнере регистрируем все необходимые классы для работы с ПЛК
             container = new DryIocContainer();
@@ -68,23 +68,9 @@ namespace PNTZ.Mufta.TPCApp
             container.RegisterInstance<ICliProgram>(cli);
             container.RegisterInstance<ICliUser>(cli);
             
-            Logger = NLogManager.GetLogger("logger");
+            container.RegisterInstance<ILogger>(cliLogger);           
 
-
-            CliTarget cliTarget = new CliTarget("cli", cli)
-            {
-                Layout = ConfigurationManager.AppSettings[appSettingsKey_cliLogLayout]
-            };            
-            NLog.LogManager.Configuration.AddTarget(cliTarget);
-            NLog.LogManager.Configuration.AddRule(NLog.LogLevel.Debug, NLog.LogLevel.Fatal, cliTarget);
-            NLog.LogManager.ReconfigExistingLoggers();
-
-            //container.RegisterInstance<ICliUser>(cliTarget);
-
-            Logger.Info("********** ЗАПУСК *************");
-
-
-            container.RegisterInstance<ILogger>(Logger);
+            Logger.Info("********** ЗАПУСК *************");            
             
             container.RegisterSingleton(typeof(RepositoryContext), typeof(RepositoryContext));
             
