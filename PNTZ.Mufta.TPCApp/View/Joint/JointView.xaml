@@ -40,8 +40,8 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
+    
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
@@ -276,6 +276,65 @@
                                          ArgumentScaleType="Numerical"
                                                      
                                      />
+
+                                </dxc:XYDiagram2D>
+                            </dxc:ChartControl.Diagram>
+                        </dxc:ChartControl>
+                    </ContentControl>
+
+                    <!--(Обороты/Мин)/время-->
+                    <ContentControl Grid.Row="1" Margin="20,0,0,0">
+                        <dxc:ChartControl Name="chartControl2" BorderThickness="0">
+                            <dxc:ChartControl.Diagram>
+                                <dxc:XYDiagram2D>
+
+                                    <dxc:XYDiagram2D.DefaultPane>
+                                        <dxc:Pane DomainBrush="Transparent"/>
+                                    </dxc:XYDiagram2D.DefaultPane>
+
+                                    <dxc:XYDiagram2D.NavigationOptions>
+                                        <dxc:NavigationOptions/>
+                                    </dxc:XYDiagram2D.NavigationOptions>
+
+                                    <dxc:XYDiagram2D.AxisX>
+                                        <dxc:AxisX2D x:Name="axisX1" GridLinesVisible="True"
+                                                GridLinesBrush="#F0F0F0">
+                                            <dxc:AxisX2D.WholeRange>
+                                                <dxc:Range 
+                                                    MinValue="0" 
+                                                    MaxValue="90000"/>
+                                            </dxc:AxisX2D.WholeRange>
+
+                                            <dxc:AxisX2D.GridSpacing>1000</dxc:AxisX2D.GridSpacing>
+
+                                            <dxc:AxisX2D.Label>
+                                                <dxc:AxisLabel Visible="False" />
+                                            </dxc:AxisX2D.Label>
+
+                                        </dxc:AxisX2D>
+
+                                    </dxc:XYDiagram2D.AxisX>
+
+                                    <dxc:XYDiagram2D.AxisY>
+                                        <dxc:AxisY2D x:Name="axisY1" Interlaced="False"
+                                            GridLinesBrush="#F0F0F0">
+
+                                            <dxc:AxisY2D.GridSpacing>5</dxc:AxisY2D.GridSpacing>
+
+                                            <dxc:AxisY2D.WholeRange>
+                                                <dxc:Range 
+                                                    MinValue="0" 
+                                                    MaxValue="70"/>
+                                            </dxc:AxisY2D.WholeRange>
+                                        </dxc:AxisY2D>
+                                    </dxc:XYDiagram2D.AxisY>
+
+                                    <dxc:LineSeries2D 
+                                        DataSource="{Binding ChartSeries}"                                          
+                                        ArgumentDataMember="TimeStamp"
+                                        ValueDataMember="TurnsPerMinute"     
+                                        ArgumentScaleType="Numerical"                                  
+                                    />
 
                                 </dxc:XYDiagram2D>
                             </dxc:ChartControl.Diagram>

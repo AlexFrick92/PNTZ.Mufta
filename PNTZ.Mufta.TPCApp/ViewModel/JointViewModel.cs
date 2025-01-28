@@ -110,10 +110,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float ActualTorque { get; set; } = 0;
         public float ActualLength { get; set; } = 0;
         public float ActualTurns { get; set; } = 0;
-
         public float ActualTurnsPerMinute { get; set; } = 0;
-
-
 
 
         //Такс циклично обновляющий показания. Показания обновляются раз в заданный интервал
@@ -145,9 +142,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
 
 
-
-
-
         //***************** ДАННЫЕ РЕЦЕПТА **********************
         RecipeToPlc recipeLoader;
         RecipeToPlc RecipeLoader
@@ -177,7 +171,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         // ************** ЗАПИСЬ ГРАФИКОВ ***********************
         TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
         TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
-        public ObservableCollection<TqTnLenPoint> ChartSeries { get; set; }
+        public ObservableCollection<TqTnLenPointViewModel> ChartSeries { get; set; }
         CancellationTokenSource RecordingCts;
         bool RecordingProcedureStarted = false;
 
@@ -218,7 +212,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         //Таск цикл записи графиков
         private async Task RecordSeriesCycle(CancellationToken token)
         {
-            ChartSeries = new ObservableCollection<TqTnLenPoint>();
+            ChartSeries = new ObservableCollection<TqTnLenPointViewModel>();
             OnPropertyChanged(nameof(ChartSeries));
 
             DateTime beginTime = DateTime.Now;
@@ -247,7 +241,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         LastPoint = newPoint;
                         OnPropertyChanged(nameof(LastPoint));
                         OnPropertyChanged(nameof(ActualTurnsPerMinute));
-                        ChartSeries.Add(LastPoint);
+
+                        var newTq = new TqTnLenPointViewModel(LastPoint)
+                        {
+                            TurnsPerMinute = ActualTurnsPerMinute
+                        };
+
+                        ChartSeries.Add(newTq);
                         
                     });
 

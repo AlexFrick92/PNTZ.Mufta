@@ -157,6 +157,7 @@
     <Compile Include="ViewModel\RecipeViewModel.cs" />
     <Compile Include="ViewModel\ResultsViewModel.cs" />
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
+    <Compile Include="ViewModel\TqTnLenPointViewModel.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
     </Compile>
