@@ -109,24 +109,29 @@
                 Style="{StaticResource ParamLabel}" Content="Обороты"/>
             <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTurns, StringFormat=F2}"/>
 
+            <Label Grid.Row="4" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Обороты/мин"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTurnsPerMinute, StringFormat=F2}"/>
+
+
 
             <!--Результат-->
-            <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+            <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
                 <Label Style="{StaticResource ParamHeaderLabel}" Content="Результат"/>
                 <Border Style="{StaticResource HeaderUnderStroke}"/>
             </StackPanel>
 
-            <Label Grid.Row="5" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Итоговый момент"/>
-            <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
-
             <Label Grid.Row="6" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Итоговая длина"/>
-            <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalLength, StringFormat=F1}"/>
+                Style="{StaticResource ParamLabel}" Content="Итоговый момент"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
 
             <Label Grid.Row="7" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Итоговая длина"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalLength, StringFormat=F1}"/>
+
+            <Label Grid.Row="8" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Итоговые обороты"/>
-            <TextBox Grid.Row="7" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTurns, StringFormat=F2}"/>
+            <TextBox Grid.Row="8" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTurns, StringFormat=F2}"/>
             
 
         </Grid>

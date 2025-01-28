@@ -111,7 +111,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float ActualLength { get; set; } = 0;
         public float ActualTurns { get; set; } = 0;
 
-
+        public float ActualTurnsPerMinute { get; set; } = 0;
 
 
 
@@ -126,10 +126,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     ActualTorque = ResultDpWorker.DpParam.Value.Torque;
                     ActualLength = ResultDpWorker.DpParam.Value.Length;
                     ActualTurns = ResultDpWorker.DpParam.Value.Turns;
+                    
 
                     OnPropertyChanged(nameof(ActualTorque));
                     OnPropertyChanged(nameof(ActualLength));
                     OnPropertyChanged(nameof(ActualTurns));
+
+                    if (ActualTurns == 0)
+                    {
+                        ActualTurnsPerMinute = 0;
+                        OnPropertyChanged(nameof(ActualTurnsPerMinute));
+                    }
 
                     await Task.Delay(UpdateInterval);
                 }
@@ -189,9 +196,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             try
             {
-
                 await RecordSeriesCycle(RecordingCts.Token);                
-
             }
             catch (TimeoutException ex)
             {
@@ -226,24 +231,49 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
                 else
                 {
+                    TqTnLenPoint lastPoint = LastPoint;
+
+                    TqTnLenPoint newPoint = new TqTnLenPoint()
+                    {
+                        Torque = ActualTorque,
+                        Turns = ActualTurns,
+                        Length = ActualLength,
+                        TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds)
+                    };                    
+
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        LastPoint = new TqTnLenPoint()
-                        {
-                            Torque = ActualTorque,
-                            Turns = ActualTurns,
-                            Length = ActualLength,
-                            TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds)
-                        };
+                        CalculateTurnsPerMinute(lastPoint, newPoint);
+                        LastPoint = newPoint;
                         OnPropertyChanged(nameof(LastPoint));
+                        OnPropertyChanged(nameof(ActualTurnsPerMinute));
                         ChartSeries.Add(LastPoint);
                         
                     });
+
+
                 }
                 await Task.Delay(RecordingInterval);
             }        
-        }       
-        
+        }
+        private void CalculateTurnsPerMinute(TqTnLenPoint lastPoint, TqTnLenPoint newPoint)
+        {
+            if (lastPoint == null || newPoint == null)
+                return;
+
+            const int millisecondsInMinute = 60_000;
+
+
+            double dV = (newPoint.Turns - lastPoint.Turns);
+            double dT = (newPoint.TimeStamp - lastPoint.TimeStamp);
+            double dTminutes = dT / millisecondsInMinute;
+            double changeRate = (dV / dTminutes);
+
+
+            if (dTminutes > 0 && dV != 0)
+                ActualTurnsPerMinute = (float)changeRate;
+
+        }
 
         private void StopChartRecording(object sender, EventArgs e)
         {

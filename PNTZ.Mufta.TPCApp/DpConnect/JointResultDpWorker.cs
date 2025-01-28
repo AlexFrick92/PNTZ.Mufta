@@ -22,9 +22,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         ILogger logger;
 
-
-
-
         //Точки Dp - привязаны к OpcUa
         public IDpValue<uint> DpTpcCommand { get; set; }
         public IDpValue<uint> DpPlcCommand { get; set; }
@@ -33,9 +30,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<ERG_Muffe> Dp_ERG_Muffe { get; set; }
         public IDpValue<ERG_MVS> Dp_ERG_MVS { get; set; }
         public void DpBound()
-        {            
+        {
         }
-
 
         public TimeSpan CommandAwaitTimeout { get; set; } = TimeSpan.FromSeconds(60);
         public TimeSpan RecordingTimeout { get; set; } = TimeSpan.FromSeconds(60);
@@ -463,21 +459,25 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             {
                 DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
                 logger.Info("JointRecord. Запись прервана по таймауту.");
-            }
+            }   
         }
 
-        DateTime RecordingBeginTimeStamp;
+        DateTime RecordingBeginTimeStamp;           
         private void ActualTqTnLen_ValueUpdated(object sender, OperationalParam e)
-        {            
-            JointResult.Series.Add(
-                new TqTnLenPoint()
-                {                   
-                    Torque = e.Torque,
-                    Length = e.Length,
-                    Turns = e.Turns,
-                    TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(RecordingBeginTimeStamp)).TotalMilliseconds)
-                });
+        {
+            TqTnLenPoint lastPoint = JointResult.Series.LastOrDefault();
+            TqTnLenPoint newPoint = new TqTnLenPoint()
+            {
+                Torque = e.Torque,
+                Length = e.Length,
+                Turns = e.Turns,
+                TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(RecordingBeginTimeStamp)).TotalMilliseconds)
+            };
+
+            JointResult.Series.Add(newPoint);            
         }
+
+
 
         JointResult JointResult;
 
