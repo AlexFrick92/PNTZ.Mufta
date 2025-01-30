@@ -63,8 +63,8 @@
                 >
                 <Label                        
                         Content="ПАРАМЕТРЫ"
-                        FontSize="18"         
-                        Margin="4"
+                        FontSize="18"                         
+                        Margin="4"                                            
                         BorderThickness="0"                                        
                         />
             </Border>
@@ -73,6 +73,14 @@
         <!--ТЕКУЩИЕ ПОКАЗАНИЯ-->
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -114,7 +122,6 @@
             <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTurnsPerMinute, StringFormat=F2}"/>
 
 
-
             <!--Результат-->
             <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
                 <Label Style="{StaticResource ParamHeaderLabel}" Content="Результат"/>
@@ -133,6 +140,26 @@
                 Style="{StaticResource ParamLabel}" Content="Итоговые обороты"/>
             <TextBox Grid.Row="8" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTurns, StringFormat=F2}"/>
             
+
+            <!-- Данные рецепта -->
+            <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+                <Label Style="{StaticResource ParamHeaderLabel}" Content="Данные рецепта"/>
+                <Border Style="{StaticResource HeaderUnderStroke}"/>
+            </StackPanel>
+
+            <Label Grid.Row="10" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Макс. момент"/>
+            <TextBox Grid.Row="10" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
+
+            <Label Grid.Row="11" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Мин. момент"/>
+            <TextBox Grid.Row="11" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
+
+            <Label Grid.Row="12" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Момент сброса"/>
+            <TextBox Grid.Row="12" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
+            
+                                    
 
         </Grid>
 

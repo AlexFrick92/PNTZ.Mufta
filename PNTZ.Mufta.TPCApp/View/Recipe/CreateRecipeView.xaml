@@ -120,44 +120,44 @@
             </ListBox>
 
 
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Height="105">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="45"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                
-                
-                <Button Grid.Column="0" 
-                        Grid.Row="0"
+
+                <Button 
+                    Grid.Column="0"
+                    Grid.Row="0"
                     HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                    Margin="4"
+                    VerticalAlignment="Bottom"
+                    Margin="10,4,10,0"
                     Command="{Binding NewRecipeCommand}"
                     Background="Transparent"
                     BorderThickness="0"
                     >
 
-                    <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/addrecipe.drawio.png"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image  
+                            Margin="0,0,0,-10"
+                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/addrecipe.drawio.png"/>
+                        
+                        <Label
+                            Grid.Row="1"
+                            Margin="0,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="СОЗДАТЬ"
+                            FontSize="12"
+                            FontWeight="Bold"
+                        />
+                    </Grid>
                 </Button>
-
-                <Label
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Margin="0,-10,0,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="СОЗДАТЬ"
-                    FontSize="8"
-                    FontWeight="Bold"
-                    />
-
-
-
 
             </Grid>
         </Grid>
@@ -858,29 +858,74 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-
-                <Label Grid.Column ="0" Content="{Binding EditRecipe.TimeStamp}"></Label>
-
-                <Button
-                    Grid.Column="0"
-                    Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
-                    Command="{Binding RemoveRecipe}"
-                    Content="УДАЛИТЬ"                
-                    />
-
-                <Button
-                    Grid.Column="2"
-                    Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
-                    Command="{Binding SaveRecipe}"
-                    Content="СОХРАНИТЬ"                
-                    />
-
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.Resources>
+                    <!--СТИЛИ ДЛЯ КНОПОК-->
+                    <Style x:Key="BtnStyle" TargetType="Button">
+                        <Setter Property="Grid.Row" Value="0"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Bottom"/>
+                        <Setter Property="Margin" Value="10,4,10,4"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                    <Style x:Key="LblStyle" TargetType="Label">
+                        <Setter Property="Grid.Row" Value="1"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Margin" Value="10,-10,10,0"/>
+                    </Style>
+                </Grid.Resources>
+                    
+                    
+                
+                <!--УДАЛИТЬ РЕЦЕПТ-->
                 <Button 
-                    Grid.Column="3"
-                    Margin="4" HorizontalAlignment="Right" Width="150" Height="50"                     
-                    Command="{Binding LoadRecipeCommand}"
-                    Content="ЗАГРУЗИТЬ"                
+                    Grid.Column="0" 
+                    Style="{StaticResource BtnStyle}"
+                    Command="{Binding RemoveRecipe}">
+
+                    <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/DeleteRecipe.drawio.png"/>
+                </Button>
+                <Label
+                    Style="{StaticResource LblStyle}"
+                    Grid.Column="0"
+                    Content="УДАЛИТЬ"                    
+                />
+
+                <!--СОХРАНИТЬ РЕЦЕПТ-->
+                <Button 
+                    Grid.Column="2" 
+                    Style="{StaticResource BtnStyle}"
+                    Command="{Binding SaveRecipe}">
+                    
+                    <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Save.drawio.png"/>
+                </Button>
+                <Label
+                    Style="{StaticResource LblStyle}"
+                    Grid.Column="2"                   
+                    Content="СОХРАНИТЬ"                   
                     />
+                
+                <!--ЗАГРУЗИТЬ РЕЦЕПТ-->
+                <Button 
+                    Grid.Column="3" 
+                    Style="{StaticResource BtnStyle}" 
+                    Command="{Binding LoadRecipeCommand}">
+
+                    <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/DownloadRecipe.drawio.png"/>
+                </Button>
+                <Label
+                    Style="{StaticResource LblStyle}"
+                    Grid.Column="3"                    
+                    Content="ЗАГРУЗИТЬ"/>
+
             </Grid>
 
             <!--///////////////////////////////////////  РЕДАКТИРОВАНИЕ РЕЦЕПТА //////////////////////////////////-->

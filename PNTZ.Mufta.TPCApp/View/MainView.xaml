@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Desktop;component/Styles/LayoutBlueStyle.xaml"/>
                 <ResourceDictionary Source="/View/Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </Window.Resources>
 
