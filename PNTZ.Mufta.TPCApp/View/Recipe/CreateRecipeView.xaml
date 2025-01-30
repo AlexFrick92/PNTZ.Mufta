@@ -367,7 +367,7 @@
             </Grid>
 
             <!--********************* ВЫБОР РЕЖИМА **********************************************-->
-            <Grid Grid.Row="2"">
+            <Grid Grid.Row="2">
                 <Grid.Resources>
                     <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
 
