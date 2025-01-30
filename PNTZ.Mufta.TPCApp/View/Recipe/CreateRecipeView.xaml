@@ -367,7 +367,7 @@
             </Grid>
 
             <!--********************* ВЫБОР РЕЖИМА **********************************************-->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2"">
                 <Grid.Resources>
                     <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
 
@@ -386,7 +386,8 @@
                         <Setter Property="Margin" Value="3"/>
                         <Setter Property="Command" Value="{Binding SetModeCommand}"/>
 
-                        <Setter Property="Height" Value="52"/>
+                        <Setter Property="Height" Value="75"/>
+                        <Setter Property="Width" Value="145"/>
                         <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
 
                         <Style.Triggers>
@@ -436,27 +437,121 @@
                     <Label Content="Режим свинчивания" Style="{StaticResource ParamHeaderLabel}"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
+
+
+
+                <Button Tag="{x:Static joint:JointMode.Torque}" Grid.Column="0" Grid.Row="1" 
+                        Style="{StaticResource SelectModeButtonColored}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Image 
+                            Grid.Row="0"
+                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorque.png"/>
+                        <Label
+                            Grid.Row="1"                            
+                            Content="МОМЕНТ"/>
+                    </Grid>
+                </Button>
                 
-
-
-                <Button Tag="{x:Static joint:JointMode.Torque}" Grid.Column="0" Grid.Row="1" Content="- МОМЕНТ -" 
-                        Style="{StaticResource SelectModeButtonColored}" />
                 <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="1" Grid.Row="1"/>
 
+                <Button Tag="{x:Static joint:JointMode.TorqueShoulder}" Grid.Column="2" Grid.Row="1" 
+                        Style="{StaticResource SelectModeButtonColored}"
+                        >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                <Button Tag="{x:Static joint:JointMode.TorqueShoulder}" Grid.Column="2" Grid.Row="1" Content="- МОМЕНТ -&#10; - ВЫСТУП -" Style="{StaticResource SelectModeButtonColored}"/>
+                        <Image 
+                            Grid.Row="0"
+                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueShoulder.png"/>
+                        <Label
+                            Grid.Row="1"
+                            Content="МОМЕНТ и ВЫСТУП"/>
+                    </Grid>
+                </Button>
+
                 <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="3" Grid.Row="1"/>
 
-                <Button Tag="{x:Static joint:JointMode.Length}" Grid.Column="4" Grid.Row="1" Content="- ДЛИНА -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Button Tag="{x:Static joint:JointMode.Length}" Grid.Column="4" Grid.Row="1"  
+                        Style="{StaticResource SelectModeButtonColored}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Image 
+                            Grid.Row="0"
+                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeLength.png"/>
+                        <Label
+                            Grid.Row="1"
+                            Content="ДЛИНА"/>
+                    </Grid>
+                </Button>
+
                 <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="5" Grid.Row="1"/>
 
-                <Button Tag="{x:Static joint:JointMode.TorqueLength}" Grid.Column="6" Grid.Row="1" Content=" - ДЛИНА -&#10;- МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Button Tag="{x:Static joint:JointMode.TorqueLength}" Grid.Column="6" Grid.Row="1"
+                        Style="{StaticResource SelectModeButtonColored}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Image 
+                            Grid.Row="0"
+                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueLength.png"/>
+                        <Label
+                            Grid.Row="1"
+                            Content="МОМЕНТ и ДЛИНА"/>
+                    </Grid>
+                </Button>
+
                 <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="7" Grid.Row="1"/>
 
-                <Button Tag="{x:Static joint:JointMode.Jval}" Grid.Column="8" Grid.Row="1" Content="- Значение J -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Button Tag="{x:Static joint:JointMode.Jval}" Grid.Column="8" Grid.Row="1" 
+                        Style="{StaticResource SelectModeButtonColored}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Image 
+                            Grid.Row="0"
+                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeJValue.png"/>
+                        <Label
+                            Grid.Row="1"
+                            Content="ЗНАЧЕНИЕ J"/>
+                    </Grid>
+                </Button>
+
                 <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="9" Grid.Row="1"/>
 
-                <Button Tag="{x:Static joint:JointMode.TorqueJVal}" Grid.Column="10" Grid.Row="1" Content="- Значение J -&#10;  - МОМЕНТ -" Style="{StaticResource SelectModeButtonColored}"/>
+                <Button Tag="{x:Static joint:JointMode.TorqueJVal}" Grid.Column="10" Grid.Row="1" 
+                        Style="{StaticResource SelectModeButtonColored}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Image 
+                            Grid.Row="0"
+                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueJValue.png"/>
+                        <Label
+                            Grid.Row="1"
+                            Content="МОМЕНТ и ЗНАЧЕНИЕ J"/>
+                    </Grid>
+                </Button>
 
             </Grid>
 
