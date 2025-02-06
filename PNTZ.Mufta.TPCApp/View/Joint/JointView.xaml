@@ -149,17 +149,28 @@
 
             <Label Grid.Row="10" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Макс. момент"/>
-            <TextBox Grid.Row="10" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
+            <TextBox Grid.Row="10" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Max, StringFormat=F1}"/>
 
             <Label Grid.Row="11" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Мин. момент"/>
-            <TextBox Grid.Row="11" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
+            <TextBox Grid.Row="11" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Min, StringFormat=F1}"/>
 
             <Label Grid.Row="12" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Момент сброса"/>
-            <TextBox Grid.Row="12" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
-            
-                                    
+            <TextBox Grid.Row="12" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Dump, StringFormat=F1}"/>
+
+            <Label Grid.Row="13" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Опт. момент"/>
+            <TextBox Grid.Row="13" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Opt, StringFormat=F1}"/>
+
+            <Label Grid.Row="14" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Макс. длина"/>
+            <TextBox Grid.Row="14" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Max, StringFormat=F1}"/>
+
+            <Label Grid.Row="15" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Мин. длина"/>
+            <TextBox Grid.Row="15" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Min, StringFormat=F1}"/>
+
 
         </Grid>
 
