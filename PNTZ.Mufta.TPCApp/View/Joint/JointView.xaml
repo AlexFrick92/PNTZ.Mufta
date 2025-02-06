@@ -201,6 +201,19 @@
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="dxc:ConstantLine" x:Key="LimitLineStyle">
+                    <Setter Property="Brush" Value="Orange"/>
+                </Style>
+
+                <Style TargetType="Label" x:Key="LimitLineLabelStyle">
+                    <Setter Property="Foreground" Value="Orange"/>
+                    <Setter Property="FontSize" Value="8"/>
+                </Style>
+                
+                
+            </Grid.Resources>
             
             <!--ГРАФИКИ-->
             <ScrollViewer Grid.Row="0">
@@ -260,6 +273,8 @@
 
                                     </dxc:XYDiagram2D.AxisX>
 
+                                    
+                                    
                                     <dxc:XYDiagram2D.AxisY>
                                         <dxc:AxisY2D x:Name="axisY" Interlaced="False"
                                                      GridLinesBrush="#F0F0F0">
@@ -271,35 +286,33 @@
                                                     MaxValue="{Binding TorqueTimeChartTorqueMaxValue}"/>
                                             </dxc:AxisY2D.WholeRange>
 
-
+                                            
+                                            
+                                            <!--КОНСТАНТНЫЕ ЛИНИИ-->
                                             <dxc:AxisY2D.ConstantLinesBehind>
+                                                
+                                                <!--МАКС МОМЕНТ ЛИНИЯ-->
                                                 <dxc:ConstantLine Value="{Binding LoadedRecipe.MU_Tq_Max}" 
-                                                                  Brush="Orange">
+                                                                  Style="{StaticResource LimitLineStyle}">
                                                     <dxc:ConstantLine.Title>
                                                         <dxc:ConstantLineTitle>
-                                                            <Label Foreground="Orange"
-                                                                FontSize="8"   
-                                                                   >
+                                                            <Label Style="{StaticResource LimitLineLabelStyle}">
                                                                 Макс. момент</Label>
                                                         </dxc:ConstantLineTitle>
                                                     </dxc:ConstantLine.Title>
                                                 </dxc:ConstantLine>
-
-                                                <dxc:ConstantLine Value="{Binding LastPoint.Torque}" 
-                                                                  Brush="LightGray"                                                                  
-                                                                  >
+                                                
+                                                <!--МИН МОМЕНТ ЛИНИЯ-->
+                                                <dxc:ConstantLine Value="{Binding LoadedRecipe.MU_Tq_Min}" 
+                                                                  Style="{StaticResource LimitLineStyle}">
                                                     <dxc:ConstantLine.Title>
                                                         <dxc:ConstantLineTitle>
-                                                            <TextBox Foreground="Gray"
-                                                                FontSize="8"   
-                                                                     Background="Transparent"
-                                                                     BorderThickness="0"
-                                                                     IsReadOnly="True"
-                                                                   Text="{Binding ActualTorque, StringFormat=F2}"
-                                                                   />
+                                                            <Label Style="{StaticResource LimitLineLabelStyle}">
+                                                                Мин. момент</Label>
                                                         </dxc:ConstantLineTitle>
                                                     </dxc:ConstantLine.Title>
                                                 </dxc:ConstantLine>
+
                                             </dxc:AxisY2D.ConstantLinesBehind>
 
 
