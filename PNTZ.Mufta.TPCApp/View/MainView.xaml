@@ -27,7 +27,7 @@
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding NaviToRecipeViewCommand}"/>
         <KeyBinding Key="F2" Command="{Binding NaviToJointViewCommand}"/>
-        <KeyBinding Key="F3" Command="{Binding NaviToMpViewCommand}"/>
+        <KeyBinding Key="F3" Command="{Binding NaviToResultViewCommand}"/>
     </Window.InputBindings>
     
     <Grid>
@@ -38,50 +38,63 @@
             <!--****************************************** ПАНЕЛЬ СЛЕВА **************************************************************-->
 
             <layout:RootControl.LeftSidebar>
-                <StackPanel>
-                    <StackPanel.Resources>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.Resources>
                         <Style x:Key="BorderSeparatorStyle" TargetType="Border">
                             <Setter Property="BorderBrush" Value="{StaticResource GridColor}"/>
                             <Setter Property="BorderThickness" Value="0,1,0,0"/>
                             <Setter Property="Margin" Value="2,2,2,2"/>
                         </Style>
-                    </StackPanel.Resources>
+                    </Grid.Resources>
+
+                    <StackPanel Grid.Row="0">
+
+                        <lctrl:NaviButton 
+                            TopLabel="-F1-" 
+                            IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Recipe.drawio.png"
+                            BottomLabel="РЕЦЕПТЫ"
+                            ButtonCommand="{Binding NaviToRecipeViewCommand}"
+                            />
+
+                        <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                        <lctrl:NaviButton                         
+                            TopLabel="-F2-" 
+                            IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Operation.drawio.png"
+                            BottomLabel="НАВЁРТКА"
+                            ButtonCommand="{Binding NaviToJointViewCommand}"
+                            />
 
 
-                    <lctrl:NaviButton 
-                        TopLabel="-F1-" 
-                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Recipe.drawio.png"
-                        BottomLabel="РЕЦЕПТЫ"
-                        ButtonCommand="{Binding NaviToRecipeViewCommand}"
-                        />
 
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+                        <Border Style="{StaticResource BorderSeparatorStyle}"/>
 
-                    <lctrl:NaviButton                         
-                        TopLabel="-F2-" 
-                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Operation.drawio.png"
-                        BottomLabel="НАВЁРТКА"
-                        ButtonCommand="{Binding NaviToJointViewCommand}"
-                        />
+                        <lctrl:NaviButton 
+                            TopLabel="-F3-" 
+                            IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Results.drawio.png"
+                            BottomLabel="РЕЗУЛЬТАТ"
+                            ButtonCommand="{Binding NaviToResultViewCommand}"
+                            />
+                    </StackPanel>
 
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
 
-                    <lctrl:NaviButton 
-                        TopLabel="-F3-" 
-                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/MachinParam.drawio.png"
-                        BottomLabel="МАШИНА"
-                        ButtonCommand="{Binding NaviToMpViewCommand}"
-                        />
 
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
 
-                    <lctrl:NaviButton 
-                        TopLabel="-F4-" 
-                        IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Results.drawio.png"
-                        BottomLabel="РЕЗУЛЬТАТ"
-                        ButtonCommand="{Binding NaviToResultViewCommand}"
-                        />
-                </StackPanel>
+                        <lctrl:NaviButton 
+                            TopLabel="-F10-" 
+                            IconImage="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/MachinParam.drawio.png"
+                            BottomLabel="НАСТРОЙКА"
+                            ButtonCommand="{Binding NaviToMpViewCommand}"
+                            />
+                    </StackPanel>
+                    
+                </Grid>
             </layout:RootControl.LeftSidebar>
 
 
