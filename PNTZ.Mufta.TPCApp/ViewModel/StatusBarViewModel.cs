@@ -13,7 +13,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     public class StatusBarViewModel : BaseViewModel
     {
 
-        public StatusBarViewModel(JointResultDpWorker resultDpWorker, HeartbeatCheck hbWorker, RecipeToPlc recWorker)
+        public StatusBarViewModel(JointResultDpWorker resultDpWorker, HeartbeatCheck hbWorker, RecipeDpWorker recWorker)
         {
             ResultDpWorker = resultDpWorker;
             HbCheckWorker = hbWorker;
@@ -57,8 +57,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public bool RecipeLoaded { get; set; }
         public JointRecipe LoadedRecipe { get; set; }
-        RecipeToPlc recWorker;
-        RecipeToPlc RecWorker
+        RecipeDpWorker recWorker;
+        RecipeDpWorker RecWorker
         {
             get => recWorker;
             set

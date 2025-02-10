@@ -76,7 +76,7 @@ namespace PNTZ.Mufta.TPCApp
             
             container.Register<IDpConfigurableConnection<OpcUaConnectionConfiguration>, OpcUaConnection>();
             container.Register<MakeHeartBeat, MakeHeartBeat>();
-            container.Register<RecipeToPlc, RecipeToPlc>();
+            container.Register<RecipeDpWorker, RecipeDpWorker>();
             container.Register<MachineParamFromPlc, MachineParamFromPlc>();
             container.Register<HeartbeatCheck, HeartbeatCheck>();
             container.Register<JointResultDpWorker, JointResultDpWorker>();

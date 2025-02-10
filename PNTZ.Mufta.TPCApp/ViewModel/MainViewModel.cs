@@ -81,14 +81,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             CliViewModel = new CliViewModel(cliUI);            
 
             createRecipeView = new CreateRecipeView();
-            createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeToPlc>().First(), logger, repositoryContext);
+            createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeDpWorker>().First(), logger, repositoryContext);
 
             MachineParamView = new MachineParamView();
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
             jointView = new JointView();
             jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(),
-                        workerManager.ResolveWorker<RecipeToPlc>().First(),
+                        workerManager.ResolveWorker<RecipeDpWorker>().First(),
                         logger,
                         cli,
                         repositoryContext
@@ -99,7 +99,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), workerManager.ResolveWorker<HeartbeatCheck>().First(),
-                workerManager.ResolveWorker<RecipeToPlc>().First());
+                workerManager.ResolveWorker<RecipeDpWorker>().First());
             OnPropertyChanged(nameof(StatusBarViewModel));
 
 

@@ -21,11 +21,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     internal class RecipeViewModel : BaseViewModel
     {
-        RecipeToPlc recipeLoader;
+        RecipeDpWorker recipeLoader;
         ILogger logger;
         RepositoryContext repo;
 
-        public RecipeViewModel(RecipeToPlc recipeLoader, ILogger logger, RepositoryContext repoContext)
+        public RecipeViewModel(RecipeDpWorker recipeLoader, ILogger logger, RepositoryContext repoContext)
         {
             this.logger = logger;
             this.recipeLoader = recipeLoader;
