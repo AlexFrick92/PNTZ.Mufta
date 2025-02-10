@@ -3,6 +3,7 @@ using Desktop.Control;
 using Desktop.MVVM;
 
 using DpConnect;
+using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View.Joint;
@@ -81,14 +82,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             CliViewModel = new CliViewModel(cliUI);            
 
             createRecipeView = new CreateRecipeView();
-            createRecipeView.DataContext = new RecipeViewModel(workerManager.ResolveWorker<RecipeDpWorker>().First(), logger, repositoryContext);
+            RecipeViewModel recViewModel = new RecipeViewModel(workerManager.ResolveWorker<RecipeDpWorker>().First(), logger, repositoryContext);
+            createRecipeView.DataContext = recViewModel;
 
             MachineParamView = new MachineParamView();
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
             jointView = new JointView();
             jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(),
-                        workerManager.ResolveWorker<RecipeDpWorker>().First(),
+                        recViewModel as IRecipeLoader,
                         logger,
                         cli,
                         repositoryContext
@@ -98,8 +100,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             ResultsView.DataContext = new ResultsViewModel(repositoryContext);
 
 
-            this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), workerManager.ResolveWorker<HeartbeatCheck>().First(),
-                workerManager.ResolveWorker<RecipeDpWorker>().First());
+            this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), 
+                workerManager.ResolveWorker<HeartbeatCheck>().First(),
+                recViewModel as IRecipeLoader
+                );
             OnPropertyChanged(nameof(StatusBarViewModel));
 
 

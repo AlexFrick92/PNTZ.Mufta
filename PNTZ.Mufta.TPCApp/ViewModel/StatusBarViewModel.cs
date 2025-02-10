@@ -13,11 +13,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     public class StatusBarViewModel : BaseViewModel
     {
 
-        public StatusBarViewModel(JointResultDpWorker resultDpWorker, HeartbeatCheck hbWorker, RecipeDpWorker recWorker)
+        public StatusBarViewModel(JointResultDpWorker resultDpWorker, HeartbeatCheck hbWorker, IRecipeLoader recLoader)
         {
             ResultDpWorker = resultDpWorker;
             HbCheckWorker = hbWorker;
-            RecWorker = recWorker;
+            
+            RecipeLoader = recLoader;
         }
 
         HeartbeatCheck hbCheckWorker;
@@ -55,28 +56,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public bool PlcConnected { get; set; }
         public bool PlcHeartbeat { get; set; }
 
-        public bool RecipeLoaded { get; set; }
-        public JointRecipe LoadedRecipe { get; set; }
-        RecipeDpWorker recWorker;
-        RecipeDpWorker RecWorker
+
+        //Загруженный рецепт
+        public bool RecipeLoaded { get; set; } //Пока рецепт не загруежен, покажем другой текст.
+        //В перспективе, убрать эту переменную и отображать текст основываясь на null?
+        public JointRecipe LoadedRecipe { get => RecipeLoader.LoadedRecipe; }
+
+        IRecipeLoader recipeLoader;
+        IRecipeLoader RecipeLoader
         {
-            get => recWorker;
+            get => recipeLoader;
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                recWorker = value;
-
-                recWorker.RecipeLoaded += (s, e) =>
+                recipeLoader = value;
+                recipeLoader.RecipeLoaded += (s, r) =>
                 {
                     RecipeLoaded = true;
                     OnPropertyChanged(nameof(RecipeLoaded));
-                    LoadedRecipe = e;
                     OnPropertyChanged(nameof(LoadedRecipe));
                 };
             }
         }
+        //---
 
         JointResultDpWorker resultDpWorker;
         JointResultDpWorker ResultDpWorker

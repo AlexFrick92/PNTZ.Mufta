@@ -36,7 +36,7 @@
 		</Worker>
 
 		<!--Загрузка рецепта-->
-		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.RecipeToPlc, PNTZ.Mufta.TPCApp">
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.RecipeDpWorker, PNTZ.Mufta.TPCApp">
 			<ConnectionId>Stend PNTZ</ConnectionId>
 			<DpValue PropertyName="DpTpcCommand">
 				<SourceConfiguration>

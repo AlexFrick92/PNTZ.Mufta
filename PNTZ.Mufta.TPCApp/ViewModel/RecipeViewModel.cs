@@ -16,14 +16,24 @@ using System.Windows.Input;
 using static PNTZ.Mufta.TPCApp.App;
 using System.Linq;
 
-
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
-    internal class RecipeViewModel : BaseViewModel
+    /// <summary>
+    /// Выбор, редактирование, сохранение и загрузка рецепта.
+    /// 
+    /// </summary>
+    internal class RecipeViewModel : BaseViewModel, IRecipeLoader
     {
         RecipeDpWorker recipeLoader;
         ILogger logger;
         RepositoryContext repo;
+
+        //IRecipeLoader
+
+        public event EventHandler<JointRecipe> RecipeLoaded;
+        public JointRecipe LoadedRecipe { get; private set; }
+        
+        //---
 
         public RecipeViewModel(RecipeDpWorker recipeLoader, ILogger logger, RepositoryContext repoContext)
         {
@@ -31,7 +41,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             this.recipeLoader = recipeLoader;
             repo = repoContext;
             
-
 
             SetModeCommand = new RelayCommand((mode) => SetMode((JointMode)mode));
 
@@ -46,11 +55,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 try
                 {
+                    //Переделать: 
+                    //LoadRecipeAsync должен возвращать загруженный рецепт
+                    //Теоретически, так как рецепт загружает recipeLoader, он может его модифицировать?
+                    //Поэтму, фактически загруженный рецепт должен быть взят после процедуры загрузки.
                     await recipeLoader.LoadRecipeAsync(EditRecipe.Recipe);
+
+                    //Здесь мы делаем допущение, что загруженный рецепт, это тот, что мы передали в функцию загрузки
+                    LoadedRecipe = EditRecipe.Recipe;
+                    RecipeLoaded?.Invoke(this, LoadedRecipe);
                 }
                 catch (Exception ex)
                 {
-                    logger.Info(ex.Message);
+                    logger.Info(ex.Message);                    
                 }
 
             }));
@@ -101,7 +118,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public ObservableCollection<JointRecipeViewModel> JointRecipes { get; set;  }
 
-        JointRecipeViewModel selectedJointRecipe;
+        JointRecipeViewModel selectedJointRecipe;        
+
         public JointRecipeViewModel SelectedJointRecipe
         {
             get => selectedJointRecipe;
@@ -145,7 +163,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ICommand SaveRecipe { get; set; }
         public ICommand RemoveRecipe { get; set; }
 
-        public bool IsVisible { get; set; } = false;
+        public bool IsVisible { get; set; } = false;        
 
         void SetMode(JointMode newMode)
         {
