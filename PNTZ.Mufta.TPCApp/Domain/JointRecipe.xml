@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <JointRecipeConfig>
-	<HEAD_OPEN_PULSES Min="0.1" Max="10" Default ="0.18" Name="Обороты на открытие головки"/>
+	<HEAD_OPEN_PULSES Min="0.01" Max="10" Default ="0.18" Name="Обороты на открытие головки"/>
 	<TURNS_BREAK Min="0.1" Max="10" Default ="4.0" Name="Обороты на развинчивание"/>
 	<Thread_step Min="0.1" Max="10" Default ="0.1" Name="Шаг резьбы"/>
 	<Thread_type Min="0" Max="10" Default ="6" Name="Тип резьбы"/>
