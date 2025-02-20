@@ -51,29 +51,29 @@ namespace PNTZ.Mufta.TPCApp.Repository
             result.ResultPLC = (uint)ResultPLC;
             result.ResultTotal = (uint)ResultTotal;
             result.StartTimeStamp = DateTime.Parse(StartTimeStamp);
-            result.FinishTimeStamp = DateTime.Parse (FinishTimeStamp);
+            result.FinishTimeStamp = DateTime.Parse(FinishTimeStamp);
 
             using (MemoryStream ms = new MemoryStream(Series))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 result.Series = new List<TqTnLenPoint>();
-                foreach(var point in  (TqTnLenPoint[])formatter.Deserialize(ms))
+                foreach (var point in (TqTnLenPoint[])formatter.Deserialize(ms))
                 {
                     result.Series.Add(point);
                 }
 
             }
-
-
-
+           
             return result;  
 
         }
 
         public JointResultTable FromJointResult(JointResult result)
         {
-
-            base.FromJointRecipe(result.Recipe);
+            if (result.Recipe != null)
+                base.FromJointRecipe(result.Recipe);
+            else
+                base.FromJointRecipe(new JointRecipe() { Name = "Рецепт не задан"});
 
             FinalTorque = result.FinalTorque;
             FinalLength = result.FinalLength;

@@ -106,6 +106,8 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         public JointRecipeTable FromJointRecipe(JointRecipe recipe)
         {
+            if (recipe == null) throw new ArgumentNullException("Recipe is Null");
+
             Name = recipe.Name;
             HEAD_OPEN_PULSES = recipe.HEAD_OPEN_PULSES;
             TURNS_BREAK = recipe.TURNS_BREAK;

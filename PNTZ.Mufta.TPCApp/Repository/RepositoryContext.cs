@@ -77,9 +77,10 @@ namespace PNTZ.Mufta.TPCApp.Repository
         public void SaveResult(JointResult result)
         {
             using (var db = new JointResultContext(resultsConnectionString))
-            {                
-                db.Insert(new JointResultTable().FromJointResult(result));
-                logger.Info($"Соединение {result.Recipe.Name} сохранёно.");
+            {
+                JointResultTable row = new JointResultTable().FromJointResult(result);
+                db.Insert(row);
+                logger.Info($"Соединение {row.Name} сохранёно.");
             }
         }
 
@@ -87,7 +88,20 @@ namespace PNTZ.Mufta.TPCApp.Repository
         {
             using (var db = new JointResultContext(resultsConnectionString))
             {
-                return db.Results.ToList().Select(resTable => resTable.ToJointResult());
+                List<JointResult> resultList = new List<JointResult> ();
+                foreach(var row in db.Results.ToList())
+                {
+                    try
+                    {
+                        resultList.Add( row.ToJointResult() );
+                    }
+                    catch (Exception ex) 
+                    {
+                        logger.Error("Не удалось достать результат из базы: " + ex.Message);
+                    }
+                }
+
+                return resultList;
             }
         }
     }
