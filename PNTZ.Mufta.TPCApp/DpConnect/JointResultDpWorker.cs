@@ -253,6 +253,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
                 else if (awaitCommandFeedback.Task.Result == 0)
                 {
+                    //Добавим здесь задежрку перед выходов в новый цикл.
+                    //Без нее пораждаются множественные подписки. Причина пока не выявлена
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
                     continue;
                 }
                 else
@@ -281,17 +284,20 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             logger.Info("Joint. команда ПЛК:" + AwaitFor30.Task.Result);
 
-            if (AwaitFor30.Task.Result != 30 && AwaitFor30.Task.Result != 28)            
+            if (AwaitFor30.Task.Result != 30 && AwaitFor30.Task.Result != 28)
+            {
                 if (AwaitFor30.Task.Result == 0)
                     throw new InvalidProgramException();
                 else
                     throw new InvalidOperationException($"Неверный ответ от ПЛК: Ожидалось 30 или 28");
-            
-            if (AwaitFor30.Task.Result == 28)
-            {
-                logger.Info("Joint. Ошибка преднавёртки!");
-                throw new InvalidOperationException("Ошибка преднавёртки");
+
             }
+
+            //if (AwaitFor30.Task.Result == 28)
+            //{
+            //    logger.Info("Joint. Ошибка преднавёртки!");
+            //    throw new InvalidOperationException("Ошибка преднавёртки");
+            //}
 
 
 

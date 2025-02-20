@@ -228,6 +228,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 logger.Info("МП. команда ПЛК:" + awaitFor5.Task.Result);
 
 
+
                 if (awaitFor5.Task.Result == 5)
                 {
                     logger.Info("Новые параметры машин...");
@@ -239,10 +240,15 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
                 else if (awaitFor5.Task.Result == 0)
                 {
+                    //Добавим здесь задежрку перед выходов в новый цикл.
+                    //Без нее пораждаются множественные подписки. Причина пока не выявлена
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
                     continue;
                 }
                 else
                     throw new InvalidOperationException("Неверный ответ ПЛК. Ожидаем 5");
+
+                
             }
 
             //Отправляем 10 и ждем 20
