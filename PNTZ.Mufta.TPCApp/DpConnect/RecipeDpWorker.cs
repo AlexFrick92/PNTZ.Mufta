@@ -129,7 +129,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
             catch (Exception ex)
             {
-                logger.Info("Не удалось загрузитЬ: " + ex.Message);                
+                logger.Info("Не удалось загрузитЬ: " + ex.Message);
+                DpTpcCommand.Value = 0;
 
                 //Не будем кидать исключение дальше, чтобы считать, что рецепт загружен.
                 //На время отладки
