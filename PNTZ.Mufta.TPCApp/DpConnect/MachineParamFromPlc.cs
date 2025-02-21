@@ -173,7 +173,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         await MachineParamListen(cts.Token);
                         logger.Info("Параметры машин записаны.");
                     }
-                    catch (OperationCanceledException ex)
+                    catch (OperationCanceledException)
                     {
                         logger.Info("Прослушивание параметров машин отменено.");
                     }

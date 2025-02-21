@@ -141,7 +141,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     cts = new CancellationTokenSource();                    
                     await AwaitForJointProcess(cts.Token);                    
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
                     logger.Info("Прослушивание операции соединения отменено");
                     cyclicallyListen = false;
@@ -153,7 +153,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     logger.Info("Прослушивание операции соединения возобновится после новой команды от ПЛК.");
                     DpPlcCommand.ValueUpdated += StartOnCommandUpdate;
                 }
-                catch (InvalidProgramException ex)
+                catch (InvalidProgramException)
                 {
                     logger.Info("Joint. Операция прервана ПЛК. Запускаем еще раз");                    
                 }
@@ -461,7 +461,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     }
                 });
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException)
             {
                 DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
                 logger.Info("JointRecord. Запись прервана по таймауту.");
