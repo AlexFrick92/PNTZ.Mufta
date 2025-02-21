@@ -141,7 +141,6 @@
     <Compile Include="DpConnect\Struct\REZ_Muffe.cs" />
     <Compile Include="DpConnect\Struct\REZ_MVS.cs" />
     <Compile Include="DpConnect\Struct\ZEITSTEMPEL.cs" />
-    <Compile Include="Logging\CliTarget.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\JointRecipeContext.cs" />

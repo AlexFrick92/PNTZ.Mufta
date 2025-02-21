@@ -8,7 +8,6 @@ using DpConnect.Connection;
 using DpConnect.OpcUa;
 
 using PNTZ.Mufta.TPCApp.DpConnect;
-using PNTZ.Mufta.TPCApp.Logging;
 using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View;
 using PNTZ.Mufta.TPCApp.ViewModel;
