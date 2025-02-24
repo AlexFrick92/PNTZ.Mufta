@@ -69,9 +69,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             set
             {
                 recipeLoader = value;
+
                 recipeLoader.RecipeLoaded += (s, r) =>
                 {
                     RecipeLoaded = true;
+                    OnPropertyChanged(nameof(RecipeLoaded));
+                    OnPropertyChanged(nameof(LoadedRecipe));
+                };
+                recipeLoader.RecipeLoadFailed += (s, r) =>
+                {
+                    RecipeLoaded = false;
                     OnPropertyChanged(nameof(RecipeLoaded));
                     OnPropertyChanged(nameof(LoadedRecipe));
                 };

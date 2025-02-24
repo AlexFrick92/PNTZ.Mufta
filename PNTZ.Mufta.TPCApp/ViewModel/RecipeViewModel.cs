@@ -31,6 +31,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         //IRecipeLoader
 
         public event EventHandler<JointRecipe> RecipeLoaded;
+        public event EventHandler<JointRecipe> RecipeLoadFailed;
+       
         public JointRecipe LoadedRecipe { get; private set; }
         
         //---
@@ -65,9 +67,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     LoadedRecipe = EditRecipe.Recipe;
                     RecipeLoaded?.Invoke(this, LoadedRecipe);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    logger.Info(ex.Message);                    
+                    RecipeLoadFailed?.Invoke(this, EditRecipe.Recipe);
                 }
 
             }));

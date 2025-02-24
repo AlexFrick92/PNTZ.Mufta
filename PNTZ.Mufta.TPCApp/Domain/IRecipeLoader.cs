@@ -7,5 +7,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
         JointRecipe LoadedRecipe { get; }
 
         event EventHandler<JointRecipe> RecipeLoaded;
+        event EventHandler<JointRecipe> RecipeLoadFailed;
     }
 }
