@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using DpConnect;
-
+using DpConnect.Exceptions;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect.Struct;
 
@@ -126,16 +126,28 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
                 RecipeLoaded?.Invoke(this,recipe);
                 LoadedRecipe = recipe;
+            }   
+            catch (TransportLevelDpException ex)
+            {
+                string exceptionMessage = $"RecipeDpWorker: Не удалось загрузить: {ex.GetType()}";
+
+                if (ex.InnerException != null)
+                    exceptionMessage += $" : {ex.Message} : {ex.InnerException.Message}";
+                else
+                    exceptionMessage += $" : {ex.Message}";    
+
+                logger.Error(exceptionMessage);
+
+                throw;
             }
             catch (Exception ex)
             {
-                logger.Info("Не удалось загрузитЬ: " + ex.Message);
+                logger.Error($"RecipeDpWorker: Не удалось загрузить: {ex.GetType()} - {ex.Message}");
+                
                 DpTpcCommand.Value = 0;
 
-                //Не будем кидать исключение дальше, чтобы считать, что рецепт загружен.
-                //На время отладки
-                //throw;
-            }
+                throw;
+            }            
             finally
             {                
                 LoadingProcedureStarted = false;
