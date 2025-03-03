@@ -66,7 +66,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         logger.Info("Цикличное прослушивание параметров машин.");
                         if (DpTpcCommand.IsConnected)
                         {
-                            StartAwaitingForMpAsync();
+                            _ = StartAwaitingForMpAsync();
                         }
                         else
                         {                            
