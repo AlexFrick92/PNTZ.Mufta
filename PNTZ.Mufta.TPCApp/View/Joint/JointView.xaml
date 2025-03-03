@@ -211,8 +211,7 @@
                     <Setter Property="Foreground" Value="Orange"/>
                     <Setter Property="FontSize" Value="8"/>
                 </Style>
-                
-                
+
             </Grid.Resources>
             
             <!--ГРАФИКИ-->
@@ -321,11 +320,19 @@
                                     </dxc:XYDiagram2D.AxisY>
 
                                     <dxc:LineSeries2D 
+                                        
                                         DataSource="{Binding ChartSeries}"                                          
                                          ArgumentDataMember="TimeStamp"
                                          ValueDataMember="Torque"     
-                                         ArgumentScaleType="Numerical"
-                                                     
+                                         ArgumentScaleType="Numerical"   
+                                        
+                                     />
+
+                                    <dxc:LineSeries2D 
+                                        DataSource="{Binding ChartSeriesSmoothed}"                                          
+                                        ArgumentDataMember="TimeStamp"
+                                        ValueDataMember="Torque"     
+                                        ArgumentScaleType="Numerical"                                                
                                      />
 
                                 </dxc:XYDiagram2D>

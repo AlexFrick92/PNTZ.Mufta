@@ -106,10 +106,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
 
         public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
+        
+        //Актуальные показания с датчиков
         public float ActualTorque { get; set; } = 0;
         public float ActualLength { get; set; } = 0;
         public float ActualTurns { get; set; } = 0;
         public float ActualTurnsPerMinute { get; set; } = 0;
+        
+        //Сглаженные актуальные показаний с датчиков
+        public float ActualTorqueSmoothed { get; set; } = 0;
 
 
         //Такс циклично обновляющий показания. Показания обновляются раз в заданный интервал
@@ -121,8 +126,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     ActualTorque = ResultDpWorker.DpParam.Value.Torque;
                     ActualLength = ResultDpWorker.DpParam.Value.Length;
-                    ActualTurns = ResultDpWorker.DpParam.Value.Turns;
-                    
+                    ActualTurns = ResultDpWorker.DpParam.Value.Turns;                    
 
                     OnPropertyChanged(nameof(ActualTorque));
                     OnPropertyChanged(nameof(ActualLength));
@@ -133,6 +137,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         ActualTurnsPerMinute = 0;
                         OnPropertyChanged(nameof(ActualTurnsPerMinute));
                     }
+
+                    //Сглаживание
+                    ActualTorqueSmoothed = ResultDpWorker.TorqueSmoothed;
+                    OnPropertyChanged(nameof(ActualTorqueSmoothed));
 
                     await Task.Delay(UpdateInterval);
                 }
@@ -171,6 +179,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
         TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
         public ObservableCollection<TqTnLenPointViewModel> ChartSeries { get; set; }
+        public ObservableCollection<TqTnLenPointViewModel> ChartSeriesSmoothed { get; set; }
+
         CancellationTokenSource RecordingCts;
         bool RecordingProcedureStarted = false;
 
@@ -212,7 +222,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         private async Task RecordSeriesCycle(CancellationToken token)
         {
             ChartSeries = new ObservableCollection<TqTnLenPointViewModel>();
+            ChartSeriesSmoothed = new ObservableCollection<TqTnLenPointViewModel>();
+
             OnPropertyChanged(nameof(ChartSeries));
+            OnPropertyChanged(nameof(ChartSeriesSmoothed));
+
 
             DateTime beginTime = DateTime.Now;
 
@@ -247,6 +261,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         };
 
                         ChartSeries.Add(newTq);
+
+                        TqTnLenPoint newSmoothedPoint = new TqTnLenPoint()
+                        {
+                            Torque = ActualTorqueSmoothed,
+                            TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds),
+                        };
+                        ChartSeriesSmoothed.Add(new TqTnLenPointViewModel(newSmoothedPoint));
                         
                     });
 

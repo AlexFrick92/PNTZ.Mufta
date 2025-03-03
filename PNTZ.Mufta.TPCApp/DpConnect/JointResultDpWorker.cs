@@ -1,5 +1,9 @@
 ﻿
+
 using DpConnect;
+
+using PNTZ.Mufta.TPCApp.Toolbox.Smoothing;
+
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect.Struct;
 using Promatis.Core.Logging;
@@ -26,12 +30,21 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<uint> DpTpcCommand { get; set; }
         public IDpValue<uint> DpPlcCommand { get; set; }
         public IDpValue<OperationalParam> DpParam { get; set; }
+
+        public float TorqueSmoothed { get; set; }
+
         public IDpValue<ERG_CAM> Dp_ERG_CAM { get; set; }
         public IDpValue<ERG_Muffe> Dp_ERG_Muffe { get; set; }
         public IDpValue<ERG_MVS> Dp_ERG_MVS { get; set; }
         public void DpBound()
         {
-        }
+            MovingAverage torqMA = new MovingAverage(3);
+
+            DpParam.ValueUpdated += (s, v) =>
+            {
+                TorqueSmoothed = (float)torqMA.SmoothValue(v.Torque);
+            };
+        }        
 
         public TimeSpan CommandAwaitTimeout { get; set; } = TimeSpan.FromSeconds(60);
         public TimeSpan RecordingTimeout { get; set; } = TimeSpan.FromSeconds(60);
@@ -426,7 +439,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     {
                         if (!started)
                         {
-                            if (DpParam.Value.Torque > 100)
+                            //if (DpParam.Value.Torque > 100)
+                            if(TorqueSmoothed > 100)
                             {
                                 started = true;
                                 logger.Info("Регистрация параметров начата!");
@@ -438,15 +452,19 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         }
                         else
                         {
-                            if (DpParam.Value.Torque < 1)
+                            //if (DpParam.Value.Torque < 1)
+                            if(TorqueSmoothed < 50)
                             {
-                                if (ensureEnd > 5)
-                                {
-                                    DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
-                                    break;
-                                }
-                                else
-                                    ensureEnd++;
+                                DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
+                                break;
+
+                                //if (ensureEnd > 5)
+                                //{
+                                //    DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
+                                //    break;
+                                //}
+                                //else
+                                //    ensureEnd++;
                             }
                             else
                             {
