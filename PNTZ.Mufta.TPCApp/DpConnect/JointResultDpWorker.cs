@@ -327,57 +327,51 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 recordCtc?.Cancel();
             });
 
+            //Устанавливаем 38 - начинаем записывать параметры
+            DpTpcCommand.Value = 38;
+            
+            //Ожидаем 40 - окончание свинчивания
+            var AwaitFor40 = new TaskCompletionSource<uint>();
+            DpPlcCommand.ValueUpdated += (s, v) => AwaitFor40.TrySetResult(v);
+
             var recordTask = RecordOperationParams(recordCtc.Token);
-            first = await Task.WhenAny(recordTask, timeout, tcs.Task);
+
+            first = await Task.WhenAny(recordTask, timeout, tcs.Task, AwaitFor40.Task);
 
             RecordingFinished?.Invoke(this, EventArgs.Empty);
 
             if (first == timeout)
+            {
+                recordCtc.Cancel();
                 throw new TimeoutException("Время записи параметров истекло");
-            if (first == tcs.Task)
+            }
+            else if (first == tcs.Task)
             {
                 recordCtc?.Cancel();
                 throw new OperationCanceledException();
             }
-
-
-
-
-            //Запись параметров закончена
-
-            logger.Info("Как будто записали параметры");
-            var AwaitFor40 = new TaskCompletionSource<uint>();
-            timeout = Task.Delay(CommandAwaitTimeout);
-            DpPlcCommand.ValueUpdated += (s, v) => AwaitFor40.TrySetResult(v);
-
-            //Устанавливаем 38 - ответ записали параметры
-            DpTpcCommand.Value = 38;
-
-            first = await Task.WhenAny(AwaitFor40.Task, timeout, tcs.Task);
-
-            if (first == timeout)
-                throw new TimeoutException("Время ожидания команды истекло");
-            if (first == tcs.Task)
+            else if(first == AwaitFor40.Task) //Свинчивание завершено
             {
-                throw new OperationCanceledException();
+                logger.Info("Joint. команда ПЛК:" + AwaitFor40.Task.Result);
+                recordCtc?.Cancel();
+
+                if (AwaitFor40.Task.Result != 40)
+                    if (AwaitFor40.Task.Result == 0)
+                        throw new InvalidProgramException();
+                    else
+                        throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
+
             }
-
-
-            logger.Info("Joint. команда ПЛК:" + AwaitFor40.Task.Result);
-            if (AwaitFor40.Task.Result != 40)
-                if (AwaitFor40.Task.Result == 0)
-                    throw new InvalidProgramException();
-            else
-                throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
+            logger.Info("Как будто записали параметры");
+            
+            //Устанавливаем 45 - ожидание оценки
+            DpTpcCommand.Value = 45;                        
 
 
             logger.Info("Итоговый момент: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ);
             logger.Info("Результат ПЛК:");
 
             logger.Info("Ожидаем оценки оператора");
-
-
-
 
             //Ожидается оценка
             TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
@@ -395,18 +389,17 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
 
 
-            //jointResult.ResultTotal = awaitEvaluation.Task.Result;
-
-
+            JointResult.ResultTotal = awaitEvaluation.Task.Result;
+            //Устанавливаем 50 - отправили оценку
+            Dp_ERG_CAM.Value.PMR_MR_TOTAL_RESULT = JointResult.ResultTotal;
+            DpTpcCommand.Value = 50;
 
 
             //Ожидаем завершения процедуры
             timeout = Task.Delay(CommandAwaitTimeout);
             var awaitFor0 = new TaskCompletionSource<uint>();
             DpPlcCommand.ValueUpdated += (s, v) => awaitFor0.TrySetResult(v);
-
-            //Устанавливаем 50 - отправили оценку
-            DpTpcCommand.Value = 50;
+            
 
             first = await Task.WhenAny(awaitFor0.Task, timeout, tcs.Task);
             if (first == timeout)
@@ -427,54 +420,21 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         async Task RecordOperationParams(CancellationToken token)
         {
+            logger.Info("Регистрация параметров начата!");
+            RecordingBeginTimeStamp = DateTime.Now;
+            JointResult.Series = new List<TqTnLenPoint>();
+            DpParam.ValueUpdated += ActualTqTnLen_ValueUpdated;
+            RecordingBegun?.Invoke(this, EventArgs.Empty);
             try
             {
                 await Task.Run(async () =>
                 {
-                    bool started = false;
-
-                    int ensureEnd = 0;
-
                     while (true)
                     {
-                        if (!started)
-                        {
-                            //if (DpParam.Value.Torque > 100)
-                            if(TorqueSmoothed > 100)
-                            {
-                                started = true;
-                                logger.Info("Регистрация параметров начата!");
-                                RecordingBeginTimeStamp = DateTime.Now;
-                                JointResult.Series = new List<TqTnLenPoint>();
-                                DpParam.ValueUpdated += ActualTqTnLen_ValueUpdated;
-                                RecordingBegun?.Invoke(this, EventArgs.Empty);
-                            }
-                        }
-                        else
-                        {
-                            //if (DpParam.Value.Torque < 1)
-                            if(TorqueSmoothed < 50)
-                            {
-                                DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
-                                break;
+                                              
+                        if (token.IsCancellationRequested)
+                            throw new OperationCanceledException();                                                     
 
-                                //if (ensureEnd > 5)
-                                //{
-                                //    DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
-                                //    break;
-                                //}
-                                //else
-                                //    ensureEnd++;
-                            }
-                            else
-                            {
-                                if (token.IsCancellationRequested)
-                                    throw new OperationCanceledException();
-
-                                ensureEnd = 0;
-                                //регистрируем параметры!
-                            }
-                        }
                         await Task.Delay(10);
                     }
                 });
@@ -482,7 +442,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             catch (OperationCanceledException)
             {
                 DpParam.ValueUpdated -= ActualTqTnLen_ValueUpdated;
-                logger.Info("JointRecord. Запись прервана по таймауту.");
+                logger.Info("JointRecord. Запись параметров остановлена.");
             }   
         }
 
