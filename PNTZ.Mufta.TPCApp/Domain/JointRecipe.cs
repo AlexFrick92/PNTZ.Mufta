@@ -48,11 +48,11 @@ namespace PNTZ.Mufta.TPCApp.Domain
                 switch(SelectedThreadType)
                 {
                     case ThreadType.RIGHT:
-                        return 0;
-                    case ThreadType.LEFT:
                         return 1;
+                    case ThreadType.LEFT:
+                        return 2;
                     default:
-                        return 0;
+                        return 1;
                 }    
             }
         }
