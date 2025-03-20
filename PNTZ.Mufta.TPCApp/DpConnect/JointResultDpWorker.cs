@@ -36,6 +36,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<ERG_CAM> Dp_ERG_CAM { get; set; }
         public IDpValue<ERG_Muffe> Dp_ERG_Muffe { get; set; }
         public IDpValue<ERG_MVS> Dp_ERG_MVS { get; set; }
+
+        public IDpValue<uint> Dp_ERG_CAM_ResultTotal { get; set; }
+        
         public void DpBound()
         {
             MovingAverage torqMA = new MovingAverage(3);
@@ -161,26 +164,26 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
                 catch (InvalidOperationException ex)
                 {
-                    logger.Info(ex.Message);
+                    logger.Error(ex.Message);
                     cyclicallyListen = false;
-                    logger.Info("Прослушивание операции соединения возобновится после новой команды от ПЛК.");
+                    logger.Error("Прослушивание операции соединения возобновится после новой команды от ПЛК.");
                     DpPlcCommand.ValueUpdated += StartOnCommandUpdate;
                 }
                 catch (InvalidProgramException)
                 {
-                    logger.Info("Joint. Операция прервана ПЛК. Запускаем еще раз");                    
+                    logger.Error("Joint. Операция прервана ПЛК. Запускаем еще раз");                    
                 }
                 catch (TimeoutException ex)
                 {
-                    logger.Info(ex.Message);
+                    logger.Error(ex.Message);
                     cyclicallyListen = false;
                     logger.Info("Прослушивание операции соединения возобновится после новой команды от ПЛК.");
                     DpPlcCommand.ValueUpdated += StartOnCommandUpdate;
                 }
                 catch (Exception ex)
                 {
-                    logger.Info("Незивестная ошибка записи операции соединения");
-                    logger.Info(ex.Message);
+                    logger.Error("Незивестная ошибка записи операции соединения");
+                    logger.Error(ex.Message);
                     cyclicallyListen = false;
                 }
                 finally
@@ -198,7 +201,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     }
                     catch (Exception ex)
                     {
-                        logger.Info(ex.Message);
+                        logger.Error(ex.Message);
                     }
                     logger.Info("Цикл записи завершен.");
                 }               
@@ -369,7 +372,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
 
             logger.Info("Итоговый момент: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ);
-            logger.Info("Результат ПЛК:");
+            logger.Info("Результат ПЛК: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_RESULT);
 
             logger.Info("Ожидаем оценки оператора");
 
@@ -391,7 +394,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             JointResult.ResultTotal = awaitEvaluation.Task.Result;
             //Устанавливаем 50 - отправили оценку
-            Dp_ERG_CAM.Value.PMR_MR_TOTAL_RESULT = JointResult.ResultTotal;
+            Dp_ERG_CAM_ResultTotal.Value = JointResult.ResultTotal;
             DpTpcCommand.Value = 50;
 
 

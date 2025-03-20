@@ -209,6 +209,11 @@
 					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
+			<DpValue PropertyName="Dp_ERG_CAM_ResultTotal">
+				<SourceConfiguration>
+					<NodeId>ns=3;s="REZ_TPC_UP"."ERG_CAM"."PMR_MR_TOTAL_RESULT"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
 
 			<DpValue PropertyName="Dp_ERG_Muffe">
 				<SourceConfiguration>
