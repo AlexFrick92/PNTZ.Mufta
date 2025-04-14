@@ -46,9 +46,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             //Момент/Время
             TorqueTimeChartConfig.XMinValue = 0;
-            TorqueTimeChartConfig.XMaxValue = 90000;                        
+            TorqueTimeChartConfig.XMaxValue = 90000;             
             OnPropertyChanged(nameof(TorqueTimeChartConfig));
 
+            //Обороты/мин/обороты
+            TurnsPerMinuteTurnsChartConfig.XMinValue = 0;
+            TurnsPerMinuteTurnsChartConfig.XMaxValue = 5;
+            TurnsPerMinuteTurnsChartConfig.YMinValue = 0;
+            TurnsPerMinuteTurnsChartConfig.YMaxValue = 60;
+            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChartConfig));
+
+            //Момент/Обороты
+            TorqueTurnsChartConfig.XMinValue = 0;
+            TorqueTurnsChartConfig.XMaxValue = 5;
+            OnPropertyChanged(nameof(TorqueTurnsChartConfig));
 
             this.ResultDpWorker = resultWorker;
 
@@ -128,7 +139,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 while (true)
                 {
                     ActualTorque = Math.Abs( ResultDpWorker.DpParam.Value.Torque);
-                    ActualLength = ResultDpWorker.DpParam.Value.Length * 1000;
+                    ActualLength = ResultDpWorker.DpParam.Value.Length * 1000 + ResultDpWorker.MVSLen;
                     ActualTurns = ResultDpWorker.DpParam.Value.Turns;                    
 
                     OnPropertyChanged(nameof(ActualTorque));
@@ -189,6 +200,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 TorqueLengthChartConfig.XMaxValue = value.MU_Len_Max * 1.05;
 
                 OnPropertyChanged(nameof(TorqueLengthChartConfig));
+
+                TorqueTurnsChartConfig.YMinValue = 0;
+                TorqueTurnsChartConfig.YMaxValue = value.MU_Tq_Max * 1.1;
+                OnPropertyChanged(nameof(TorqueTurnsChartConfig));
 
 
                 TorqueTimeChartConfig.YMinValue = 0;
@@ -372,6 +387,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public ChartViewConfig TorqueTimeChartConfig { get; set; } = new ChartViewConfig();
         public ChartViewConfig TorqueLengthChartConfig { get; set; } = new ChartViewConfig();
+        public ChartViewConfig TurnsPerMinuteTurnsChartConfig { get; set; } = new ChartViewConfig();
+        public ChartViewConfig TorqueTurnsChartConfig { get; set; } = new ChartViewConfig();
 
     }
 }

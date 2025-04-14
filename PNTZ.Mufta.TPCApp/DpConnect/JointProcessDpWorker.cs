@@ -267,6 +267,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     {
                         StartTimeStamp = DateTime.Now,
                     };
+                    MVSLen = Dp_ERG_MVS.Value.PMR_Pre_MAKEUP_LEN * 1000;
+                    logger.Info("Длина преднавёртки: " + MVSLen);
+
                     break;
                 }
                 else if (awaitCommandFeedback.Task.Result == 0)
@@ -457,14 +460,15 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }   
         }
 
-        DateTime RecordingBeginTimeStamp;           
+        DateTime RecordingBeginTimeStamp;
+        public float MVSLen { get; private set; }
         private void ActualTqTnLen_ValueUpdated(object sender, OperationalParam e)
         {
             TqTnLenPoint lastPoint = JointResult.Series.LastOrDefault();
             TqTnLenPoint newPoint = new TqTnLenPoint()
             {
                 Torque = Math.Abs( e.Torque ),
-                Length = e.Length * 1000,
+                Length = e.Length * 1000 + MVSLen,
                 Turns = e.Turns,
                 TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(RecordingBeginTimeStamp)).TotalMilliseconds)
             };

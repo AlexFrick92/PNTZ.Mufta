@@ -171,7 +171,6 @@
     <Compile Include="View\Joint\JointProcessView.xaml.cs">
       <DependentUpon>JointProcessView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\LengthLabelFormatter.cs" />
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -188,7 +187,7 @@
       <DependentUpon>JointResultsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TimeStampLabelFormatter.cs" />
-    <Compile Include="View\TorqueLabelFormatter.cs" />
+    <Compile Include="View\DefaultDoubleLabelFormatter.cs" />
     <Compile Include="View\ValueDescription.cs" />
   </ItemGroup>
   <ItemGroup>

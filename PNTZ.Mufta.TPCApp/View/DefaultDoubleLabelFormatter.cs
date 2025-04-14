@@ -3,7 +3,7 @@ using System;
 
 namespace PNTZ.Mufta.TPCApp.View
 {
-    public class TorqueLabelFormatter : IAxisLabelFormatter
+    public class DefaultDoubleLabelFormatter : IAxisLabelFormatter
     {
         public string GetAxisLabelText(object axisValue)
         {
@@ -11,9 +11,7 @@ namespace PNTZ.Mufta.TPCApp.View
             {
                 var rounded = Math.Round(value / 1000);
 
-                return value.ToString("N0");
-                return $"{rounded} к";
-                
+                return value.ToString("N0");                
             }
             return axisValue?.ToString(); throw new NotImplementedException();
         }
