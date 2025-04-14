@@ -17,9 +17,9 @@ using System.Threading.Tasks;
 
 namespace PNTZ.Mufta.TPCApp.DpConnect
 {
-    public class JointResultDpWorker : IDpWorker
+    public class JointProcessDpWorker : IDpWorker
     {
-        public JointResultDpWorker(ILogger logger)
+        public JointProcessDpWorker(ILogger logger)
         {
             this.logger = logger;
         }

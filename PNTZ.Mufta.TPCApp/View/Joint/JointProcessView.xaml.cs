@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PNTZ.Mufta.TPCApp.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PNTZ.Mufta.TPCApp.View.Results
+namespace PNTZ.Mufta.TPCApp.View.Joint
 {
     /// <summary>
-    /// Interaction logic for ResultsView.xaml
+    /// Interaction logic for JointProcessView.xaml
     /// </summary>
-    public partial class ResultsView : UserControl
+    public partial class JointProcessView : UserControl
     {
-        public ResultsView()
+        public JointProcessView()
         {
             InitializeComponent();
         }

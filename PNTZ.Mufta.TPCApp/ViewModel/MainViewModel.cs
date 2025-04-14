@@ -34,9 +34,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public StatusBarViewModel StatusBarViewModel { get; set; }
 
         CreateRecipeView createRecipeView { get; set; }
-        JointView jointView { get; set; }
+        JointProcessView jointView { get; set; }
         MachineParamView MachineParamView { get; set; }
-        ResultsView ResultsView { get; set; }
+        JointResultsView ResultsView { get; set; }
         public ICommand NaviToRecipeViewCommand { get; private set; }
         public ICommand NaviToJointViewCommand { get; private set; }
         public ICommand NaviToMpViewCommand { get; private set; }
@@ -88,19 +88,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             MachineParamView = new MachineParamView();
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
-            jointView = new JointView();
-            jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(),
+            jointView = new JointProcessView();
+            jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(),
                         recViewModel as IRecipeLoader,
                         logger,
                         cli,
                         repositoryContext
                         );
 
-            ResultsView = new ResultsView();
+            ResultsView = new JointResultsView();
             ResultsView.DataContext = new ResultsViewModel(repositoryContext);
 
 
-            this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointResultDpWorker>().First(), 
+            this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(), 
                 workerManager.ResolveWorker<HeartbeatCheck>().First(),
                 recViewModel as IRecipeLoader
                 );

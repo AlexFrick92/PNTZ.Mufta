@@ -184,7 +184,7 @@
 		</Worker>
 		
 		<!--Результат свинчивания и АКТУАЛЬНЫЕ ПАРАМЕТРЫ-->
-		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointResultDpWorker, PNTZ.Mufta.TPCApp">
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.JointProcessDpWorker, PNTZ.Mufta.TPCApp">
 			<ConnectionId>Stend PNTZ</ConnectionId>
 			<DpValue PropertyName="DpTpcCommand">
 				<SourceConfiguration>
