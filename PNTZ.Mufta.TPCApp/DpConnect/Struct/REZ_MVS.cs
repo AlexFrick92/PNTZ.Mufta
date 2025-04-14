@@ -19,8 +19,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
         {
             REZ_MVS rez = new REZ_MVS();
 
-            rez.Pre_Len_Max = recipe.Pre_Len_Max;
-            rez.Pre_Len_Min = recipe.Pre_Len_Min;
+            rez.Pre_Len_Max = recipe.Pre_Len_Max / 1000;
+            rez.Pre_Len_Min = recipe.Pre_Len_Min / 1000;
             rez.Pre_Moni_Time = recipe.Pre_Moni_Time;
 
             return rez;

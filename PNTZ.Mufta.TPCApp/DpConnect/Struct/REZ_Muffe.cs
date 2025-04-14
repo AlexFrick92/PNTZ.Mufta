@@ -16,8 +16,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
         {
             REZ_Muffe rez = new REZ_Muffe();
 
-            rez.Box_Len_Max = recipe.Box_Len_Max;
-            rez.Box_Len_Min = recipe.Box_Len_Min;
+            rez.Box_Len_Max = recipe.Box_Len_Max / 1000;
+            rez.Box_Len_Min = recipe.Box_Len_Min / 1000;
             rez.Box_Moni_Time = recipe.Box_Moni_Time;
 
             return rez;
