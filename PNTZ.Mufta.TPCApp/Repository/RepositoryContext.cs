@@ -89,7 +89,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             using (var db = new JointResultContext(resultsConnectionString))
             {
                 List<JointResult> resultList = new List<JointResult> ();
-                foreach(var row in db.GetResultPage(1, 100).ToList())
+                foreach(var row in db.GetResultPage(1, 1000).ToList())
                 {
                     try
                     {

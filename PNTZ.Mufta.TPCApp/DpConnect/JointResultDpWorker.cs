@@ -234,6 +234,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             TaskCompletionSource<uint> awaitCommandFeedback = null;
             Task timeout = null;
             Task first = null;
+            
+
 
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
             token.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
@@ -300,12 +302,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             logger.Info("Joint. команда ПЛК:" + AwaitFor30.Task.Result);
 
-            if (AwaitFor30.Task.Result != 30 && AwaitFor30.Task.Result != 28)
+            if (AwaitFor30.Task.Result != 30 && AwaitFor30.Task.Result != 28 
+                && AwaitFor30.Task.Result != 25)
             {
                 if (AwaitFor30.Task.Result == 0)
                     throw new InvalidProgramException();
                 else
-                    throw new InvalidOperationException($"Неверный ответ от ПЛК: Ожидалось 30 или 28");
+                    throw new InvalidOperationException($"Неверный ответ от ПЛК: Ожидалось 30(Навинчивание) или 25(Развинчивание) или 28(Ошибка преднавёртки)");
 
             }
 
@@ -365,11 +368,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
 
             }
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
             logger.Info("Как будто записали параметры");
             
             //Устанавливаем 45 - ожидание оценки
             DpTpcCommand.Value = 45;                        
-
 
             logger.Info("Итоговый момент: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ);
             logger.Info("Результат ПЛК: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_RESULT);
@@ -381,13 +386,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
             AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
 
-            timeout = Task.Delay(TimeSpan.FromSeconds(3));
-            first = await Task.WhenAny(awaitEvaluation.Task, timeout, tcs.Task);
-            if (first == timeout)
+            timeout = Task.Delay(TimeSpan.FromSeconds(10));
+            var firstTask = await Task.WhenAny(awaitEvaluation.Task, tcs.Task);
+            if (firstTask == timeout)
                 logger.Info("Автооценка");
             else
             {
-                logger.Info("Оценка установлена: " + awaitEvaluation.Task.Result);
+                logger.Info("Оценка установлена оператором: " + awaitEvaluation.Task.Result);
                 var Value = awaitEvaluation.Task.Result;
             }
 
@@ -395,6 +400,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             JointResult.ResultTotal = awaitEvaluation.Task.Result;
             //Устанавливаем 50 - отправили оценку
             Dp_ERG_CAM_ResultTotal.Value = JointResult.ResultTotal;
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
             DpTpcCommand.Value = 50;
 
 
@@ -455,8 +463,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             TqTnLenPoint lastPoint = JointResult.Series.LastOrDefault();
             TqTnLenPoint newPoint = new TqTnLenPoint()
             {
-                Torque = e.Torque,
-                Length = e.Length,
+                Torque = Math.Abs( e.Torque ),
+                Length = e.Length * 1000,
                 Turns = e.Turns,
                 TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(RecordingBeginTimeStamp)).TotalMilliseconds)
             };
@@ -472,6 +480,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public void Evaluate(uint result)
         {
             Evaluated?.Invoke(this, result);
+           
         }
         private event EventHandler<uint> Evaluated;
 
@@ -480,7 +489,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         JointResult GetResult(JointResult jointResult)
         {
             jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
-            jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
+            jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN * 1000;
             jointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
             jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
 

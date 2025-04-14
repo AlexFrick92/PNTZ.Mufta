@@ -323,14 +323,14 @@
                     Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
                 <TextBox Grid.Row="2" Grid.Column="3"
                     x:Name="Input_BoxMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" 
-                         Text="{Binding EditRecipe.Box_Len_Max, ValidatesOnExceptions=True, StringFormat=F1}"/>
+                         Text="{Binding EditRecipe.Box_Len_Min, ValidatesOnExceptions=True, StringFormat=F1}"/>
 
 
                 <Label Grid.Row="3" Grid.Column="2"
                     Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
                 <TextBox Grid.Row="3" Grid.Column="3"
                     x:Name="Input_BoxMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" 
-                         Text="{Binding EditRecipe.Box_Len_Min, ValidatesOnExceptions=True, StringFormat=F1}"/>
+                         Text="{Binding EditRecipe.Box_Len_Max, ValidatesOnExceptions=True, StringFormat=F1}"/>
 
                 <Label Grid.Row="4" Grid.Column="2"
                     Style="{StaticResource InputFieldLabel}" Content="Время наблюдения"/>
@@ -352,12 +352,12 @@
                 <Label Grid.Row="7" Grid.Column="2"
                     Style="{StaticResource InputFieldLabel}" Content="Мин. длина"/>
                 <TextBox Grid.Row="7" Grid.Column="3"                    
-                    x:Name="Input_PreMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Max, ValidatesOnExceptions=True, StringFormat=F1}"/>
+                    x:Name="Input_PreMax" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Min, ValidatesOnExceptions=True, StringFormat=F1}"/>
 
                 <Label Grid.Row="8" Grid.Column="2"
                     Style="{StaticResource InputFieldLabel}" Content="Макс. длина"/>
                 <TextBox Grid.Row="8" Grid.Column="3"
-                    x:Name="Input_PreMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Min, ValidatesOnExceptions=True, StringFormat=F1}"/>
+                    x:Name="Input_PreMin" PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.Pre_Len_Max, ValidatesOnExceptions=True, StringFormat=F1}"/>
 
                 <Label Grid.Row="9" Grid.Column="2"
                     Style="{StaticResource InputFieldLabel}" Content="Время наблюдения"/>

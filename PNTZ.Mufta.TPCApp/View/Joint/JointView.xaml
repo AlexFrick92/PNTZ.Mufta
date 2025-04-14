@@ -37,6 +37,7 @@
                 <Setter Property="BorderThickness" Value="0,0,0,1"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="10,0,10,5"/>
+                <Setter Property="FontSize" Value="14"/>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -278,7 +279,7 @@
                                         <dxc:AxisY2D x:Name="axisY" Interlaced="False"
                                                      GridLinesBrush="#F0F0F0">
 
-                                            <dxc:AxisY2D.GridSpacing>500</dxc:AxisY2D.GridSpacing>
+                                            <dxc:AxisY2D.GridSpacing>2500</dxc:AxisY2D.GridSpacing>
 
                                             <dxc:AxisY2D.WholeRange>
                                                 <dxc:Range MinValue="0" 
