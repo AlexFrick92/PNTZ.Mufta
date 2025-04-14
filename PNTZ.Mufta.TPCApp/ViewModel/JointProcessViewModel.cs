@@ -3,7 +3,7 @@
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.Repository;
-
+using PNTZ.Mufta.TPCApp.View;
 using Promatis.Core.Logging;
 
 using System;
@@ -19,9 +19,9 @@ using static PNTZ.Mufta.TPCApp.App;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
-    public class JointViewModel : BaseViewModel
+    public class JointProcessViewModel : BaseViewModel
     {
-        public JointViewModel(JointProcessDpWorker resultWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, RepositoryContext repo )
+        public JointProcessViewModel(JointProcessDpWorker resultWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, RepositoryContext repo )
         {
             this.logger = logger;
             this.cliProgram = cliProgram;
@@ -29,7 +29,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             try
             {
-                var config = XDocument.Load($"{AppInstance.CurrentDirectory}/ViewModel/JointViewModel.xml");
+                var config = XDocument.Load($"{AppInstance.CurrentDirectory}/ViewModel/JointProcessViewModel.xml");
                 UpdateInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("UpdateInterval").Value));
                 RecordingInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("RecordingInterval").Value));
                 MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));
@@ -39,13 +39,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
             catch (Exception ex)
             {
-                logger.Info("Не удалось загрузить конфигурацию для JointViewModel:");
+                logger.Info("Не удалось загрузить конфигурацию для JointProcessViewModel:");
                 logger.Info(ex.Message);
                 logger.Info("Будут использованы значения по-умолчанию");
             }
 
             //Настройки графиков
-            OnPropertyChanged(nameof(TorqueTimeChartTorqueMaxValue));
+
+            //Момент/Время
+            TorqueTimeChartConfig.XMinValue = 0;
+            TorqueTimeChartConfig.XMaxValue = 90000;
+            TorqueTimeChartConfig.YMinValue = 0;
+            TorqueTimeChartConfig.YMaxValue = TorqueTimeChartTorqueMaxValue;
+            OnPropertyChanged(nameof(TorqueTimeChartConfig));
+
 
             this.ResultDpWorker = resultWorker;
 
@@ -341,6 +348,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         }
         public JointResult LastJointResult { get; set; }
+
+
+
+
+
+
+        // ************* НАСТРОЙКА ГРАФИКОВ ******************
+
+        public ChartViewConfig TorqueTimeChartConfig { get; set; } = new ChartViewConfig();
+
     }
 }
 

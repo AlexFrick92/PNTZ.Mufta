@@ -151,7 +151,7 @@
     <Compile Include="Toolbox\Smoothing\MovingAverage.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />
-    <Compile Include="ViewModel\JointViewModel.cs" />
+    <Compile Include="ViewModel\JointProcessViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NewRecipeViewModel.cs" />
@@ -159,6 +159,7 @@
     <Compile Include="ViewModel\ResultsViewModel.cs" />
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
     <Compile Include="ViewModel\TqTnLenPointViewModel.cs" />
+    <Compile Include="View\ChartViewConfig.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
     </Compile>
@@ -185,6 +186,8 @@
     <Compile Include="View\Results\JointResultsView.xaml.cs">
       <DependentUpon>JointResultsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\TimeStampLabelFormatter.cs" />
+    <Compile Include="View\TorqueLabelFormatter.cs" />
     <Compile Include="View\ValueDescription.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,7 +296,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ViewModel\JointViewModel.xml">
+    <None Include="ViewModel\JointProcessViewModel.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

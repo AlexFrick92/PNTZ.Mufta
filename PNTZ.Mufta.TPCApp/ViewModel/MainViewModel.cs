@@ -66,7 +66,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
             catch (Exception ex)
             {
-                logger.Info("Не удалось загрузить конфигурацию для JointViewModel:");
+                logger.Info("Не удалось загрузить конфигурацию для JointProcessViewModel:");
                 logger.Info(ex.Message);
                 logger.Info("Будут использованы значения по-умолчанию");
             }
@@ -89,7 +89,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
             jointView = new JointProcessView();
-            jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(),
+            jointView.DataContext=  new JointProcessViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(),
                         recViewModel as IRecipeLoader,
                         logger,
                         cli,
