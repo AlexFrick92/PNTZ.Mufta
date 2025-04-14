@@ -9,7 +9,7 @@ namespace PNTZ.Mufta.TPCApp.View
     public class ChartViewConfig
     {
 
-        double xMaxValue;
+        double xMaxValue = 1;
         public double XMaxValue 
         { 
             get => xMaxValue; 
@@ -34,7 +34,7 @@ namespace PNTZ.Mufta.TPCApp.View
 
         public double XGridSpacing { get; protected set; }
 
-        double yMaxValue;
+        double yMaxValue = 1;
         public double YMaxValue 
         {
             get => yMaxValue;

@@ -171,6 +171,7 @@
     <Compile Include="View\Joint\JointProcessView.xaml.cs">
       <DependentUpon>JointProcessView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\LengthLabelFormatter.cs" />
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

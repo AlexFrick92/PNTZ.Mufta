@@ -1,5 +1,5 @@
 ﻿using Desktop.MVVM;
-
+using DevExpress.Xpf.Charts;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.Repository;
@@ -32,9 +32,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 var config = XDocument.Load($"{AppInstance.CurrentDirectory}/ViewModel/JointProcessViewModel.xml");
                 UpdateInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("UpdateInterval").Value));
                 RecordingInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("RecordingInterval").Value));
-                MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));
-
-                TorqueTimeChartTorqueMaxValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("TorqueMaxVal").Value);
+                MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));                
 
             }
             catch (Exception ex)
@@ -48,9 +46,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             //Момент/Время
             TorqueTimeChartConfig.XMinValue = 0;
-            TorqueTimeChartConfig.XMaxValue = 90000;
-            TorqueTimeChartConfig.YMinValue = 0;
-            TorqueTimeChartConfig.YMaxValue = TorqueTimeChartTorqueMaxValue;
+            TorqueTimeChartConfig.XMaxValue = 90000;                        
             OnPropertyChanged(nameof(TorqueTimeChartConfig));
 
 
@@ -175,8 +171,31 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 };
             }
         }
-        
-        public JointRecipe LoadedRecipe { get; set; }
+
+
+        JointRecipe loadedRecipe;
+        public JointRecipe LoadedRecipe 
+        { 
+            get => loadedRecipe;
+            set
+            {
+                loadedRecipe = value;
+
+                //Настроить графики
+
+                TorqueLengthChartConfig.YMinValue = 0;
+                TorqueLengthChartConfig.YMaxValue = value.MU_Tq_Max * 1.1;
+                TorqueLengthChartConfig.XMinValue = value.MU_Len_Min / 1.2;
+                TorqueLengthChartConfig.XMaxValue = value.MU_Len_Max * 1.05;
+
+                OnPropertyChanged(nameof(TorqueLengthChartConfig));
+
+
+                TorqueTimeChartConfig.YMinValue = 0;
+                TorqueTimeChartConfig.YMaxValue = value.MU_Tq_Max * 1.1;                
+                OnPropertyChanged(nameof(TorqueTimeChartConfig));               
+            } 
+        }
 
         
 
@@ -311,11 +330,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
         }
 
-        //************** НАСТРОЙКА ГРАФИКОВ ***************************
-
-        public double TorqueTimeChartTorqueMaxValue { get; set; } = 2000;
-
-
 
         // ************* УСТАНОВКА РЕЗУЛЬТАТА ******************
 
@@ -357,6 +371,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         // ************* НАСТРОЙКА ГРАФИКОВ ******************
 
         public ChartViewConfig TorqueTimeChartConfig { get; set; } = new ChartViewConfig();
+        public ChartViewConfig TorqueLengthChartConfig { get; set; } = new ChartViewConfig();
 
     }
 }
