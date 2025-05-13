@@ -102,7 +102,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(), 
                 workerManager.ResolveWorker<HeartbeatCheck>().First(),
-                recViewModel as IRecipeLoader
+                recViewModel as IRecipeLoader,
+                workerManager.ResolveWorker<SensorStatusDpWorker>().First()
                 );
             OnPropertyChanged(nameof(StatusBarViewModel));
 

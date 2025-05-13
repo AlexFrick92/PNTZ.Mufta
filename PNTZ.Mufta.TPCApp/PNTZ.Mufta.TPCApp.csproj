@@ -132,6 +132,7 @@
     <Compile Include="DpConnect\MachineParamFromPlc.cs" />
     <Compile Include="DpConnect\MakeHeartBeat.cs" />
     <Compile Include="DpConnect\RecipeDpWorker.cs" />
+    <Compile Include="DpConnect\SensorStatusDpWorker.cs" />
     <Compile Include="DpConnect\Struct\ERG_CAM.cs" />
     <Compile Include="DpConnect\Struct\ERG_Muffe.cs" />
     <Compile Include="DpConnect\Struct\ERG_MVS.cs" />

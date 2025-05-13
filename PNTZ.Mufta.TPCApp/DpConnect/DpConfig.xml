@@ -35,6 +35,29 @@
 
 		</Worker>
 
+		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.SensorStatusDpWorker, PNTZ.Mufta.TPCApp">
+			<ConnectionId>Stend PNTZ</ConnectionId>
+			<DpValue PropertyName="DpAED">
+				<SourceConfiguration>
+					<NodeId>ns=3;s="SensorState"."Machine1SensorsOK"."AED"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+			<DpValue PropertyName="DpRotate">
+				<SourceConfiguration>
+					<NodeId>ns=3;s="SensorState"."Machine1SensorsOK"."Rotate"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+			<DpValue PropertyName="DpLength">
+				<SourceConfiguration>
+					<NodeId>ns=3;s="SensorState"."Machine1SensorsOK"."Length"</NodeId>
+				</SourceConfiguration>
+			</DpValue>
+
+		</Worker>
+		
+		
+		
+
 		<!--Загрузка рецепта-->
 		<Worker TypeName="PNTZ.Mufta.TPCApp.DpConnect.RecipeDpWorker, PNTZ.Mufta.TPCApp">
 			<ConnectionId>Stend PNTZ</ConnectionId>

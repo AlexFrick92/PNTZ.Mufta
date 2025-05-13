@@ -13,13 +13,39 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     public class StatusBarViewModel : BaseViewModel
     {
 
-        public StatusBarViewModel(JointProcessDpWorker resultDpWorker, HeartbeatCheck hbWorker, IRecipeLoader recLoader)
+        public StatusBarViewModel(JointProcessDpWorker resultDpWorker, HeartbeatCheck hbWorker, IRecipeLoader recLoader, SensorStatusDpWorker sensorWorker)
         {
             ResultDpWorker = resultDpWorker;
             HbCheckWorker = hbWorker;
             
             RecipeLoader = recLoader;
         }
+
+
+        private SensorStatusDpWorker _sensorWorker;
+
+        public SensorStatusDpWorker SensorWorker
+        {
+            get => _sensorWorker;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                _sensorWorker = value;
+
+                _sensorWorker.DpAED.ValueUpdated += (s, v) => { SensorAedOk = v; OnPropertyChanged(nameof(SensorAedOk)); };
+                _sensorWorker.DpRotate.ValueUpdated += (s, v) => { SensorRotateOk = v; OnPropertyChanged(nameof(SensorRotateOk)); };
+                _sensorWorker.DpLength.ValueUpdated += (s, v) => { SensorLengthOk = v; OnPropertyChanged(nameof(SensorLengthOk)); };
+
+
+            }
+        }
+
+        public bool SensorAedOk { get; set; }
+        public bool SensorRotateOk { get; set; }
+        public bool SensorLengthOk { get; set; }
+
 
         HeartbeatCheck hbCheckWorker;
         HeartbeatCheck HbCheckWorker
