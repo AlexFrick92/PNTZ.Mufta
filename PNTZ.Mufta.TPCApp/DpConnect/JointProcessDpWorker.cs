@@ -31,6 +31,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public IDpValue<uint> DpPlcCommand { get; set; }
         public IDpValue<OperationalParam> DpParam { get; set; }
 
+        public float LengthOffset { get; set; } = 0;
+
         public float TorqueSmoothed { get; set; }
 
         public IDpValue<ERG_CAM> Dp_ERG_CAM { get; set; }
@@ -326,7 +328,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             //Труба в позиции. Запускаем таск записи параметров
 
-            logger.Info("Joint. Труба в позиции головки свинчивания. Готовимся к записи параметров!");
+            logger.Info("Joint. Труба в позиции головки свинчивания. Готовимся к записи параметров! Начальная точка: " + DpParam.Value.Length);
+
+            LengthOffset = DpParam.Value.Length;
 
             CancellationTokenSource recordCtc = new CancellationTokenSource();
             //Отмена по таймауту. Предполагаю что monitoring time.
@@ -430,6 +434,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
 
             JointResult.FinishTimeStamp = DateTime.Now;
+
+            LengthOffset = 0;
         }
 
         async Task RecordOperationParams(CancellationToken token)
@@ -468,7 +474,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             TqTnLenPoint newPoint = new TqTnLenPoint()
             {
                 Torque = Math.Abs( e.Torque ),
-                Length = e.Length * 1000 + MVSLen,
+                Length = (e.Length - LengthOffset) * 1000 + MVSLen,
                 Turns = e.Turns,
                 TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(RecordingBeginTimeStamp)).TotalMilliseconds)
             };

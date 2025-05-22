@@ -139,7 +139,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 while (true)
                 {
                     ActualTorque = Math.Abs( ResultDpWorker.DpParam.Value.Torque);
-                    ActualLength = ResultDpWorker.DpParam.Value.Length * 1000 + ResultDpWorker.MVSLen;
+                    ActualLength = ( ResultDpWorker.DpParam.Value.Length  - ResultDpWorker.LengthOffset) * 1000 + ResultDpWorker.MVSLen;
                     ActualTurns = ResultDpWorker.DpParam.Value.Turns;                    
 
                     OnPropertyChanged(nameof(ActualTorque));

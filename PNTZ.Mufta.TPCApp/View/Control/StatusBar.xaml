@@ -36,6 +36,8 @@
         </Grid.Style>
         
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
@@ -43,7 +45,7 @@
 
         
         <!-- СТАТУС СВИНЧИВАНИЕ -->
-        <StackPanel Grid.Column="0" Orientation="Horizontal"
+        <StackPanel Grid.Column="1" Orientation="Horizontal"
                     Margin="8,0,0,0"
                     VerticalAlignment="Center">
             <Label Content="Статус:" 
@@ -74,7 +76,7 @@
         </StackPanel>
 
         <!-- ЗАГРУЖЕННЫЙ РЕЦЕПТ -->
-        <StackPanel Grid.Column="1" Orientation="Horizontal"
+        <StackPanel Grid.Column="0" Orientation="Horizontal"
                     Margin="8,0,8,0"
                     VerticalAlignment="Center">
             <Label Content="Рецепт:" 
@@ -98,7 +100,7 @@
         
         
         <!-- СТАТУС ПОДКЛЮЧЕНИЯ -->
-        <StackPanel Grid.Column="2" Orientation="Horizontal"
+        <StackPanel Grid.Column="4" Orientation="Horizontal"
                     Margin="0,0,8,0"
                     VerticalAlignment="Center">
     
@@ -126,9 +128,13 @@
                 </Label.Style>
             </Label>
 
+            <Label Content="Бит жизни:"
+                   Style="{StaticResource StatusBarLabel}"
+            />
+
             <!-- Круг -->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="4,0,10,0"
+                     Margin="0,0,10,0"
                      Stroke="Black" StrokeThickness="1"
                      >
                 <Ellipse.Style>
@@ -146,12 +152,12 @@
             </Ellipse>
 
 
-            <Label Content="Тензодатчик"
+            <Label Content="Тензодатчик:"
                    Style="{StaticResource StatusBarLabel}"
             />
             <!-- Круг тензодатчик -->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="4,0,4,0"
+                     Margin="0,0,4,0"
                      Stroke="Black" StrokeThickness="1"
             >
                 <Ellipse.Style>
@@ -168,12 +174,12 @@
                 </Ellipse.Style>
             </Ellipse>
 
-            <Label Content="Обороты"
+            <Label Content="Обороты:"
                    Style="{StaticResource StatusBarLabel}"
             />
             <!-- Круг датчик оборотов -->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="4,0,4,0"
+                     Margin="0,0,4,0"
                      Stroke="Black" StrokeThickness="1"
             >
                 <Ellipse.Style>
@@ -190,12 +196,12 @@
                 </Ellipse.Style>
             </Ellipse>
 
-            <Label Content="Перемещение"
+            <Label Content="Перемещение:"
                    Style="{StaticResource StatusBarLabel}"
             />
             <!-- Круг датчик перемещения-->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="4,0,4,0"
+                     Margin="0,0,4,0"
                      Stroke="Black" StrokeThickness="1"
             >
                 <Ellipse.Style>

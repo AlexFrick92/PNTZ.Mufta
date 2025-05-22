@@ -19,6 +19,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             HbCheckWorker = hbWorker;
             
             RecipeLoader = recLoader;
+
+            SensorWorker = sensorWorker;
         }
 
 
