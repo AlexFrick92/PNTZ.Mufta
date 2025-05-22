@@ -5,8 +5,8 @@
 	<Connections>
 		<Connection TypeName="DpConnect.OpcUa.IOpcUaConnection, DpConnect.OpcUa">
 			<ConnectionId>Stend PNTZ</ConnectionId>
-			 <!-- <Endpoint>opc.tcp://192.168.0.2:4840</Endpoint>	-->
-			<Endpoint>opc.tcp://10.10.10.95:4840</Endpoint>
+			  <Endpoint>opc.tcp://192.168.0.2:4840</Endpoint>	
+			<!-- <Endpoint>opc.tcp://10.10.10.95:4840</Endpoint> -->
 		</Connection>
 	</Connections>
 
@@ -39,17 +39,17 @@
 			<ConnectionId>Stend PNTZ</ConnectionId>
 			<DpValue PropertyName="DpAED">
 				<SourceConfiguration>
-					<NodeId>ns=3;s="SensorState"."Machine1SensorsOK"."AED"</NodeId>
+					<NodeId>ns=3;s="SensorsState"."Machine1SensorsOK"."AED"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 			<DpValue PropertyName="DpRotate">
 				<SourceConfiguration>
-					<NodeId>ns=3;s="SensorState"."Machine1SensorsOK"."Rotate"</NodeId>
+					<NodeId>ns=3;s="SensorsState"."Machine1SensorsOK"."Rotate"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 			<DpValue PropertyName="DpLength">
 				<SourceConfiguration>
-					<NodeId>ns=3;s="SensorState"."Machine1SensorsOK"."Length"</NodeId>
+					<NodeId>ns=3;s="SensorsState"."Machine1SensorsOK"."Length"</NodeId>
 				</SourceConfiguration>
 			</DpValue>
 
