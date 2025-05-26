@@ -178,8 +178,8 @@
     <Compile Include="View\MP\MachineParamView.xaml.cs">
       <DependentUpon>MachineParamView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Recipe\CreateRecipeView.xaml.cs">
-      <DependentUpon>CreateRecipeView.xaml</DependentUpon>
+    <Compile Include="View\Recipe\RecipeView.xaml.cs">
+      <DependentUpon>RecipeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Recipe\NewRecipeView.xaml.cs">
       <DependentUpon>NewRecipeView.xaml</DependentUpon>
@@ -257,7 +257,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Recipe\CreateRecipeView.xaml">
+    <Page Include="View\Recipe\RecipeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

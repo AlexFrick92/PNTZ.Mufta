@@ -22,10 +22,10 @@ namespace PNTZ.Mufta.TPCApp.View.Recipe
     /// <summary>
     /// Interaction logic for CreateRecipeView.xaml
     /// </summary>
-    public partial class CreateRecipeView : UserControl
+    public partial class RecipeView : UserControl
     {
 
-        public CreateRecipeView()
+        public RecipeView()
         {
             InitializeComponent();
 

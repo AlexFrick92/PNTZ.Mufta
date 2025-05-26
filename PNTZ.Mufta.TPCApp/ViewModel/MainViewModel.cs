@@ -33,7 +33,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public CliViewModel CliViewModel { get; set; }
         public StatusBarViewModel StatusBarViewModel { get; set; }
 
-        CreateRecipeView createRecipeView { get; set; }
+        RecipeView RecipeView { get; set; }
         JointProcessView jointView { get; set; }
         MachineParamView MachineParamView { get; set; }
         JointResultsView ResultsView { get; set; }
@@ -81,9 +81,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             //Создаем ViewModels
             CliViewModel = new CliViewModel(cliUI);            
 
-            createRecipeView = new CreateRecipeView();
+            RecipeView = new RecipeView();
             RecipeViewModel recViewModel = new RecipeViewModel(workerManager.ResolveWorker<RecipeDpWorker>().First(), logger, repositoryContext);
-            createRecipeView.DataContext = recViewModel;
+            RecipeView.DataContext = recViewModel;
 
             MachineParamView = new MachineParamView();
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
@@ -112,7 +112,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             //Навигация между окнами
             NaviToRecipeViewCommand = new RelayCommand((p) =>
             {
-                MainContent = createRecipeView;                
+                MainContent = RecipeView;                
             });
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);            
             NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParamView);
