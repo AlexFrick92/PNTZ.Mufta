@@ -19,5 +19,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
         bool CyclicallyListen { get; set; }
 
+        void SetActualRecipe(JointRecipe recipe);
+
     }
 }

@@ -41,9 +41,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         public JointResult ToJointResult()
         {
-            JointResult result = new JointResult();
-
-            result.Recipe = base.ToJointRecipe();
+            JointResult result = new JointResult(base.ToJointRecipe());
 
             result.FinalTorque = (float)FinalTorque;
             result.FinalLength = (float)FinalLength;

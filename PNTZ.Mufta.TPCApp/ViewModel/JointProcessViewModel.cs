@@ -67,7 +67,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         ICliProgram cliProgram;
 
         RepositoryContext repo;
-        
 
         //Класс получения параметров из OpcUa
         IJointProcessWorker jointProcessWorker;
@@ -130,7 +129,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             JointProcessWorker.NewTqTnLenPoint -= SubscribeToValues;
         }
 
-
         //***************** ДАННЫЕ РЕЦЕПТА **********************
         IRecipeLoader recipeLoader;
         IRecipeLoader RecipeLoader
@@ -150,8 +148,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 };
             }
         }
-
-
         JointRecipe loadedRecipe;
         public JointRecipe LoadedRecipe 
         { 
@@ -159,14 +155,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             set
             {
                 loadedRecipe = value;
-
-                //Настроить графики при изменении рецепта
-
-               ChartConfigByRecipe(value);
+                jointProcessWorker.SetActualRecipe(value);
+                ChartConfigByRecipe(value);
             } 
         }
-
-
 
         private void InitChartConfig(XDocument config)
         {
@@ -326,8 +318,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             ShowResultButtons = false;
             OnPropertyChanged(nameof(ShowResultButtons));
 
-            result.Recipe = LoadedRecipe;
-
             try
             {
                 repo.SaveResult(result);
@@ -343,9 +333,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         }
         public JointResultViewModel LastJointResult { get; set; }
-
-
-
 
 
 

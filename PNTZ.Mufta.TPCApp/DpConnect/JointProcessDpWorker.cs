@@ -80,9 +80,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(recordingBeginTimeStamp)).TotalMilliseconds)
             };
             point.TurnsPerMinute = (float)CalculateTurnsPerMinute(lastPoint, point);
-            if (JointResult != null)
+            if (jointResult != null)
             {
-                point.Length -= LengthOffset + JointResult.MVS_Len; 
+                point.Length -= LengthOffset + jointResult.MVS_Len; 
             }
             NewTqTnLenPoint?.Invoke(this, point);
             lastPoint = point;
@@ -104,6 +104,20 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 return (float)changeRate;
             else
                 return lastPoint.TurnsPerMinute;
+        }
+
+
+        private JointRecipe actualRecipe = null;
+        public void SetActualRecipe(JointRecipe recipe)
+        {
+            if (recipe == null)
+            {
+                logger.Info("[JointProcessDpWorker] Рецепт - null");
+                return;
+            }
+
+            actualRecipe = recipe;
+            RecordingTimeout = TimeSpan.FromSeconds(recipe.MU_Moni_Time);
         }
 
         //Процедура прослушивания запущена. Да, по этому флагу я определяю, можно ли запустить прослушнку. Конечно тут нужен lock...
@@ -161,7 +175,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         {
             if (DpPlcCommand.IsConnected)
             {
-                
                 _ = StartProcedureAsync();
             }
         }
@@ -233,12 +246,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         DpTpcCommand.Value = 0;
                     try
                     {
-                        if (JointResult != null)
+                        if (jointResult != null)
                         {
-                            JointFinished?.Invoke(this, GetResult(JointResult));
+                            JointFinished?.Invoke(this, FillResult(jointResult));
                         }
                         else
-                            JointFinished?.Invoke(this, GetResult(new JointResult()));
+                            JointFinished?.Invoke(this, FillResult(new JointResult(actualRecipe)));
                     }
                     catch (Exception ex)
                     {
@@ -304,13 +317,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 {
                     logger.Info("Труба появилась на позиции муфтонавёртки");
                     
-                    JointResult = new JointResult()
+                    jointResult = new JointResult(actualRecipe)
                     {
                         StartTimeStamp = DateTime.Now,
                         MVS_Len = Dp_ERG_MVS.Value.PMR_Pre_MAKEUP_LEN
                     };
-                    logger.Info($"Длина преднавёртки: {JointResult.MVS_Len} м.");
-                    PipeAppear?.Invoke(this, JointResult);
+                    logger.Info($"Длина преднавёртки: {jointResult.MVS_Len} м.");
+                    PipeAppear?.Invoke(this, jointResult);
 
                     break;
                 }
@@ -444,9 +457,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             }
 
 
-            JointResult.ResultTotal = awaitEvaluation.Task.Result;
+            jointResult.ResultTotal = awaitEvaluation.Task.Result;
             //Устанавливаем 50 - отправили оценку
-            Dp_ERG_CAM_ResultTotal.Value = JointResult.ResultTotal;
+            Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
 
             await Task.Delay(TimeSpan.FromSeconds(2));
 
@@ -473,7 +486,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 0");
             }
 
-            JointResult.FinishTimeStamp = DateTime.Now;
+            jointResult.FinishTimeStamp = DateTime.Now;
 
             LengthOffset = 0;
         }
@@ -482,7 +495,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         {
             logger.Info("Регистрация параметров начата!");
             recordingBeginTimeStamp = DateTime.Now;
-            JointResult.Series = new List<TqTnLenPoint>();
+            jointResult.Series = new List<TqTnLenPoint>();
             NewTqTnLenPoint += ActualTqTnLen_ValueUpdated;
             RecordingBegun?.Invoke(this, EventArgs.Empty);
             try
@@ -509,12 +522,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         DateTime recordingBeginTimeStamp;
         private void ActualTqTnLen_ValueUpdated(object sender, TqTnLenPoint e)
         {
-            JointResult.Series.Add(e);            
+            jointResult.Series.Add(e);            
         }
 
 
 
-        JointResult JointResult;
+        JointResult jointResult;
 
         //Оценка оператором
         public void Evaluate(uint result)
@@ -526,14 +539,14 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         //РЕЗУЛЬТАТ
 
-        JointResult GetResult(JointResult jointResult)
+        JointResult FillResult(JointResult result)
         {
-            jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
-            jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
-            jointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
-            jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
+            result.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
+            result.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
+            result.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
+            result.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
 
-            return jointResult;           
+            return result;           
         }
     }
     
