@@ -184,11 +184,11 @@
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 
@@ -211,7 +211,7 @@
                 <TextBox
                     Grid.Row="0"
                     Grid.Column="1"
-                    Grid.ColumnSpan="2"                      
+                    Grid.ColumnSpan="3"                      
                     Style="{StaticResource ParaFieldStyle}"               
                     Text="{Binding SelectedResult.SelectedMode, Mode=OneWay}"
                     />
@@ -258,20 +258,46 @@
                     Style="{StaticResource ParaFieldStyle}"
                     Text="{Binding SelectedResult.FinalTurns, Mode=OneWay}"                    
                     />
-                
-                <!---->
+
+
                 <Label 
                     Grid.Row="4"
                     Grid.Column="0"                    
-                    Content="Итоговое значение J"                    
-                    />
-
+                    Content="Результат"                    
+                />
                 <TextBox
                     Grid.Row="4"
                     Grid.Column="1"                    
                     Style="{StaticResource ParaFieldStyle}"
-                    Text="{Binding SelectedResult.FinalJVal, Mode=OneWay}"                    
-                    />
+                    Text="{Binding SelectedResult.Result, Mode=OneWay}"                    
+                />
+
+                <!--ВТОРАЯ КОЛОНКА-->
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="2"                    
+                    Content="Дата соединения"                    
+                />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="3"                    
+                    Style="{StaticResource ParaFieldStyle}"
+                    Text="{Binding SelectedResult.FinishTimeStamp, Mode=OneWay}"                    
+                />
+
+                <Label 
+                    Grid.Row="2"
+                    Grid.Column="2"                    
+                    Content="Рецепт"                    
+                />
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="3"                    
+                    Style="{StaticResource ParaFieldStyle}"
+                    Text="{Binding SelectedResult.Recipe.Name, Mode=OneWay}"                    
+                />
+
 
             </Grid>
 

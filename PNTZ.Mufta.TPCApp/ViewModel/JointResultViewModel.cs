@@ -56,5 +56,24 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public List<TqTnLenPoint> Series { get => ResultModel.Series; }
 
         public DateTime FinishTimeStamp { get => ResultModel.FinishTimeStamp; }
+
+        public string Result
+        {
+            get
+            {
+                switch (ResultModel.ResultTotal)
+                {
+                    case 2:
+                        return "Брак";
+                    case 1:
+                        return "Годное";
+                    default:
+                        return "Не установлен";
+
+                }
+            }
+        }
+
+        public JointRecipeViewModel Recipe => new JointRecipeViewModel(ResultModel.Recipe);
     }
 }
