@@ -36,11 +36,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             get => selectedResult;
             set
             {             
+                ResultSelected = value != null;
+                OnPropertyChanged(nameof(ResultSelected));
                 selectedResult = value;
                 OnPropertyChanged(nameof(SelectedResult));
             }
 
         }
+        public bool ResultSelected { get; set; }
                 
 
 

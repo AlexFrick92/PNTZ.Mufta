@@ -197,7 +197,7 @@
 
         <!--Фоновый текст-->
         <Label
-                Grid.Row="1" Grid.RowSpan="3" Grid.Column="2"
+                Grid.Row="1" Grid.Column="2"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Content="Выберите рецепт слева или создайте новый"

@@ -122,7 +122,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             cli.RegisterCommand("start", (args) => Task.Run(() => connectionManager.OpenConnections()));
             cli.RegisterCommand("stop", (args) => Task.Run(() => connectionManager.CloseConnections()));
 
-
             if (connectOnStartup)
             {
                 try
