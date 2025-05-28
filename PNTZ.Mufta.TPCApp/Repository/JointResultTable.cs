@@ -11,6 +11,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
     [Table(Name = "Results")]
     public class JointResultTable : JointRecipeTable
     {
+
+        [Column]
+        public double MVS_Len { get; set; }
         [Column]
         public double FinalTorque { get; set; }
         [Column]
@@ -52,6 +55,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             result.ResultTotal = (uint)ResultTotal;
             result.StartTimeStamp = DateTime.Parse(StartTimeStamp);
             result.FinishTimeStamp = DateTime.Parse(FinishTimeStamp);
+            result.MVS_Len = (float)MVS_Len;
 
             using (MemoryStream ms = new MemoryStream(Series))
             {
@@ -85,6 +89,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             ResultTotal = result.ResultTotal;
             StartTimeStamp = result.StartTimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
             FinishTimeStamp = result.FinishTimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
+            MVS_Len = result.MVS_Len;
 
             using (MemoryStream ms = new MemoryStream())
             {

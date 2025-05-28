@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <JointViewModel>
 	<JointOperationParam UpdateInterval="100" RecordingInterval="100" MaxRecordingTimeSec="60"/>
-	<TorqueTimeChart TorqueMaxVal ="30000"/>
+	<TorqueLengthChart YMax = "30000" YMin ="0" XMax ="0" XMin="0"/>
+	<TorqueTimeChart YMax = "30000" YMin ="0" XMax ="90000" XMin="0"/>
+	<TurnsPerMinuteTurnsChart YMax = "60" YMin ="0" XMax ="5" XMin="0"/>
+	<TorqueTurnsChart YMax = "30000" YMin ="0" XMax ="0" XMin="0"/>
+	
+	
+	
 </JointViewModel>

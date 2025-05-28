@@ -21,7 +21,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointProcessViewModel : BaseViewModel
     {
-        public JointProcessViewModel(JointProcessDpWorker resultWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, RepositoryContext repo )
+        public JointProcessViewModel(JointProcessDpWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, RepositoryContext repo )
         {
             this.logger = logger;
             this.cliProgram = cliProgram;
@@ -32,8 +32,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 var config = XDocument.Load($"{AppInstance.CurrentDirectory}/ViewModel/JointProcessViewModel.xml");
                 UpdateInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("UpdateInterval").Value));
                 RecordingInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("RecordingInterval").Value));
-                MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));                
+                MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));
 
+                InitChartConfig(config);
             }
             catch (Exception ex)
             {
@@ -42,26 +43,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 logger.Info("Будут использованы значения по-умолчанию");
             }
 
-            //Настройки графиков
-
-            //Момент/Время
-            TorqueTimeChartConfig.XMinValue = 0;
-            TorqueTimeChartConfig.XMaxValue = 90000;             
-            OnPropertyChanged(nameof(TorqueTimeChartConfig));
-
-            //Обороты/мин/обороты
-            TurnsPerMinuteTurnsChartConfig.XMinValue = 0;
-            TurnsPerMinuteTurnsChartConfig.XMaxValue = 5;
-            TurnsPerMinuteTurnsChartConfig.YMinValue = 0;
-            TurnsPerMinuteTurnsChartConfig.YMaxValue = 60;
-            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChartConfig));
-
-            //Момент/Обороты
-            TorqueTurnsChartConfig.XMinValue = 0;
-            TorqueTurnsChartConfig.XMaxValue = 5;
-            OnPropertyChanged(nameof(TorqueTurnsChartConfig));
-
-            this.ResultDpWorker = resultWorker;
+            this.JointProcessWorker = jointProcessWorker;
 
             this.RecipeLoader = recipeLoader;
 
@@ -69,13 +51,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             //Кнопки установки результата
             SetGoodResultCommand = new RelayCommand((arg) =>
             {
-                resultWorker.Evaluate(1);
+                jointProcessWorker.Evaluate(1);
                 ShowResultButtons = false;
                 OnPropertyChanged(nameof(ShowResultButtons));
             });
             SetBadResultCommand = new RelayCommand((arg) =>
             {
-                resultWorker.Evaluate(2);
+                jointProcessWorker.Evaluate(2);
                 ShowResultButtons = false;
                 OnPropertyChanged(nameof(ShowResultButtons));
             });
@@ -89,33 +71,36 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         
 
         //Класс получения параметров из OpcUa
-        JointProcessDpWorker resultWorker;
-        JointProcessDpWorker ResultDpWorker
+        JointProcessDpWorker jointProcessWorker;
+        JointProcessDpWorker JointProcessWorker
         {
-            get => resultWorker;
+            get => jointProcessWorker;
             set
             {
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
 
-                resultWorker = value;
+                jointProcessWorker = value;
 
-                resultWorker.RecordingBegun += StartChartRecording;
-                resultWorker.RecordingFinished += StopChartRecording;
 
-                resultWorker.AwaitForEvaluation += (s, v) =>
+                jointProcessWorker.PipeAppear += ChartConfigByPreJointDataData;
+
+                jointProcessWorker.RecordingBegun += StartChartRecording;
+                jointProcessWorker.RecordingFinished += StopChartRecording;
+
+                jointProcessWorker.AwaitForEvaluation += (s, v) =>
                 {
                     ShowResultButtons = true;
                     OnPropertyChanged(nameof(ShowResultButtons));
                 };
 
-                ResultDpWorker.DpParam.ValueUpdated += SubscribeToValues;
+                JointProcessWorker.DpParam.ValueUpdated += SubscribeToValues;
 
-                ResultDpWorker.JointFinished += (s, v) => SetResult(v);                
+                JointProcessWorker.JointFinished += (s, v) => SetResult(v);                
 
-                cliProgram.RegisterCommand("startjoint", (arg) => resultWorker.CyclicallyListen = true);
-                cliProgram.RegisterCommand("stopjoint", (arg) => resultWorker.CyclicallyListen = false);
-                ResultDpWorker.CyclicallyListen = true;
+                cliProgram.RegisterCommand("startjoint", (arg) => jointProcessWorker.CyclicallyListen = true);
+                cliProgram.RegisterCommand("stopjoint", (arg) => jointProcessWorker.CyclicallyListen = false);
+                JointProcessWorker.CyclicallyListen = true;
             }
         }
 
@@ -138,9 +123,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 while (true)
                 {
-                    ActualTorque = Math.Abs( ResultDpWorker.DpParam.Value.Torque);
-                    ActualLength = ( ResultDpWorker.DpParam.Value.Length  - ResultDpWorker.LengthOffset) * 1000 + ResultDpWorker.MVSLen;
-                    ActualTurns = ResultDpWorker.DpParam.Value.Turns;                    
+                    ActualTorque = Math.Abs( JointProcessWorker.DpParam.Value.Torque);
+                    ActualLength = ( JointProcessWorker.DpParam.Value.Length  - JointProcessWorker.LengthOffset) * 1000 + JointProcessWorker.MVSLen;
+                    ActualTurns = JointProcessWorker.DpParam.Value.Turns;                    
 
                     OnPropertyChanged(nameof(ActualTorque));
                     OnPropertyChanged(nameof(ActualLength));
@@ -153,13 +138,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     }
 
                     //Сглаживание
-                    ActualTorqueSmoothed = ResultDpWorker.TorqueSmoothed;
+                    ActualTorqueSmoothed = JointProcessWorker.TorqueSmoothed;
                     OnPropertyChanged(nameof(ActualTorqueSmoothed));
 
                     await Task.Delay(UpdateInterval);
                 }
             });
-            ResultDpWorker.DpParam.ValueUpdated -= SubscribeToValues;
+            JointProcessWorker.DpParam.ValueUpdated -= SubscribeToValues;
         }
 
 
@@ -192,27 +177,77 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 loadedRecipe = value;
 
-                //Настроить графики
+                //Настроить графики при изменении рецепта
 
-                TorqueLengthChartConfig.YMinValue = 0;
-                TorqueLengthChartConfig.YMaxValue = value.MU_Tq_Max * 1.1;
-                TorqueLengthChartConfig.XMinValue = value.MU_Len_Min / 1.2;
-                TorqueLengthChartConfig.XMaxValue = value.MU_Len_Max * 1.05;
-
-                OnPropertyChanged(nameof(TorqueLengthChartConfig));
-
-                TorqueTurnsChartConfig.YMinValue = 0;
-                TorqueTurnsChartConfig.YMaxValue = value.MU_Tq_Max * 1.1;
-                OnPropertyChanged(nameof(TorqueTurnsChartConfig));
-
-
-                TorqueTimeChartConfig.YMinValue = 0;
-                TorqueTimeChartConfig.YMaxValue = value.MU_Tq_Max * 1.1;                
-                OnPropertyChanged(nameof(TorqueTimeChartConfig));               
+               ChartConfigByRecipe(value);
             } 
         }
 
-        
+
+
+        private void InitChartConfig(XDocument config)
+        {
+            //Первичная настройка графиков
+
+            //Момент/Обороты
+            TorqueTurnsChartConfig.XMinValue = double.Parse(config.Root.Element("TorqueTurnsChart").Attribute("XMin").Value);
+            TorqueTurnsChartConfig.XMaxValue = double.Parse(config.Root.Element("TorqueTurnsChart").Attribute("XMax").Value);
+            TorqueTurnsChartConfig.YMinValue = double.Parse(config.Root.Element("TorqueTurnsChart").Attribute("YMin").Value);
+            TorqueTurnsChartConfig.YMaxValue = double.Parse(config.Root.Element("TorqueTurnsChart").Attribute("YMax").Value);
+            OnPropertyChanged(nameof(TorqueTurnsChartConfig));
+
+            //Обороты/мин/обороты
+            TurnsPerMinuteTurnsChartConfig.XMinValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("XMin").Value);
+            TurnsPerMinuteTurnsChartConfig.XMaxValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("XMax").Value);
+            TurnsPerMinuteTurnsChartConfig.YMinValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("YMin").Value);
+            TurnsPerMinuteTurnsChartConfig.YMaxValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("YMax").Value);
+            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChartConfig));
+
+            //Момент/Время
+            TorqueTimeChartConfig.XMinValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("XMin").Value);
+            TorqueTimeChartConfig.XMaxValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("XMax").Value);
+            TorqueTimeChartConfig.YMinValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("YMin").Value);
+            TorqueTimeChartConfig.YMaxValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("YMax").Value);
+            OnPropertyChanged(nameof(TorqueTimeChartConfig));
+
+            //Момент/длина
+            TorqueLengthChartConfig.XMinValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("XMin").Value);
+            TorqueLengthChartConfig.XMaxValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("XMax").Value);
+            TorqueLengthChartConfig.YMinValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("YMin").Value);
+            TorqueLengthChartConfig.YMaxValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("YMax").Value);
+            OnPropertyChanged(nameof(TorqueLengthChartConfig));
+        }
+
+        private void ChartConfigByRecipe(JointRecipe recipe)
+        {
+            TorqueLengthChartConfig.YMinValue = 0;
+            TorqueLengthChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
+            TorqueLengthChartConfig.XMinValue = recipe.MU_Len_Min / 1.2;
+            TorqueLengthChartConfig.XMaxValue = recipe.MU_Len_Max * 1.05;
+
+            OnPropertyChanged(nameof(TorqueLengthChartConfig));
+
+            TorqueTurnsChartConfig.YMinValue = 0;
+            TorqueTurnsChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
+            TorqueTurnsChartConfig.XMaxValue = recipe.MU_Len_Max / recipe.Thread_step;
+            OnPropertyChanged(nameof(TorqueTurnsChartConfig));
+
+
+            TorqueTimeChartConfig.YMinValue = 0;
+            TorqueTimeChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
+            OnPropertyChanged(nameof(TorqueTimeChartConfig));
+
+            TurnsPerMinuteTurnsChartConfig.XMaxValue = recipe.MU_Len_Max / recipe.Thread_step;
+            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChartConfig));
+        }
+
+        private void ChartConfigByPreJointDataData(object sender, JointResult result)
+        {
+            TorqueLengthChartConfig.XMinValue = result.MVS_Len;
+            OnPropertyChanged(nameof(TorqueLengthChartConfig));
+        }
+
+
 
 
 
@@ -365,7 +400,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             try
             {
                 repo.SaveResult(result);
-                LastJointResult = result;
+                LastJointResult = new JointResultViewModel(result);
                 OnPropertyChanged(nameof(LastJointResult));
             }
             catch (Exception ex)
@@ -376,7 +411,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         }
-        public JointResult LastJointResult { get; set; }
+        public JointResultViewModel LastJointResult { get; set; }
 
 
 

@@ -48,7 +48,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
             }
         }
-
+        public float MVS_Len { get => ResultModel.MVS_Len; }
         public float FinalTorque { get => ResultModel.FinalTorque; }
         public float FinalJVal { get => ResultModel.FinalJVal; }
         public float FinalLength { get => ResultModel.FinalLength; }

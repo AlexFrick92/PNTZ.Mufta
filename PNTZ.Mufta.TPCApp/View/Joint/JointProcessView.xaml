@@ -45,7 +45,7 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="210"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition />
 
@@ -58,7 +58,7 @@
 
         <!--ПАРАМЕТРЫ-->
         <Grid Grid.Row="0" Grid.Column="0">
-            <Border Grid.Column="1"
+            <Border Grid.Column="0"
                 BorderBrush="{StaticResource GridColor}"
                 BorderThickness="0,0,0,1"
                     Background="{StaticResource LightColor}"
@@ -75,6 +75,7 @@
         <!--ТЕКУЩИЕ ПОКАЗАНИЯ-->
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -130,6 +131,10 @@
                 <Border Style="{StaticResource HeaderUnderStroke}"/>
             </StackPanel>
 
+            <Label Grid.Row="8" Grid.Column="0"
+                   Style="{StaticResource ParamLabel}" Content="Итог. Обороты"/>
+            <TextBox Grid.Row="8" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTurns, StringFormat=F2}"/>
+
             <Label Grid.Row="6" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Итог. момент"/>
             <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTorque, StringFormat=F1}"/>
@@ -138,40 +143,39 @@
                 Style="{StaticResource ParamLabel}" Content="Итог. длина"/>
             <TextBox Grid.Row="7" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalLength, StringFormat=F1}"/>
 
-            <Label Grid.Row="8" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Итог. обороты"/>
-            <TextBox Grid.Row="8" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.FinalTurns, StringFormat=F2}"/>
-            
+            <Label Grid.Row="9" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Длина преднав."/>
+            <TextBox Grid.Row="9" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LastJointResult.MVS_Len, StringFormat=F2}"/>
 
             <!-- Данные рецепта -->
-            <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+            <StackPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
                 <Label Style="{StaticResource ParamHeaderLabel}" Content="Данные рецепта"/>
                 <Border Style="{StaticResource HeaderUnderStroke}"/>
             </StackPanel>
 
-            <Label Grid.Row="10" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Макс. момент"/>
-            <TextBox Grid.Row="10" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Max, StringFormat=F1}"/>
-
-            <Label Grid.Row="11" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Мин. момент"/>
-            <TextBox Grid.Row="11" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Min, StringFormat=F1}"/>
-
             <Label Grid.Row="12" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Момент сброса"/>
-            <TextBox Grid.Row="12" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Dump, StringFormat=F1}"/>
+                Style="{StaticResource ParamLabel}" Content="Макс. момент"/>
+            <TextBox Grid.Row="12" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Max, StringFormat=F1}"/>
 
             <Label Grid.Row="13" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Опт. момент"/>
-            <TextBox Grid.Row="13" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Opt, StringFormat=F1}"/>
+                Style="{StaticResource ParamLabel}" Content="Мин. момент"/>
+            <TextBox Grid.Row="13" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Min, StringFormat=F1}"/>
 
             <Label Grid.Row="14" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Макс. длина"/>
-            <TextBox Grid.Row="14" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Max, StringFormat=F1}"/>
+                Style="{StaticResource ParamLabel}" Content="Момент сброса"/>
+            <TextBox Grid.Row="14" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Dump, StringFormat=F1}"/>
 
             <Label Grid.Row="15" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Опт. момент"/>
+            <TextBox Grid.Row="15" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Opt, StringFormat=F1}"/>
+
+            <Label Grid.Row="16" Grid.Column="0"
+                Style="{StaticResource ParamLabel}" Content="Макс. длина"/>
+            <TextBox Grid.Row="16" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Max, StringFormat=F1}"/>
+
+            <Label Grid.Row="17" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Мин. длина"/>
-            <TextBox Grid.Row="15" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Min, StringFormat=F1}"/>
+            <TextBox Grid.Row="17" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Min, StringFormat=F1}"/>
 
 
         </Grid>

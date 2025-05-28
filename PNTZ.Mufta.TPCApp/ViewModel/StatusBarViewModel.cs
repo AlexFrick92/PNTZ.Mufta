@@ -162,7 +162,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             OnPropertyChanged(nameof(JointStatus));
         }
 
-        private void ResultDpWorker_JointBegun(object sender, EventArgs e)
+        private void ResultDpWorker_JointBegun(object sender, JointResult e)
         {
             JointInProgress = true;
             OnPropertyChanged(nameof(JointInProgress));

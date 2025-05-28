@@ -57,7 +57,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //События соединения
 
         //Труба появилась на станке. 
-        public event EventHandler<EventArgs> PipeAppear;
+        public event EventHandler<JointResult> PipeAppear;
         //Труба в навёрточной головке. Началось свинчивания
         public event EventHandler<EventArgs> RecordingBegun;
         public event EventHandler<EventArgs> RecordingFinished;
@@ -264,13 +264,16 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 if (awaitCommandFeedback.Task.Result == 10)
                 {
                     logger.Info("Труба появилась на позиции муфтонавёртки");
-                    PipeAppear?.Invoke(this, EventArgs.Empty);
+                    
                     JointResult = new JointResult()
                     {
                         StartTimeStamp = DateTime.Now,
+                        MVS_Len = Dp_ERG_MVS.Value.PMR_Pre_MAKEUP_LEN * 1000
                     };
+
                     MVSLen = Dp_ERG_MVS.Value.PMR_Pre_MAKEUP_LEN * 1000;
                     logger.Info("Длина преднавёртки: " + MVSLen);
+                    PipeAppear?.Invoke(this, JointResult);
 
                     break;
                 }
