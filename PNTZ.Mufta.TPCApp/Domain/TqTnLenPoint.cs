@@ -10,6 +10,9 @@ namespace PNTZ.Mufta.TPCApp.Domain
     public class TqTnLenPoint
     {
         public float Torque { get; set; }
+        /// <summary>
+        /// В миллиметрах
+        /// </summary>
         public float Length { get; set; }
         public float Turns { get; set; }
         public int TimeStamp { get; set; }

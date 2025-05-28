@@ -21,7 +21,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointProcessViewModel : BaseViewModel
     {
-        public JointProcessViewModel(JointProcessDpWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, RepositoryContext repo )
+        public JointProcessViewModel(IJointProcessWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, RepositoryContext repo )
         {
             this.logger = logger;
             this.cliProgram = cliProgram;
@@ -71,8 +71,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         
 
         //Класс получения параметров из OpcUa
-        JointProcessDpWorker jointProcessWorker;
-        JointProcessDpWorker JointProcessWorker
+        IJointProcessWorker jointProcessWorker;
+        IJointProcessWorker JointProcessWorker
         {
             get => jointProcessWorker;
             set
@@ -94,7 +94,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     OnPropertyChanged(nameof(ShowResultButtons));
                 };
 
-                JointProcessWorker.DpParam.ValueUpdated += SubscribeToValues;
+                JointProcessWorker.NewTqTnLenPoint+= SubscribeToValues;
 
                 JointProcessWorker.JointFinished += (s, v) => SetResult(v);                
 
@@ -117,15 +117,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         //Такс циклично обновляющий показания. Показания обновляются раз в заданный интервал
-        private void SubscribeToValues(object sender, DpConnect.Struct.OperationalParam e)
+        private void SubscribeToValues(object sender, TqTnLenPoint e)
         {
             Task.Run(async () =>
             {
                 while (true)
                 {
-                    ActualTorque = Math.Abs( JointProcessWorker.DpParam.Value.Torque);
-                    ActualLength = ( JointProcessWorker.DpParam.Value.Length  - JointProcessWorker.LengthOffset) * 1000 + JointProcessWorker.MVSLen;
-                    ActualTurns = JointProcessWorker.DpParam.Value.Turns;                    
+                    var point = new TqTnLenPointViewModel(e);
+                    ActualTorque = point.Torque;
+                    ActualLength = point.Length;
+                    ActualTurns = point.Turns;                    
 
                     OnPropertyChanged(nameof(ActualTorque));
                     OnPropertyChanged(nameof(ActualLength));
@@ -137,14 +138,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         OnPropertyChanged(nameof(ActualTurnsPerMinute));
                     }
 
-                    //Сглаживание
-                    ActualTorqueSmoothed = JointProcessWorker.TorqueSmoothed;
-                    OnPropertyChanged(nameof(ActualTorqueSmoothed));
-
                     await Task.Delay(UpdateInterval);
                 }
             });
-            JointProcessWorker.DpParam.ValueUpdated -= SubscribeToValues;
+            JointProcessWorker.NewTqTnLenPoint -= SubscribeToValues;
         }
 
 

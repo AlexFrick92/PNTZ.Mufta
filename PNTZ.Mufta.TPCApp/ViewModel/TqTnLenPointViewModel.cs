@@ -15,8 +15,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         {
             this.point = point;
         }
-        public float Torque { get => point.Torque; }
-        public float Length { get => point.Length; }
+        public float Torque { get => Math.Abs(point.Torque); }
+
+        /// <summary>
+        /// В миллиметрах
+        /// </summary>
+        /// 
+        public float Length { get => point.Length * 1000; }
         public float Turns { get => point.Turns; }
         public int TimeStamp { get => point.TimeStamp; }
 
