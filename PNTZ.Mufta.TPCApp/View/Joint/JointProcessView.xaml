@@ -110,19 +110,19 @@
 
             <Label Grid.Row="1" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Момент"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTorque, StringFormat=N0}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualPoint.Torque, StringFormat=N0}"/>
 
             <Label Grid.Row="2" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Длина"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualLength, StringFormat=F1}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualPoint.Length, StringFormat=F1}"/>
 
             <Label Grid.Row="3" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Обороты"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTurns, StringFormat=F2}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualPoint.Turns, StringFormat=F2}"/>
 
             <Label Grid.Row="4" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Обороты/мин"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualTurnsPerMinute, StringFormat=F2}"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding ActualPoint.TurnsPerMinute, StringFormat=F2}"/>
 
 
             <!--Результат-->

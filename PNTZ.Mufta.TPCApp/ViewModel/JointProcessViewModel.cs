@@ -32,7 +32,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 var config = XDocument.Load($"{AppInstance.CurrentDirectory}/ViewModel/JointProcessViewModel.xml");
                 UpdateInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("UpdateInterval").Value));
                 RecordingInterval = TimeSpan.FromMilliseconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("RecordingInterval").Value));
-                MaxRecordingTime = TimeSpan.FromSeconds(int.Parse(config.Root.Element("JointOperationParam").Attribute("MaxRecordingTimeSec").Value));
 
                 InitChartConfig(config);
             }
@@ -107,11 +106,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
         
         //Актуальные показания с датчиков
-        public float ActualTorque { get; set; } = 0;
-        public float ActualLength { get; set; } = 0;
-        public float ActualTurns { get; set; } = 0;
-        public float ActualTurnsPerMinute { get; set; } = 0;
-        
+
+        public TqTnLenPointViewModel ActualPoint { get; set; }
         //Сглаженные актуальные показаний с датчиков
         public float ActualTorqueSmoothed { get; set; } = 0;
 
@@ -124,19 +120,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 while (true)
                 {
                     var point = new TqTnLenPointViewModel(e);
-                    ActualTorque = point.Torque;
-                    ActualLength = point.Length;
-                    ActualTurns = point.Turns;                    
+                    ActualPoint = point;
 
-                    OnPropertyChanged(nameof(ActualTorque));
-                    OnPropertyChanged(nameof(ActualLength));
-                    OnPropertyChanged(nameof(ActualTurns));
-
-                    if (ActualTurns == 0)
-                    {
-                        ActualTurnsPerMinute = 0;
-                        OnPropertyChanged(nameof(ActualTurnsPerMinute));
-                    }
+                    OnPropertyChanged(nameof(ActualPoint));
 
                     await Task.Delay(UpdateInterval);
                 }
@@ -250,29 +236,26 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         // ************** ЗАПИСЬ ГРАФИКОВ ***********************
         TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
-        TimeSpan MaxRecordingTime { get; set; } = TimeSpan.FromSeconds(60);
         public ObservableCollection<TqTnLenPointViewModel> ChartSeries { get; set; }
         public ObservableCollection<TqTnLenPointViewModel> ChartSeriesSmoothed { get; set; }
 
-        CancellationTokenSource RecordingCts;
-        bool RecordingProcedureStarted = false;
-
-        public TqTnLenPoint LastPoint { get; set; }
+        CancellationTokenSource recordingCts;
+        bool recordingProcedureStarted = false;
         //Вход в цикл записи графиков
         private async void StartChartRecording(object sender, EventArgs e)
         {
-            if (RecordingProcedureStarted)
+            if (recordingProcedureStarted)
                 throw new InvalidOperationException("Операция записи графиков уже начата");
 
-            RecordingProcedureStarted = true;
+            recordingProcedureStarted = true;
 
             logger.Info("Начинаем запись графиков для UI...");            
 
-            RecordingCts = new CancellationTokenSource();
+            recordingCts = new CancellationTokenSource();
 
             try
             {
-                await RecordSeriesCycle(RecordingCts.Token);                
+                await RecordSeriesCycle(recordingCts.Token);                
             }
             catch (TimeoutException ex)
             {
@@ -288,7 +271,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
             finally
             {
-                RecordingProcedureStarted = false;
+                recordingProcedureStarted = false;
             }
         }
         //Таск цикл записи графиков
@@ -300,9 +283,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             OnPropertyChanged(nameof(ChartSeries));
             OnPropertyChanged(nameof(ChartSeriesSmoothed));
 
-
-            DateTime beginTime = DateTime.Now;
-
             while (true)
             {
                 if (token.IsCancellationRequested)
@@ -311,37 +291,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
                 else
                 {
-                    TqTnLenPoint lastPoint = LastPoint;
-
-                    TqTnLenPoint newPoint = new TqTnLenPoint()
-                    {
-                        Torque = ActualTorque,
-                        Turns = ActualTurns,
-                        Length = ActualLength,
-                        TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds)
-                    };                    
 
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        CalculateTurnsPerMinute(lastPoint, newPoint);
-                        LastPoint = newPoint;
-                        OnPropertyChanged(nameof(LastPoint));
-                        OnPropertyChanged(nameof(ActualTurnsPerMinute));
-
-                        var newTq = new TqTnLenPointViewModel(LastPoint)
-                        {
-                            TurnsPerMinute = ActualTurnsPerMinute
-                        };
-
-                        ChartSeries.Add(newTq);
-
-                        TqTnLenPoint newSmoothedPoint = new TqTnLenPoint()
-                        {
-                            Torque = ActualTorqueSmoothed,
-                            TimeStamp = Convert.ToInt32(DateTime.Now.Subtract(beginTime).TotalMilliseconds),
-                        };
-                        ChartSeriesSmoothed.Add(new TqTnLenPointViewModel(newSmoothedPoint));
-                        
+                        ChartSeries.Add(ActualPoint);
                     });
 
 
@@ -349,31 +302,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 await Task.Delay(RecordingInterval);
             }        
         }
-        private void CalculateTurnsPerMinute(TqTnLenPoint lastPoint, TqTnLenPoint newPoint)
-        {
-            if (lastPoint == null || newPoint == null)
-                return;
-
-            const int millisecondsInMinute = 60_000;
-
-
-            double dV = (newPoint.Turns - lastPoint.Turns);
-            double dT = (newPoint.TimeStamp - lastPoint.TimeStamp);
-            double dTminutes = dT / millisecondsInMinute;
-            double changeRate = (dV / dTminutes);
-
-
-            if (dTminutes > 0 && dV != 0)
-                ActualTurnsPerMinute = (float)changeRate;
-
-        }
-
         private void StopChartRecording(object sender, EventArgs e)
         {
-            if (RecordingCts != null)
+            if (recordingCts != null)
             {
-                RecordingCts.Cancel();
-                RecordingCts = null;
+                recordingCts.Cancel();
+                recordingCts = null;
             }
         }
 

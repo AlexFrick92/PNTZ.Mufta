@@ -69,7 +69,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public event EventHandler<JointResult> JointFinished;     
         //Новая точках данных
         public event EventHandler<TqTnLenPoint> NewTqTnLenPoint;
-
+        private TqTnLenPoint lastPoint;
         public void SetLastPoint(object sender, OperationalParam e)
         {
             TqTnLenPoint point = new TqTnLenPoint()
@@ -79,14 +79,32 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 Turns = e.Turns,
                 TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(recordingBeginTimeStamp)).TotalMilliseconds)
             };
+            point.TurnsPerMinute = (float)CalculateTurnsPerMinute(lastPoint, point);
             if (JointResult != null)
             {
                 point.Length -= LengthOffset + JointResult.MVS_Len; 
             }
-
             NewTqTnLenPoint?.Invoke(this, point);
+            lastPoint = point;
         }
+        private double CalculateTurnsPerMinute(TqTnLenPoint lastPoint, TqTnLenPoint newPoint)
+        {
+            if (lastPoint == null || newPoint == null)
+                return 0;
 
+            const int millisecondsInMinute = 60_000;
+
+            double dV = (newPoint.Turns - lastPoint.Turns);
+            double dT = (newPoint.TimeStamp - lastPoint.TimeStamp);
+            double dTminutes = dT / millisecondsInMinute;
+            double changeRate = (dV / dTminutes);
+
+
+            if (dTminutes > 0 && dV != 0)
+                return (float)changeRate;
+            else
+                return lastPoint.TurnsPerMinute;
+        }
 
         //Процедура прослушивания запущена. Да, по этому флагу я определяю, можно ли запустить прослушнку. Конечно тут нужен lock...
         bool JointProcedureStarted = false;

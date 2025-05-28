@@ -15,6 +15,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         /// </summary>
         public float Length { get; set; }
         public float Turns { get; set; }
+        public float TurnsPerMinute { get; set; }
         public int TimeStamp { get; set; }
     }
 }
