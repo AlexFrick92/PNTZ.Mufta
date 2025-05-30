@@ -162,6 +162,9 @@
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
     <Compile Include="ViewModel\TqTnLenPointViewModel.cs" />
     <Compile Include="View\ChartViewConfig.cs" />
+    <Compile Include="View\Control\ChartSeriesView.xaml.cs">
+      <DependentUpon>ChartSeriesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
     </Compile>
@@ -238,6 +241,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\Control\ChartSeriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Control\NaviButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

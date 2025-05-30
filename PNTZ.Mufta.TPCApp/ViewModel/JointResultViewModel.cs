@@ -10,14 +10,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointResultViewModel : BaseViewModel
     {
-        JointResult ResultModel { get; set; }
+        public JointResult ResultModel { get; set; }
 
         public JointResultViewModel(JointResult result)
         {
             ResultModel = result;
         }
 
-        public string RecipeName { get => ResultModel.Recipe.Name; }
+        public string RecipeName => ResultModel.Recipe.Name;
 
         public string SelectedMode
         {
@@ -48,14 +48,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
             }
         }
-        public float MVS_Len { get => ResultModel.MVS_Len; }
-        public float FinalTorque { get => ResultModel.FinalTorque; }
-        public float FinalJVal { get => ResultModel.FinalJVal; }
-        public float FinalLength { get => ResultModel.FinalLength; }
-        public float FinalTurns { get => ResultModel.FinalTurns; }
-        public List<TqTnLenPoint> Series { get => ResultModel.Series; }
+        public float MVS_Len => ResultModel.MVS_Len;
+        public float FinalTorque => ResultModel.FinalTorque;
+        public float FinalJVal => ResultModel.FinalJVal;
+        public float FinalLength => ResultModel.FinalLength;
+        public float FinalTurns => ResultModel.FinalTurns;
+        public List<TqTnLenPointViewModel> Series { get => ResultModel.Series.Select(x => new TqTnLenPointViewModel(x)).ToList(); }
 
-        public DateTime FinishTimeStamp { get => ResultModel.FinishTimeStamp; }
+        public DateTime FinishTimeStamp => ResultModel.FinishTimeStamp;
 
         public string Result
         {

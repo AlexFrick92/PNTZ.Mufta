@@ -8,7 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="1200"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
              
-             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel"
+             xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
+             xmlns:control="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              d:DataContext="{d:DesignInstance Type=viewmodel:ResultsViewModel}"
              >
     <UserControl.Resources>
@@ -302,17 +304,94 @@
             </Grid>
 
 
+            <ScrollViewer Grid.Row="1">
             <!--ГРАФИКИ -->
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.Resources>
+                        <Style TargetType="Label" x:Key="ChartHeader">
+                            <Setter Property="Grid.Row" Value="0"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="0,10,0,-5"/>
+                        </Style>
 
-                <ContentControl Grid.Row="0">
-                    
-                </ContentControl>
-            </Grid>
+                        <Style TargetType="dxc:ChartControl" x:Key="ChartStyle">
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+
+                        <Style TargetType="dxc:XYDiagram2D" x:Key="DiagramStyle">
+
+                        </Style>
+
+                        <Style TargetType="dxc:Pane" x:Key="PaneStyle">
+                            <Setter Property="DomainBrush" Value="Transparent"/>
+                        </Style>
+
+                        <Style TargetType="dxc:AxisX2D" x:Key="AxisXStyle">
+                            <Setter Property="GridLinesVisible" Value="True"/>
+                            <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
+                        </Style>
+
+                        <Style TargetType="dxc:AxisY2D" x:Key="AxisYStyle">
+                            <Setter Property="GridLinesVisible" Value="True"/>
+                            <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
+                            <Setter Property="Interlaced" Value="False"/>
+                        </Style>
+
+                    </Grid.Resources>
+
+                        <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Момент/обороты-->
+                    <ContentControl Grid.Row="0">
+                        <control:ChartSeriesView 
+                            Header="Момент/Обороты"
+                            Argument="Turns"
+                            Value="Torque"
+                            ChartConfig="{Binding TorqueTurnsChartConfig}"
+                            Series="{Binding SelectedResult.Series}" />
+                    </ContentControl>
+
+                    <!--Обороты/Обороты в минуту -->
+                    <ContentControl Grid.Row="1">
+                        <control:ChartSeriesView 
+                            Header="Обороты/Обороты в минуту"
+                            Argument="Turns"
+                            Value="TurnsPerMinute"
+                            ChartConfig="{Binding TurnsPerMinuteTurnsChartConfig}"
+                            Series="{Binding SelectedResult.Series}" />
+                    </ContentControl>
+
+                    <!--Момент/Длина-->
+                    <ContentControl Grid.Row="2">
+                        <control:ChartSeriesView 
+                            Header="Момент/Длина"
+                            Argument="Length"
+                            Value="Torque"
+                            ChartConfig="{Binding TorqueLengthChartConfig}"
+                            Series="{Binding SelectedResult.Series}" />
+                    </ContentControl>
+
+
+                    <!--Момент/Время-->
+                    <ContentControl Grid.Row="3">
+                        <control:ChartSeriesView 
+                            Header="Момент/Время"
+                            Argument="TimeStamp"
+                            Value="Torque"
+                            ChartConfig="{Binding TorqueTimeChartConfig}"
+                            Series="{Binding SelectedResult.Series}" />
+                    </ContentControl>
+
+
+                </Grid>
+            </ScrollViewer>
         </Grid>
 
     </Grid>

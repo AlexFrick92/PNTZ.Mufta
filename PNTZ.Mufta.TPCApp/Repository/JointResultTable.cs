@@ -64,6 +64,8 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     result.Series.Add(point);
                 }
 
+                result.CalculateTurnPerMinute();
+
             }
            
             return result;  

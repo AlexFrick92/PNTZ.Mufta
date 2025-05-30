@@ -9,24 +9,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using PNTZ.Mufta.TPCApp.View;
+using Promatis.Core.Logging;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class ResultsViewModel : BaseViewModel
     {
-        public ResultsViewModel(RepositoryContext repo)
+        private readonly RepositoryContext _repo;
+        private readonly ILogger _logger;
+        public ICommand GetResultCommand { get; set; }
+
+        public ResultsViewModel(RepositoryContext repo, ILogger logger)
         {
-            this.repo = repo;
+            _repo = repo;
+
+            _logger = logger;
 
             GetResultCommand = new RelayCommand((arg) =>
             {
                 Results = new ObservableCollection<JointResultViewModel>();
+
                 Results.AddRange(repo.LoadResults().Select(r => new JointResultViewModel(r)));
                 OnPropertyChanged(nameof(Results));
             });
 
         }
 
+        public ChartViewConfig TorqueTimeChartConfig { get; set; } = new ChartViewConfig();
+        public ChartViewConfig TorqueLengthChartConfig { get; set; } = new ChartViewConfig();
+        public ChartViewConfig TurnsPerMinuteTurnsChartConfig { get; set; } = new ChartViewConfig();
+        public ChartViewConfig TorqueTurnsChartConfig { get; set; } = new ChartViewConfig();
 
         public ObservableCollection<JointResultViewModel> Results { get; set;  }
 
@@ -35,23 +48,83 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         {
             get => selectedResult;
             set
-            {             
-                ResultSelected = value != null;
-                OnPropertyChanged(nameof(ResultSelected));
-                selectedResult = value;
-                OnPropertyChanged(nameof(SelectedResult));
+            {
+                if (value != null)
+                {
+                    ResultSelected = true;
+                    OnPropertyChanged(nameof(ResultSelected));
+                    selectedResult = value;
+                    OnPropertyChanged(nameof(SelectedResult));
+
+                    SetChartsConfig(value);
+                }
+                else
+                {
+                    ResultSelected = false;
+                    OnPropertyChanged(nameof(ResultSelected));
+                }
             }
 
         }
+
         public bool ResultSelected { get; set; }
-                
 
+        private void SetChartsConfig(JointResultViewModel result)
+        {
+            if (result.Series.Count < 1)
+            {
+                _logger.Error("Selected result has no series to display in charts.");
+                return;
+            }
 
-        RepositoryContext repo;
+            var series = result.Series;
 
-        public ICommand GetResultCommand { get; set; }
+            //Момент/Обороты
+            var torqueTurnsChartConfig = new ChartViewConfig()
+            {
+                XMinValue = series.First().Turns,
+                XMaxValue = series.Last().Turns,
+                YMinValue = series.Min(x => x.Torque),
+                YMaxValue = series.Max(x => x.Torque),
 
+            };
+            TorqueTurnsChartConfig = torqueTurnsChartConfig;
+            OnPropertyChanged(nameof(TorqueTurnsChartConfig));
 
+            //Обороты/мин/обороты
 
+            var turnsPerMinuteTurnsChartConfig = new ChartViewConfig()
+            {
+                XMinValue = series.First().Turns,
+                XMaxValue = series.Last().Turns,
+                YMinValue = series.Min(x => x.TurnsPerMinute),
+                YMaxValue = series.Max(x => x.TurnsPerMinute),
+            };
+            TurnsPerMinuteTurnsChartConfig = turnsPerMinuteTurnsChartConfig;
+            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChartConfig));
+
+            //Момент/Время
+
+            var torqueTimeChartConfig = new ChartViewConfig()
+            {
+                XMinValue = series.First().TimeStamp,
+                XMaxValue = series.Last().TimeStamp,
+                YMinValue = series.Min(x => x.Torque),
+                YMaxValue = series.Max(x => x.Torque),
+            };
+            TorqueTimeChartConfig = torqueTimeChartConfig;
+            OnPropertyChanged(nameof(TorqueTimeChartConfig));
+            
+            //Момент/длина
+            var torqueLengthChartConfig = new ChartViewConfig()
+            {
+                XMinValue = series.First().Length,
+                XMaxValue = series.Last().Length,
+                YMinValue = series.Min(x => x.Torque),
+                YMaxValue = series.Max(x => x.Torque),
+            };
+            TorqueLengthChartConfig = torqueLengthChartConfig;
+            OnPropertyChanged(nameof(TorqueLengthChartConfig));
+        }
     }
 }

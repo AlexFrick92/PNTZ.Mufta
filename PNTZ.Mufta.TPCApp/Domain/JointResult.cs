@@ -23,5 +23,19 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public DateTime StartTimeStamp { get; set; }
         public DateTime FinishTimeStamp { get; set; }
         public List<TqTnLenPoint> Series { get; set; } = new List<TqTnLenPoint>();
+
+        public void CalculateTurnPerMinute()
+        {
+            if (Series.Count < 2)
+            {
+                throw new Exception();
+                return;
+            }
+
+            for (int i = 1; i < Series.Count; i++)
+            {
+                Series[i - 1].TurnsPerMinute = (float)TqTnLenPoint.CalculateTurnsPerMinute(Series[i - 1], Series[i]);
+            }
+        }
     }
 }

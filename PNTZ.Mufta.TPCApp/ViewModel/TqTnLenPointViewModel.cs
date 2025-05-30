@@ -10,23 +10,22 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class TqTnLenPointViewModel : BaseViewModel
     {
-        TqTnLenPoint point;
+        readonly TqTnLenPoint point;
         public TqTnLenPointViewModel(TqTnLenPoint point)
         {
             this.point = point;
         }
-        public float Torque { get => Math.Abs(point.Torque); }
+        public float Torque => Math.Abs(point.Torque);
 
         /// <summary>
         /// В миллиметрах
         /// </summary>
         /// 
-        public float Length { get => point.Length * 1000; }
-        public float Turns { get => point.Turns; }
-        public int TimeStamp { get => point.TimeStamp; }
+        public float Length => point.Length * 1000;
 
-        public float TurnsPerMinute { get; set; }
+        public float Turns => point.Turns;
+        public int TimeStamp => point.TimeStamp;
 
-        
+        public float TurnsPerMinute => point.TurnsPerMinute;
     }
 }

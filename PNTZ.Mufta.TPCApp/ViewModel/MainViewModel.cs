@@ -97,7 +97,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         );
 
             ResultsView = new JointResultsView();
-            ResultsView.DataContext = new ResultsViewModel(repositoryContext);
+            ResultsView.DataContext = new ResultsViewModel(repositoryContext, logger);
 
 
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(), 
@@ -135,10 +135,5 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }                
             }
         }
-
-
-        
-
-
     }
 }
