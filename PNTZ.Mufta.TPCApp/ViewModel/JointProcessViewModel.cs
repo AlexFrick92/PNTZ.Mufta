@@ -6,10 +6,13 @@ using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View;
 using Promatis.Core.Logging;
 
+using System.Reactive.Subjects;
+using System.Reactive.Linq;
+
 using System;
 
 using System.Collections.ObjectModel;
-
+using System.Reactive.Concurrency;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -60,16 +63,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 ShowResultButtons = false;
                 OnPropertyChanged(nameof(ShowResultButtons));
             });
-
-
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    OnPropertyChanged(nameof(ActualPoint));
-                    await Task.Delay(UpdateInterval);
-                }
-            });
         }
 
 
@@ -102,7 +95,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     OnPropertyChanged(nameof(ShowResultButtons));
                 };
 
-                JointProcessWorker.NewTqTnLenPoint+= (s, e) => ActualPoint = new TqTnLenPointViewModel(e);
+                JointProcessWorker.NewTqTnLenPoint+= (s, e) => _actualPointStream.OnNext(e);
+
+                _actualPointStream
+                    .Sample(UpdateInterval)
+                    .Subscribe(val =>
+                    {
+                        ActualPoint = new TqTnLenPointViewModel(val);
+                        OnPropertyChanged(nameof(ActualPoint));
+                    });
 
 
                 JointProcessWorker.JointFinished += (s, v) => SetResult(v);                
@@ -114,16 +115,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
 
         public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
-        
+
         //Актуальные показания с датчиков
 
+
+        private Subject<TqTnLenPoint> _actualPointStream = new Subject<TqTnLenPoint>();
+
         public TqTnLenPointViewModel ActualPoint { get; set; }
-        public TqTnLenPointViewModel LastSeriesPoint { get; set; }
-        private void SubscribeToLastPoint(object sender, JointResult point)
-        {
-            
-            OnPropertyChanged(nameof(LastSeriesPoint));
-        }
+
         //Сглаженные актуальные показаний с датчиков
         public float ActualTorqueSmoothed { get; set; } = 0;
 
@@ -250,10 +249,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
             finally
             {
+                _graphSubscription?.Dispose();
                 recordingProcedureStarted = false;
             }
         }
         //Таск цикл записи графиков
+        private IDisposable _graphSubscription;
         private async Task RecordSeriesCycle(CancellationToken token)
         {
             ChartSeries = new ObservableCollection<TqTnLenPointViewModel>();
@@ -262,23 +263,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             OnPropertyChanged(nameof(ChartSeries));
             OnPropertyChanged(nameof(ChartSeriesSmoothed));
 
-            while (true)
-            {
-                if (token.IsCancellationRequested)
+
+            _graphSubscription = _actualPointStream
+                .Sample(UpdateInterval)
+                .ObserveOn(System.Windows.Application.Current.Dispatcher)
+                .Subscribe(val =>
                 {
-                    throw new OperationCanceledException();
-                }
-                else
-                {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        ChartSeries.Add(ActualPoint);
-                    });
+                    ChartSeries.Add(new TqTnLenPointViewModel(val));
+                    
+                });
+
+            await Task.Delay(Timeout.Infinite, token);
 
 
-                }
-                await Task.Delay(RecordingInterval);
-            }        
         }
         private void StopChartRecording(object sender, EventArgs e)
         {
