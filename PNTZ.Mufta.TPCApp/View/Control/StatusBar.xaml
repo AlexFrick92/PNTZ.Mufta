@@ -23,6 +23,10 @@
             <Style TargetType="Label" x:Key="StatusBarLabel">
                 <Setter Property="FontWeight" Value="SemiBold"/>
             </Style>
+            <Style TargetType="Label" x:Key="StatusBarOutputLabel" BasedOn="{StaticResource StatusBarLabel}">
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+
         </Grid.Resources>
         <Grid.Style>
             <Style TargetType="Grid">
@@ -57,7 +61,7 @@
                 HorizontalAlignment="Center"                      
                 Content="Идёт процесс свинчивания: ">
                 <Label.Style>
-                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
+                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding JointInProgress}" Value="True">
@@ -86,7 +90,7 @@
             <Label          
                 HorizontalAlignment="Center">
                 <Label.Style>
-                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
+                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
                         <Setter Property="Content" Value="не загружен"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding RecipeLoaded}" Value="True">
@@ -115,7 +119,7 @@
                 >
                 
                 <Label.Style>
-                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarLabel}">
+                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
                         <Setter Property="Content" Value="НЕ ПОДКЛЮЧЕНО"/>
                         <Setter Property="Foreground" Value="Red"/>
                         <Style.Triggers>

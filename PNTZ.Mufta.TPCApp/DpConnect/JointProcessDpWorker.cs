@@ -68,7 +68,9 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         //Свинчивание завершено
         public event EventHandler<JointResult> JointFinished;     
         //Новая точках данных
+
         public event EventHandler<TqTnLenPoint> NewTqTnLenPoint;
+
         private TqTnLenPoint lastPoint;
         public void SetLastPoint(object sender, OperationalParam e)
         {
@@ -77,13 +79,23 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 Torque = e.Torque,
                 Length = e.Length,
                 Turns = e.Turns,
-                TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(recordingBeginTimeStamp)).TotalMilliseconds)
+                TimeStamp = 0,
             };
-            point.TurnsPerMinute = (float)TqTnLenPoint.CalculateTurnsPerMinute(lastPoint, point);
-            if (jointResult != null)
+            if (recordingBeginTimeStamp > DateTime.MinValue)
             {
-                point.Length -= LengthOffset + jointResult.MVS_Len; 
+                point.TimeStamp = Convert.ToInt32((DateTime.Now.Subtract(recordingBeginTimeStamp)).TotalMilliseconds);
+
+                if (jointResult != null)
+                {
+                    
+                    point.Length = point.Length - LengthOffset + jointResult.MVS_Len;
+                    logger.Info($"Длина: {e.Length} - {LengthOffset} + {jointResult.MVS_Len} = {point.Length}");
+                }
             }
+
+            point.TurnsPerMinute = (float)TqTnLenPoint.CalculateTurnsPerMinute(lastPoint, point);
+
+
             NewTqTnLenPoint?.Invoke(this, point);
             lastPoint = point;
         }
@@ -497,10 +509,11 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             {
                 NewTqTnLenPoint -= ActualTqTnLen_ValueUpdated;
                 logger.Info("JointRecord. Запись параметров остановлена.");
+                recordingBeginTimeStamp = DateTime.MinValue;
             }   
         }
 
-        DateTime recordingBeginTimeStamp;
+        DateTime recordingBeginTimeStamp = DateTime.MinValue;
         private void ActualTqTnLen_ValueUpdated(object sender, TqTnLenPoint e)
         {
             jointResult.Series.Add(e);            
@@ -508,7 +521,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
 
 
-        JointResult jointResult;
+        public JointResult jointResult { get; private set; }
 
         //Оценка оператором
         public void Evaluate(uint result)

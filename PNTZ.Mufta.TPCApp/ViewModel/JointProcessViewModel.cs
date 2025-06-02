@@ -60,6 +60,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 ShowResultButtons = false;
                 OnPropertyChanged(nameof(ShowResultButtons));
             });
+
+
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    OnPropertyChanged(nameof(ActualPoint));
+                    await Task.Delay(UpdateInterval);
+                }
+            });
         }
 
 
@@ -81,7 +91,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 jointProcessWorker = value;
 
 
-                jointProcessWorker.PipeAppear += ChartConfigByPreJointDataData;
+                jointProcessWorker.PipeAppear += ChartConfigByPreJointDataData; 
 
                 jointProcessWorker.RecordingBegun += StartChartRecording;
                 jointProcessWorker.RecordingFinished += StopChartRecording;
@@ -92,7 +102,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     OnPropertyChanged(nameof(ShowResultButtons));
                 };
 
-                JointProcessWorker.NewTqTnLenPoint+= SubscribeToValues;
+                JointProcessWorker.NewTqTnLenPoint+= (s, e) => ActualPoint = new TqTnLenPointViewModel(e);
+
 
                 JointProcessWorker.JointFinished += (s, v) => SetResult(v);                
 
@@ -107,27 +118,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         //Актуальные показания с датчиков
 
         public TqTnLenPointViewModel ActualPoint { get; set; }
+        public TqTnLenPointViewModel LastSeriesPoint { get; set; }
+        private void SubscribeToLastPoint(object sender, JointResult point)
+        {
+            
+            OnPropertyChanged(nameof(LastSeriesPoint));
+        }
         //Сглаженные актуальные показаний с датчиков
         public float ActualTorqueSmoothed { get; set; } = 0;
-
-
-        //Такс циклично обновляющий показания. Показания обновляются раз в заданный интервал
-        private void SubscribeToValues(object sender, TqTnLenPoint e)
-        {
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    var point = new TqTnLenPointViewModel(e);
-                    ActualPoint = point;
-
-                    OnPropertyChanged(nameof(ActualPoint));
-
-                    await Task.Delay(UpdateInterval);
-                }
-            });
-            JointProcessWorker.NewTqTnLenPoint -= SubscribeToValues;
-        }
 
         //***************** ДАННЫЕ РЕЦЕПТА **********************
         IRecipeLoader recipeLoader;
@@ -169,28 +167,25 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             TorqueTurnsChartConfig.XMaxValue = double.Parse(config.Root.Element("TorqueTurnsChart").Attribute("XMax").Value);
             TorqueTurnsChartConfig.YMinValue = double.Parse(config.Root.Element("TorqueTurnsChart").Attribute("YMin").Value);
             TorqueTurnsChartConfig.YMaxValue = double.Parse(config.Root.Element("TorqueTurnsChart").Attribute("YMax").Value);
-            OnPropertyChanged(nameof(TorqueTurnsChartConfig));
 
             //Обороты/мин/обороты
             TurnsPerMinuteTurnsChartConfig.XMinValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("XMin").Value);
             TurnsPerMinuteTurnsChartConfig.XMaxValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("XMax").Value);
             TurnsPerMinuteTurnsChartConfig.YMinValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("YMin").Value);
             TurnsPerMinuteTurnsChartConfig.YMaxValue = double.Parse(config.Root.Element("TurnsPerMinuteTurnsChart").Attribute("YMax").Value);
-            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChartConfig));
 
             //Момент/Время
             TorqueTimeChartConfig.XMinValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("XMin").Value);
             TorqueTimeChartConfig.XMaxValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("XMax").Value);
             TorqueTimeChartConfig.YMinValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("YMin").Value);
             TorqueTimeChartConfig.YMaxValue = double.Parse(config.Root.Element("TorqueTimeChart").Attribute("YMax").Value);
-            OnPropertyChanged(nameof(TorqueTimeChartConfig));
 
             //Момент/длина
             TorqueLengthChartConfig.XMinValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("XMin").Value);
             TorqueLengthChartConfig.XMaxValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("XMax").Value);
             TorqueLengthChartConfig.YMinValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("YMin").Value);
             TorqueLengthChartConfig.YMaxValue = double.Parse(config.Root.Element("TorqueLengthChart").Attribute("YMax").Value);
-            OnPropertyChanged(nameof(TorqueLengthChartConfig));
+            
         }
 
         private void ChartConfigByRecipe(JointRecipe recipe)
@@ -200,26 +195,21 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             TorqueLengthChartConfig.XMinValue = recipe.MU_Len_Min / 1.2;
             TorqueLengthChartConfig.XMaxValue = recipe.MU_Len_Max * 1.05;
 
-            OnPropertyChanged(nameof(TorqueLengthChartConfig));
-
             TorqueTurnsChartConfig.YMinValue = 0;
             TorqueTurnsChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
             TorqueTurnsChartConfig.XMaxValue = recipe.MU_Len_Max / recipe.Thread_step;
-            OnPropertyChanged(nameof(TorqueTurnsChartConfig));
-
-
+            
             TorqueTimeChartConfig.YMinValue = 0;
             TorqueTimeChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
-            OnPropertyChanged(nameof(TorqueTimeChartConfig));
-
+            
             TurnsPerMinuteTurnsChartConfig.XMaxValue = recipe.MU_Len_Max / recipe.Thread_step;
-            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChartConfig));
+            
         }
 
         private void ChartConfigByPreJointDataData(object sender, JointResult result)
         {
-            TorqueLengthChartConfig.XMinValue = result.MVS_Len;
-            OnPropertyChanged(nameof(TorqueLengthChartConfig));
+            var resultvm = new JointResultViewModel(result);
+            TorqueLengthChartConfig.XMinValue = resultvm.MVS_Len;
         }
 
 
@@ -280,7 +270,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
                 else
                 {
-
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
                         ChartSeries.Add(ActualPoint);

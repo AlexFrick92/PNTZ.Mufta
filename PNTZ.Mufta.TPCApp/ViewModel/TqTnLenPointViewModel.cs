@@ -24,6 +24,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float Length => point.Length * 1000;
 
         public float Turns => point.Turns;
+
         public int TimeStamp => point.TimeStamp;
 
         public float TurnsPerMinute => point.TurnsPerMinute;

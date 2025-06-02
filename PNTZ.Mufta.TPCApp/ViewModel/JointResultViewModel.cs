@@ -48,10 +48,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
             }
         }
-        public float MVS_Len => ResultModel.MVS_Len;
+        public float MVS_Len => ResultModel.MVS_Len * 1000;
         public float FinalTorque => ResultModel.FinalTorque;
         public float FinalJVal => ResultModel.FinalJVal;
-        public float FinalLength => ResultModel.FinalLength;
+        public float FinalLength => ResultModel.FinalLength * 1000;
         public float FinalTurns => ResultModel.FinalTurns;
         public List<TqTnLenPointViewModel> Series { get => ResultModel.Series.Select(x => new TqTnLenPointViewModel(x)).ToList(); }
 

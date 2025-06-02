@@ -3,7 +3,7 @@
 <JointRecipeConfig>
 	<HEAD_OPEN_PULSES Min="0.01" Max="10" Default ="0.18" Name="Обороты на открытие головки"/>
 	<TURNS_BREAK Min="0.1" Max="10" Default ="4.0" Name="Обороты на развинчивание"/>
-	<Thread_step Min="0.1" Max="10" Default ="0.1" Name="Шаг резьбы"/>
+	<Thread_step Min="0.1" Max="10" Default ="10" Name="Шаг резьбы"/>
 	<Thread_type Min="0" Max="10" Default ="6" Name="Тип резьбы"/>
 
 	<Box_Moni_Time Min="5" Max="100" Default ="10" Name="Время измерения муфты"/>
@@ -14,7 +14,7 @@
 	<Pre_Len_Min Min="5" Max="500" Default ="35" Name="Мин. длина преднавёртки"/>
 	<Pre_Len_Max Min="5" Max="500" Default ="95" Name="Макс. длина преднавёртки"/>
 	
-	<MU_Moni_Time Min="5" Max="10" Default ="6" Name="Время силового свинчивания"/>
+	<MU_Moni_Time Min="5" Max="100" Default ="6" Name="Время силового свинчивания"/>
 	
 	<MU_Tq_Ref Min="0" Max="30000" Default ="500" Name="Опорный момент"/>
 	<MU_Tq_Save Min="0" Max="30000" Default ="2000" Name="Момент автосохранения"/>

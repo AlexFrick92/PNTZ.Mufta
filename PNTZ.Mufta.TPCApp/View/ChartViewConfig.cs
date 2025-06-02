@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Desktop.MVVM;
 
 namespace PNTZ.Mufta.TPCApp.View
 {
-    public class ChartViewConfig
+    public class ChartViewConfig : BaseViewModel
     {
 
         double xMaxValue = 1;
@@ -16,6 +17,7 @@ namespace PNTZ.Mufta.TPCApp.View
             set
             {
                 xMaxValue = value;
+                OnPropertyChanged(nameof(XMaxValue));
                 XGridSpacing = CalculateGridSpacing(XMinValue, XMaxValue);
             }
         }
@@ -27,6 +29,7 @@ namespace PNTZ.Mufta.TPCApp.View
             set
             {
                 xMinValue = value;
+                OnPropertyChanged(nameof(XMinValue));
                 XGridSpacing = CalculateGridSpacing(XMinValue, XMaxValue);
 
             }
@@ -40,7 +43,9 @@ namespace PNTZ.Mufta.TPCApp.View
             get => yMaxValue;
             set
             {
+
                 yMaxValue = value;
+                OnPropertyChanged(nameof(YMaxValue));
                 YGridSpacing = CalculateGridSpacing(yMinValue, yMaxValue); 
             }
         }
@@ -53,6 +58,7 @@ namespace PNTZ.Mufta.TPCApp.View
             set
             {
                 yMinValue = value;
+                OnPropertyChanged(nameof(YMinValue));
                 YGridSpacing = CalculateGridSpacing(YMinValue, yMaxValue);
             }
         }
