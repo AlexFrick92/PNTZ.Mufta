@@ -98,6 +98,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 JointProcessWorker.NewTqTnLenPoint+= (s, e) => _actualPointStream.OnNext(e);
 
                 _actualPointStream
+                    //.Buffer(UpdateInterval)
+                    //.Where(buf => buf.Count > 0)
+                    //.Select(TqTnLenPoint.SmoothAverage)
                     .Sample(UpdateInterval)
                     .Subscribe(val =>
                     {
@@ -265,6 +268,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
             _graphSubscription = _actualPointStream
+                //.Buffer(UpdateInterval)
+                //.Where(buf => buf.Count > 0)
+                //.Select(TqTnLenPoint.SmoothAverage)
                 .Sample(UpdateInterval)
                 .ObserveOn(System.Windows.Application.Current.Dispatcher)
                 .Subscribe(val =>
