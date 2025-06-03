@@ -88,6 +88,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 jointProcessWorker.RecordingBegun += StartChartRecording;
                 jointProcessWorker.RecordingFinished += StopChartRecording;
+                jointProcessWorker.RecordingFinished += ShowResultAfterRecording;
 
                 jointProcessWorker.AwaitForEvaluation += (s, v) =>
                 {
@@ -116,6 +117,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 JointProcessWorker.CyclicallyListen = true;
             }
         }
+
+
 
         public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
 
@@ -283,7 +286,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         }
-        private void StopChartRecording(object sender, EventArgs e)
+        private void StopChartRecording(object sender, JointResult e)
         {
             if (recordingCts != null)
             {
@@ -291,7 +294,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 recordingCts = null;
             }
         }
-
+        private void ShowResultAfterRecording(object sender, JointResult e)
+        {
+            LastJointResult = new JointResultViewModel(e);
+            OnPropertyChanged(nameof(LastJointResult));
+        }
 
         // ************* УСТАНОВКА РЕЗУЛЬТАТА ******************
 

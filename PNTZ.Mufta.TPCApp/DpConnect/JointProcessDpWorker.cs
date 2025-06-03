@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using LinqToDB.Tools;
 
 namespace PNTZ.Mufta.TPCApp.DpConnect
 {
@@ -62,7 +63,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public event EventHandler<JointResult> PipeAppear;
         //Труба в навёрточной головке. Началось свинчивания
         public event EventHandler<EventArgs> RecordingBegun;
-        public event EventHandler<EventArgs> RecordingFinished;
+        public event EventHandler<JointResult> RecordingFinished;
         //Ожидание оценки оператором
         public event EventHandler AwaitForEvaluation;       
         //Свинчивание завершено
@@ -87,9 +88,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
                 if (jointResult != null)
                 {
-                    
                     point.Length = point.Length - LengthOffset + jointResult.MVS_Len;
-                    logger.Info($"Длина: {e.Length} - {LengthOffset} + {jointResult.MVS_Len} = {point.Length}");
                 }
             }
 
@@ -397,16 +396,16 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             first = await Task.WhenAny(recordTask, timeout, tcs.Task, AwaitFor40.Task);
 
-            RecordingFinished?.Invoke(this, EventArgs.Empty);
-
             if (first == timeout)
             {
                 recordCtc.Cancel();
+                RecordingFinished?.Invoke(this, jointResult);
                 throw new TimeoutException("Время записи параметров истекло");
             }
             else if (first == tcs.Task)
             {
                 recordCtc?.Cancel();
+                RecordingFinished?.Invoke(this, jointResult);
                 throw new OperationCanceledException();
             }
             else if(first == AwaitFor40.Task) //Свинчивание завершено
@@ -414,43 +413,47 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 logger.Info("Joint. команда ПЛК:" + AwaitFor40.Task.Result);
                 recordCtc?.Cancel();
 
+
                 if (AwaitFor40.Task.Result != 40)
+                {
+                    RecordingFinished?.Invoke(this, jointResult);
                     if (AwaitFor40.Task.Result == 0)
                         throw new InvalidProgramException();
                     else
                         throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
+                }
+                else
+                {
+                    jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
+                    jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
+                    jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
+
+                    logger.Info($"Свинчивание завершено. Итоговый момент: {jointResult.FinalTorque}, итоговая длина: {jointResult.FinalLength}, итоговые обороты: {jointResult.FinalTurns}");
+                    logger.Info("Результат ПЛК: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_RESULT);
+
+                    RecordingFinished?.Invoke(this, jointResult);
+                }
 
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(2));
-
-            logger.Info("Как будто записали параметры");
-            
             //Устанавливаем 45 - ожидание оценки
             DpTpcCommand.Value = 45;                        
 
-            logger.Info("Итоговый момент: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ);
-            logger.Info("Результат ПЛК: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_RESULT);
+            //Оценка. Если годная - то автооценка. Если брак, то подтверждение оператора
+            var evaluator = new JointEvaluation(logger);
 
-            logger.Info("Ожидаем оценки оператора");
-
-            //Ожидается оценка
-            TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
-            Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
-            AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
-
-            timeout = Task.Delay(TimeSpan.FromSeconds(10));
-            var firstTask = await Task.WhenAny(awaitEvaluation.Task, tcs.Task);
-            if (firstTask == timeout)
-                logger.Info("Автооценка");
-            else
+            if (!evaluator.Evaluate(jointResult))
             {
+                TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
+                Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
+                AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
+
+                var firstTask = await Task.WhenAny(awaitEvaluation.Task, tcs.Task);
+                jointResult.ResultTotal = awaitEvaluation.Task.Result;
                 logger.Info("Оценка установлена оператором: " + awaitEvaluation.Task.Result);
-                var Value = awaitEvaluation.Task.Result;
             }
 
 
-            jointResult.ResultTotal = awaitEvaluation.Task.Result;
             //Устанавливаем 50 - отправили оценку
             Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
 
@@ -491,26 +494,17 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             jointResult.Series = new List<TqTnLenPoint>();
             NewTqTnLenPoint += ActualTqTnLen_ValueUpdated;
             RecordingBegun?.Invoke(this, EventArgs.Empty);
+
             try
             {
-                await Task.Run(async () =>
-                {
-                    while (true)
-                    {
-                                              
-                        if (token.IsCancellationRequested)
-                            throw new OperationCanceledException();                                                     
-
-                        await Task.Delay(10);
-                    }
-                });
+                await Task.Delay(Timeout.Infinite, token);
             }
             catch (OperationCanceledException)
             {
                 NewTqTnLenPoint -= ActualTqTnLen_ValueUpdated;
                 logger.Info("JointRecord. Запись параметров остановлена.");
                 recordingBeginTimeStamp = DateTime.MinValue;
-            }   
+            }
         }
 
         DateTime recordingBeginTimeStamp = DateTime.MinValue;
@@ -518,8 +512,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         {
             jointResult.Series.Add(e);            
         }
-
-
 
         public JointResult jointResult { get; private set; }
 

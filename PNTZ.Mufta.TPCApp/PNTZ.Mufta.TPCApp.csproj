@@ -133,6 +133,7 @@
     <Compile Include="App.cs" />
     <Compile Include="Domain\IJointProcessWorker.cs" />
     <Compile Include="Domain\IRecipeLoader.cs" />
+    <Compile Include="Domain\JointEvaluation.cs" />
     <Compile Include="Domain\JointMode.cs" />
     <Compile Include="Domain\DomainObjectXmlConfigurator.cs" />
     <Compile Include="Domain\JointRecipe.cs" />

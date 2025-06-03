@@ -135,7 +135,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
         public string JointStatus { get; set; } = "";
         public bool JointInProgress { get; set; } = false;
-        private void ResultDpWorker_RecordingFinished(object sender, EventArgs e)
+        private void ResultDpWorker_RecordingFinished(object sender, JointResult e)
         {
             JointStatus = "Запись завершена";
             OnPropertyChanged(nameof(JointStatus));
