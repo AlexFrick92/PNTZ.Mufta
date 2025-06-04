@@ -15,6 +15,7 @@ using System.Windows.Input;
 
 using static PNTZ.Mufta.TPCApp.App;
 using System.Linq;
+using LinqToDB.Tools;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
@@ -69,7 +70,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
                 catch
                 {
-                    RecipeLoadFailed?.Invoke(this, EditRecipe.Recipe);
+                    LoadedRecipe = EditRecipe.Recipe;
+                    RecipeLoaded?.Invoke(this, EditRecipe.Recipe);
+                    //RecipeLoadFailed?.Invoke(this, EditRecipe.Recipe);
                 }
 
             }));

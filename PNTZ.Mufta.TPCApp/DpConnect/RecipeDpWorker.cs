@@ -67,8 +67,13 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
                 if (first == awaitCommandFeedback.Task && awaitCommandFeedback.Task.Result != 20)                                    
                     throw new Exception($"Не удалось загрузить. Неверный ответ ({awaitCommandFeedback.Task.Result}) на команду 10");                
-                else if (first == timeout)                
-                    throw new TimeoutException("Время ожидания команды исткело");                
+                else if (first == timeout)
+                {
+                    RecipeLoaded?.Invoke(this, recipe);
+                    LoadedRecipe = recipe;
+                    throw new TimeoutException("Время ожидания команды исткело");
+                }
+                    
 
                 logger.Info("Ответ ПЛК: " + awaitCommandFeedback.Task.Result);
 

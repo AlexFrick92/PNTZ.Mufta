@@ -80,6 +80,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 Torque = e.Torque,
                 Length = e.Length,
                 Turns = e.Turns,
+                TurnsPerMinute = e.TurnsPerMinute,
                 TimeStamp = 0,
             };
             if (recordingBeginTimeStamp > DateTime.MinValue)
@@ -92,7 +93,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
             }
 
-            point.TurnsPerMinute = (float)TqTnLenPoint.CalculateTurnsPerMinute(lastPoint, point);
+            //point.TurnsPerMinute = (float)TqTnLenPoint.CalculateTurnsPerMinute(lastPoint, point);
 
 
             NewTqTnLenPoint?.Invoke(this, point);
@@ -381,7 +382,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             //Отмена по таймауту. Предполагаю что monitoring time.
             timeout = Task.Run(async () =>
             {
-                await Task.Delay(RecordingTimeout);
+                await Task.Delay(TimeSpan.FromSeconds(60));
                 recordCtc?.Cancel();
             });
 
@@ -396,14 +397,16 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             first = await Task.WhenAny(recordTask, timeout, tcs.Task, AwaitFor40.Task);
 
-            if (first == timeout)
+            if (first == timeout || first == recordTask)
             {
+                logger.Info("Таймаут");
                 recordCtc.Cancel();
                 RecordingFinished?.Invoke(this, jointResult);
                 throw new TimeoutException("Время записи параметров истекло");
             }
             else if (first == tcs.Task)
             {
+                logger.Info("Отменено");
                 recordCtc?.Cancel();
                 RecordingFinished?.Invoke(this, jointResult);
                 throw new OperationCanceledException();
@@ -424,8 +427,11 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
                 else
                 {
+
+                    await Task.Delay(TimeSpan.FromSeconds(2));
+
                     jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
-                    jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
+                    jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN + jointResult.MVS_Len;
                     jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
 
                     logger.Info($"Свинчивание завершено. Итоговый момент: {jointResult.FinalTorque}, итоговая длина: {jointResult.FinalLength}, итоговые обороты: {jointResult.FinalTurns}");
@@ -434,6 +440,11 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     RecordingFinished?.Invoke(this, jointResult);
                 }
 
+            }
+            else
+            {
+                RecordingFinished?.Invoke(this, jointResult);
+                logger.Info($"Неожиданный поворот: {first}");
             }
 
             //Устанавливаем 45 - ожидание оценки

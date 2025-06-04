@@ -20,5 +20,10 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
         /// В ньютонах
         /// </summary>
         public float Torque { get; set; }
+
+        /// <summary>
+        /// Обороты в минуту
+        /// </summary>
+        public float TurnsPerMinute { get; set; }
     }
 }

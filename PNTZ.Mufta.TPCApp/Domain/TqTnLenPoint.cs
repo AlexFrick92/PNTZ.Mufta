@@ -16,14 +16,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public float Length { get; set; }
         public float Turns { get; set; }
 
-        [NonSerialized]
-        private float _turnsPerMinute;
-
-        public float TurnsPerMinute
-        {
-            get => _turnsPerMinute;
-            set => _turnsPerMinute = value;
-        }
+        public float TurnsPerMinute { get; set; }
 
 
         public int TimeStamp { get; set; }
