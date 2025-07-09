@@ -81,15 +81,15 @@ namespace PNTZ.Mufta.TPCApp.Domain
         private bool EvaluateLength(JointResult result)
         {
             _logger.Info("Оценка длины...");
-            _logger.Info($"Длина: {result.FinalLength} м, допустимый диапазон: {result.Recipe.MU_Len_Min} - {result.Recipe.MU_Len_Max} м");
-            if (result.FinalLength < result.Recipe.MU_Len_Min || result.FinalLength > result.Recipe.MU_Len_Max)
+            _logger.Info($"Длина: {result.FinalLength * 1000} м, допустимый диапазон: {result.Recipe.MU_Len_Min} - {result.Recipe.MU_Len_Max} м");
+            if ((result.FinalLength * 1000) < result.Recipe.MU_Len_Min || (result.FinalLength * 1000) > result.Recipe.MU_Len_Max)
             {
-                _logger.Info($"Отклонено! Длина {result.FinalLength} м вне допустимого диапазона.");
+                _logger.Info($"Отклонено! Длина {(result.FinalLength * 1000)} м вне допустимого диапазона.");
                 return false;
             }
             else
             {
-                _logger.Info($"Длина {result.FinalLength} м в пределах допустимого диапазона.");
+                _logger.Info($"Длина {(result.FinalLength * 1000)} м в пределах допустимого диапазона.");
                 return true;
             }
         }

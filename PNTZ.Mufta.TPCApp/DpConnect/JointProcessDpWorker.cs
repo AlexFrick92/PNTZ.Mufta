@@ -310,6 +310,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 {
                     logger.Info("Труба появилась на позиции муфтонавёртки");
                     
+                    Task.Delay(500).Wait();
+
                     jointResult = new JointResult(actualRecipe)
                     {
                         StartTimeStamp = DateTime.Now,
