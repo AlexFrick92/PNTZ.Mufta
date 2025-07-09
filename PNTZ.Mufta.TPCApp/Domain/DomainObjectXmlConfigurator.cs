@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
@@ -25,7 +26,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public T1 GetValueFromXml<T1>(string propName, string attribute)
         {
             string xmlVal = config.Root.Element(propName).Attribute(attribute).Value;
-            return (T1)Convert.ChangeType(xmlVal, typeof(T1));
+            return (T1)Convert.ChangeType(xmlVal, typeof(T1), CultureInfo.InvariantCulture);
         }
 
         void InitValidators()
