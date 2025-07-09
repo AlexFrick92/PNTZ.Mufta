@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.TPCApp", "PNTZ.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.IoC.DryIoc", "..\Tools\IoC\Source\DryIoC\Promatis.IoC.DryIoc.csproj", "{536C73C1-951C-4062-BCAA-01F1B86E483B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.TPCApp.Test", "PNTZ.Mufta.TPCApp.Test\PNTZ.Mufta.TPCApp.Test.csproj", "{692CC16A-409B-4EA6-9B40-E564BE567976}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{536C73C1-951C-4062-BCAA-01F1B86E483B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536C73C1-951C-4062-BCAA-01F1B86E483B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{536C73C1-951C-4062-BCAA-01F1B86E483B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692CC16A-409B-4EA6-9B40-E564BE567976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692CC16A-409B-4EA6-9B40-E564BE567976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692CC16A-409B-4EA6-9B40-E564BE567976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692CC16A-409B-4EA6-9B40-E564BE567976}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
