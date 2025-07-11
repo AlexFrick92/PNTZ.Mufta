@@ -101,12 +101,13 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                          VerticalContentAlignment="Center"
+                         view:WatermarkService.Watermark="Введите название рецепта..."
                         />
             </Border>
             
             <ListBox Grid.Row="1" ItemsSource="{Binding JointRecipes}" SelectedItem="{Binding SelectedJointRecipe}"
                      BorderThickness="0"
-                     HorizontalContentAlignment="Stretch"
+                     HorizontalContentAlignment="Stretch"                     
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
