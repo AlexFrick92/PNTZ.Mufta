@@ -3,6 +3,7 @@ using PNTZ.Mufta.TPCApp.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -103,6 +104,56 @@ namespace PNTZ.Mufta.TPCApp.Repository
         [Column]
         public string TimeStamp { get; set; }
 
+        public static Expression<Func<JointRecipeTable, JointRecipe>> Projection => r => new JointRecipe
+        {
+            Name = r.Name,
+            HEAD_OPEN_PULSES = (float)r.HEAD_OPEN_PULSES,
+            TURNS_BREAK = (float)r.TURNS_BREAK,
+            PLC_PROG_NR = (ushort)r.PLC_PROG_NR,
+            LOG_NO = (ushort)r.LOG_NO,
+            Tq_UNIT = (ushort)r .Tq_UNIT,
+            SelectedThreadType = (ThreadType)r.SelectedThreadType,
+            Thread_step = (float)r.Thread_step,
+            PIPE_TYPE = r.PIPE_TYPE,
+
+            Box_Moni_Time = (int)r.Box_Moni_Time,
+            Box_Len_Min = (float)r.Box_Len_Min,
+            Box_Len_Max = (float)r.Box_Len_Max,
+
+            Pre_Moni_Time = (int)r.Pre_Moni_Time,
+            Pre_Len_Max = (float)r  .Pre_Len_Max,
+            Pre_Len_Min = (float)r.Pre_Len_Min,
+
+            MU_Moni_Time = (int)r.MU_Moni_Time,
+            MU_Tq_Ref = (float)r.MU_Tq_Ref,
+            MU_Tq_Save = (float)r.MU_Tq_Save,
+
+            JointMode = (JointMode)r.SelectedMode,
+
+            MU_TqSpeedRed_1 = (float)r.MU_TqSpeedRed_1,
+            MU_TqSpeedRed_2 = (float)r.MU_TqSpeedRed_2,
+            MU_Tq_Dump = (float)r.MU_Tq_Dump,
+            MU_Tq_Max = (float)r.MU_Tq_Max,
+            MU_Tq_Min = (float)r.MU_Tq_Min,
+            MU_Tq_Opt = (float)r.MU_Tq_Opt,
+
+            MU_TqShoulder_Min = (float)r.MU_TqShoulder_Min,
+            MU_TqShoulder_Max = (float)r.MU_TqShoulder_Max,
+
+            MU_Len_Speed_1 = (float)r.MU_Len_Speed_1,
+            MU_Len_Speed_2 = (float)r.MU_Len_Speed_2,
+            MU_Len_Dump = (float)r.MU_Len_Dump,
+            MU_Len_Min = (float)r.MU_Len_Min,
+            MU_Len_Max = (float)r.MU_Len_Max,
+
+            MU_JVal_Speed_1 = (float)r.MU_JVal_Speed_1,
+            MU_JVal_Speed_2 = (float)r.MU_JVal_Speed_2,
+            MU_JVal_Dump = (float)r.MU_JVal_Dump,
+            MU_JVal_Min = (float)r.MU_JVal_Min,
+            MU_JVal_Max = (float)r.MU_JVal_Max,
+
+            TimeStamp = DateTime.Parse(r.TimeStamp)
+        };
 
         public JointRecipeTable FromJointRecipe(JointRecipe recipe)
         {

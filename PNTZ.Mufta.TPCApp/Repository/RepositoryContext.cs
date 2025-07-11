@@ -72,6 +72,16 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         }
 
+        public IQueryable<JointRecipe> Recipes
+        {
+            get
+            {
+                var db = new JointRecipeContext(recipesConnectionString);
+                return db.Recipes.Select(JointRecipeTable.Projection);
+            }
+        }
+
+
         //Операции над результатами
 
         public void SaveResult(JointResult result)

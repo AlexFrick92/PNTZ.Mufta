@@ -1,6 +1,4 @@
 ﻿using Desktop.MVVM;
-using DevExpress.Charts.Designer.Native;
-using DevExpress.Xpo.DB;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
 using PNTZ.Mufta.TPCApp.Repository;
@@ -16,6 +14,7 @@ using System.Windows.Input;
 using static PNTZ.Mufta.TPCApp.App;
 using System.Linq;
 using LinqToDB.Tools;
+using Promatis.Core.Extensions;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
@@ -48,10 +47,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             SetModeCommand = new RelayCommand((mode) => SetMode((JointMode)mode));
 
             JointRecipes = new ObservableCollection<JointRecipeViewModel>();
-            foreach(JointRecipe jointRecipe in repo.LoadRecipes())
-            {
-                JointRecipes.Add(new JointRecipeViewModel(jointRecipe));
-            }
+            RefreshRecipes(JointRecipes, string.Empty);            
 
             LoadRecipeCommand = new RelayCommand((arg) =>
             Task.Run(async () =>
@@ -119,6 +115,36 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 repo.RemoveRecipe(EditRecipe.Recipe);
                 JointRecipes.Remove(EditRecipe);                
             });
+        }
+
+        private string _recipeNameFilter;
+        public string RecipeNameFilter
+        {
+            get => _recipeNameFilter;
+            set
+            {
+                if (_recipeNameFilter != value)
+                {
+                    _recipeNameFilter = value;
+                    OnPropertyChanged(nameof(RecipeNameFilter));
+                    RefreshRecipes(JointRecipes, _recipeNameFilter);
+                    
+                }
+            }
+        }
+        public void RefreshRecipes(IList<JointRecipeViewModel> recipes, string nameFilter)
+        {
+            recipes.Clear();
+
+            var filtered = repo.Recipes.Where(r =>
+                string.IsNullOrEmpty(nameFilter)
+                || r.Name.Contains(nameFilter)
+                || r.TimeStamp.ToString().Contains(nameFilter));
+
+            foreach (var jointRecipe in filtered)
+            {
+                recipes.Add(new JointRecipeViewModel(jointRecipe));
+            }
         }
 
         public ObservableCollection<JointRecipeViewModel> JointRecipes { get; set;  }

@@ -85,12 +85,26 @@
         <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderBrush="{StaticResource GridColor}"
+                     BorderThickness="0,0,0,1">
+                <TextBox Text="{Binding RecipeNameFilter, UpdateSourceTrigger=PropertyChanged}"                         
+                        FontSize="14"
+                        Height="30" 
+                         Padding="5"
+                         BorderThickness="0"
+                        HorizontalContentAlignment="Left"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                         VerticalContentAlignment="Center"
+                        />
+            </Border>
             
-            
-            <ListBox Grid.Row="0" ItemsSource="{Binding JointRecipes}" SelectedItem="{Binding SelectedJointRecipe}"
+            <ListBox Grid.Row="1" ItemsSource="{Binding JointRecipes}" SelectedItem="{Binding SelectedJointRecipe}"
                      BorderThickness="0"
                      HorizontalContentAlignment="Stretch"
                      >
