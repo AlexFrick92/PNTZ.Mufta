@@ -168,16 +168,12 @@
             <TextBox Grid.Row="14" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Dump, StringFormat=F1, Mode=OneWay}"/>
 
             <Label Grid.Row="15" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Опт. момент"/>
-            <TextBox Grid.Row="15" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Opt, StringFormat=F1, Mode=OneWay}"/>
+                Style="{StaticResource ParamLabel}" Content="Макс. длина"/>
+            <TextBox Grid.Row="15" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Max, StringFormat=F1, Mode=OneWay}"/>
 
             <Label Grid.Row="16" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Макс. длина"/>
-            <TextBox Grid.Row="16" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Max, StringFormat=F1, Mode=OneWay}"/>
-
-            <Label Grid.Row="17" Grid.Column="0"
                 Style="{StaticResource ParamLabel}" Content="Мин. длина"/>
-            <TextBox Grid.Row="17" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Min, StringFormat=F1, Mode=OneWay}"/>
+            <TextBox Grid.Row="16" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Min, StringFormat=F1, Mode=OneWay}"/>
 
 
         </Grid>
