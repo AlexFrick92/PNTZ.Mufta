@@ -259,7 +259,7 @@
             <Grid Grid.Row="1" Margin="5" Width="950" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition/>
@@ -327,7 +327,7 @@
 
 
                 <!--ЗАГОЛОВОК-->
-                <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3">
+                <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
                     <Label Style="{StaticResource ParamHeaderLabel}" Content="Данные муфты"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
@@ -357,7 +357,7 @@
                 <!--********************* ДАННЫЕ ПРЕДНАВЁРТКИ ***************************-->
 
                 <!--ЗАГОЛОВОК-->
-                <StackPanel Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="3">
+                <StackPanel Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2">
                     <Label Style="{StaticResource ParamHeaderLabel}" Content="Преднавёртка"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
@@ -403,7 +403,7 @@
                         <Setter Property="Command" Value="{Binding SetModeCommand}"/>
 
                         <Setter Property="Height" Value="75"/>
-                        <Setter Property="Width" Value="145"/>
+                        <Setter Property="Width" Value="120"/>
                         <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
 
                         <Style.Triggers>
@@ -420,6 +420,11 @@
                             </DataTrigger>
                         </Style.Triggers>
 
+                    </Style>
+                    <Style TargetType="Label" x:Key="SelectModeButtonLabel">
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="Foreground" Value="DimGray"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
                     </Style>
                 </Grid.Resources>
 
@@ -449,7 +454,7 @@
                 </Grid.ColumnDefinitions>
 
 
-                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.ColumnSpan="12" Grid.Row="0" 
+                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="0" 
                             Margin="5,1,5,5">
                     <Label Content="Режим свинчивания" Style="{StaticResource ParamHeaderLabel}"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
@@ -469,7 +474,8 @@
                             Grid.Row="0"
                             Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorque.png"/>
                         <Label
-                            Grid.Row="1"                            
+                            Grid.Row="1"  
+                            Style="{StaticResource SelectModeButtonLabel}"
                             Content="МОМЕНТ"/>
                     </Grid>
                 </Button>
@@ -490,6 +496,7 @@
                             Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueShoulder.png"/>
                         <Label
                             Grid.Row="1"
+                            Style="{StaticResource SelectModeButtonLabel}"
                             Content="МОМЕНТ и ВЫСТУП"/>
                     </Grid>
                 </Button>
@@ -509,6 +516,7 @@
                             Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeLength.png"/>
                         <Label
                             Grid.Row="1"
+                            Style="{StaticResource SelectModeButtonLabel}"
                             Content="ДЛИНА"/>
                     </Grid>
                 </Button>
@@ -528,6 +536,7 @@
                             Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueLength.png"/>
                         <Label
                             Grid.Row="1"
+                            Style="{StaticResource SelectModeButtonLabel}"
                             Content="МОМЕНТ и ДЛИНА"/>
                     </Grid>
                 </Button>
@@ -547,6 +556,7 @@
                             Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeJValue.png"/>
                         <Label
                             Grid.Row="1"
+                            Style="{StaticResource SelectModeButtonLabel}"
                             Content="ЗНАЧЕНИЕ J"/>
                     </Grid>
                 </Button>
@@ -566,7 +576,8 @@
                             Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueJValue.png"/>
                         <Label
                             Grid.Row="1"
-                            Content="МОМЕНТ и ЗНАЧЕНИЕ J"/>
+                            Style="{StaticResource SelectModeButtonLabel}"
+                            Content="МОМЕНТ и J"/>
                     </Grid>
                 </Button>
 
@@ -633,7 +644,7 @@
                     </Grid.RowDefinitions>
 
                     <!--ЗАГОЛОВОК-->
-                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="5,5,0,0">
+                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,5,0,0">
                         <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
                     </StackPanel>
