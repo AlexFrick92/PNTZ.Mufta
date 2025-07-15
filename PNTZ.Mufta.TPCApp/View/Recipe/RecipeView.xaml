@@ -320,7 +320,7 @@
 
                 <!--ЗАГОЛОВОК-->
                 <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                    <Label Style="{StaticResource ParamHeaderLabel}" Content="Общие параметры"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="⚙️ Общие параметры"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
 
@@ -367,7 +367,7 @@
 
                 <!--ЗАГОЛОВОК-->
                 <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-                    <Label Style="{StaticResource ParamHeaderLabel}" Content="Данные муфты"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="🔩 Данные муфты"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
 
@@ -397,7 +397,7 @@
 
                 <!--ЗАГОЛОВОК-->
                 <StackPanel Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2">
-                    <Label Style="{StaticResource ParamHeaderLabel}" Content="Преднавёртка"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="🔧 Преднавёртка"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
 
@@ -495,7 +495,7 @@
 
                 <StackPanel Orientation="Vertical" Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="0" 
                             Margin="5,1,5,5">
-                    <Label Content="Режим свинчивания" Style="{StaticResource ParamHeaderLabel}"/>
+                    <Label Content="🛠️ Режим свинчивания" Style="{StaticResource ParamHeaderLabel}"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
                 </StackPanel>
 
@@ -684,7 +684,7 @@
 
                     <!--ЗАГОЛОВОК-->
                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,5,0,0">
-                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="💪 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
                     </StackPanel>
 
@@ -814,7 +814,7 @@
 
                     <!--ЗАГОЛОВОК-->
                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,5,0,0">
-                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ ДЛИНЫ"/>
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="📐 Параметры контроля свинчивания: КОНТРОЛЬ ДЛИНЫ"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
                     </StackPanel>
 
@@ -941,7 +941,7 @@
 
                     <!--ЗАГОЛОВОК-->
                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5,5,0,0">
-                        <Label Style="{StaticResource ParamHeaderLabel}" Content="Параметры контроля свинчивания: КОНТРОЛЬ ЗНАЧЕНИЯ J"/>
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="📏 Параметры контроля свинчивания: КОНТРОЛЬ ЗНАЧЕНИЯ J"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
                     </StackPanel>
 
