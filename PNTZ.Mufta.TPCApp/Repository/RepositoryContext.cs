@@ -121,6 +121,14 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 return db.Results.Select(r => r.Name).Distinct();
             }
         }
+        public IQueryable<JointResultTable> ResultsTable
+        {
+            get
+            {
+                var db = new JointResultContext(resultsConnectionString);
+                return db.Results;
+            }
+        }
 
     }
 }

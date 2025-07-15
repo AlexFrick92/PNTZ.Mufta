@@ -27,7 +27,9 @@ namespace PNTZ.Mufta.TPCApp.Domain
                     name = value;
                 }
                 else
-                    throw new ArgumentException("Значение имени должно быть от 1 до 20 символов");
+                {
+                    throw new ArgumentException("Значение имени должно быть от 1 до 20 символов");                    
+                }
             }
         }
 

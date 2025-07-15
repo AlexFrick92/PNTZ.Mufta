@@ -55,18 +55,25 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Border>
+            <Border Grid.Row = "0" BorderBrush="{StaticResource GridColor}"
+                     BorderThickness="0,0,0,1">
                 <ComboBox
                     x:Name="RecipeComboBox"
                     IsEditable="True"
                     StaysOpenOnEdit="True"
                     IsTextSearchEnabled="True"
-                    
+                    Height="30" 
+                    Padding="5"
+                    BorderThickness="0"
+                    FontSize="14"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
                     ItemsSource="{Binding FilteredRecipeNames}" 
-                    SelectedItem="{Binding SelectedRecipeName, Mode=TwoWay}"                       
-                    
+                    SelectedItem="{Binding SelectedRecipeName, Mode=TwoWay}"     
+                                    
                     />
-                
             </Border>
             
 
@@ -84,16 +91,17 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label                                                                                                                                             
-                                    Grid.Column="0"
-                                    Content="{Binding RecipeName, Mode=OneWay}"
-                                    Background="Transparent"                                                                                                                                                      
-                                />
                                 <Label
-                                    Grid.Column="1"
-                                    Background="Transparent"
-                                    Content="{Binding FinishTimeStamp, Mode=OneWay}"
-                                    />
+                                                                                                                                                                                                                                
+                                    Grid.Column="0"
+                                    Content="{Binding Result}"
+                                    Background="Transparent"/>
+
+                                <Label                                                                                                                                             
+                                    Grid.Column="1"                                    
+                                    Background="Transparent">
+                                    <TextBlock Text="{Binding FinishTimeStamp, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" />
+                                </Label>
                             </Grid>
                         </Border>
                     </DataTemplate>

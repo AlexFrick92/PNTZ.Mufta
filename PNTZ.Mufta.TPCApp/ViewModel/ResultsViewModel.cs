@@ -30,15 +30,24 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 Results = new ObservableCollection<JointResultViewModel>();
 
-                Results.AddRange(repo.LoadResults().Select(r => new JointResultViewModel(r)));
+                try
+                {
+                    Results.AddRange(repo.ResultsTable
+                        .Where(t => t.Name == SelectedRecipeName)
+                        .Select(t => new JointResultViewModel(t.ToJointResult())));                    
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Error loading results for recipe '{SelectedRecipeName}': {ex.Message}", ex);
+                }
+
+                //Results.AddRange(repo.LoadResults().Select(r => new JointResultViewModel(r)));
                 OnPropertyChanged(nameof(Results));
             });
 
-
-
-            // Тут можно получить из базы/сервиса/файла
+            
             FilteredRecipeNames = new ObservableCollection<string>();
-            FilteredRecipeNames.AddRange(repo.ResultRecipesName);
+            FilteredRecipeNames.AddRange(repo.ResultsTable.Select(t => t.Name).Distinct());
         }
 
 
@@ -54,6 +63,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 if (_selectedRecipeName == value) return;
                 _selectedRecipeName = value;
                 OnPropertyChanged(nameof(SelectedRecipeName));
+                GetResultCommand.Execute(null);
                 if (!string.IsNullOrWhiteSpace(_selectedRecipeName))
                     _logger.Info($"Selected recipe: {_selectedRecipeName}");
                 else
