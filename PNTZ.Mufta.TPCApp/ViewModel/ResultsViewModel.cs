@@ -19,6 +19,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         private readonly RepositoryContext _repo;
         private readonly ILogger _logger;
         public ICommand GetResultCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
 
         public ResultsViewModel(RepositoryContext repo, ILogger logger)
         {
@@ -45,16 +46,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 OnPropertyChanged(nameof(Results));
             });
 
+
+            RefreshCommand = new RelayCommand((arg) =>
+            {
+                FilteredRecipeNames = new ObservableCollection<string>();
+                FilteredRecipeNames.AddRange(repo.ResultsTable.Select(t => t.Name).Distinct());
+                OnPropertyChanged(nameof(FilteredRecipeNames));
+            });
             
-            FilteredRecipeNames = new ObservableCollection<string>();
-            FilteredRecipeNames.AddRange(repo.ResultsTable.Select(t => t.Name).Distinct());
+            RefreshCommand.Execute(null);   
+           
         }
 
 
         //------------------------------------------------
         
         private string _selectedRecipeName;
-        public ObservableCollection<string> FilteredRecipeNames { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> FilteredRecipeNames { get; private set; } = new ObservableCollection<string>();
         public string SelectedRecipeName
         {
             get => _selectedRecipeName;

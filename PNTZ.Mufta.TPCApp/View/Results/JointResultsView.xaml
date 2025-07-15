@@ -24,7 +24,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -36,17 +36,34 @@
 
         
         <!--СПИСОК РЕЗУЛЬТАТОВ СЛЕВА-->
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}"
-                    Background="{StaticResource LightColor}">
-                <Label                        
-                        Content="История свинчиваний"
-                        FontSize="18"         
-                        Margin="4"
-                        BorderThickness="0"                                        
-                        />
-            </Border>
-        </Grid>
+        <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}"
+                Background="{StaticResource LightColor}">
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label     
+                    Grid.Row="0"
+                    Content="Свинчивания"
+                    FontSize="18"         
+                    Margin="4"
+                    BorderThickness="0"                                        
+                    />
+                
+                <Border  Grid.Column="1" Margin="5" BorderBrush="{StaticResource GridColor}" >
+                    <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
+                        Background="{StaticResource LightColor}"
+                        Command="{Binding RefreshCommand}"                     
+                        >
+                        <StackPanel  Orientation="Horizontal">
+                            <Label FontSize="14">♻️</Label>
+                        </StackPanel>
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
 
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
@@ -87,7 +104,7 @@
                     />
                 </Grid>
             </Border>
-            
+
 
             <ListBox Grid.Row="1" ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedResult}"
                   BorderThickness="0"
@@ -120,16 +137,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-
-            <StackPanel Grid.Row="2">
-                <Button
-                    Content="Обновить"
-                    Command="{Binding GetResultCommand}"
-                    >
-                    
-                </Button>
-            </StackPanel>
-            
         </Grid>
         
         

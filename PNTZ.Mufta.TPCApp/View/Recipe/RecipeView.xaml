@@ -240,7 +240,7 @@
                             Command="{Binding LoadRecipeCommand}"                     
                                  >
                             <StackPanel  Orientation="Horizontal">
-                                <Label FontSize="14">🡇   Загрузить</Label>
+                                <Label FontSize="14">🡇 Загрузить</Label>
                             </StackPanel>
                         </Button>
                     </Border>
