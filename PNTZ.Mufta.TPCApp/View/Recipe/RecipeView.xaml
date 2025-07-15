@@ -52,7 +52,15 @@
                 <Setter Property="BorderBrush" Value="{StaticResource GridColor}"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
-
+            
+            <Style TargetType="FrameworkElement" x:Key="RecipeEditableStyle">
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RecipeEditable}" Value="True">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -186,6 +194,11 @@
 
         <!--****************************************** РЕДАКТИРОВАНИЕ РЕЦЕПТА **************************************************************-->
         <Grid Grid.Row="0" Grid.Column="2">
+            <Grid.Resources>
+
+                                
+            </Grid.Resources>
+            
             <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}" Background="{StaticResource LightColor}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -212,7 +225,7 @@
                         BorderThickness="0"/>
 
                     <!-- КНОПКИ РЕЦЕПТА -->
-                    <Border  Grid.Column="2" Margin="5" BorderBrush="{StaticResource GridColor}" >
+                    <Border  Grid.Column="2" Margin="5" BorderBrush="{StaticResource GridColor}" Style="{StaticResource RecipeEditableStyle}">
                         <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
                             Background="{StaticResource LightColor}"
                             Command="{Binding RemoveRecipe}"                     
@@ -223,7 +236,7 @@
                         </Button>
                     </Border>
 
-                    <Border  Grid.Column="3" Margin="0,5,5,5" BorderBrush="{StaticResource GridColor}" >
+                    <Border  Grid.Column="3" Margin="0,5,5,5" BorderBrush="{StaticResource GridColor}" Style="{StaticResource RecipeEditableStyle}">
                         <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
                             Background="{StaticResource LightColor}"
                             Command="{Binding SaveRecipe}"                     
@@ -233,8 +246,8 @@
                             </StackPanel>
                         </Button>
                     </Border>
-                    
-                    <Border  Grid.Column="4" Margin="0,5,5,5" BorderBrush="{StaticResource GridColor}" >
+
+                    <Border  Grid.Column="4" Margin="0,5,5,5" BorderBrush="{StaticResource GridColor}" Style="{StaticResource RecipeEditableStyle}">
                         <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
                             Background="{StaticResource LightColor}"
                             Command="{Binding LoadRecipeCommand}"                     
@@ -274,17 +287,7 @@
         </Label>
 
         <Grid Grid.Row="1" Grid.Column="2"               
-              >
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding RecipeEditable}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
+              Style="{StaticResource RecipeEditableStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
