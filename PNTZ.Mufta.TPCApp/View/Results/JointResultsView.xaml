@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1200"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
-             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel"
              xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
              xmlns:control="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
@@ -57,23 +57,35 @@
 
             <Border Grid.Row = "0" BorderBrush="{StaticResource GridColor}"
                      BorderThickness="0,0,0,1">
-                <ComboBox
-                    x:Name="RecipeComboBox"
-                    IsEditable="True"
-                    StaysOpenOnEdit="True"
-                    IsTextSearchEnabled="True"
-                    Height="30" 
-                    Padding="5"
-                    BorderThickness="0"
-                    FontSize="14"
-                    HorizontalContentAlignment="Left"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    ItemsSource="{Binding FilteredRecipeNames}" 
-                    SelectedItem="{Binding SelectedRecipeName, Mode=TwoWay}"     
-                                    
+                <Grid>
+                    <ComboBox
+                        x:Name="RecipeComboBox"
+                        Loaded="MyComboBox_Loaded"
+                        IsEditable="True"
+                        StaysOpenOnEdit="True"
+                        IsTextSearchEnabled="True"
+                        Height="30" 
+                        Padding="5"
+                        BorderThickness="0"
+                        FontSize="14"
+                        HorizontalContentAlignment="Left"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"                        
+                        ItemsSource="{Binding FilteredRecipeNames}" 
+                        SelectedItem="{Binding SelectedRecipeName, Mode=TwoWay}"                                         
+                        />
+                    <Label
+                        x:Name="RecipeNameWatermark"
+                        TextBlock.FontStyle="Italic"
+                        TextBlock.Foreground="Gray"
+                        Padding="5,0,0,0"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Content="Выберите наименование рецепта"  
+                        Margin="5,0,0,0"
                     />
+                </Grid>
             </Border>
             
 

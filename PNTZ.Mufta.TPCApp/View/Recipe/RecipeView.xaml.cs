@@ -38,9 +38,21 @@ namespace PNTZ.Mufta.TPCApp.View.Recipe
 
         }
 
-        public void Activated()
+        private void RecipeNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //Input_HeadOpen.Focus();
+            UpdateRecipeNameWatermark();
+        }
+
+        private void UpdateRecipeNameWatermark()
+        {
+            RecipeNameWatermark.Visibility = string.IsNullOrWhiteSpace(RecipeNameTextBox.Text)
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateRecipeNameWatermark(); // на старте проверить
         }
 
         private readonly Regex floatRegexAllow;

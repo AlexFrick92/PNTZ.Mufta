@@ -17,7 +17,7 @@
     <UserControl.InputBindings>
         <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding NewRecipeCommand}" />
     </UserControl.InputBindings>
-    
+
     <UserControl.Resources>
 
         <ResourceDictionary>
@@ -65,7 +65,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
-            
+
         </Grid.RowDefinitions>
 
         <!--****************************************** СПИСОК РЕЦЕПТОВ В ПАПКЕ СЛЕВА **************************************************************-->
@@ -92,19 +92,33 @@
 
             <Border Grid.Row="0" BorderBrush="{StaticResource GridColor}"
                      BorderThickness="0,0,0,1">
-                <TextBox Text="{Binding RecipeNameFilter, UpdateSourceTrigger=PropertyChanged}"                         
+                <Grid>
+                    <TextBox 
+                        x:Name="RecipeNameTextBox"
+                        Text="{Binding RecipeNameFilter, UpdateSourceTrigger=PropertyChanged}"                         
                         FontSize="14"
                         Height="30" 
-                         Padding="5"
-                         BorderThickness="0"
+                        Padding="5"
+                        BorderThickness="0"
                         HorizontalContentAlignment="Left"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         view:WatermarkService.Watermark="Введите название рецепта..."
-                        />
+                        VerticalContentAlignment="Center"     
+                        TextChanged="RecipeNameTextBox_TextChanged"
+                    />
+                    <Label
+                         x:Name="RecipeNameWatermark"
+                         TextBlock.FontStyle="Italic"
+                         TextBlock.Foreground="Gray"
+                         Padding="5,0,0,0"
+                         VerticalAlignment="Center"
+                         IsHitTestVisible="False"
+                         Content="Выберите наименование рецепта"  
+                         Margin="5,0,0,0"
+                     />
+                </Grid>
             </Border>
-            
+
             <ListBox Grid.Row="1" ItemsSource="{Binding JointRecipes}" SelectedItem="{Binding SelectedJointRecipe}"
                      BorderThickness="0"
                      HorizontalContentAlignment="Stretch"                     
@@ -117,7 +131,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <Label                                                                                                                                             
                                     Content="{Binding Name}"
                                     Background="Transparent"                                                                                                                                                      
@@ -161,7 +175,7 @@
                         <Image  
                             Margin="0,0,0,-10"
                             Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/addrecipe.drawio.png"/>
-                        
+
                         <Label
                             Grid.Row="1"
                             Margin="0,0,0,0"
@@ -181,7 +195,7 @@
         <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" 
                 Margin="0,0,0,-5"
             BorderThickness="0,0,1,0" BorderBrush="{StaticResource GridColor}">
-            
+
         </Border>
 
         <!--****************************************** РЕДАКТИРОВАНИЕ РЕЦЕПТА **************************************************************-->
@@ -432,7 +446,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
@@ -479,7 +493,7 @@
                             Content="МОМЕНТ"/>
                     </Grid>
                 </Button>
-                
+
                 <Border Style="{StaticResource BorderSeparatorStyle}" Grid.Column="1" Grid.Row="1"/>
 
                 <Button Tag="{x:Static joint:JointMode.TorqueShoulder}" Grid.Column="2" Grid.Row="1" 
@@ -973,7 +987,7 @@
                 <!-- ///////////////////// НАСТРОЙКИ ДЛЯ ВЫБРАННОГО РЕЖИМА //////////////////////////////////-->
             </Grid>
 
-            
+
             <!-- КНОПКИ -->
             <Grid Grid.Row="5" Grid.Column="0">
                 <Grid.ColumnDefinitions>
@@ -986,7 +1000,7 @@
                     <RowDefinition Height="65"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid.Resources>
                     <!--СТИЛИ ДЛЯ КНОПОК-->
                     <Style x:Key="BtnStyle" TargetType="Button">
@@ -1006,9 +1020,9 @@
                         <Setter Property="Margin" Value="10,-10,10,0"/>
                     </Style>
                 </Grid.Resources>
-                    
-                    
-                
+
+
+
                 <!--УДАЛИТЬ РЕЦЕПТ-->
                 <Button 
                     Grid.Column="0" 
@@ -1028,7 +1042,7 @@
                     Grid.Column="2" 
                     Style="{StaticResource BtnStyle}"
                     Command="{Binding SaveRecipe}">
-                    
+
                     <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Save.drawio.png"/>
                 </Button>
                 <Label
@@ -1036,7 +1050,7 @@
                     Grid.Column="2"                   
                     Content="СОХРАНИТЬ"                   
                     />
-                
+
                 <!--ЗАГРУЗИТЬ РЕЦЕПТ-->
                 <Button 
                     Grid.Column="3" 
@@ -1057,5 +1071,5 @@
         </Grid>
 
     </Grid>
-    
+
 </UserControl>

@@ -188,8 +188,6 @@
     </Compile>
     <Compile Include="View\EnumHelper.cs" />
     <Compile Include="View\EnumToCollectionConverter.cs" />
-    <Compile Include="View\Extension\WatermarkAdorner.cs" />
-    <Compile Include="View\Extension\WatermarkService.cs" />
     <Compile Include="View\Joint\JointProcessView.xaml.cs">
       <DependentUpon>JointProcessView.xaml</DependentUpon>
     </Compile>
