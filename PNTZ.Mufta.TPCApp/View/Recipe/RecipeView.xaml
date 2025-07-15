@@ -69,18 +69,36 @@
         </Grid.RowDefinitions>
 
         <!--****************************************** СПИСОК РЕЦЕПТОВ В ПАПКЕ СЛЕВА **************************************************************-->
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}"
-                    Background="{StaticResource LightColor}">
+
+        <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}" Background="{StaticResource LightColor}">
+            <Grid Grid.Row="0" Grid.Column="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+                                            
                 <Label                        
                         Content="Список рецептов"
                         FontSize="18"  
                         
-                        Margin="4"
+                        Margin="4"  
                         BorderThickness="0"                                        
                         />
-            </Border>
-        </Grid>
+
+
+
+                <Border  Grid.Column="1" Margin="5" BorderBrush="{StaticResource GridColor}" >
+                    <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
+                            Background="{StaticResource LightColor}"
+                            Command="{Binding NewRecipeCommand}"                     
+                                 >
+                        <StackPanel  Orientation="Horizontal">
+                            <Label FontSize="14">📄 Создать</Label>
+                        </StackPanel>
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
 
         <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
@@ -156,38 +174,6 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Button 
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Margin="10,4,10,0"
-                    Command="{Binding NewRecipeCommand}"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    >
-
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Image  
-                            Margin="0,0,0,-10"
-                            Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/addrecipe.drawio.png"/>
-
-                        <Label
-                            Grid.Row="1"
-                            Margin="0,0,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Content="СОЗДАТЬ"
-                            FontSize="12"
-                            FontWeight="Bold"
-                        />
-                    </Grid>
-                </Button>
-
             </Grid>
         </Grid>
 
@@ -203,6 +189,10 @@
             <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}" Background="{StaticResource LightColor}">
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="260"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
@@ -220,6 +210,41 @@
                         Margin="4"
                         FontWeight="SemiBold"
                         BorderThickness="0"/>
+
+                    <!-- КНОПКИ РЕЦЕПТА -->
+                    <Border  Grid.Column="2" Margin="5" BorderBrush="{StaticResource GridColor}" >
+                        <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
+                            Background="{StaticResource LightColor}"
+                            Command="{Binding RemoveRecipe}"                     
+                                 >
+                            <StackPanel  Orientation="Horizontal">
+                                <Label FontSize="14">🗑️ Удалить</Label>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+
+                    <Border  Grid.Column="3" Margin="0,5,5,5" BorderBrush="{StaticResource GridColor}" >
+                        <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
+                            Background="{StaticResource LightColor}"
+                            Command="{Binding SaveRecipe}"                     
+                                 >
+                            <StackPanel  Orientation="Horizontal">
+                                <Label FontSize="14" >💾 Сохранить</Label>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+                    
+                    <Border  Grid.Column="4" Margin="0,5,5,5" BorderBrush="{StaticResource GridColor}" >
+                        <Button BorderThickness="0" BorderBrush="{StaticResource GridColor}"
+                            Background="{StaticResource LightColor}"
+                            Command="{Binding LoadRecipeCommand}"                     
+                                 >
+                            <StackPanel  Orientation="Horizontal">
+                                <Label FontSize="14">🡇   Загрузить</Label>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+                    
                 </Grid>
             </Border>
         </Grid>
@@ -986,86 +1011,7 @@
 
                 <!-- ///////////////////// НАСТРОЙКИ ДЛЯ ВЫБРАННОГО РЕЖИМА //////////////////////////////////-->
             </Grid>
-
-
-            <!-- КНОПКИ -->
-            <Grid Grid.Row="5" Grid.Column="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="65"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-
-                <Grid.Resources>
-                    <!--СТИЛИ ДЛЯ КНОПОК-->
-                    <Style x:Key="BtnStyle" TargetType="Button">
-                        <Setter Property="Grid.Row" Value="0"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="VerticalAlignment" Value="Bottom"/>
-                        <Setter Property="Margin" Value="10,4,10,4"/>
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                    </Style>
-                    <Style x:Key="LblStyle" TargetType="Label">
-                        <Setter Property="Grid.Row" Value="1"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="FontSize" Value="12"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="Margin" Value="10,-10,10,0"/>
-                    </Style>
-                </Grid.Resources>
-
-
-
-                <!--УДАЛИТЬ РЕЦЕПТ-->
-                <Button 
-                    Grid.Column="0" 
-                    Style="{StaticResource BtnStyle}"
-                    Command="{Binding RemoveRecipe}">
-
-                    <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/DeleteRecipe.drawio.png"/>
-                </Button>
-                <Label
-                    Style="{StaticResource LblStyle}"
-                    Grid.Column="0"
-                    Content="УДАЛИТЬ"                    
-                />
-
-                <!--СОХРАНИТЬ РЕЦЕПТ-->
-                <Button 
-                    Grid.Column="2" 
-                    Style="{StaticResource BtnStyle}"
-                    Command="{Binding SaveRecipe}">
-
-                    <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/Save.drawio.png"/>
-                </Button>
-                <Label
-                    Style="{StaticResource LblStyle}"
-                    Grid.Column="2"                   
-                    Content="СОХРАНИТЬ"                   
-                    />
-
-                <!--ЗАГРУЗИТЬ РЕЦЕПТ-->
-                <Button 
-                    Grid.Column="3" 
-                    Style="{StaticResource BtnStyle}" 
-                    Command="{Binding LoadRecipeCommand}">
-
-                    <Image Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/DownloadRecipe.drawio.png"/>
-                </Button>
-                <Label
-                    Style="{StaticResource LblStyle}"
-                    Grid.Column="3"                    
-                    Content="ЗАГРУЗИТЬ"/>
-
-            </Grid>
-
+           
             <!--///////////////////////////////////////  РЕДАКТИРОВАНИЕ РЕЦЕПТА //////////////////////////////////-->
 
         </Grid>
