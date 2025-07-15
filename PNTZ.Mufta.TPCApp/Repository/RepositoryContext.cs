@@ -82,8 +82,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         }
 
 
-        //Операции над результатами
-
+        //Операции над результатами        
         public void SaveResult(JointResult result)
         {
             using (var db = new JointResultContext(resultsConnectionString))
@@ -114,5 +113,14 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 return resultList;
             }
         }
+        public IQueryable<string> ResultRecipesName
+        {
+            get
+            {
+                var db = new JointResultContext(resultsConnectionString);
+                return db.Results.Select(r => r.Name).Distinct();
+            }
+        }
+
     }
 }

@@ -40,7 +40,7 @@
             <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}"
                     Background="{StaticResource LightColor}">
                 <Label                        
-                        Content="История свинчиваний    "
+                        Content="История свинчиваний"
                         FontSize="18"         
                         Margin="4"
                         BorderThickness="0"                                        
@@ -50,11 +50,27 @@
 
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <ListBox Grid.Row="0" ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedResult}"
+            <Border>
+                <ComboBox
+                    x:Name="RecipeComboBox"
+                    IsEditable="True"
+                    StaysOpenOnEdit="True"
+                    IsTextSearchEnabled="True"
+                    
+                    ItemsSource="{Binding FilteredRecipeNames}" 
+                    SelectedItem="{Binding SelectedRecipeName, Mode=TwoWay}"                       
+                    
+                    />
+                
+            </Border>
+            
+
+            <ListBox Grid.Row="1" ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedResult}"
                   BorderThickness="0"
                   HorizontalContentAlignment="Stretch"
                      SelectionMode="Extended"
@@ -85,7 +101,7 @@
             </ListBox>
 
 
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="2">
                 <Button
                     Content="Обновить"
                     Command="{Binding GetResultCommand}"

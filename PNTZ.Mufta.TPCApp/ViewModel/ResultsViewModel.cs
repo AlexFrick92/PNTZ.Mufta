@@ -34,7 +34,34 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 OnPropertyChanged(nameof(Results));
             });
 
+
+
+            // Тут можно получить из базы/сервиса/файла
+            FilteredRecipeNames = new ObservableCollection<string>();
+            FilteredRecipeNames.AddRange(repo.ResultRecipesName);
         }
+
+
+        //------------------------------------------------
+        
+        private string _selectedRecipeName;
+        public ObservableCollection<string> FilteredRecipeNames { get; } = new ObservableCollection<string>();
+        public string SelectedRecipeName
+        {
+            get => _selectedRecipeName;
+            set
+            {
+                if (_selectedRecipeName == value) return;
+                _selectedRecipeName = value;
+                OnPropertyChanged(nameof(SelectedRecipeName));
+                if (!string.IsNullOrWhiteSpace(_selectedRecipeName))
+                    _logger.Info($"Selected recipe: {_selectedRecipeName}");
+                else
+                    _logger.Info("SelectedRecipeName was reset to null or empty");
+            }
+        }
+
+        //------------------------------------------------
 
         public ChartViewConfig TorqueTimeChartConfig { get; set; } = new ChartViewConfig();
         public ChartViewConfig TorqueLengthChartConfig { get; set; } = new ChartViewConfig();
