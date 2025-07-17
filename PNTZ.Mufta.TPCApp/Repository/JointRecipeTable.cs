@@ -1,4 +1,5 @@
-﻿using LinqToDB.Mapping;
+﻿using LinqToDB;
+using LinqToDB.Mapping;
 using PNTZ.Mufta.TPCApp.Domain;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
     [Table(Name = "Recipes")]
     public class JointRecipeTable
     {
-
-        [PrimaryKey, Identity]
-        public int Id { get; set; }
+        [PrimaryKey]
+        [Column(DataType = DataType.Guid)]
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Column]
         public string Name { get; set; }
@@ -106,6 +107,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
         public static Expression<Func<JointRecipeTable, JointRecipe>> Projection => r => new JointRecipe
         {
+            Id = r.Id,
             Name = r.Name,
             HEAD_OPEN_PULSES = (float)r.HEAD_OPEN_PULSES,
             TURNS_BREAK = (float)r.TURNS_BREAK,

@@ -10,6 +10,8 @@ namespace PNTZ.Mufta.TPCApp.Domain
     {
 
         DomainObjectXmlConfigurator<JointRecipe> Configurator;
+
+        public Guid Id { get; set; }
         public JointRecipe()
         {
             Configurator = new DomainObjectXmlConfigurator<JointRecipe>();
