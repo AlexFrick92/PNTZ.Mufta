@@ -26,7 +26,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     {
         RecipeDpWorker recipeLoader;
         ILogger logger;
-        LocalRepositoryContext repo;
+        LocalRepository repo;
 
         //IRecipeLoader
 
@@ -37,7 +37,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         
         //---
 
-        public RecipeViewModel(RecipeDpWorker recipeLoader, ILogger logger, LocalRepositoryContext repoContext)
+        public RecipeViewModel(RecipeDpWorker recipeLoader, ILogger logger, LocalRepository repoContext)
         {
             this.logger = logger;
             this.recipeLoader = recipeLoader;

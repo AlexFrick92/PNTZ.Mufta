@@ -186,7 +186,9 @@
     <Compile Include="Repository\JointRecipeTable.cs" />
     <Compile Include="Repository\JointResultContext.cs" />
     <Compile Include="Repository\JointResultTable.cs" />
-    <Compile Include="Repository\LocalRepositoryContext.cs" />
+    <Compile Include="Repository\LocalRepository.cs" />
+    <Compile Include="Repository\RemoteRepository.cs" />
+    <Compile Include="Repository\RemoteRepositoryContext.cs" />
     <Compile Include="Toolbox\Smoothing\MovingAverage.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />

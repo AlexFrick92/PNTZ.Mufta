@@ -55,7 +55,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
 
         bool connectOnStartup = false;
-        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger, LocalRepositoryContext repositoryContext)
+        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger, LocalRepository repositoryContext)
         {
             // Загрузка конфигурации
             try
@@ -121,6 +121,21 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             //Кнопки подключения к ПЛК
             cli.RegisterCommand("start", (args) => Task.Run(() => connectionManager.OpenConnections()));
             cli.RegisterCommand("stop", (args) => Task.Run(() => connectionManager.CloseConnections()));
+
+            cli.RegisterCommand("rr_init", (args) =>
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        RemoteRepository rr = new RemoteRepository(logger);
+                        rr.InitRepository();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex.Message);
+                    }
+                }
+            ));
 
             if (connectOnStartup)
             {

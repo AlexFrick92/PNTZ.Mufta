@@ -71,7 +71,7 @@ namespace PNTZ.Mufta.TPCApp
 
             Logger.Info("********** ЗАПУСК *************");            
             
-            container.RegisterSingleton(typeof(LocalRepositoryContext), typeof(LocalRepositoryContext));
+            container.RegisterSingleton(typeof(LocalRepository), typeof(LocalRepository));
             
             container.Register<IDpConfigurableConnection<OpcUaConnectionConfiguration>, OpcUaConnection>();
             container.Register<MakeHeartBeat, MakeHeartBeat>();

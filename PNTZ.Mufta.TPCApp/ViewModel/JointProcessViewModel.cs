@@ -25,7 +25,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointProcessViewModel : BaseViewModel
     {
-        public JointProcessViewModel(IJointProcessWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, LocalRepositoryContext repo )
+        public JointProcessViewModel(IJointProcessWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, LocalRepository repo )
         {
             this.logger = logger;
             this.cliProgram = cliProgram;
@@ -70,7 +70,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         ILogger logger;
         ICliProgram cliProgram;
 
-        LocalRepositoryContext repo;
+        LocalRepository repo;
 
         //Класс получения параметров из OpcUa
         IJointProcessWorker jointProcessWorker;

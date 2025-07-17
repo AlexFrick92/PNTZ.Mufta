@@ -16,12 +16,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class ResultsViewModel : BaseViewModel
     {
-        private readonly LocalRepositoryContext _repo;
+        private readonly LocalRepository _repo;
         private readonly ILogger _logger;
         public ICommand GetResultCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
 
-        public ResultsViewModel(LocalRepositoryContext repo, ILogger logger)
+        public ResultsViewModel(LocalRepository repo, ILogger logger)
         {
             _repo = repo;
 
