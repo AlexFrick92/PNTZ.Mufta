@@ -103,7 +103,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         public double MU_JVal_Max { get; set; }
 
         [Column]
-        public string TimeStamp { get; set; }
+        public DateTime TimeStamp { get; set; }
 
         public static Expression<Func<JointRecipeTable, JointRecipe>> Projection => r => new JointRecipe
         {
@@ -154,7 +154,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             MU_JVal_Min = (float)r.MU_JVal_Min,
             MU_JVal_Max = (float)r.MU_JVal_Max,
 
-            TimeStamp = DateTime.Parse(r.TimeStamp)
+            TimeStamp = r.TimeStamp
         };
 
         public JointRecipeTable FromJointRecipe(JointRecipe recipe)
@@ -207,7 +207,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             MU_JVal_Min = recipe.MU_JVal_Min;
             MU_JVal_Max = recipe.MU_JVal_Max;
 
-            TimeStamp = recipe.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
+            TimeStamp = recipe.TimeStamp;
 
             return this;
             
@@ -264,8 +264,61 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 MU_JVal_Min = (float)this.MU_JVal_Min,
                 MU_JVal_Max = (float)this.MU_JVal_Max,
 
-                TimeStamp = DateTime.Parse(this.TimeStamp)
+                TimeStamp = this.TimeStamp
             };
+        }
+
+        public void CopyProperties(JointRecipeTable recipe)
+        {
+            if (recipe == null) throw new ArgumentNullException("Recipe is Null");
+
+            Name = recipe.Name;
+            HEAD_OPEN_PULSES = recipe.HEAD_OPEN_PULSES;
+            TURNS_BREAK = recipe.TURNS_BREAK;
+            PLC_PROG_NR = recipe.PLC_PROG_NR;
+            LOG_NO = recipe.LOG_NO;
+            Tq_UNIT = recipe.Tq_UNIT;
+            SelectedThreadType = (int)recipe.SelectedThreadType;
+            Thread_step = recipe.Thread_step;
+            PIPE_TYPE = recipe.PIPE_TYPE;
+
+            Box_Moni_Time = recipe.Box_Moni_Time;
+            Box_Len_Min = recipe.Box_Len_Min;
+            Box_Len_Max = recipe.Box_Len_Max;
+
+            Pre_Moni_Time = recipe.Pre_Moni_Time;
+            Pre_Len_Max = recipe.Pre_Len_Max;
+            Pre_Len_Min = recipe.Pre_Len_Min;
+
+            MU_Moni_Time = recipe.MU_Moni_Time;
+            MU_Tq_Ref = recipe.MU_Tq_Ref;
+            MU_Tq_Save = recipe.MU_Tq_Save;
+
+            SelectedMode = recipe.SelectedMode;
+
+            MU_TqSpeedRed_1 = recipe.MU_TqSpeedRed_1;
+            MU_TqSpeedRed_2 = recipe.MU_TqSpeedRed_2;
+            MU_Tq_Dump = recipe.MU_Tq_Dump;
+            MU_Tq_Max = recipe.MU_Tq_Max;
+            MU_Tq_Min = recipe.MU_Tq_Min;
+            MU_Tq_Opt = recipe.MU_Tq_Opt;
+
+            MU_TqShoulder_Min = recipe.MU_TqShoulder_Min;
+            MU_TqShoulder_Max = recipe.MU_TqShoulder_Max;
+
+            MU_Len_Speed_1 = recipe.MU_Len_Speed_1;
+            MU_Len_Speed_2 = recipe.MU_Len_Speed_2;
+            MU_Len_Dump = recipe.MU_Len_Dump;
+            MU_Len_Min = recipe.MU_Len_Min;
+            MU_Len_Max = recipe.MU_Len_Max;
+
+            MU_JVal_Speed_1 = recipe.MU_JVal_Speed_1;
+            MU_JVal_Speed_2 = recipe.MU_JVal_Speed_2;
+            MU_JVal_Dump = recipe.MU_JVal_Dump;
+            MU_JVal_Min = recipe.MU_JVal_Min;
+            MU_JVal_Max = recipe.MU_JVal_Max;
+
+            TimeStamp = recipe.TimeStamp;
         }
     }
 }

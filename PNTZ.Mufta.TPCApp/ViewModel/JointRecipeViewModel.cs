@@ -82,7 +82,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public DateTime TimeStamp
         {
-            get => recipe.TimeStamp;
+            get => recipe.TimeStamp.ToLocalTime();
             set
             {
                 recipe.TimeStamp = value;

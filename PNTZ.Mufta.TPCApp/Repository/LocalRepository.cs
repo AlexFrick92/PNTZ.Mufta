@@ -53,6 +53,31 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 }
             }
         }
+        public void LoadRecipes(IEnumerable<JointRecipeTable> recipes)
+        {
+            using(var db = new JointRecipeContext(recipesConnectionString))
+            {
+                foreach(var recipe in recipes)
+                {
+                    var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == recipe.Name);
+
+                    if (recToUpdate != null)
+                    {                        
+                        if(recToUpdate.TimeStamp < recipe.TimeStamp)
+                        {
+                            recToUpdate.CopyProperties(recipe);
+                            db.Update(recToUpdate);
+                            logger.Info($"Рецепт {recipe.Name} обновлён.");
+                        }
+                    }
+                    else
+                    {
+                        db.Insert(recipe);
+                        logger.Info($"Рецепт {recipe.Name} добавлен.");
+                    }
+                }
+            }
+        }
         public void RemoveRecipe(JointRecipe recipe)
         {
             using (var db = new JointRecipeContext(recipesConnectionString))
