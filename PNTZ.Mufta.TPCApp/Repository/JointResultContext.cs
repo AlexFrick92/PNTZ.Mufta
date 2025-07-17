@@ -16,10 +16,5 @@ namespace PNTZ.Mufta.TPCApp.Repository
         }
 
         public ITable<JointResultTable> Results => this.GetTable<JointResultTable>();
-
-        public IEnumerable<JointResultTable> GetResultPage(int page, int pageSize = 100)
-        {
-            return Results.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-        }
     }
 }

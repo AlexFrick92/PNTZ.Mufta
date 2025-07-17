@@ -63,15 +63,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 logger.Info($"Рецепт {recipe.Name} удалён.");
             }
         }
-        public IEnumerable<JointRecipe> LoadRecipes()
-        {            
-            using (var db = new JointRecipeContext(recipesConnectionString))
-            {
-                return db.Recipes.ToList().Select(recTable => recTable.ToJointRecipe());
-            }
-
-        }
-
         public IQueryable<JointRecipe> Recipes
         {
             get
@@ -81,7 +72,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
             }
         }
 
-
         //Операции над результатами        
         public void SaveResult(JointResult result)
         {
@@ -90,35 +80,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 JointResultTable row = new JointResultTable().FromJointResult(result);
                 db.Insert(row);
                 logger.Info($"Соединение {row.Name} сохранёно.");
-            }
-        }
-
-        public IEnumerable<JointResult> LoadResults()
-        {
-            using (var db = new JointResultContext(resultsConnectionString))
-            {
-                List<JointResult> resultList = new List<JointResult> ();
-                foreach(var row in db.GetResultPage(1, 1000).ToList())
-                {
-                    try
-                    {
-                        resultList.Add( row.ToJointResult() );
-                    }
-                    catch (Exception ex) 
-                    {
-                        logger.Error("Не удалось достать результат из базы: " + ex.Message);
-                    }
-                }
-
-                return resultList;
-            }
-        }
-        public IQueryable<string> ResultRecipesName
-        {
-            get
-            {
-                var db = new JointResultContext(resultsConnectionString);
-                return db.Results.Select(r => r.Name).Distinct();
             }
         }
         public IQueryable<JointResultTable> ResultsTable
