@@ -101,7 +101,30 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 return query.ToList();
             }
         }
+        public List<JointResultTable> GetResults(Expression<Func<JointResultTable, bool>> filter = null)
+        {
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                var query = db.Results.AsQueryable();
 
+                if (filter != null)
+                    query = query.Where(filter);
+
+                return query.ToList();
+            }
+        }
+        public List<string> GetResultsRecipes(Expression<Func<JointResultTable, bool>> filter = null)
+        {
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                var query = db.Results.AsQueryable();
+
+                if (filter != null)
+                    query = query.Where(filter);
+
+                return query.Select(r => r.Name).Distinct().ToList();
+            }
+        }
         //Операции над результатами        
         public void SaveResult(JointResult result)
         {
@@ -110,14 +133,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 JointResultTable row = new JointResultTable().FromJointResult(result);
                 db.Insert(row);
                 logger.Info($"Соединение {row.Name} сохранёно.");
-            }
-        }
-        public IQueryable<JointResultTable> ResultsTable
-        {
-            get
-            {
-                var db = new JointResultContext(resultsConnectionString);
-                return db.Results;
             }
         }
     }

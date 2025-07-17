@@ -33,9 +33,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 try
                 {
-                    Results.AddRange(repo.ResultsTable
-                        .Where(t => t.Name == SelectedRecipeName)
-                        .Select(t => new JointResultViewModel(t.ToJointResult())));                    
+                    Results.AddRange(repo.GetResults(t => t.Name == SelectedRecipeName)
+                        .Select(t => new JointResultViewModel(t.ToJointResult())));
+
+                    _logger.Info($"Loaded {Results.Count} of results");
                 }
                 catch (Exception ex)
                 {
@@ -50,7 +51,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             RefreshCommand = new RelayCommand((arg) =>
             {
                 FilteredRecipeNames = new ObservableCollection<string>();
-                FilteredRecipeNames.AddRange(repo.ResultsTable.Select(t => t.Name).Distinct());
+                FilteredRecipeNames.AddRange(repo.GetResultsRecipes());
                 OnPropertyChanged(nameof(FilteredRecipeNames));
             });
             
