@@ -136,10 +136,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         {
             recipes.Clear();
 
-            var filtered = repo.Recipes.Where(r =>
+            var filtered = repo.GetRecipes(r =>
                 string.IsNullOrEmpty(nameFilter)
                 || r.Name.Contains(nameFilter)
-                || r.TimeStamp.ToString().Contains(nameFilter));
+                || r.TimeStamp.ToString().Contains(nameFilter)).Select(r => r.ToJointRecipe());
 
             foreach (var jointRecipe in filtered)
             {

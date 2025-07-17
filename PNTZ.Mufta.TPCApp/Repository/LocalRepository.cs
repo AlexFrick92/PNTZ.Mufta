@@ -9,6 +9,7 @@ using System.Linq;
 using LinqToDB;
 
 using System.Data.SQLite;
+using System.Linq.Expressions;
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
@@ -88,12 +89,16 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 logger.Info($"Рецепт {recipe.Name} удалён.");
             }
         }
-        public IQueryable<JointRecipe> Recipes
+        public List<JointRecipeTable> GetRecipes(Expression<Func<JointRecipeTable, bool>> filter = null)
         {
-            get
-            {
-                var db = new JointRecipeContext(recipesConnectionString);
-                return db.Recipes.Select(JointRecipeTable.Projection);
+            using (var db = new JointRecipeContext(recipesConnectionString))
+            {                
+                var query = db.Recipes.AsQueryable();
+
+                if (filter != null)
+                    query = query.Where(filter);
+
+                return query.ToList();
             }
         }
 
@@ -115,14 +120,5 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 return db.Results;
             }
         }
-        public IQueryable<JointRecipeTable> RecipesTable
-        {
-            get
-            {
-                var db = new JointRecipeContext(recipesConnectionString);
-                return db.Recipes;
-            }
-        }
-
     }
 }

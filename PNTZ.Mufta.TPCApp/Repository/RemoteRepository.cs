@@ -42,7 +42,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             var remoteRecipes = _context.Recipes.ToList();
             _local.LoadRecipes(remoteRecipes);
 
-            var localRecipes = _local.RecipesTable.ToList();
+            var localRecipes = _local.GetRecipes();
             SyncRemoteRecipes(localRecipes);
 
             _logger.Info("Recipes is synced");
