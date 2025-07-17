@@ -55,7 +55,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
 
         bool connectOnStartup = false;
-        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger, RepositoryContext repositoryContext)
+        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger, LocalRepositoryContext repositoryContext)
         {
             // Загрузка конфигурации
             try

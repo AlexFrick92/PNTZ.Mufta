@@ -12,13 +12,13 @@ using System.Data.SQLite;
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
-    public class RepositoryContext
+    public class LocalRepositoryContext
     {
         ILogger logger;
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
         string recipesConnectionString;
         string resultsConnectionString;
-        public RepositoryContext(ILogger logger)
+        public LocalRepositoryContext(ILogger logger)
         {
             this.logger = logger;
             recipesConnectionString = $"Data Source={StoragePath}/RecipesData.db;Mode=ReadWriteCreate";
