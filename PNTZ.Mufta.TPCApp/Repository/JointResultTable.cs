@@ -78,7 +78,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 base.FromJointRecipe(result.Recipe);
             else
                 base.FromJointRecipe(new JointRecipe() { Name = "Рецепт не задан"});
-
+            // Переписываем идентификатор, а то будет взят из рецепта
+            // это из за того, что было сделано неправильное наследование
+            Id = Guid.NewGuid();
             FinalTorque = result.FinalTorque;
             FinalLength = result.FinalLength;
             FinalJVal = result.FinalJVal;
