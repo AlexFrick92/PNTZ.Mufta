@@ -1,10 +1,8 @@
-﻿
-using PNTZ.Mufta.TPCApp.Domain;
+﻿using PNTZ.Mufta.TPCApp.Domain;
 using Promatis.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 
 using LinqToDB;
 
@@ -15,13 +13,14 @@ namespace PNTZ.Mufta.TPCApp.Repository
 {
     public class LocalRepository
     {
-        ILogger logger;
+        private RemoteRepository _remoteRepo;
+        ILogger _logger;
         string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
         string recipesConnectionString;
         string resultsConnectionString;
         public LocalRepository(ILogger logger)
         {
-            this.logger = logger;
+            this._logger = logger;
             recipesConnectionString = $"Data Source={StoragePath}/RecipesData.db;Mode=ReadWriteCreate";
             resultsConnectionString = $"Data Source={StoragePath}/ResultsData.db;Mode=ReadWriteCreate";
 
@@ -34,6 +33,8 @@ namespace PNTZ.Mufta.TPCApp.Repository
             {
                 db.CreateTable<JointResultTable>(tableOptions: TableOptions.CheckExistence);
             }
+
+            _remoteRepo = new RemoteRepository(logger);
         }
         public void SaveRecipe(JointRecipe recipe)
         {
@@ -45,38 +46,42 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 {
                     recToUpdate.FromJointRecipe(recipe);
                     db.Update(recToUpdate);
-                    logger.Info($"Рецепт {recipe.Name} обновлён.");
+                    _logger.Info($"Рецепт {recipe.Name} обновлён.");
                 }
                 else
                 {
                     db.Insert(new JointRecipeTable().FromJointRecipe(recipe));
-                    logger.Info($"Рецепт {recipe.Name} создан.");
+                    _logger.Info($"Рецепт {recipe.Name} создан.");
                 }
             }
         }
-        public void LoadRecipes(IEnumerable<JointRecipeTable> recipes)
-        {
+        public void SyncRecipes()
+        {            
             using(var db = new JointRecipeContext(recipesConnectionString))
             {
-                foreach(var recipe in recipes)
+                var remoteRecipes = _remoteRepo.GetRecipes();
+
+                foreach(var remoteRecipe in remoteRecipes)
                 {
-                    var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == recipe.Name);
+                    var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == remoteRecipe.Name);
 
                     if (recToUpdate != null)
                     {                        
-                        if(recToUpdate.TimeStamp < recipe.TimeStamp)
+                        if(recToUpdate.TimeStamp < remoteRecipe.TimeStamp)
                         {
-                            recToUpdate.CopyProperties(recipe);
+                            recToUpdate.CopyProperties(remoteRecipe);
                             db.Update(recToUpdate);
-                            logger.Info($"Рецепт {recipe.Name} обновлён.");
+                            _logger.Info($"Рецепт {remoteRecipe.Name} обновлён.");
                         }
                     }
                     else
                     {
-                        db.Insert(recipe);
-                        logger.Info($"Рецепт {recipe.Name} добавлен.");
+                        db.Insert(remoteRecipe);
+                        _logger.Info($"Рецепт {remoteRecipe.Name} добавлен.");
                     }
                 }
+
+                _remoteRepo.SyncRemoteRecipes(GetRecipes());
             }
         }
         public void RemoveRecipe(JointRecipe recipe)
@@ -86,7 +91,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == recipe.Name);
 
                 db.Delete(recToUpdate);
-                logger.Info($"Рецепт {recipe.Name} удалён.");
+                _logger.Info($"Рецепт {recipe.Name} удалён.");
             }
         }
         public List<JointRecipeTable> GetRecipes(Expression<Func<JointRecipeTable, bool>> filter = null)
@@ -132,7 +137,32 @@ namespace PNTZ.Mufta.TPCApp.Repository
             {
                 JointResultTable row = new JointResultTable().FromJointResult(result);
                 db.Insert(row);
-                logger.Info($"Соединение {row.Name} сохранёно.");
+                _logger.Info($"Соединение {row.Name} сохранёно.");
+            }
+        }
+
+        public void InitRepository() => _remoteRepo.InitRepository();        
+        public void UploadResults()
+        {
+            _logger.Info($"Uploading results...");
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                var results = db.Results.AsEnumerable().ToList();
+
+                _logger.Info($"Results to upload : {results.Count}");
+
+                try
+                {
+                    _remoteRepo.UploadResult(results);
+                    db.Results.Delete();
+
+                    _logger.Info("Uploaded. Locally deleted");
+                    
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Upload result failed : {ex.Message}");
+                }                
             }
         }
     }

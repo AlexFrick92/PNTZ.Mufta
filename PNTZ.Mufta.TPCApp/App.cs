@@ -56,7 +56,7 @@ namespace PNTZ.Mufta.TPCApp
             AppInstance = this;
             CurrentDirectory = currentDirectory;
             
-            Logger = NLogManager.GetLogger("logger");
+            Logger = NLogManager.GetLogger("_logger");
             CliLogger cliLogger = new CliLogger(cli, Logger);
 
             //В контейнере регистрируем все необходимые классы для работы с ПЛК

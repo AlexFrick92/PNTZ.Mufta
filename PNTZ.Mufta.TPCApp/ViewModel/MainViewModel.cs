@@ -127,8 +127,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     try
                     {
-                        using (var rr = new RemoteRepository(repositoryContext, logger))
-                            rr.InitRepository();
+                        repositoryContext.InitRepository();
                     }
                     catch (Exception ex)
                     {
@@ -142,8 +141,21 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     try
                     {
-                        using(var rr = new RemoteRepository(repositoryContext, logger))                        
-                            rr.SyncRecipes();
+                        repositoryContext.SyncRecipes();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex.Message);
+                    }
+                }
+            ));
+
+            cli.RegisterCommand("rr_uploadresults", (args) =>
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        repositoryContext.UploadResults();
                     }
                     catch (Exception ex)
                     {

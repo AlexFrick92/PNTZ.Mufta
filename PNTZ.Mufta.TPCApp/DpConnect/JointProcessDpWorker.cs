@@ -367,7 +367,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             //if (AwaitFor30.Task.Result == 28)
             //{
-            //    logger.Info("Joint. Ошибка преднавёртки!");
+            //    _logger.Info("Joint. Ошибка преднавёртки!");
             //    throw new InvalidOperationException("Ошибка преднавёртки");
             //}
 
