@@ -112,11 +112,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             //Навигация между окнами
             NaviToRecipeViewCommand = new RelayCommand((p) =>
             {
-                MainContent = RecipeView;                
+                MainContent = RecipeView;
+                (RecipeView.DataContext as RecipeViewModel)?.RefreshRecipes();
             });
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);            
             NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParamView);
-            NaviToResultViewCommand = new RelayCommand((p) => MainContent = ResultsView);
+            NaviToResultViewCommand = new RelayCommand((p) =>
+            {
+                MainContent = ResultsView;
+                (ResultsView.DataContext as ResultsViewModel)?.RefreshResults();
+            });
 
             //Кнопки подключения к ПЛК
             cli.RegisterCommand("start", (args) => Task.Run(() => connectionManager.OpenConnections()));
@@ -141,7 +146,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     try
                     {
-                        repositoryContext.SyncRecipes();
+                        repositoryContext.SyncRecipes();                        
                     }
                     catch (Exception ex)
                     {

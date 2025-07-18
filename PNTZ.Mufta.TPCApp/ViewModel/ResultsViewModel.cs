@@ -53,10 +53,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 FilteredRecipeNames = new ObservableCollection<string>();
                 FilteredRecipeNames.AddRange(repo.GetResultsRecipes());
                 OnPropertyChanged(nameof(FilteredRecipeNames));
+
+                Results?.Clear();
             });
             
             RefreshCommand.Execute(null);   
            
+        }
+        
+        public void RefreshResults()
+        {
+            RefreshCommand.Execute(null);
         }
 
 

@@ -116,6 +116,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 JointRecipes.Remove(EditRecipe);                
             });
         }
+        public void RefreshRecipes()
+        {
+            RefreshRecipes(JointRecipes, _recipeNameFilter ?? string.Empty);
+        }
 
         private string _recipeNameFilter;
         public string RecipeNameFilter
