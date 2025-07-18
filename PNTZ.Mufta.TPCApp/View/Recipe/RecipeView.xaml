@@ -151,7 +151,7 @@
                      >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="2" Padding="0,0,0,4" BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
+                        <Border Margin="2,2,2,4" Padding="0,0,0,4" BorderThickness="0,0,0,1" BorderBrush="{StaticResource GridColor}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -166,7 +166,7 @@
                                     Content="{Binding Name}"
                                     FontSize="14"
                                     Background="Transparent"                                                                                                                                                      
-                                         />
+                                    />
 
                                 <Label 
                                     Grid.Column="1"                                    

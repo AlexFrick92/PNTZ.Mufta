@@ -47,7 +47,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public int MU_Moni_Time { get => recipe.MU_Moni_Time; set => recipe.MU_Moni_Time = value; }        
         public float MU_Tq_Ref { get => recipe.MU_Tq_Ref; set => recipe.MU_Tq_Ref = value; }        
         public float MU_Tq_Save { get => recipe.MU_Tq_Save; set => recipe.MU_Tq_Save = value; }
-        public JointMode JointMode { get => recipe.JointMode; set => recipe.JointMode = value; }
+        public JointMode JointMode
+        {
+            get => recipe.JointMode;
+            set
+            {
+                recipe.JointMode = value;
+                OnPropertyChanged(nameof(SelectedMode));
+            }
+        }
         public string SelectedMode
         {
             get
@@ -64,13 +72,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                         return "📐 По длине";
 
                     case JointMode.TorqueLength:
-                        return "💪 📐 По длине с контролем момента";
+                        return "💪📐 По длине с контролем момента";
 
                     case JointMode.Jval:
                         return "📏 По значению J";
 
                     case JointMode.TorqueJVal:
-                        return "💪 📏По значению J с контролем момента";
+                        return "💪📏 По значению J с контролем момента";
 
                     default:
                         return "не выбран";
