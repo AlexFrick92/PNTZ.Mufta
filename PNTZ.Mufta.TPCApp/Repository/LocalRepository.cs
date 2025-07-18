@@ -151,18 +151,40 @@ namespace PNTZ.Mufta.TPCApp.Repository
 
                 _logger.Info($"Results to upload : {results.Count}");
 
-                try
-                {
-                    _remoteRepo.UploadResult(results);
-                    db.Results.Delete();
+                _remoteRepo.UploadResult(results);
+                //db.Results.Delete();
 
-                    _logger.Info("Uploaded. Locally deleted");
-                    
-                }
-                catch (Exception ex)
+                _logger.Info("Uploaded");                                 
+            }
+        }
+        //Временный метод для загрузки результатов из удалённого репозитория
+        //В дальнейшем, локально мы не будем хранить результаты
+        public void DownloadResults()
+        {
+            _logger.Info($"Downloading results...");
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                int i = 0;
+                foreach (var remoteResult in _remoteRepo.GetResults())
                 {
-                    _logger.Error($"Upload result failed : {ex.Message}");
-                }                
+                    if (db.Results.FirstOrDefault(r => r.Id == remoteResult.Id) == null)
+                    {
+                        db.Insert(remoteResult);
+                        i++;
+                    }
+                }
+                _logger.Info($"Downloaded {i} results");
+            }
+        }
+
+        public void ClearLocalResults()
+        {
+            _logger.Info($"Clearing results...");
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                int count = db.Results.Count();
+                db.Results.Delete();
+                _logger.Info($"Removed {count} from local repository");
             }
         }
     }

@@ -164,6 +164,35 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 }
             ));
 
+            cli.RegisterCommand("rr_downloadresults", (args) =>
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        repositoryContext.DownloadResults();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex.Message);
+                    }
+                }
+            ));
+
+            cli.RegisterCommand("rr_clearresults", (args) =>
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        repositoryContext.ClearLocalResults();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex.Message);
+                    }
+                }
+            ));
+
+
 
             if (connectOnStartup)
             {

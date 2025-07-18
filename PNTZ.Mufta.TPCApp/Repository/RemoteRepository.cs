@@ -66,6 +66,18 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 return query.ToList();
             }
         }
+        public List<JointResultTable> GetResults(Expression<Func<JointResultTable, bool>> filter = null)
+        {
+            using (var db = new RemoteRepositoryContext(config))
+            {
+                var query = db.Results.AsQueryable();
+
+                if (filter != null)
+                    query = query.Where(filter);
+
+                return query.ToList();
+            }
+        }
         public void UploadResult(IEnumerable<JointResultTable> results)
         {
             using (var db = new RemoteRepositoryContext(config))
