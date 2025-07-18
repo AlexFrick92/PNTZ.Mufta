@@ -90,5 +90,17 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 }
             }
         }
+        public List<string> GetResultsRecipes(Expression<Func<JointResultTable, bool>> filter = null)
+        {
+            using (var db = new RemoteRepositoryContext(config))
+            {
+                var query = db.Results.AsQueryable();
+
+                if (filter != null)
+                    query = query.Where(filter);
+
+                return query.Select(r => r.Name).Distinct().ToList();
+            }
+        }
     }
 }

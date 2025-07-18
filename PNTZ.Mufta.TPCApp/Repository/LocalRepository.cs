@@ -8,6 +8,7 @@ using LinqToDB;
 
 using System.Data.SQLite;
 using System.Linq.Expressions;
+using Promatis.Core.Extensions;
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
@@ -142,7 +143,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         }
 
         public void InitRepository() => _remoteRepo.InitRepository();        
-        public void UploadResults()
+        public void PushResults()
         {
             _logger.Info($"Uploading results...");
             using (var db = new JointResultContext(resultsConnectionString))
@@ -159,23 +160,40 @@ namespace PNTZ.Mufta.TPCApp.Repository
         }
         //Временный метод для загрузки результатов из удалённого репозитория
         //В дальнейшем, локально мы не будем хранить результаты
-        public void DownloadResults()
+        public void PullResults(string recipeName)
         {
             _logger.Info($"Downloading results...");
             using (var db = new JointResultContext(resultsConnectionString))
             {
                 int i = 0;
-                foreach (var remoteResult in _remoteRepo.GetResults())
+                
+                if(recipeName.IsNotEmpty())
                 {
-                    if (db.Results.FirstOrDefault(r => r.Id == remoteResult.Id) == null)
+                    foreach (var remoteResult in _remoteRepo.GetResults(r => r.Name == recipeName))
                     {
-                        db.Insert(remoteResult);
-                        i++;
+                        if (db.Results.FirstOrDefault(r => r.Id == remoteResult.Id) == null)
+                        {
+                            db.Insert(remoteResult);
+                            i++;
+                        }
                     }
+                    _logger.Info($"Downloaded {i} results for recipe name '{recipeName}'");
                 }
-                _logger.Info($"Downloaded {i} results");
+                else
+                {
+                    foreach (var remoteResult in _remoteRepo.GetResults())
+                    {
+                        if (db.Results.FirstOrDefault(r => r.Id == remoteResult.Id) == null)
+                        {
+                            db.Insert(remoteResult);
+                            i++;
+                        }
+                    }
+                    _logger.Info($"Downloaded {i} results");
+                }
+
             }
-        }
+        }        
 
         public void ClearLocalResults()
         {
@@ -187,5 +205,16 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 _logger.Info($"Removed {count} from local repository");
             }
         }
+
+        public void FetchRemoteResultsNames()
+        {
+            _logger.Info($"Remote recipe names: ");
+            foreach (var name in _remoteRepo.GetResultsRecipes())
+            {
+                _logger.Info(name);
+            }
+            _logger.Info($"***");
+        }
+
     }
 }

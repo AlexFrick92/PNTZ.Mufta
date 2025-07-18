@@ -124,80 +124,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             });
 
             //Кнопки подключения к ПЛК
-            cli.RegisterCommand("start", (args) => Task.Run(() => connectionManager.OpenConnections()));
-            cli.RegisterCommand("stop", (args) => Task.Run(() => connectionManager.CloseConnections()));
-
-            cli.RegisterCommand("rr_init", (args) =>
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        repositoryContext.InitRepository();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex.Message);
-                    }
-                }
-            ));
-
-            cli.RegisterCommand("rr_syncrecipes", (args) =>
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        repositoryContext.SyncRecipes();                        
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex.Message);
-                    }
-                }
-            ));
-
-            cli.RegisterCommand("rr_uploadresults", (args) =>
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        repositoryContext.UploadResults();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex.Message);
-                    }
-                }
-            ));
-
-            cli.RegisterCommand("rr_downloadresults", (args) =>
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        repositoryContext.DownloadResults();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex.Message);
-                    }
-                }
-            ));
-
-            cli.RegisterCommand("rr_clearresults", (args) =>
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        repositoryContext.ClearLocalResults();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex.Message);
-                    }
-                }
-            ));
-
-
+            cli.RegisterCommand("start", (args) => connectionManager.OpenConnections());
+            cli.RegisterCommand("stop", (args) => connectionManager.CloseConnections());
+            cli.RegisterCommand("rr_init", (args) => repositoryContext.InitRepository());
+            cli.RegisterCommand("rr_syncrecipes", (args) => repositoryContext.SyncRecipes());
+            cli.RegisterCommand("rr_pushresults", (args) => repositoryContext.PushResults());
+            cli.RegisterCommand("rr_pullresults", (args) => repositoryContext.PullResults(string.Join(" ", args)));
+            cli.RegisterCommand("rr_clearresults", (args) => repositoryContext.ClearLocalResults());
+            cli.RegisterCommand("rr_fetchresults", (args) => repositoryContext.FetchRemoteResultsNames());
 
             if (connectOnStartup)
             {
