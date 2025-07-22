@@ -32,9 +32,9 @@ namespace PNTZ.Mufta.TPCApp.Repository
         public long ResultTotal { get; set; }
 
         [Column]
-        public string StartTimeStamp { get; set; }
+        public DateTime StartTimeStamp { get; set; }
         [Column]
-        public string FinishTimeStamp { get; set; }
+        public DateTime FinishTimeStamp { get; set; }
 
         [Column]
         public byte[] Series { get; set; }
@@ -51,8 +51,8 @@ namespace PNTZ.Mufta.TPCApp.Repository
             result.FinalShoulderTorque = (float)FinalShoulderTorque;
             result.ResultPLC = (uint)ResultPLC;
             result.ResultTotal = (uint)ResultTotal;
-            result.StartTimeStamp = DateTime.Parse(StartTimeStamp);
-            result.FinishTimeStamp = DateTime.Parse(FinishTimeStamp);
+            result.StartTimeStamp = StartTimeStamp;
+            result.FinishTimeStamp = FinishTimeStamp;
             result.MVS_Len = (float)MVS_Len;
 
             using (MemoryStream ms = new MemoryStream(Series))
@@ -89,8 +89,8 @@ namespace PNTZ.Mufta.TPCApp.Repository
             FinalShoulderTurns = result.FinalShoulderTurns;
             ResultPLC = result.ResultPLC;
             ResultTotal = result.ResultTotal;
-            StartTimeStamp = result.StartTimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
-            FinishTimeStamp = result.FinishTimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
+            StartTimeStamp = result.StartTimeStamp;
+            FinishTimeStamp = result.FinishTimeStamp;
             MVS_Len = result.MVS_Len;
 
             using (MemoryStream ms = new MemoryStream())

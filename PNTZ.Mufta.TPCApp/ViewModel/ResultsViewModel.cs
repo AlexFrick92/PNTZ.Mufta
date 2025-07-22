@@ -21,6 +21,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ICommand GetResultCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
 
+
+
         public ResultsViewModel(LocalRepository repo, ILogger logger)
         {
             _repo = repo;
@@ -33,8 +35,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 try
                 {
-                    Results.AddRange(repo.GetResults(t => t.Name == SelectedRecipeName)
-                        .Select(t => new JointResultViewModel(t.ToJointResult())));
+                    Results.AddRange(repo.GetResults(t => 
+                    t.Name == SelectedRecipeName &&
+                    t.FinishTimeStamp >= SearchStartDate &&
+                    t.FinishTimeStamp <= SearchEndDate)
+                    .Select(t => new JointResultViewModel(t.ToJointResult())));
 
                     _logger.Info($"Loaded {Results.Count} of results");
                 }
@@ -79,13 +84,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 if (_selectedRecipeName == value) return;
                 _selectedRecipeName = value;
                 OnPropertyChanged(nameof(SelectedRecipeName));
-                GetResultCommand.Execute(null);
+                //GetResultCommand.Execute(null);
                 if (!string.IsNullOrWhiteSpace(_selectedRecipeName))
                     _logger.Info($"Selected recipe: {_selectedRecipeName}");
                 else
                     _logger.Info("SelectedRecipeName was reset to null or empty");
             }
         }
+
+        public DateTime SearchStartDate { get; set; } = DateTime.Now; 
+        public DateTime SearchEndDate { get; set; } = DateTime.Now;
 
         //------------------------------------------------
 
