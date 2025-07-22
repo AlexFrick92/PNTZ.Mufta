@@ -119,6 +119,17 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 return query.ToList();
             }
         }
+        public DateTime GetFirstDateTime(string recipeName)
+        {
+            using (var db = new JointResultContext(resultsConnectionString))            
+                return db.Results.AsQueryable().Where(r => r.Name == recipeName).Min(q => q.FinishTimeStamp);
+        }
+        public DateTime GetLastDateTime(string recipeName)
+        {
+            using (var db = new JointResultContext(resultsConnectionString))
+                return db.Results.AsQueryable().Where(r => r.Name == recipeName).Max(q => q.FinishTimeStamp);
+        }
+        
         public List<string> GetResultsRecipes(Expression<Func<JointResultTable, bool>> filter = null)
         {
             using (var db = new JointResultContext(resultsConnectionString))

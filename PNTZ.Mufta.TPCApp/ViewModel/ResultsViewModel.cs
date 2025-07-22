@@ -89,6 +89,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     _logger.Info($"Selected recipe: {_selectedRecipeName}");
                 else
                     _logger.Info("SelectedRecipeName was reset to null or empty");
+
+                SearchStartDate = _repo.GetFirstDateTime(_selectedRecipeName);
+                OnPropertyChanged(nameof(SearchStartDate));
+                SearchEndDate = _repo.GetLastDateTime(_selectedRecipeName);
+                OnPropertyChanged(nameof(SearchEndDate));
             }
         }
 
