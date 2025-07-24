@@ -93,7 +93,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 newRecipeView.ShowDialog();
             });
-
+            
             
             SaveRecipe = new RelayCommand((arg) =>
             {
@@ -112,8 +112,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             RemoveRecipe = new RelayCommand((arg) =>
             {
-                repo.RemoveRecipe(EditRecipe.Recipe);
-                JointRecipes.Remove(EditRecipe);                
+                RemoveRecipeViewModel removeRecipeViewModel = new RemoveRecipeViewModel(EditRecipe);
+                RemoveRecipeView removeRecipeView = new RemoveRecipeView(removeRecipeViewModel);
+                removeRecipeViewModel.RecipeRemoved += (o, r) =>
+                {
+                    removeRecipeView.Close();
+                    repo.RemoveRecipe(EditRecipe.Recipe);
+                    JointRecipes.Remove(EditRecipe);
+                };
+                removeRecipeViewModel.Canceled += (o, r) =>
+                {
+                    removeRecipeView.Close();
+                };
+                removeRecipeView.ShowDialog();
             });
         }
         public void RefreshRecipes()

@@ -110,10 +110,10 @@
 
         <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderBrush="{StaticResource GridColor}"
@@ -170,7 +170,9 @@
 
                                 <Label 
                                     Grid.Column="1"                                    
-                                    Background="Transparent">
+                                    Background="Transparent"
+                                    >
+                                    
                                     <TextBlock Text="{Binding TimeStamp, StringFormat='{}{0:dd.MM.yyyy}'}" />
                                 </Label>
 
@@ -186,16 +188,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-
-            <Grid Grid.Row="3" Height="105">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-
-            </Grid>
         </Grid>
 
         <!--РАЗДЕЛИТЕЛЬ-->
