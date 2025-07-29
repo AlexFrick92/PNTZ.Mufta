@@ -67,8 +67,13 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == remoteRecipe.Name);
 
                     if (recToUpdate != null)
-                    {                        
-                        if(recToUpdate.TimeStamp < remoteRecipe.TimeStamp)
+                    {                    
+                        if(remoteRecipe.RemovedDate != null)
+                        {
+                            db.Delete(recToUpdate);
+                            _logger.Info($"Рецепт {remoteRecipe.Name} удалён из локальной базы данных.");
+                        }
+                        else if(recToUpdate.TimeStamp < remoteRecipe.TimeStamp)
                         {
                             recToUpdate.CopyProperties(remoteRecipe);
                             db.Update(recToUpdate);
@@ -77,22 +82,36 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     }
                     else
                     {
-                        db.Insert(remoteRecipe);
-                        _logger.Info($"Рецепт {remoteRecipe.Name} добавлен.");
+                        if (remoteRecipe.RemovedDate == null)
+                        {
+                            db.Insert(remoteRecipe);
+                            _logger.Info($"Рецепт {remoteRecipe.Name} добавлен.");
+                        }
                     }
                 }
 
                 _remoteRepo.SyncRemoteRecipes(GetRecipes());
+                db.Recipes.Where(r => r.RemovedDate != null).Delete();                    
             }
         }
         public void RemoveRecipe(JointRecipe recipe)
         {
             using (var db = new JointRecipeContext(recipesConnectionString))
             {
-                var recToUpdate = db.Recipes.FirstOrDefault(r => r.Name == recipe.Name);
-
-                db.Delete(recToUpdate);
-                _logger.Info($"Рецепт {recipe.Name} удалён.");
+                var recToUpdate = db.Recipes.FirstOrDefault(r => r.Id == recipe.Id);
+                _logger.Info($"{recipe.Id}");
+                if(recToUpdate == null)
+                {
+                    _logger.Error($"Рецепт {recipe.Name} не найден в локальной базе данных.");
+                    return;
+                }
+                else
+                {
+                    recToUpdate.TimeStamp = DateTime.Now;
+                    recToUpdate.RemovedDate = DateTime.Now;
+                    db.Update(recToUpdate);
+                    _logger.Info($"Рецепт {recipe.Name} удалён.");
+                }                
             }
         }
         public List<JointRecipeTable> GetRecipes(Expression<Func<JointRecipeTable, bool>> filter = null)
@@ -102,7 +121,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 var query = db.Recipes.AsQueryable();
 
                 if (filter != null)
-                    query = query.Where(filter);
+                    query = query.Where(r => r.RemovedDate == null).Where(filter);
 
                 return query.ToList();
             }
@@ -202,7 +221,6 @@ namespace PNTZ.Mufta.TPCApp.Repository
                     }
                     _logger.Info($"Downloaded {i} results");
                 }
-
             }
         }        
 
@@ -217,14 +235,16 @@ namespace PNTZ.Mufta.TPCApp.Repository
             }
         }
 
-        public void FetchRemoteResultsNames()
+        public List<string> FetchRemoteResultsNames()
         {
             _logger.Info($"Remote recipe names: ");
-            foreach (var name in _remoteRepo.GetResultsRecipes())
+            var remoteNames = _remoteRepo.GetResultsRecipes();
+            foreach (var name in remoteNames)
             {
                 _logger.Info(name);
             }
             _logger.Info($"***");
+            return remoteNames;
         }
 
     }

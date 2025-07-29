@@ -103,7 +103,10 @@ namespace PNTZ.Mufta.TPCApp.Repository
         public double MU_JVal_Max { get; set; }
 
         [Column]
-        public DateTime TimeStamp { get; set; }     
+        public DateTime TimeStamp { get; set; }
+
+        [Column]
+        public DateTime? RemovedDate { get; set; }
 
         public JointRecipeTable FromJointRecipe(JointRecipe recipe)
         {
@@ -166,6 +169,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         {
             return new JointRecipe()
             {
+                Id = this.Id,
                 Name = this.Name,
                 HEAD_OPEN_PULSES = (float)this.HEAD_OPEN_PULSES,
                 TURNS_BREAK = (float)this.TURNS_BREAK,
@@ -267,6 +271,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
             MU_JVal_Max = recipe.MU_JVal_Max;
 
             TimeStamp = recipe.TimeStamp;
+            RemovedDate = recipe.RemovedDate;
         }
     }
 }
