@@ -70,7 +70,7 @@ HEAD_OPEN_PULSES    REAL        Обороты на открытие навёр�
                                 поканаверточная головка открыта. 
 TURNS_BREAK         REAL        Turns after Breakout Обороты на развинчивание. 
                                 Поворачивается пока не завершено развинчивание 
-PLC_PROG_NR         WORD        PLC Programm Nummer	???  
+PLC_PROG_NR         WORD        PLC Programm Nummer - номер настроечных данных в ПЛК   
 LOG_NO              WORD        Log Nummer	???  
 Tq_UNIT             WORD        0=Nm; 1=ft-lbs. Единицы измерения момента: Нм, фут-фунт
 Thread_type         WORD        1=Right Hand; 2=Left Hand	
