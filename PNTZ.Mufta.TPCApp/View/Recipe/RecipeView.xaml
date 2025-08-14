@@ -822,6 +822,7 @@
                     <!-- ПАРАМЕТРЫ ЛЕЙБЛЫ -->
                     <StackPanel Grid.Row="1" Grid.Column="0">
                         <Label Style="{StaticResource InputFieldLabel}" Content="Опопрный крутящий момент, Нм"/>
+                        <Label Style="{StaticResource InputFieldLabel}" Content="Оптимальный крутящий момент, Нм"/>
                         <Label Style="{StaticResource ModeLabelVisibility}" Content="Минимальный момент, Нм"/>
                         <Label Style="{StaticResource ModeLabelVisibility}" Content="Максимальный момент, Нм"/>
                         <Label Style="{StaticResource InputFieldLabel}" Content="Сброс крутящего момента, Нм"/>
@@ -840,6 +841,7 @@
                     <!-- ПАРАМЕТРЫ ЗНАЧЕНИЯ -->
                     <StackPanel Grid.Row="1" Grid.Column="1">
                         <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Ref , ValidatesOnExceptions=True}"/>
+                        <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Opt , ValidatesOnExceptions=True}"/>
                         <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource ModeInputVisibility}" Text="{Binding EditRecipe.MU_Tq_Min, ValidatesOnExceptions=True}"/>
                         <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource ModeInputVisibility}" Text="{Binding EditRecipe.MU_Tq_Max, ValidatesOnExceptions=True}"/>
                         <TextBox PreviewTextInput="FloatInputPreview" Style="{StaticResource InputField}" Text="{Binding EditRecipe.MU_Tq_Dump, ValidatesOnExceptions=True}" />

@@ -220,7 +220,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         // ************** ЗАПИСЬ ГРАФИКОВ ***********************
-        TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(100);
+        TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(30);
         public ObservableCollection<TqTnLenPointViewModel> ChartSeries { get; set; }
         public ObservableCollection<TqTnLenPointViewModel> ChartSeriesSmoothed { get; set; }
 

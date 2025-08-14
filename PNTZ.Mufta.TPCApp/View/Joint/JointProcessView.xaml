@@ -260,6 +260,21 @@
                             <Setter Property="Foreground" Value="DarkRed"/>
                             <Setter Property="FontSize" Value="12"/>
                         </Style>
+
+                        <Style TargetType="dxc:ConstantLine" x:Key="OptimumLineStyle">
+                            <Setter Property="Brush" Value="OrangeRed"/>
+                        </Style>
+
+
+                        <Style TargetType="TextBlock" x:Key="OptimumTextBlockStyle">
+                            <Setter Property="Foreground" Value="OrangeRed"/>
+                            <Setter Property="FontSize" Value="12"/>
+                        </Style>
+
+                        <Style TargetType="Label" x:Key="OptimumLabelStyle">
+                            <Setter Property="Foreground" Value="OrangeRed"/>
+                            <Setter Property="FontSize" Value="12"/>
+                        </Style>
                     </Grid.Resources>
                     
                     <Grid.ColumnDefinitions>
@@ -376,6 +391,21 @@
                                                                         <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Min}" VerticalAlignment="Center"/>
                                                                     </StackPanel>
                                                                 </dxc:ConstantLineTitle>
+                                                        </dxc:ConstantLine.Title>
+                                                    </dxc:ConstantLine>
+
+
+                                                    <!--ОПТ МОМЕНТ ЛИНИЯ-->
+                                                    <dxc:ConstantLine 
+                                                            Value="{Binding LoadedRecipe.MU_Tq_Opt}" 
+                                                            Style="{StaticResource OptimumLineStyle}">
+                                                        <dxc:ConstantLine.Title>
+                                                            <dxc:ConstantLineTitle>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource OptimumLabelStyle}">Оптимальный</Label>
+                                                                    <TextBlock Style="{StaticResource OptimumTextBlockStyle}" Text="{Binding LoadedRecipe.MU_Tq_Opt}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                            </dxc:ConstantLineTitle>
                                                         </dxc:ConstantLine.Title>
                                                     </dxc:ConstantLine>
 
