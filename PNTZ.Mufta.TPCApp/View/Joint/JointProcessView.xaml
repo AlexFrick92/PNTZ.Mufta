@@ -176,11 +176,11 @@
             <TextBox Grid.Row="15" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Tq_Dump, StringFormat=F1, Mode=OneWay}"/>
 
             <Label Grid.Row="16" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Макс. длина"/>
+                Style="{StaticResource ParamLabel}" Content="Макс. глубина"/>
             <TextBox Grid.Row="16" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Max, StringFormat=F1, Mode=OneWay}"/>
 
             <Label Grid.Row="17" Grid.Column="0"
-                Style="{StaticResource ParamLabel}" Content="Мин. длина"/>
+                Style="{StaticResource ParamLabel}" Content="Мин. глубина"/>
             <TextBox Grid.Row="17" Grid.Column="1" Style="{StaticResource OutputLabel}" Text="{Binding LoadedRecipe.MU_Len_Min, StringFormat=F1, Mode=OneWay}"/>
 
 
