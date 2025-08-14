@@ -20,6 +20,7 @@ using System.Xml.Linq;
 using LinqToDB.Tools;
 using Toolkit.IO;
 using static PNTZ.Mufta.TPCApp.App;
+using System.Windows.Threading;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
@@ -64,6 +65,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 ShowResultButtons = false;
                 OnPropertyChanged(nameof(ShowResultButtons));
             });
+
+            _timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += (s, e) =>
+            {
+                TimerSeconds++;
+                OnPropertyChanged(nameof(TimerSeconds));
+            };
         }
 
 
@@ -220,6 +231,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
 
         // ************** ЗАПИСЬ ГРАФИКОВ ***********************
+
+        private readonly DispatcherTimer _timer; 
+        public int TimerSeconds { get; set; } = 0;
+
         TimeSpan RecordingInterval { get; set; } = TimeSpan.FromMilliseconds(30);
         public ObservableCollection<TqTnLenPointViewModel> ChartSeries { get; set; }
         public ObservableCollection<TqTnLenPointViewModel> ChartSeriesSmoothed { get; set; }
@@ -233,6 +248,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 throw new InvalidOperationException("Операция записи графиков уже начата");
 
             recordingProcedureStarted = true;
+
+            TimerSeconds = 0;
+            _timer.Start();
 
             logger.Info("Начинаем запись графиков для UI...");            
 
@@ -289,6 +307,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
         private void StopChartRecording(object sender, JointResult e)
         {
+            _timer.Stop();
             if (recordingCts != null)
             {
                 recordingCts.Cancel();
