@@ -9,9 +9,16 @@ namespace PNTZ.Mufta.TPCApp.View
         {
             if (axisValue is double value)
             {
-                var rounded = Math.Round(value / 1000);
+                if (value >= 1000)
+                {
+                    double shortValue = value / 1000.0;
+                    return (shortValue % 1 == 0 ? ((int)shortValue).ToString() : shortValue.ToString("0.#")) + "k";
+                }
+                else
+                {
+                    return value.ToString("0.#");
+                }
 
-                return value.ToString("N0");                
             }
             return axisValue?.ToString(); throw new NotImplementedException();
         }

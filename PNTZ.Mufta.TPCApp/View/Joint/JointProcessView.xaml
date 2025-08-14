@@ -244,12 +244,20 @@
                         </Style>
 
 
+                        
+                        
                         <Style TargetType="dxc:ConstantLine" x:Key="LimitLineStyle">
-                            <Setter Property="Brush" Value="Orange"/>
+                            <Setter Property="Brush" Value="DarkRed"/>
+                        </Style>
+
+
+                        <Style TargetType="TextBlock" x:Key="LimitLineTextBoxStyle">
+                            <Setter Property="Foreground" Value="DarkRed"/>
+                            <Setter Property="FontSize" Value="12"/>
                         </Style>
 
                         <Style TargetType="Label" x:Key="LimitLineLabelStyle">
-                            <Setter Property="Foreground" Value="Orange"/>
+                            <Setter Property="Foreground" Value="DarkRed"/>
                             <Setter Property="FontSize" Value="12"/>
                         </Style>
                     </Grid.Resources>
@@ -349,9 +357,11 @@
                                                         <dxc:ConstantLine.Title>
 
                                                             <dxc:ConstantLineTitle>
-                                                                <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                    Макс. момент</Label>
-                                                            </dxc:ConstantLineTitle>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Max}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                </dxc:ConstantLineTitle>
                                                         </dxc:ConstantLine.Title>
                                                     </dxc:ConstantLine>
 
@@ -361,9 +371,11 @@
                                                                 Style="{StaticResource LimitLineStyle}">
                                                         <dxc:ConstantLine.Title>
                                                             <dxc:ConstantLineTitle>
-                                                                <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                    Мин. момент</Label>
-                                                            </dxc:ConstantLineTitle>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Min}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                </dxc:ConstantLineTitle>
                                                         </dxc:ConstantLine.Title>
                                                     </dxc:ConstantLine>
 
@@ -531,22 +543,24 @@
                                                             Style="{StaticResource LimitLineStyle}">
                                                             <dxc:ConstantLine.Title>
                                                                 <dxc:ConstantLineTitle>
-                                                                    <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                        Макс. длина
-                                                                    </Label>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Len_Max}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
                                                                 </dxc:ConstantLineTitle>
                                                             </dxc:ConstantLine.Title>
                                                         </dxc:ConstantLine>
 
                                                         <!--МИН ДЛИНА ЛИНИЯ-->
-                                                        <dxc:ConstantLine 
+                                                        <dxc:ConstantLine
                                                             Value="{Binding LoadedRecipe.MU_Len_Min}" 
                                                             Style="{StaticResource LimitLineStyle}">
                                                             <dxc:ConstantLine.Title>
                                                                 <dxc:ConstantLineTitle>
-                                                                    <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                        Мин. длина
-                                                                    </Label>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Len_Min}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
                                                                 </dxc:ConstantLineTitle>
                                                             </dxc:ConstantLine.Title>
                                                         </dxc:ConstantLine>
@@ -586,8 +600,10 @@
                                                             <dxc:ConstantLine.Title>
 
                                                                 <dxc:ConstantLineTitle>
-                                                                    <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                        Макс. момент</Label>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Max}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
                                                                 </dxc:ConstantLineTitle>
                                                             </dxc:ConstantLine.Title>
                                                         </dxc:ConstantLine>
@@ -598,8 +614,10 @@
                                                             Style="{StaticResource LimitLineStyle}">
                                                             <dxc:ConstantLine.Title>
                                                                 <dxc:ConstantLineTitle>
-                                                                    <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                        Мин. момент</Label>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Min}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
                                                                 </dxc:ConstantLineTitle>
                                                             </dxc:ConstantLine.Title>
                                                         </dxc:ConstantLine>
@@ -709,8 +727,10 @@
                                                         Style="{StaticResource LimitLineStyle}">
                                                             <dxc:ConstantLine.Title>
                                                                 <dxc:ConstantLineTitle>
-                                                                    <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                        Макс. момент</Label>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Max}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
                                                                 </dxc:ConstantLineTitle>
                                                             </dxc:ConstantLine.Title>
                                                         </dxc:ConstantLine>
@@ -720,8 +740,10 @@
                                                             Style="{StaticResource LimitLineStyle}">
                                                             <dxc:ConstantLine.Title>
                                                                 <dxc:ConstantLineTitle>
-                                                                    <Label Style="{StaticResource LimitLineLabelStyle}">
-                                                                        Мин. момент</Label>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
+                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Min}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
                                                                 </dxc:ConstantLineTitle>
                                                             </dxc:ConstantLine.Title>
                                                         </dxc:ConstantLine>

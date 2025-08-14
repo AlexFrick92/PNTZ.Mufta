@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <JointRecipeConfig>
-	<HEAD_OPEN_PULSES Min="0.01" Max="10" Default ="0.18" Name="Обороты на открытие головки"/>
+	<HEAD_OPEN_PULSES Min="0.01" Max="10" Default ="0.08" Name="Обороты на открытие головки"/>
 	<TURNS_BREAK Min="0.1" Max="10" Default ="4.0" Name="Обороты на развинчивание"/>
 	<Thread_step Min="0.1" Max="10" Default ="10" Name="Шаг резьбы"/>
 	<Thread_type Min="0" Max="10" Default ="6" Name="Тип резьбы"/>
@@ -16,14 +16,14 @@
 	
 	<MU_Moni_Time Min="5" Max="100" Default ="6" Name="Время силового свинчивания"/>
 	
-	<MU_Tq_Ref Min="0" Max="30000" Default ="500" Name="Опорный момент"/>
+	<MU_Tq_Ref Min="0" Max="30000" Default ="200" Name="Опорный момент"/>
 	<MU_Tq_Save Min="0" Max="30000" Default ="2000" Name="Момент автосохранения"/>
 	<MU_TqSpeedRed_1 Min="0" Max="30000" Default ="5000" Name="Уменьшение скорости 1 крут. момента"/>
 	<MU_TqSpeedRed_2 Min="0" Max="30000" Default ="10000" Name="Уменьшение скорости 2 крут. момента"/>
 	
 	<MU_Tq_Dump Min="1" Max="30000" Default ="14000" Name="Крутящий момент сброса"/>
-	<MU_Tq_Max Min="1" Max="30000" Default ="10000" Name="Минимальный крутящий момент"/>
-	<MU_Tq_Min Min="1" Max="30000" Default ="20000" Name="Максимальный крутящий момент"/>
+	<MU_Tq_Max Min="1" Max="30000" Default ="15000" Name="Минимальный крутящий момент"/>
+	<MU_Tq_Min Min="1" Max="30000" Default ="7000" Name="Максимальный крутящий момент"/>
 	<MU_Tq_Opt Min="1" Max="30000" Default ="15000" Name="Оптимальный крутящий момент"/>
 	
 	<MU_TqShoulder_Min Min="1" Max="30000" Default ="12000" Name="Минимальный крутящий момент плеча"/>
@@ -40,5 +40,4 @@
 	<MU_JVal_Dump Min="1" Max="200" Default ="100" Name="Значение J сброса"/>
 	<MU_JVal_Min Min="1" Max="200" Default ="100" Name="Минимальное значение J"/>
 	<MU_JVal_Max Min="1" Max="200" Default ="100" Name="Максимально значение J"/>
-
 </JointRecipeConfig>

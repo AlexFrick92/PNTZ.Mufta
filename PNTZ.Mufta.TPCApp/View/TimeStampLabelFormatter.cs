@@ -14,7 +14,7 @@ namespace PNTZ.Mufta.TPCApp.View
                 //Метки времени в мс. Мы покажем время в секундах
                 var valuesec = value / 1000;
 
-                return valuesec.ToString() + "сек.";                
+                return valuesec.ToString() + "c";                
 
             }
             return axisValue.ToString();
