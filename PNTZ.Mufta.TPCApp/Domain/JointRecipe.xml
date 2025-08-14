@@ -14,7 +14,7 @@
 	<Pre_Len_Min Min="5" Max="500" Default ="35" Name="Мин. длина преднавёртки"/>
 	<Pre_Len_Max Min="5" Max="500" Default ="95" Name="Макс. длина преднавёртки"/>
 	
-	<MU_Moni_Time Min="5" Max="100" Default ="6" Name="Время силового свинчивания"/>
+	<MU_Moni_Time Min="5" Max="100" Default ="60" Name="Время силового свинчивания"/>
 	
 	<MU_Tq_Ref Min="0" Max="30000" Default ="200" Name="Опорный момент"/>
 	<MU_Tq_Save Min="0" Max="30000" Default ="2000" Name="Момент автосохранения"/>
