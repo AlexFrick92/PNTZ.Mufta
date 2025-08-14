@@ -241,10 +241,10 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     {
                         if (jointResult != null)
                         {
-                            JointFinished?.Invoke(this, FillResult(jointResult));
+                            JointFinished?.Invoke(this, jointResult);
                         }
                         else
-                            JointFinished?.Invoke(this, FillResult(new JointResult(actualRecipe)));
+                            JointFinished?.Invoke(this, new JointResult(actualRecipe));
                     }
                     catch (Exception ex)
                     {
@@ -429,12 +429,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
                 else
                 {
-
                     await Task.Delay(TimeSpan.FromSeconds(2));
 
                     jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
                     jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN + jointResult.MVS_Len;
                     jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
+                    jointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
 
                     logger.Info($"Свинчивание завершено. Итоговый момент: {jointResult.FinalTorque}, итоговая длина: {jointResult.FinalLength}, итоговые обороты: {jointResult.FinalTurns}");
                     logger.Info("Результат ПЛК: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_RESULT);
@@ -536,17 +536,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         }
         private event EventHandler<uint> Evaluated;
 
-        //РЕЗУЛЬТАТ
-
-        JointResult FillResult(JointResult result)
-        {
-            result.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
-            result.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN;
-            result.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
-            result.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
-
-            return result;           
-        }
     }
     
 }
