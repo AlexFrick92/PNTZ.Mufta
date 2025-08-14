@@ -382,6 +382,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             CancellationTokenSource recordCtc = new CancellationTokenSource();
             //Отмена по таймауту. Предполагаю что monitoring time.
+            //Параметр monitoring time в рецепте не влияет. Свинчивание может быть дольше
+            //Пока не ясно, как это работает...
             timeout = Task.Run(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(60));
@@ -429,7 +431,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
                 else
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
 
                     jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
                     jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN + jointResult.MVS_Len;
@@ -470,7 +472,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             //Устанавливаем 50 - отправили оценку
             Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
 
-            await Task.Delay(TimeSpan.FromSeconds(2));
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
 
             DpTpcCommand.Value = 50;
 
