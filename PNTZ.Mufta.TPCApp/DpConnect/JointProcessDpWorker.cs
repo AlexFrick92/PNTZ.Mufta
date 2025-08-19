@@ -365,112 +365,119 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
             }
 
-            //if (AwaitFor30.Task.Result == 28)
-            //{
-            //    _logger.Info("Joint. Ошибка преднавёртки!");
-            //    throw new InvalidOperationException("Ошибка преднавёртки");
-            //}
 
+            /*
+                - Если пришёл ответ 28 - ошибка преднавёртки.
+                - Сохраняем результат без записи свинчиваний
+                - Отправляем 50 - завершение процедуры
+            */
 
-
-
-            //Труба в позиции. Запускаем таск записи параметров
-
-            logger.Info("Joint. Труба в позиции головки свинчивания. Готовимся к записи параметров! Начальная точка: " + DpParam.Value.Length);
-
-            LengthOffset = DpParam.Value.Length;
-
-            CancellationTokenSource recordCtc = new CancellationTokenSource();
-            //Отмена по таймауту. Предполагаю что monitoring time.
-            //Параметр monitoring time в рецепте не влияет. Свинчивание может быть дольше
-            //Пока не ясно, как это работает...
-            timeout = Task.Run(async () =>
+            if (AwaitFor30.Task.Result == 28)
             {
-                await Task.Delay(TimeSpan.FromSeconds(60));
-                recordCtc?.Cancel();
-            });
-
-            //Устанавливаем 38 - начинаем записывать параметры
-            DpTpcCommand.Value = 38;
-            
-            //Ожидаем 40 - окончание свинчивания
-            var AwaitFor40 = new TaskCompletionSource<uint>();
-            DpPlcCommand.ValueUpdated += (s, v) => AwaitFor40.TrySetResult(v);
-
-            var recordTask = RecordOperationParams(recordCtc.Token);
-
-            first = await Task.WhenAny(recordTask, timeout, tcs.Task, AwaitFor40.Task);
-
-            if (first == timeout || first == recordTask)
-            {
-                logger.Info("Таймаут");
-                recordCtc.Cancel();
-                RecordingFinished?.Invoke(this, jointResult);
-                throw new TimeoutException("Время записи параметров истекло");
-            }
-            else if (first == tcs.Task)
-            {
-                logger.Info("Отменено");
-                recordCtc?.Cancel();
-                RecordingFinished?.Invoke(this, jointResult);
-                throw new OperationCanceledException();
-            }
-            else if(first == AwaitFor40.Task) //Свинчивание завершено
-            {
-                logger.Info("Joint. команда ПЛК:" + AwaitFor40.Task.Result);
-                recordCtc?.Cancel();
-
-
-                if (AwaitFor40.Task.Result != 40)
-                {
-                    RecordingFinished?.Invoke(this, jointResult);
-                    if (AwaitFor40.Task.Result == 0)
-                        throw new InvalidProgramException();
-                    else
-                        throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
-                }
-                else
-                {
-                    await Task.Delay(TimeSpan.FromMilliseconds(100));
-
-                    jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
-                    jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN + jointResult.MVS_Len;
-                    jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
-                    jointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
-
-                    logger.Info($"Свинчивание завершено. Итоговый момент: {jointResult.FinalTorque}, итоговая длина: {jointResult.FinalLength}, итоговые обороты: {jointResult.FinalTurns}");
-                    logger.Info("Результат ПЛК: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_RESULT);
-
-                    RecordingFinished?.Invoke(this, jointResult);
-                }
-
+                logger.Info("Joint. Ошибка преднавёртки. Завершаем процедуру свинчивания без записи параметров.");
+                Dp_ERG_CAM_ResultTotal.Value = 2;
             }
             else
             {
-                RecordingFinished?.Invoke(this, jointResult);
-                logger.Info($"Неожиданный поворот: {first}");
+                //Труба в позиции. Запускаем таск записи параметров
+
+                logger.Info("Joint. Труба в позиции головки свинчивания. Готовимся к записи параметров! Начальная точка: " + DpParam.Value.Length);
+
+                LengthOffset = DpParam.Value.Length;
+
+                CancellationTokenSource recordCtc = new CancellationTokenSource();
+                //Отмена по таймауту. Предполагаю что monitoring time.
+                //Параметр monitoring time в рецепте не влияет. Свинчивание может быть дольше
+                //Пока не ясно, как это работает...
+                timeout = Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(60));
+                    recordCtc?.Cancel();
+                });
+
+                //Устанавливаем 38 - начинаем записывать параметры
+                DpTpcCommand.Value = 38;
+
+                //Ожидаем 40 - окончание свинчивания
+                var AwaitFor40 = new TaskCompletionSource<uint>();
+                DpPlcCommand.ValueUpdated += (s, v) => AwaitFor40.TrySetResult(v);
+
+                var recordTask = RecordOperationParams(recordCtc.Token);
+
+                first = await Task.WhenAny(recordTask, timeout, tcs.Task, AwaitFor40.Task);
+
+                if (first == timeout || first == recordTask)
+                {
+                    logger.Info("Таймаут");
+                    recordCtc.Cancel();
+                    RecordingFinished?.Invoke(this, jointResult);
+                    throw new TimeoutException("Время записи параметров истекло");
+                }
+                else if (first == tcs.Task)
+                {
+                    logger.Info("Отменено");
+                    recordCtc?.Cancel();
+                    RecordingFinished?.Invoke(this, jointResult);
+                    throw new OperationCanceledException();
+                }
+                else if (first == AwaitFor40.Task) //Свинчивание завершено
+                {
+                    logger.Info("Joint. команда ПЛК:" + AwaitFor40.Task.Result);
+                    recordCtc?.Cancel();
+
+
+                    if (AwaitFor40.Task.Result != 40)
+                    {
+                        RecordingFinished?.Invoke(this, jointResult);
+                        if (AwaitFor40.Task.Result == 0)
+                            throw new InvalidProgramException();
+                        else
+                            throw new InvalidOperationException($"Неверный ответ от ПЛК. Ожидалось 40");
+                    }
+                    else
+                    {
+                        await Task.Delay(TimeSpan.FromMilliseconds(100));
+
+                        jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
+                        jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN + jointResult.MVS_Len;
+                        jointResult.FinalTurns = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TN;
+                        jointResult.FinalJVal = Dp_ERG_CAM.Value.PMR_MR_TOTAL_MAKEUP_VAL;
+
+                        logger.Info($"Свинчивание завершено. Итоговый момент: {jointResult.FinalTorque}, итоговая длина: {jointResult.FinalLength}, итоговые обороты: {jointResult.FinalTurns}");
+                        logger.Info("Результат ПЛК: " + Dp_ERG_CAM.Value.PMR_MR_MAKEUP_RESULT);
+
+                        RecordingFinished?.Invoke(this, jointResult);
+                    }
+
+                }
+                else
+                {
+                    RecordingFinished?.Invoke(this, jointResult);
+                    logger.Info($"Неожиданный поворот: {first}");
+                }
+
+                //Устанавливаем 45 - ожидание оценки
+                DpTpcCommand.Value = 45;
+
+                //Оценка. Если годная - то автооценка. Если брак, то подтверждение оператора
+                var evaluator = new JointEvaluation(logger);
+
+                if (!evaluator.Evaluate(jointResult))
+                {
+                    TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
+                    Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
+                    AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
+
+                    var firstTask = await Task.WhenAny(awaitEvaluation.Task, tcs.Task);
+                    jointResult.ResultTotal = awaitEvaluation.Task.Result;
+                    logger.Info("Оценка установлена оператором: " + awaitEvaluation.Task.Result);
+                }
+
+
+                //Устанавливаем 50 - отправили оценку
+                Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
             }
 
-            //Устанавливаем 45 - ожидание оценки
-            DpTpcCommand.Value = 45;                        
-
-            //Оценка. Если годная - то автооценка. Если брак, то подтверждение оператора
-            var evaluator = new JointEvaluation(logger);
-
-            if (!evaluator.Evaluate(jointResult))
-            {
-                TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
-                Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
-                AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
-
-                var firstTask = await Task.WhenAny(awaitEvaluation.Task, tcs.Task);
-                jointResult.ResultTotal = awaitEvaluation.Task.Result;
-                logger.Info("Оценка установлена оператором: " + awaitEvaluation.Task.Result);
-            }
-
-
-            //Устанавливаем 50 - отправили оценку
-            Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
 
             await Task.Delay(TimeSpan.FromMilliseconds(100));
 
