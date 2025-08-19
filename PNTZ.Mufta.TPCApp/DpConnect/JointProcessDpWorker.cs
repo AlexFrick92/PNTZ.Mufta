@@ -375,7 +375,10 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             if (AwaitFor30.Task.Result == 28)
             {
                 logger.Info("Joint. Ошибка преднавёртки. Завершаем процедуру свинчивания без записи параметров.");
-                Dp_ERG_CAM_ResultTotal.Value = 2;
+                jointResult.ResultTotal = 2;
+                jointResult.Series = new List<TqTnLenPoint>();
+
+                
             }
             else
             {
@@ -473,11 +476,10 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     logger.Info("Оценка установлена оператором: " + awaitEvaluation.Task.Result);
                 }
 
-
-                //Устанавливаем 50 - отправили оценку
-                Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
             }
 
+            //Устанавливаем 50 - отправили оценку
+            Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
 
             await Task.Delay(TimeSpan.FromMilliseconds(100));
 
