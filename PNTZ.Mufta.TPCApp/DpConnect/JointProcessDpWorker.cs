@@ -394,7 +394,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 //Пока не ясно, как это работает...
                 timeout = Task.Run(async () =>
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(60));
+                    await Task.Delay(TimeSpan.FromSeconds(300));
                     recordCtc?.Cancel();
                 });
 
@@ -439,7 +439,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     }
                     else
                     {
-                        await Task.Delay(TimeSpan.FromMilliseconds(100));
+                        await Task.Delay(TimeSpan.FromMilliseconds(500));
 
                         jointResult.FinalTorque = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_FIN_TQ;
                         jointResult.FinalLength = Dp_ERG_CAM.Value.PMR_MR_MAKEUP_LEN + jointResult.MVS_Len;
@@ -481,7 +481,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             //Устанавливаем 50 - отправили оценку
             Dp_ERG_CAM_ResultTotal.Value = jointResult.ResultTotal;
 
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            await Task.Delay(TimeSpan.FromMilliseconds(500));
 
             DpTpcCommand.Value = 50;
 
