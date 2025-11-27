@@ -179,5 +179,31 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             set => SetValue(YConstantLinesProperty, value);
         }
 
+        public static readonly DependencyProperty ResetZoomTriggerProperty =
+            DependencyProperty.Register(
+            nameof(ResetZoomTrigger),
+        typeof(object),
+        typeof(RealtimeChartView),
+        new PropertyMetadata(null, OnResetZoomTriggerChanged));
+
+        public object ResetZoomTrigger
+        {
+            get => (object)GetValue(ResetZoomTriggerProperty);
+            set => SetValue(ResetZoomTriggerProperty, value);
+        }
+
+        private static void OnResetZoomTriggerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (RealtimeChartView)d;
+            control.ResetZoom();                            
+        }
+
+        private void ResetZoom()
+        {            
+            diagram.ActualAxisX.ActualVisualRange.SetAuto();
+            diagram.ActualAxisY.ActualVisualRange.SetAuto();
+        }
+
+
     }
 }

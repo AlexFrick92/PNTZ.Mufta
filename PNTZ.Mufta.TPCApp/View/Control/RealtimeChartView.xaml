@@ -109,7 +109,8 @@
             <dxc:ChartControl.Diagram>
                 <dxc:XYDiagram2D Style="{StaticResource DiagramStyle}"
                                 EnableAxisXNavigation="True"
-                                EnableAxisYNavigation="True">
+                                EnableAxisYNavigation="True"
+                                x:Name="diagram">
                     <dxc:XYDiagram2D.NavigationOptions>
                         <dxc:NavigationOptions 
                             UseKeyboard="False"

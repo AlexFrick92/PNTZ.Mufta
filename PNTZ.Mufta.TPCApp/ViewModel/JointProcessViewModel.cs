@@ -234,6 +234,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         {
             var resultvm = new JointResultViewModel(result);
             TorqueLengthChartConfig.XMinValue = resultvm.MVS_Len;
+            ResetZoomTrigger = new object();
         }
 
 
@@ -365,6 +366,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ChartViewConfig TorqueLengthChartConfig { get; set; } = new ChartViewConfig();
         public ChartViewConfig TurnsPerMinuteTurnsChartConfig { get; set; } = new ChartViewConfig();
         public ChartViewConfig TorqueTurnsChartConfig { get; set; } = new ChartViewConfig();
+
+        private object _resetZoomTrigger;
+        public object ResetZoomTrigger
+        {
+            get => _resetZoomTrigger;
+            set
+            {
+                _resetZoomTrigger = value;
+                OnPropertyChanged(nameof(ResetZoomTrigger));
+            }
+        }
 
     }
 }
