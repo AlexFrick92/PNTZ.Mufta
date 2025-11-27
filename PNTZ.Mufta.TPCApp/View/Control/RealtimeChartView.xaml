@@ -123,9 +123,8 @@
                     <dxc:XYDiagram2D.DefaultPane>
                         <dxc:Pane Style="{StaticResource PaneStyle}">
                             <dxc:Pane.AxisXScrollBarOptions>
-                                <dxc:ScrollBarOptions Visible="True"
-                                                      BarThickness="10"
-                                                      
+                                <dxc:ScrollBarOptions Visible="False"
+                                                      BarThickness="10"                                                      
                                                       AnnotatedElements="None"
                                                       Alignment="Far"
                                                       />
@@ -134,7 +133,7 @@
                                 <dxc:ScrollBarOptions Alignment="Far" 
                                       BarThickness="10"
                                       AnnotatedElements="None"                                                        
-                                      Visible="True">
+                                      Visible="False">
                           
                                 </dxc:ScrollBarOptions>
                             </dxc:Pane.AxisYScrollBarOptions>
@@ -147,7 +146,8 @@
                             <dxc:AxisX2D.WholeRange>
                                 <dxc:Range 
                                     MinValue="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=XMin}" 
-                                    MaxValue="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=XMax}"/>
+                                    MaxValue="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=XMax}"
+                                    SideMarginsValue="0"/>
                             </dxc:AxisX2D.WholeRange>
 
                             <dxc:AxisX2D.VisualRange>
@@ -181,14 +181,15 @@
                             <dxc:AxisX2D.ConstantLineBehindItemTemplate>
                                 <DataTemplate>
                                     <dxc:ConstantLine 
-                                            Value="{Binding Value}" 
-                                            Style="{StaticResource LimitLineStyle}">
+                                            Value="{Binding Value}"                                             
+                                            Style="{StaticResource LimitLineStyle}"
+                                            Brush="{Binding Color}">
                                         <dxc:ConstantLine.Title>
 
                                             <dxc:ConstantLineTitle>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Label Style="{StaticResource LimitLineLabelStyle}" Content="{Binding Label}"/>
-                                                    <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value}" VerticalAlignment="Center"/>
+                                                    <Label Style="{StaticResource LimitLineLabelStyle}" Foreground="{Binding Color}" Content="{Binding Label}"/>
+                                                    <TextBlock Foreground="{Binding Color}" Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value}" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </dxc:ConstantLineTitle>
                                         </dxc:ConstantLine.Title>
@@ -206,7 +207,8 @@
                             <dxc:AxisY2D.WholeRange>
                                 <dxc:Range 
                                         MinValue="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=YMin}" 
-                                        MaxValue="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=YMax}"/>
+                                        MaxValue="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=YMax}"
+                                        SideMarginsValue="0"/>
                             </dxc:AxisY2D.WholeRange>
 
                             <dxc:AxisY2D.VisualRange>
@@ -242,13 +244,14 @@
                                 <DataTemplate>
                                     <dxc:ConstantLine 
                                         Value="{Binding Value}" 
-                                        Style="{StaticResource LimitLineStyle}">
+                                        Style="{StaticResource LimitLineStyle}"
+                                        Brush="{Binding Color}">
                                         <dxc:ConstantLine.Title>
 
                                             <dxc:ConstantLineTitle>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Label Style="{StaticResource LimitLineLabelStyle}" Content="{Binding Label}"/>
-                                                    <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value}" VerticalAlignment="Center"/>
+                                                    <Label Foreground="{Binding Color}" Style="{StaticResource LimitLineLabelStyle}" Content="{Binding Label}"/>
+                                                    <TextBlock Foreground="{Binding Color}" Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value}" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </dxc:ConstantLineTitle>
                                         </dxc:ConstantLine.Title>

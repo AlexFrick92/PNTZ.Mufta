@@ -21,6 +21,8 @@ using LinqToDB.Tools;
 using Toolkit.IO;
 using static PNTZ.Mufta.TPCApp.App;
 using System.Windows.Threading;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
@@ -232,9 +234,70 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         private void ChartConfigByPreJointDataData(object sender, JointResult result)
         {
+            ChartSeries = new ObservableCollection<TqTnLenPointViewModel>();
+            ChartSeriesSmoothed = new ObservableCollection<TqTnLenPointViewModel>();
+
+            OnPropertyChanged(nameof(ChartSeries));
+            OnPropertyChanged(nameof(ChartSeriesSmoothed));
+
             var resultvm = new JointResultViewModel(result);
             TorqueLengthChartConfig.XMinValue = resultvm.MVS_Len;
             ResetZoomTrigger = new object();
+
+            LastJointResult = null;
+            OnPropertyChanged(nameof(LastJointResult));
+
+            TimerSeconds = 0;
+            OnPropertyChanged(nameof(TimerSeconds));
+        }
+
+        private void ChartConfigByNewPoint(TqTnLenPointViewModel point)
+        {
+            //Обороты
+            if (point.Turns > TorqueTurnsChartConfig.XMaxValue)
+            {
+                TorqueTurnsChartConfig.XMaxValue = point.Turns * 1.2;
+                TurnsPerMinuteTurnsChartConfig.XMaxValue = point.Turns * 1.2;
+            }
+            else if(point.Turns < TorqueTurnsChartConfig.XMinValue)
+            {
+                TorqueTurnsChartConfig.XMinValue = point.Turns;
+                TurnsPerMinuteTurnsChartConfig.XMinValue = point.Turns;
+            }
+
+            //Момент
+            if (point.Torque > TorqueTurnsChartConfig.YMaxValue)
+            {
+                TorqueTurnsChartConfig.YMaxValue = point.Torque * 1.2;
+                TorqueLengthChartConfig.YMaxValue = point.Torque * 1.2;
+                TorqueTimeChartConfig.YMaxValue = point.Torque * 1.2;
+            }
+            else if (point.Torque < TorqueTurnsChartConfig.XMinValue)
+            {
+                TorqueTurnsChartConfig.YMinValue = point.Torque;
+                TorqueLengthChartConfig.YMinValue = point.Torque;
+                TorqueTimeChartConfig.YMinValue = point.Torque;
+            }
+
+            //Длина
+            if (point.Length > TorqueLengthChartConfig.XMaxValue)
+            {
+                TorqueLengthChartConfig.XMaxValue = point.Length * 1.2;                
+            }
+            else if (point.Length < TorqueLengthChartConfig.XMinValue)
+            {
+                TorqueLengthChartConfig.XMinValue = point.Length;                
+            }
+
+            //Скорость
+            if (point.TurnsPerMinute > TurnsPerMinuteTurnsChartConfig.YMaxValue)
+            {                
+                TurnsPerMinuteTurnsChartConfig.YMaxValue = point.TurnsPerMinute * 1.2;
+            }
+            else if (point.TurnsPerMinute < TorqueTurnsChartConfig.XMinValue)
+            {                
+                TurnsPerMinuteTurnsChartConfig.YMinValue = point.TurnsPerMinute;
+            }
         }
 
 
@@ -290,12 +353,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         private IDisposable _graphSubscription;
         private async Task RecordSeriesCycle(CancellationToken token)
         {
-            ChartSeries = new ObservableCollection<TqTnLenPointViewModel>();
-            ChartSeriesSmoothed = new ObservableCollection<TqTnLenPointViewModel>();
-
-            OnPropertyChanged(nameof(ChartSeries));
-            OnPropertyChanged(nameof(ChartSeriesSmoothed));
-
 
             _graphSubscription = _actualPointStream
                 //.Buffer(UpdateInterval)
@@ -305,8 +362,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 .ObserveOn(System.Windows.Application.Current.Dispatcher)
                 .Subscribe(val =>
                 {
-                    ChartSeries.Add(new TqTnLenPointViewModel(val));
-                    
+                    var pointVm = new TqTnLenPointViewModel(val);
+                    ChartSeries.Add(pointVm);
+
+                    ChartConfigByNewPoint(pointVm);                    
                 });
 
             await Task.Delay(Timeout.Infinite, token);

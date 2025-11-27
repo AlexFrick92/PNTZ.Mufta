@@ -251,7 +251,7 @@
                                 YMax="{Binding TorqueTurnsChartConfig.YMaxValue}"
                                 XGridSpacing="{Binding TorqueTurnsChartConfig.XGridSpacing}"
                                 YGridSpacing="{Binding TorqueTurnsChartConfig.YGridSpacing}"
-                                LineColor="Red"
+                                LineColor="Black"
                                 LineThickness="2"
                                 ResetZoomTrigger="{Binding ResetZoomTrigger}">
                             
@@ -283,7 +283,7 @@
                                 YMax="{Binding TurnsPerMinuteTurnsChartConfig.YMaxValue}"
                                 XGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.XGridSpacing}"
                                 YGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.YGridSpacing}"
-                                LineColor="Red"
+                                LineColor="Black"
                                 LineThickness="2">
                         </ctrl:RealtimeChartView>
                     </Border>
@@ -304,7 +304,7 @@
                                 YMax="{Binding TorqueLengthChartConfig.YMaxValue}"
                                 XGridSpacing="{Binding TorqueLengthChartConfig.XGridSpacing}"
                                 YGridSpacing="{Binding TorqueLengthChartConfig.YGridSpacing}"
-                                LineColor="Red"
+                                LineColor="Black"
                                 LineThickness="2">
                             
                             <ctrl:RealtimeChartView.YConstantLines>
@@ -342,7 +342,7 @@
                                 YMax="{Binding TorqueTimeChartConfig.YMaxValue}"
                                 XGridSpacing="{Binding TorqueTimeChartConfig.XGridSpacing}"
                                 YGridSpacing="{Binding TorqueTimeChartConfig.YGridSpacing}"
-                                LineColor="Red"
+                                LineColor="Black"
                                 LineThickness="2">
                         </ctrl:RealtimeChartView>
                     </Border> 
