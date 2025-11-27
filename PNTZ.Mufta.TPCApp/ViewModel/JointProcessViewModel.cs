@@ -159,10 +159,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 recipeLoader.RecipeLoaded += (s, v) =>
                 {
                     LoadedRecipe = v;
+
+                    TempProp = 2000;
+                    OnPropertyChanged(nameof(TempProp));
                     OnPropertyChanged(nameof(LoadedRecipe));
                 };
             }
         }
+
+        public double TempProp { get; set; } = 1000;
+
         JointRecipe loadedRecipe;
         public JointRecipe LoadedRecipe 
         { 
@@ -174,6 +180,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 ChartConfigByRecipe(value);
             } 
         }
+
 
         private void InitChartConfig(XDocument config)
         {
@@ -293,7 +300,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 //.Buffer(UpdateInterval)
                 //.Where(buf => buf.Count > 0)
                 //.Select(TqTnLenPoint.SmoothAverage)
-                .Sample(UpdateInterval)
+                .Sample(RecordingInterval)
                 .ObserveOn(System.Windows.Application.Current.Dispatcher)
                 .Subscribe(val =>
                 {

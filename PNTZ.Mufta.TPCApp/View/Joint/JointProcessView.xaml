@@ -1,5 +1,4 @@
-﻿
-    <UserControl x:Class="PNTZ.Mufta.TPCApp.View.Joint.JointProcessView"
+﻿<UserControl x:Class="PNTZ.Mufta.TPCApp.View.Joint.JointProcessView"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,13 +6,13 @@
                  xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
                  xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
                  xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
-             
+                 xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
                  xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
                  d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessViewModel}"
              
                  mc:Ignorable="d" 
                  d:DesignHeight="850" d:DesignWidth="1200">
-    
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -44,7 +43,7 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="210"/>
@@ -73,7 +72,7 @@
                         />
             </Border>
         </Grid>
-        
+
         <!--ТЕКУЩИЕ ПОКАЗАНИЯ-->
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
@@ -227,73 +226,6 @@
             <ScrollViewer Grid.Row="0">
 
                 <Grid >
-                    
-                    <Grid.Resources>
-                        <Style TargetType="Label" x:Key="ChartHeader">
-                            <Setter Property="Grid.Row" Value="0"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                            <Setter Property="Margin" Value="0,10,0,-5"/>
-                        </Style>
-
-                        <Style TargetType="dxc:ChartControl" x:Key="ChartStyle">
-                            <Setter Property="BorderThickness" Value="0"/>
-                        </Style>
-                        
-                        <Style TargetType="dxc:XYDiagram2D" x:Key="DiagramStyle">
-                            
-                        </Style>
-                        
-                        <Style TargetType="dxc:Pane" x:Key="PaneStyle">
-                            <Setter Property="DomainBrush" Value="Transparent"/>
-                        </Style>
-
-                        <Style TargetType="dxc:AxisX2D" x:Key="AxisXStyle">
-                            <Setter Property="GridLinesVisible" Value="True"/>
-                            <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
-                        </Style>
-
-                        <Style TargetType="dxc:AxisY2D" x:Key="AxisYStyle">
-                            <Setter Property="GridLinesVisible" Value="True"/>
-                            <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
-                            <Setter Property="Interlaced" Value="False"/>
-                        </Style>
-
-
-                        
-                        
-                        <Style TargetType="dxc:ConstantLine" x:Key="LimitLineStyle">
-                            <Setter Property="Brush" Value="DarkRed"/>
-                        </Style>
-
-
-                        <Style TargetType="TextBlock" x:Key="LimitLineTextBoxStyle">
-                            <Setter Property="Foreground" Value="DarkRed"/>
-                            <Setter Property="FontSize" Value="12"/>
-                        </Style>
-
-                        <Style TargetType="Label" x:Key="LimitLineLabelStyle">
-                            <Setter Property="Foreground" Value="DarkRed"/>
-                            <Setter Property="FontSize" Value="12"/>
-                        </Style>
-
-                        <Style TargetType="dxc:ConstantLine" x:Key="OptimumLineStyle">
-                            <Setter Property="Brush" Value="OrangeRed"/>
-                        </Style>
-
-
-                        <Style TargetType="TextBlock" x:Key="OptimumTextBlockStyle">
-                            <Setter Property="Foreground" Value="OrangeRed"/>
-                            <Setter Property="FontSize" Value="12"/>
-                        </Style>
-
-                        <Style TargetType="Label" x:Key="OptimumLabelStyle">
-                            <Setter Property="Foreground" Value="OrangeRed"/>
-                            <Setter Property="FontSize" Value="12"/>
-                        </Style>
-                    </Grid.Resources>
-                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -303,529 +235,123 @@
                         <RowDefinition Height="400"/>
                     </Grid.RowDefinitions>
 
-
-
                     <!--Момент/обороты-->
-                    <ContentControl Grid.Row="0" Grid.Column="0">
-                        <Border
-                            BorderThickness="0,0,1,1"
+                    <Border BorderThickness="0,0,1,1"
                             BorderBrush="{StaticResource GridColor}"
-                            >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                            Grid.Row="0" Grid.Column="0">
 
-                            <Label 
-                                Style="{StaticResource ChartHeader}"                                    
-                                Content="Момент/обороты" />
-                            <dxc:ChartControl Grid.Row="1" Style="{StaticResource ChartStyle}">
-                                
-                                <dxc:ChartControl.Diagram>
-                                    <dxc:XYDiagram2D Style="{StaticResource DiagramStyle}">
+                        <ctrl:RealtimeChartView
+                                ChartTitle="Момент/обороты"
+                                ChartData="{Binding ChartSeries}"
+                                ArgumentMember="Turns"
+                                ValueMember="Torque"
+                                XMin="{Binding TorqueTurnsChartConfig.XMinValue}"
+                                XMax="{Binding TorqueTurnsChartConfig.XMaxValue}"
+                                YMin="{Binding TorqueTurnsChartConfig.YMinValue}"
+                                YMax="{Binding TorqueTurnsChartConfig.YMaxValue}"
+                                XGridSpacing="{Binding TorqueTurnsChartConfig.XGridSpacing}"
+                                YGridSpacing="{Binding TorqueTurnsChartConfig.YGridSpacing}"
+                                LineColor="Red"
+                                LineThickness="2">
+                            
+                            <ctrl:RealtimeChartView.YConstantLines>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Max, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            Label="Макс." Color="DarkRed"/>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Min, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            Label="Мин." Color="DarkRed"/>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Opt, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            Label="Опт." Color="DarkRed"/>
+                            </ctrl:RealtimeChartView.YConstantLines>
 
-                                        <dxc:XYDiagram2D.DefaultPane>
-                                            <dxc:Pane Style="{StaticResource PaneStyle}"/>
-                                        </dxc:XYDiagram2D.DefaultPane>
+                        </ctrl:RealtimeChartView>
+                    </Border>
 
-                                        <dxc:XYDiagram2D.NavigationOptions>
-                                            <dxc:NavigationOptions/>
-                                        </dxc:XYDiagram2D.NavigationOptions>
-
-                                        <dxc:XYDiagram2D.AxisX>
-                                            <dxc:AxisX2D Style="{StaticResource AxisXStyle}">
-                                                
-                                                <dxc:AxisX2D.WholeRange>
-                                                    <dxc:Range 
-                                                        MinValue="{Binding TorqueTurnsChartConfig.XMinValue}" 
-                                                        MaxValue="{Binding TorqueTurnsChartConfig.XMaxValue}"/>
-                                                </dxc:AxisX2D.WholeRange>
-
-                                                <dxc:AxisX2D.GridSpacing>
-                                                    <Binding Path="TorqueTurnsChartConfig.XGridSpacing"/>
-                                                </dxc:AxisX2D.GridSpacing>
-
-                                                <dxc:AxisX2D.Label>
-                                                    <dxc:AxisLabel>
-                                                        <dxc:AxisLabel.Formatter>
-                                                            <view:DefaultDoubleLabelFormatter/>
-                                                        </dxc:AxisLabel.Formatter>
-                                                    </dxc:AxisLabel>
-                                                </dxc:AxisX2D.Label>
-                                                
-                                            </dxc:AxisX2D>
-
-                                        </dxc:XYDiagram2D.AxisX>
-
-                                        <dxc:XYDiagram2D.AxisY>
-                                            <dxc:AxisY2D Style="{StaticResource AxisYStyle}">
-
-                                                <dxc:AxisY2D.WholeRange>
-                                                    <dxc:Range 
-                                                        MinValue="{Binding TorqueTurnsChartConfig.YMinValue}" 
-                                                        MaxValue="{Binding TorqueTurnsChartConfig.YMaxValue}"/>
-                                                </dxc:AxisY2D.WholeRange>
-
-                                                <dxc:AxisY2D.GridSpacing>
-                                                    <Binding Path="TorqueTurnsChartConfig.YGridSpacing"/>
-                                                </dxc:AxisY2D.GridSpacing>
-
-                                                <dxc:AxisY2D.Label>
-                                                    <dxc:AxisLabel>
-                                                        <dxc:AxisLabel.Formatter>
-                                                            <view:DefaultDoubleLabelFormatter/>
-                                                        </dxc:AxisLabel.Formatter>
-                                                    </dxc:AxisLabel>
-                                                </dxc:AxisY2D.Label>
-
-                                                <!--КОНСТАНТНЫЕ ЛИНИИ-->
-                                                <dxc:AxisY2D.ConstantLinesBehind>
-
-                                                    <!--МАКС МОМЕНТ ЛИНИЯ-->
-                                                    <dxc:ConstantLine 
-                                                                Value="{Binding LoadedRecipe.MU_Tq_Max}" 
-                                                                Style="{StaticResource LimitLineStyle}">
-                                                        <dxc:ConstantLine.Title>
-
-                                                            <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Max}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                        </dxc:ConstantLine.Title>
-                                                    </dxc:ConstantLine>
-
-                                                    <!--МИН МОМЕНТ ЛИНИЯ-->
-                                                    <dxc:ConstantLine 
-                                                                Value="{Binding LoadedRecipe.MU_Tq_Min}" 
-                                                                Style="{StaticResource LimitLineStyle}">
-                                                        <dxc:ConstantLine.Title>
-                                                            <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Min}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                        </dxc:ConstantLine.Title>
-                                                    </dxc:ConstantLine>
-
-
-                                                    <!--ОПТ МОМЕНТ ЛИНИЯ-->
-                                                    <dxc:ConstantLine 
-                                                            Value="{Binding LoadedRecipe.MU_Tq_Opt}" 
-                                                            Style="{StaticResource OptimumLineStyle}">
-                                                        <dxc:ConstantLine.Title>
-                                                            <dxc:ConstantLineTitle>
-                                                                <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource OptimumLabelStyle}">Оптимальный</Label>
-                                                                    <TextBlock Style="{StaticResource OptimumTextBlockStyle}" Text="{Binding LoadedRecipe.MU_Tq_Opt}" VerticalAlignment="Center"/>
-                                                                </StackPanel>
-                                                            </dxc:ConstantLineTitle>
-                                                        </dxc:ConstantLine.Title>
-                                                    </dxc:ConstantLine>
-
-                                                    </dxc:AxisY2D.ConstantLinesBehind>
-
-                                                </dxc:AxisY2D>
-                                        </dxc:XYDiagram2D.AxisY>
-
-                                        <dxc:LineSeries2D                
-                                            DataSource="{Binding ChartSeries}"                                          
-                                            ArgumentDataMember="Turns"
-                                            ValueDataMember="Torque"     
-                                            ArgumentScaleType="Numerical"                       
-                                        />
-                                        </dxc:XYDiagram2D>
-                                </dxc:ChartControl.Diagram>
-                            </dxc:ChartControl>
-                        </Grid>
-                        </Border>
-                    </ContentControl>
-                    
                     <!--(Обороты/Мин)/обороты-->
-                    <ContentControl Grid.Row="1" Grid.Column="0">
-                        <Border
-                            BorderThickness="0,0,1,1"
+                    <Border BorderThickness="0,0,1,1"
                             BorderBrush="{StaticResource GridColor}"
-                            >
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
+                            Grid.Row="1" Grid.Column="0">
 
-                                <Label 
-                                    Style="{StaticResource ChartHeader}"                                    
-                                    Content="(Обороты/Мин)/обороты" 
-                                    />
+                        <ctrl:RealtimeChartView
+                                ChartTitle="(Обороты/Мин)/обороты"
+                                ChartData="{Binding ChartSeries}"
+                                ArgumentMember="Turns"
+                                ValueMember="TurnsPerMinute"
+                                XMin="{Binding TurnsPerMinuteTurnsChartConfig.XMinValue}"
+                                XMax="{Binding TurnsPerMinuteTurnsChartConfig.XMaxValue}"
+                                YMin="{Binding TurnsPerMinuteTurnsChartConfig.YMinValue}"
+                                YMax="{Binding TurnsPerMinuteTurnsChartConfig.YMaxValue}"
+                                XGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.XGridSpacing}"
+                                YGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.YGridSpacing}"
+                                LineColor="Red"
+                                LineThickness="2">
+                        </ctrl:RealtimeChartView>
+                    </Border>
 
-
-
-                                <dxc:ChartControl Grid.Row="1"
-                                                  Style="{StaticResource ChartStyle}">
-                                    <dxc:ChartControl.Diagram>
-                                        <dxc:XYDiagram2D Style="{StaticResource DiagramStyle}">
-                                            
-                                            <dxc:XYDiagram2D.DefaultPane>
-                                                <dxc:Pane Style="{StaticResource PaneStyle}"/>
-                                            </dxc:XYDiagram2D.DefaultPane>
-
-                                            <dxc:XYDiagram2D.NavigationOptions>
-                                                <dxc:NavigationOptions/>
-                                            </dxc:XYDiagram2D.NavigationOptions>
-
-                                            <dxc:XYDiagram2D.AxisX>
-                                                <dxc:AxisX2D Style="{StaticResource AxisXStyle}">
-                                                    <dxc:AxisX2D.WholeRange>
-                                                        <dxc:Range 
-                                                            MinValue="{Binding TurnsPerMinuteTurnsChartConfig.XMinValue}" 
-                                                            MaxValue="{Binding TurnsPerMinuteTurnsChartConfig.XMaxValue}"
-                                                        />  
-                                                    </dxc:AxisX2D.WholeRange>
-
-                                                    <dxc:AxisX2D.GridSpacing>
-                                                        <Binding Path="TurnsPerMinuteTurnsChartConfig.XGridSpacing"/>
-                                                    </dxc:AxisX2D.GridSpacing>
-
-                                                    <dxc:AxisX2D.Label>
-                                                        <dxc:AxisLabel>
-                                                            <dxc:AxisLabel.Formatter>
-                                                                <view:DefaultDoubleLabelFormatter/>
-                                                            </dxc:AxisLabel.Formatter>
-                                                        </dxc:AxisLabel>
-                                                    </dxc:AxisX2D.Label>
-
-                                                </dxc:AxisX2D>
-
-                                            </dxc:XYDiagram2D.AxisX>
-
-                                            <dxc:XYDiagram2D.AxisY>
-                                                <dxc:AxisY2D Style="{StaticResource AxisYStyle}">
-
-                                                    <dxc:AxisY2D.GridSpacing>
-                                                        <Binding Path="TurnsPerMinuteTurnsChartConfig.YGridSpacing"/>
-                                                    </dxc:AxisY2D.GridSpacing>
-
-                                                    <dxc:AxisY2D.WholeRange>
-                                                        <dxc:Range 
-                                                            MinValue="{Binding TurnsPerMinuteTurnsChartConfig.YMinValue}" 
-                                                            MaxValue="{Binding TurnsPerMinuteTurnsChartConfig.YMaxValue}"
-                                                        />         
-                                                    </dxc:AxisY2D.WholeRange>
-                                                </dxc:AxisY2D>
-                                            </dxc:XYDiagram2D.AxisY>
-
-                                            <dxc:LineSeries2D 
-                                                DataSource="{Binding ChartSeries}"                                          
-                                                ArgumentDataMember="Turns"
-                                                ValueDataMember="TurnsPerMinute"     
-                                                ArgumentScaleType="Numerical"                                  
-                                            />
-
-                                        </dxc:XYDiagram2D>
-                                    </dxc:ChartControl.Diagram>
-                                </dxc:ChartControl>
-                            </Grid>
-                        </Border>
-                    </ContentControl>
-                    
                     <!--Момент/длина-->
-                    <ContentControl Grid.Row="0" Grid.Column="1">
-
-                        <Border
-                            BorderThickness="0,0,1,1"
+                    <Border BorderThickness="0,0,1,1"
                             BorderBrush="{StaticResource GridColor}"
-                        >
-                            <Grid>
+                            Grid.Row="0" Grid.Column="1">
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
+                        <ctrl:RealtimeChartView
+                                ChartTitle="Момент/длина"
+                                ChartData="{Binding ChartSeries}"
+                                ArgumentMember="Length"
+                                ValueMember="Torque"
+                                XMin="{Binding TorqueLengthChartConfig.XMinValue}"
+                                XMax="{Binding TorqueLengthChartConfig.XMaxValue}"
+                                YMin="{Binding TorqueLengthChartConfig.YMinValue}"
+                                YMax="{Binding TorqueLengthChartConfig.YMaxValue}"
+                                XGridSpacing="{Binding TorqueLengthChartConfig.XGridSpacing}"
+                                YGridSpacing="{Binding TorqueLengthChartConfig.YGridSpacing}"
+                                LineColor="Red"
+                                LineThickness="2">
+                            
+                            <ctrl:RealtimeChartView.YConstantLines>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Max, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                            Label="Макс." Color="DarkRed"/>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Min, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Label="Мин." Color="DarkRed"/>
+                            </ctrl:RealtimeChartView.YConstantLines>
 
-                                <Label 
-                                   Style="{StaticResource ChartHeader}"                                    
-                                   Content="Момент/длина" 
-                                />
-                                <dxc:ChartControl Grid.Row="1"
-                                                  Style="{StaticResource ChartStyle}"
-                                                  >
+                            <ctrl:RealtimeChartView.XConstantLines>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Len_Max, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                        Label="Макс." Color="DarkRed"/>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Len_Min, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                        Label="Мин." Color="DarkRed"/>
+                            </ctrl:RealtimeChartView.XConstantLines>
 
-                                    <dxc:ChartControl.Diagram>
-                                        <dxc:XYDiagram2D 
-                                            Style="{StaticResource DiagramStyle}">
-
-                                            <dxc:XYDiagram2D.DefaultPane>
-                                                <dxc:Pane Style="{StaticResource PaneStyle}"/>
-                                            </dxc:XYDiagram2D.DefaultPane>
-
-                                            <dxc:XYDiagram2D.AxisX>
-                                                <dxc:AxisX2D Style="{StaticResource AxisXStyle}">
-                                                    <dxc:AxisX2D.WholeRange>
-                                                        <dxc:Range MinValue="{Binding TorqueLengthChartConfig.XMinValue}" 
-                                                                MaxValue="{Binding TorqueLengthChartConfig.XMaxValue}"/>
-                                                    </dxc:AxisX2D.WholeRange>
-
-                                                    <dxc:AxisX2D.GridSpacing>
-                                                        <Binding Path="TorqueLengthChartConfig.XGridSpacing"/>
-                                                    </dxc:AxisX2D.GridSpacing>
-
-                                                    <dxc:AxisX2D.Label>
-                                                        <dxc:AxisLabel>
-                                                            <dxc:AxisLabel.Formatter>
-                                                                <view:DefaultDoubleLabelFormatter/>
-                                                            </dxc:AxisLabel.Formatter>
-                                                        </dxc:AxisLabel>
-                                                    </dxc:AxisX2D.Label>
+                        </ctrl:RealtimeChartView>
+                    </Border>
 
 
-                                                    <!--КОНСТАНТНЫЕ ЛИНИИ-->
-                                                    <dxc:AxisX2D.ConstantLinesBehind>
-
-                                                        <!--МАКС ДЛИНА ЛИНИЯ-->
-                                                        <dxc:ConstantLine 
-                                                            Value="{Binding LoadedRecipe.MU_Len_Max}" 
-                                                            Style="{StaticResource LimitLineStyle}">
-                                                            <dxc:ConstantLine.Title>
-                                                                <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Len_Max}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                            </dxc:ConstantLine.Title>
-                                                        </dxc:ConstantLine>
-
-                                                        <!--МИН ДЛИНА ЛИНИЯ-->
-                                                        <dxc:ConstantLine
-                                                            Value="{Binding LoadedRecipe.MU_Len_Min}" 
-                                                            Style="{StaticResource LimitLineStyle}">
-                                                            <dxc:ConstantLine.Title>
-                                                                <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Len_Min}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                            </dxc:ConstantLine.Title>
-                                                        </dxc:ConstantLine>
-
-                                                    </dxc:AxisX2D.ConstantLinesBehind>
-                                                </dxc:AxisX2D>
-                                            </dxc:XYDiagram2D.AxisX>
-
-                                            <dxc:XYDiagram2D.AxisY>
-                                                <dxc:AxisY2D Style="{StaticResource AxisYStyle}">
-
-                                                    <dxc:AxisY2D.WholeRange>
-                                                        <dxc:Range MinValue="{Binding TorqueLengthChartConfig.YMinValue}" 
-                                                                    MaxValue="{Binding TorqueLengthChartConfig.YMaxValue}"/>
-                                                    </dxc:AxisY2D.WholeRange>
-
-                                                    <dxc:AxisY2D.GridSpacing>
-                                                        <Binding Path="TorqueLengthChartConfig.YGridSpacing"/>
-                                                    </dxc:AxisY2D.GridSpacing>
-
-                                                    <dxc:AxisY2D.Label>
-                                                        <dxc:AxisLabel>
-                                                            <dxc:AxisLabel.Formatter>
-                                                                <view:DefaultDoubleLabelFormatter/>
-                                                            </dxc:AxisLabel.Formatter>
-                                                        </dxc:AxisLabel>
-                                                    </dxc:AxisY2D.Label>
-
-
-                                                    <!--КОНСТАНТНЫЕ ЛИНИИ-->
-                                                    <dxc:AxisY2D.ConstantLinesBehind>
-
-                                                        <!--МАКС МОМЕНТ ЛИНИЯ-->
-                                                        <dxc:ConstantLine 
-                                                            Value="{Binding LoadedRecipe.MU_Tq_Max}" 
-                                                            Style="{StaticResource LimitLineStyle}">
-                                                            <dxc:ConstantLine.Title>
-
-                                                                <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Max}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                            </dxc:ConstantLine.Title>
-                                                        </dxc:ConstantLine>
-
-                                                        <!--МИН МОМЕНТ ЛИНИЯ-->
-                                                        <dxc:ConstantLine 
-                                                            Value="{Binding LoadedRecipe.MU_Tq_Min}" 
-                                                            Style="{StaticResource LimitLineStyle}">
-                                                            <dxc:ConstantLine.Title>
-                                                                <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Min}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                            </dxc:ConstantLine.Title>
-                                                        </dxc:ConstantLine>
-
-                                                    </dxc:AxisY2D.ConstantLinesBehind>
-
-
-                                                </dxc:AxisY2D>
-                                            </dxc:XYDiagram2D.AxisY>
-
-                                            <dxc:LineSeries2D   
-                                               DataSource="{Binding ChartSeries}"                                          
-                                                ArgumentDataMember="Length"
-                                                ValueDataMember="Torque"     
-                                                ArgumentScaleType="Numerical"      
-                                            />
-                                        </dxc:XYDiagram2D>
-                                    </dxc:ChartControl.Diagram>
-                                </dxc:ChartControl>
-                            </Grid>
-                        </Border>
-                    </ContentControl>
-                                                                  
                     <!--Момент/время-->
-                    <ContentControl Grid.Row="1" Grid.Column="1">
-                        <Border
-                            BorderThickness="0,0,1,1"
+
+                    <Border BorderThickness="0,0,1,1"
                             BorderBrush="{StaticResource GridColor}"
-                            >
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
+                            Grid.Row="1" Grid.Column="1">
 
-                                <Label 
-                                    Style="{StaticResource ChartHeader}"                                    
-                                    Content="Момент/время" 
-                                />
+                        <ctrl:RealtimeChartView
+                                ChartTitle="Момент/Время"
+                                ChartData="{Binding ChartSeries}"
+                                ArgumentMember="TimeStamp"
+                                ValueMember="Torque"
+                                XMin="{Binding TorqueTimeChartConfig.XMinValue}"
+                                XMax="{Binding TorqueTimeChartConfig.XMaxValue}"
+                                YMin="{Binding TorqueTimeChartConfig.YMinValue}"
+                                YMax="{Binding TorqueTimeChartConfig.YMaxValue}"
+                                XGridSpacing="{Binding TorqueTimeChartConfig.XGridSpacing}"
+                                YGridSpacing="{Binding TorqueTimeChartConfig.YGridSpacing}"
+                                LineColor="Red"
+                                LineThickness="2">
+                        </ctrl:RealtimeChartView>
+                    </Border> 
 
-                                <!-- ГРАФИК -->
-                                <dxc:ChartControl Style="{StaticResource ChartStyle}" 
-                                                  Grid.Row="1">
-
-                                    <dxc:ChartControl.Diagram>
-                                        <dxc:XYDiagram2D Style="{StaticResource DiagramStyle}">
-
-                                            <dxc:XYDiagram2D.DefaultPane>
-                                                <dxc:Pane Style="{StaticResource PaneStyle}"/>
-                                            </dxc:XYDiagram2D.DefaultPane>
-
-                                            <dxc:XYDiagram2D.NavigationOptions>
-                                                <dxc:NavigationOptions/>
-                                            </dxc:XYDiagram2D.NavigationOptions>
-
-                                            <!-- ОСЬ Х -->
-                                            <dxc:XYDiagram2D.AxisX>
-                                                <dxc:AxisX2D Style="{StaticResource AxisXStyle}">
-                                                    <dxc:AxisX2D.WholeRange>
-                                                        <dxc:Range MinValue="{Binding TorqueTimeChartConfig.XMinValue}" 
-                                                                   MaxValue="{Binding TorqueTimeChartConfig.XMaxValue}"
-                                                        />
-                                                    </dxc:AxisX2D.WholeRange>
-
-                                                    <dxc:AxisX2D.GridSpacing>
-                                                        <Binding Path="TorqueTimeChartConfig.XGridSpacing"/>
-                                                    </dxc:AxisX2D.GridSpacing>
-
-                                                    <dxc:AxisX2D.Label>
-                                                        <dxc:AxisLabel>
-                                                            <dxc:AxisLabel.Formatter>
-                                                                <view:TimeStampLabelFormatter/>
-                                                            </dxc:AxisLabel.Formatter>
-                                                        </dxc:AxisLabel>
-                                                    </dxc:AxisX2D.Label>
-
-                                                </dxc:AxisX2D>
-                                            </dxc:XYDiagram2D.AxisX>
-
-                                            
-                                            <!-- ОСЬ У -->
-                                            <dxc:XYDiagram2D.AxisY>
-                                                <dxc:AxisY2D Style="{StaticResource AxisYStyle}">
-
-                                                    <dxc:AxisY2D.WholeRange>
-                                                        <dxc:Range MinValue="{Binding TorqueTimeChartConfig.YMinValue}" 
-                                                                    MaxValue="{Binding TorqueTimeChartConfig.YMaxValue}"/>
-                                                    </dxc:AxisY2D.WholeRange>
-
-                                                    <dxc:AxisY2D.GridSpacing>
-                                                        <Binding Path="TorqueTimeChartConfig.YGridSpacing"/>
-                                                    </dxc:AxisY2D.GridSpacing>
-
-                                                    <dxc:AxisY2D.Label>
-                                                        <dxc:AxisLabel>
-                                                            <dxc:AxisLabel.Formatter>
-                                                                <view:DefaultDoubleLabelFormatter/>
-                                                            </dxc:AxisLabel.Formatter>
-                                                        </dxc:AxisLabel>
-                                                    </dxc:AxisY2D.Label>
-
-                                                    <!--КОНСТАНТНЫЕ ЛИНИИ-->
-                                                    <dxc:AxisY2D.ConstantLinesBehind>
-
-                                                        <!--МАКС МОМЕНТ ЛИНИЯ-->
-                                                        <dxc:ConstantLine Value="{Binding LoadedRecipe.MU_Tq_Max}" 
-                                                        Style="{StaticResource LimitLineStyle}">
-                                                            <dxc:ConstantLine.Title>
-                                                                <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Макс</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Max}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                            </dxc:ConstantLine.Title>
-                                                        </dxc:ConstantLine>
-
-                                                        <!--МИН МОМЕНТ ЛИНИЯ-->
-                                                        <dxc:ConstantLine Value="{Binding LoadedRecipe.MU_Tq_Min}" 
-                                                            Style="{StaticResource LimitLineStyle}">
-                                                            <dxc:ConstantLine.Title>
-                                                                <dxc:ConstantLineTitle>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Label Style="{StaticResource LimitLineLabelStyle}">Мин</Label>
-                                                                        <TextBlock Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding LoadedRecipe.MU_Tq_Min}" VerticalAlignment="Center"/>
-                                                                    </StackPanel>
-                                                                </dxc:ConstantLineTitle>
-                                                            </dxc:ConstantLine.Title>
-                                                        </dxc:ConstantLine>
-
-                                                    </dxc:AxisY2D.ConstantLinesBehind>
-
-                                                </dxc:AxisY2D>
-                                            </dxc:XYDiagram2D.AxisY>
-
-                                            <dxc:LineSeries2D                 
-                                                DataSource="{Binding ChartSeries}"                                          
-                                                 ArgumentDataMember="TimeStamp"
-                                                 ValueDataMember="Torque"     
-                                                 ArgumentScaleType="Numerical"                   
-                                             />
-
-                                            <dxc:LineSeries2D 
-                                                DataSource="{Binding ChartSeriesSmoothed}"                                          
-                                                ArgumentDataMember="TimeStamp"
-                                                ValueDataMember="Torque"     
-                                                ArgumentScaleType="Numerical"                                                
-                                             />
-                                        </dxc:XYDiagram2D>
-                                    </dxc:ChartControl.Diagram>
-                                </dxc:ChartControl>
-                            </Grid>
-                        </Border>
-                    </ContentControl>
-                                        
                 </Grid>
             </ScrollViewer>
 
-            
+
             <!-- Оценка соединения -->
-            
+
             <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="#cecece">
                 <Border.Style>
                     <!--Видимость при запросе результата-->
@@ -876,6 +402,6 @@
                 </Grid>
             </Border>
         </Grid>
-        
+
     </Grid>
 </UserControl>

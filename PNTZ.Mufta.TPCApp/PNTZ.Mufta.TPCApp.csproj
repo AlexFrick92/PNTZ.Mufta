@@ -205,8 +205,12 @@
     <Compile Include="View\Control\ChartSeriesView.xaml.cs">
       <DependentUpon>ChartSeriesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Control\ConstantLineModel.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Control\RealtimeChartView.xaml.cs">
+      <DependentUpon>RealtimeChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Control\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
@@ -291,6 +295,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Control\NaviButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Control\RealtimeChartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
