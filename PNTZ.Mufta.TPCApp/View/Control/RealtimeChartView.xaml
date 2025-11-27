@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"                    
              xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
+             xmlns:core="http://schemas.devexpress.com/winfx/2008/xaml/core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -93,7 +94,8 @@
             Content="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ChartTitle}" />
 
         <dxc:ChartControl Grid.Row="1" Style="{StaticResource ChartStyle}"
-                          CrosshairEnabled="True"                           
+                          CrosshairEnabled="True"    
+                          core:ThemeManager.ThemeName="MetropolisLight"
                           >
             <dxc:ChartControl.CrosshairOptions>
                 <dxc:CrosshairOptions ShowCrosshairLabels="False"
@@ -106,11 +108,36 @@
 
             <dxc:ChartControl.Diagram>
                 <dxc:XYDiagram2D Style="{StaticResource DiagramStyle}"
-                                 EnableAxisXNavigation="False" 
-                                 EnableAxisYNavigation="False">
-
+                                EnableAxisXNavigation="True"
+                                EnableAxisYNavigation="True">
+                    <dxc:XYDiagram2D.NavigationOptions>
+                        <dxc:NavigationOptions 
+                            UseKeyboard="False"
+                            UseScrollBars="True"
+                            UseMouse="True"
+                            UseTouchDevice="False"                                                        
+                            />
+                    </dxc:XYDiagram2D.NavigationOptions>
+                    
                     <dxc:XYDiagram2D.DefaultPane>
-                        <dxc:Pane Style="{StaticResource PaneStyle}"/>
+                        <dxc:Pane Style="{StaticResource PaneStyle}">
+                            <dxc:Pane.AxisXScrollBarOptions>
+                                <dxc:ScrollBarOptions Visible="True"
+                                                      BarThickness="10"
+                                                      
+                                                      AnnotatedElements="None"
+                                                      Alignment="Far"
+                                                      />
+                            </dxc:Pane.AxisXScrollBarOptions>
+                            <dxc:Pane.AxisYScrollBarOptions>
+                                <dxc:ScrollBarOptions Alignment="Far" 
+                                      BarThickness="10"
+                                      AnnotatedElements="None"                                                        
+                                      Visible="True">
+                          
+                                </dxc:ScrollBarOptions>
+                            </dxc:Pane.AxisYScrollBarOptions>
+                        </dxc:Pane>
                     </dxc:XYDiagram2D.DefaultPane>
 
                     <dxc:XYDiagram2D.AxisX>
