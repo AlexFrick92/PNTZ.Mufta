@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/View/Styles/AppStyles.xaml"/>
+                <ResourceDictionary Source="../Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Label" x:Key="ChartHeader">
