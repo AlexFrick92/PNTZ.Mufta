@@ -92,7 +92,17 @@
             Style="{StaticResource ChartHeader}"                                    
             Content="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ChartTitle}" />
 
-        <dxc:ChartControl Grid.Row="1" Style="{StaticResource ChartStyle}">
+        <dxc:ChartControl Grid.Row="1" Style="{StaticResource ChartStyle}"
+                          CrosshairEnabled="True"                           
+                          >
+            <dxc:ChartControl.CrosshairOptions>
+                <dxc:CrosshairOptions ShowCrosshairLabels="False"
+                              ShowValueLabels="True" 
+                              ShowValueLine="True" 
+                              ShowArgumentLabels="True" 
+                              HighlightPoints="False"                              
+                              ShowArgumentLine="True"/>
+            </dxc:ChartControl.CrosshairOptions>
 
             <dxc:ChartControl.Diagram>
                 <dxc:XYDiagram2D Style="{StaticResource DiagramStyle}"
@@ -122,6 +132,10 @@
                             <!--<dxc:AxisX2D.GridSpacing>
                                 <Binding RelativeSource="{RelativeSource AncestorType=UserControl}" Path="XGridSpacing"/>
                             </dxc:AxisX2D.GridSpacing>-->
+
+                            <dxc:AxisX2D.CrosshairAxisLabelOptions>
+                                <dxc:CrosshairAxisLabelOptions Pattern="{}{V:.#}" />
+                            </dxc:AxisX2D.CrosshairAxisLabelOptions>
 
                             <dxc:AxisX2D.Label>
                                 <dxc:AxisLabel>
@@ -179,6 +193,11 @@
                                 <Binding RelativeSource="{RelativeSource AncestorType=UserControl}" Path="YGridSpacing"/>
                             </dxc:AxisY2D.GridSpacing>-->
 
+                            <dxc:AxisY2D.CrosshairAxisLabelOptions>
+                                <dxc:CrosshairAxisLabelOptions Pattern="{}{V:.#}" />
+                            </dxc:AxisY2D.CrosshairAxisLabelOptions>
+
+
                             <dxc:AxisY2D.Label>
                                 <dxc:AxisLabel>
                                     <dxc:AxisLabel.Formatter>
@@ -217,8 +236,11 @@
                             ArgumentDataMember="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ArgumentMember}"
                             ValueDataMember="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ValueMember}"     
                             ArgumentScaleType="Numerical"
+                            CrosshairEnabled="True"                                                        
                             Transparency="1">
 
+                        
+                        
                         <dxc:AreaSeries2D.Border>
                             <dxc:SeriesBorder Brush="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=LineColor}">
                                 <dxc:SeriesBorder.LineStyle>

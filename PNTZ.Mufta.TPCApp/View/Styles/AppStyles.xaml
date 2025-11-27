@@ -11,5 +11,7 @@
 
     <SolidColorBrush x:Key="LightColor" Color="#F3F3F3"/>
 
+    <SolidColorBrush x:Key="MainColor" Color="#FFE173"/>
+
 
 </ResourceDictionary>
