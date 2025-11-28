@@ -21,7 +21,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public ICommand GetResultCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
 
-
+        private object _resetZoomTrigger;
+        public object ResetZoomTrigger
+        {
+            get => _resetZoomTrigger;
+            set
+            {
+                _resetZoomTrigger = value;
+                OnPropertyChanged(nameof(ResetZoomTrigger));
+            }
+        }
 
         public ResultsViewModel(LocalRepository repo, ILogger logger)
         {
@@ -191,6 +200,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             };
             TorqueLengthChartConfig = torqueLengthChartConfig;
             OnPropertyChanged(nameof(TorqueLengthChartConfig));
+
+            ResetZoomTrigger = new object();
         }
     }
 }

@@ -23,6 +23,7 @@ using static PNTZ.Mufta.TPCApp.App;
 using System.Windows.Threading;
 using System.Windows.Documents;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
@@ -85,6 +86,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         LocalRepository repo;
 
+
         //Класс получения параметров из OpcUa
         IJointProcessWorker jointProcessWorker;
         IJointProcessWorker JointProcessWorker
@@ -103,6 +105,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 jointProcessWorker.RecordingBegun += StartChartRecording;
                 jointProcessWorker.RecordingFinished += StopChartRecording;
                 jointProcessWorker.RecordingFinished += ShowResultAfterRecording;
+                
 
                 jointProcessWorker.AwaitForEvaluation += (s, v) =>
                 {
@@ -111,28 +114,47 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 };
 
                 JointProcessWorker.NewTqTnLenPoint+= (s, e) => _actualPointStream.OnNext(e);
+                JointProcessWorker.NewTqTnLenPoint += (s, e) => LastTqTnPoint = e;
 
-                _actualPointStream
-                    //.Buffer(UpdateInterval)
-                    //.Where(buf => buf.Count > 0)
-                    //.Select(TqTnLenPoint.SmoothAverage)
-                    .Sample(UpdateInterval)
-                    .Subscribe(val =>
-                    {
-                        ActualPoint = new TqTnLenPointViewModel(val);
-                        OnPropertyChanged(nameof(ActualPoint));
-                    });
+                SubscribeActualPoint();
 
-
-                JointProcessWorker.JointFinished += (s, v) => SetResult(v);                
+                JointProcessWorker.JointFinished += (s, v) => SetResult(v);
+                JointProcessWorker.JointFinished += (s, v) => AdjustChartConfigByResult(v);
 
                 cliProgram.RegisterCommand("startjoint", (arg) => jointProcessWorker.CyclicallyListen = true);
                 cliProgram.RegisterCommand("stopjoint", (arg) => jointProcessWorker.CyclicallyListen = false);
                 JointProcessWorker.CyclicallyListen = true;
             }
         }
+        DispatcherTimer updateTimer = new DispatcherTimer();
 
-
+        private TqTnLenPoint LastTqTnPoint;
+        private void SubscribeActualPoint()
+        {
+            updateTimer.Tick += dispatcherTimer_Tick;
+            updateTimer.Interval = UpdateInterval;
+            updateTimer.Start();
+            
+            //_actualPointStream
+            //        //.Buffer(UpdateInterval)
+            //        //.Where(buf => buf.Count > 0)
+            //        //.Select(TqTnLenPoint.SmoothAverage)
+            //        .Sample(UpdateInterval)
+            //        .Subscribe(UpdateActualPoint);           
+        }
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if(LastTqTnPoint != null)
+            {
+                ActualPoint = new TqTnLenPointViewModel(LastTqTnPoint);
+                OnPropertyChanged(nameof(ActualPoint));
+            }
+        }
+        private void UpdateActualPoint(TqTnLenPoint val)
+        {
+            ActualPoint = new TqTnLenPointViewModel(val);
+            OnPropertyChanged(nameof(ActualPoint));
+        }        
 
         public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromMilliseconds(100);
 
@@ -223,13 +245,26 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             TorqueTurnsChartConfig.YMinValue = 0;
             TorqueTurnsChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
-            TorqueTurnsChartConfig.XMaxValue = recipe.MU_Len_Max / recipe.Thread_step;
-            
+
+            switch(recipe.JointMode)
+            {
+                case JointMode.TorqueLength:
+                case JointMode.Length:
+                    TorqueTurnsChartConfig.XMaxValue = recipe.MU_Len_Max / recipe.Thread_step;
+                    break;
+
+                case JointMode.Torque:
+                case JointMode.TorqueShoulder:
+                    TorqueTurnsChartConfig.XMaxValue = 3;
+                    break;
+            }
+
+
             TorqueTimeChartConfig.YMinValue = 0;
             TorqueTimeChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
             
-            TurnsPerMinuteTurnsChartConfig.XMaxValue = recipe.MU_Len_Max / recipe.Thread_step;
-            
+            TurnsPerMinuteTurnsChartConfig.XMaxValue = TorqueTurnsChartConfig.XMaxValue;
+
         }
 
         private void ChartConfigByPreJointDataData(object sender, JointResult result)
@@ -298,8 +333,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {                
                 TurnsPerMinuteTurnsChartConfig.YMinValue = point.TurnsPerMinute;
             }
-        }
 
+            //Время
+            if(point.TimeStamp > TorqueTimeChartConfig.XMaxValue)
+            {
+                TorqueTimeChartConfig.XMaxValue = point.TimeStamp * 1.2;
+            }
+        }
+        
+        private void AdjustChartConfigByResult(JointResult res)
+        {
+            JointResultViewModel result = new JointResultViewModel(res);
+
+            TorqueTurnsChartConfig.XMaxValue = result.FinalTurns * 1.05;
+            TurnsPerMinuteTurnsChartConfig.XMaxValue = result.FinalTurns * 1.05;
+
+            TorqueLengthChartConfig.XMaxValue = result.FinalLength * 1.05;
+
+            TorqueTimeChartConfig.XMaxValue = result.Series.Last().TimeStamp * 1.05;
+
+            Console.WriteLine("Точек в результате: {0}", res.Series.Count);
+            Console.WriteLine("Точек на графике: {0}", ChartSeries.Count);
+        }
 
         // ************** ЗАПИСЬ ГРАФИКОВ ***********************
 
@@ -346,6 +401,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             finally
             {
                 _graphSubscription?.Dispose();
+                updateTimer.Tick -= dispatcherTimer_Tick_Chart;
                 recordingProcedureStarted = false;
             }
         }
@@ -353,11 +409,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         private IDisposable _graphSubscription;
         private async Task RecordSeriesCycle(CancellationToken token)
         {
+            //LastTqTnPoint = null;
+            //updateTimer.Tick += dispatcherTimer_Tick_Chart;
 
             _graphSubscription = _actualPointStream
-                //.Buffer(UpdateInterval)
-                //.Where(buf => buf.Count > 0)
-                //.Select(TqTnLenPoint.SmoothAverage)
+                .Buffer(UpdateInterval)
+                .Where(buf => buf.Count > 0)
+                .Select(TqTnLenPoint.SmoothAverage)
                 .Sample(RecordingInterval)
                 .ObserveOn(System.Windows.Application.Current.Dispatcher)
                 .Subscribe(val =>
@@ -365,13 +423,24 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     var pointVm = new TqTnLenPointViewModel(val);
                     ChartSeries.Add(pointVm);
 
-                    ChartConfigByNewPoint(pointVm);                    
+                    ChartConfigByNewPoint(pointVm);
                 });
 
             await Task.Delay(Timeout.Infinite, token);
 
 
         }
+        private void dispatcherTimer_Tick_Chart(object sender, EventArgs e)
+        {
+            if(LastTqTnPoint !=null)
+            {
+                var pointVm = new TqTnLenPointViewModel(LastTqTnPoint);
+                ChartSeries.Add(pointVm);
+
+                ChartConfigByNewPoint(pointVm);
+            }
+        }
+
         private void StopChartRecording(object sender, JointResult e)
         {
             _timer.Stop();

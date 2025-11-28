@@ -284,7 +284,8 @@
                                 XGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.XGridSpacing}"
                                 YGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.YGridSpacing}"
                                 LineColor="Black"
-                                LineThickness="2">
+                                LineThickness="2"
+                                ResetZoomTrigger="{Binding ResetZoomTrigger}">
                         </ctrl:RealtimeChartView>
                     </Border>
 
@@ -305,7 +306,8 @@
                                 XGridSpacing="{Binding TorqueLengthChartConfig.XGridSpacing}"
                                 YGridSpacing="{Binding TorqueLengthChartConfig.YGridSpacing}"
                                 LineColor="Black"
-                                LineThickness="2">
+                                LineThickness="2"
+                                ResetZoomTrigger="{Binding ResetZoomTrigger}">
                             
                             <ctrl:RealtimeChartView.YConstantLines>
                                 <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Max, RelativeSource={RelativeSource AncestorType=UserControl}}" 
@@ -343,7 +345,8 @@
                                 XGridSpacing="{Binding TorqueTimeChartConfig.XGridSpacing}"
                                 YGridSpacing="{Binding TorqueTimeChartConfig.YGridSpacing}"
                                 LineColor="Black"
-                                LineThickness="2">
+                                LineThickness="2"
+                                ResetZoomTrigger="{Binding ResetZoomTrigger}">
                         </ctrl:RealtimeChartView>
                     </Border> 
 

@@ -124,7 +124,7 @@
 
                         <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Margin="0, 0, 5, 0" Content="Поиск 🔎" Command="{Binding GetResultCommand}"/>
                     </Grid>
-                    
+
                 </Grid>
             </Border>
 
@@ -404,51 +404,114 @@
                     </Grid.Resources>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="600"/>
+                        <RowDefinition Height="600"/>
+                        <RowDefinition Height="600"/>
+                        <RowDefinition Height="600"/>
                     </Grid.RowDefinitions>
 
                     <!--Момент/обороты-->
                     <ContentControl Grid.Row="0">
-                        <control:ChartSeriesView 
-                            Header="Момент/Обороты"
-                            Argument="Turns"
-                            Value="Torque"
-                            ChartConfig="{Binding TorqueTurnsChartConfig}"
-                            Series="{Binding SelectedResult.Series}" />
+                        <control:RealtimeChartView
+                                ChartTitle="Момент/обороты"
+                                ChartData="{Binding SelectedResult.Series}"
+                                ArgumentMember="Turns"
+                                ValueMember="Torque"
+                                XMin="{Binding TorqueTurnsChartConfig.XMinValue}"
+                                XMax="{Binding TorqueTurnsChartConfig.XMaxValue}"
+                                YMin="{Binding TorqueTurnsChartConfig.YMinValue}"
+                                YMax="{Binding TorqueTurnsChartConfig.YMaxValue}"
+                                XGridSpacing="{Binding TorqueTurnsChartConfig.XGridSpacing}"
+                                YGridSpacing="{Binding TorqueTurnsChartConfig.YGridSpacing}"
+                                LineColor="Black"
+                                LineThickness="2"
+                                ResetZoomTrigger="{Binding ResetZoomTrigger}">
+
+                            <control:RealtimeChartView.YConstantLines>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Tq_Max, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            Label="Макс." Color="DarkRed"/>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Tq_Min, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            Label="Мин." Color="DarkRed"/>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Tq_Opt, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            Label="Опт." Color="DarkRed"/>
+                            </control:RealtimeChartView.YConstantLines>
+
+                        </control:RealtimeChartView>
                     </ContentControl>
+
 
                     <!--Обороты/Обороты в минуту -->
                     <ContentControl Grid.Row="1">
-                        <control:ChartSeriesView 
-                            Header="Обороты/Обороты в минуту"
-                            Argument="Turns"
-                            Value="TurnsPerMinute"
-                            ChartConfig="{Binding TurnsPerMinuteTurnsChartConfig}"
-                            Series="{Binding SelectedResult.Series}" />
+                        <control:RealtimeChartView
+                                ChartTitle="(Обороты/Мин)/обороты"
+                                ChartData="{Binding SelectedResult.Series}"
+                                ArgumentMember="Turns"
+                                ValueMember="TurnsPerMinute"
+                                XMin="{Binding TurnsPerMinuteTurnsChartConfig.XMinValue}"
+                                XMax="{Binding TurnsPerMinuteTurnsChartConfig.XMaxValue}"
+                                YMin="{Binding TurnsPerMinuteTurnsChartConfig.YMinValue}"
+                                YMax="{Binding TurnsPerMinuteTurnsChartConfig.YMaxValue}"
+                                XGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.XGridSpacing}"
+                                YGridSpacing="{Binding TurnsPerMinuteTurnsChartConfig.YGridSpacing}"
+                                LineColor="Black"
+                                LineThickness="2"
+                                ResetZoomTrigger="{Binding ResetZoomTrigger}">
+                        </control:RealtimeChartView>
                     </ContentControl>
 
                     <!--Момент/Длина-->
                     <ContentControl Grid.Row="2">
-                        <control:ChartSeriesView 
-                            Header="Момент/Длина"
-                            Argument="Length"
-                            Value="Torque"
-                            ChartConfig="{Binding TorqueLengthChartConfig}"
-                            Series="{Binding SelectedResult.Series}" />
+                        <control:RealtimeChartView
+                            ChartTitle="Момент/длина"
+                            ChartData="{Binding SelectedResult.Series}"
+                            ArgumentMember="Length"
+                            ValueMember="Torque"
+                            XMin="{Binding TorqueLengthChartConfig.XMinValue}"
+                            XMax="{Binding TorqueLengthChartConfig.XMaxValue}"
+                            YMin="{Binding TorqueLengthChartConfig.YMinValue}"
+                            YMax="{Binding TorqueLengthChartConfig.YMaxValue}"
+                            XGridSpacing="{Binding TorqueLengthChartConfig.XGridSpacing}"
+                            YGridSpacing="{Binding TorqueLengthChartConfig.YGridSpacing}"
+                            LineColor="Black"
+                            LineThickness="2"
+                            ResetZoomTrigger="{Binding ResetZoomTrigger}">          
+
+                            <control:RealtimeChartView.YConstantLines>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Tq_Max, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                    Label="Макс." Color="DarkRed"/>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Tq_Min, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Label="Мин." Color="DarkRed"/>
+                            </control:RealtimeChartView.YConstantLines>
+
+                            <control:RealtimeChartView.XConstantLines>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Len_Max, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                    Label="Макс." Color="DarkRed"/>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Len_Min, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                    Label="Мин." Color="DarkRed"/>
+                            </control:RealtimeChartView.XConstantLines>
+
+                        </control:RealtimeChartView>
+
                     </ContentControl>
 
 
                     <!--Момент/Время-->
                     <ContentControl Grid.Row="3">
-                        <control:ChartSeriesView 
-                            Header="Момент/Время"
-                            Argument="TimeStamp"
-                            Value="Torque"
-                            ChartConfig="{Binding TorqueTimeChartConfig}"
-                            Series="{Binding SelectedResult.Series}" />
+                        <control:RealtimeChartView
+                             ChartTitle="Момент/Время"
+                             ChartData="{Binding SelectedResult.Series}"
+                             ArgumentMember="TimeStamp"
+                             ValueMember="Torque"
+                             XMin="{Binding TorqueTimeChartConfig.XMinValue}"
+                             XMax="{Binding TorqueTimeChartConfig.XMaxValue}"
+                             YMin="{Binding TorqueTimeChartConfig.YMinValue}"
+                             YMax="{Binding TorqueTimeChartConfig.YMaxValue}"
+                             XGridSpacing="{Binding TorqueTimeChartConfig.XGridSpacing}"
+                             YGridSpacing="{Binding TorqueTimeChartConfig.YGridSpacing}"
+                             LineColor="Black"
+                             LineThickness="2"
+                             ResetZoomTrigger="{Binding ResetZoomTrigger}">
+                        </control:RealtimeChartView>
                     </ContentControl>
 
 
