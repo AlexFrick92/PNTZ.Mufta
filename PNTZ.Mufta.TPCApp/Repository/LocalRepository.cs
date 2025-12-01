@@ -22,6 +22,14 @@ namespace PNTZ.Mufta.TPCApp.Repository
         public LocalRepository(ILogger logger)
         {
             this._logger = logger;
+
+            // Создаём папку Repository, если её нет
+            if (!System.IO.Directory.Exists(StoragePath))
+            {
+                System.IO.Directory.CreateDirectory(StoragePath);
+                _logger.Info($"Создана папка {StoragePath}");
+            }
+
             recipesConnectionString = $"Data Source={StoragePath}/RecipesData.db;Mode=ReadWriteCreate";
             resultsConnectionString = $"Data Source={StoragePath}/ResultsData.db;Mode=ReadWriteCreate";
 

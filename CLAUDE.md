@@ -10,6 +10,24 @@ PNTZ.Mufta.TPCApp is a WPF desktop application for monitoring and controlling pi
 
 **Note**: The project was written for .NET 6, but there are issues with DevExpress controls on .NET 8, and .NET 7 is no longer supported by Microsoft (as noted in readme.md).
 
+## Working Mode with Console Commands
+
+When working with git and other console commands:
+- **DO NOT** execute commands automatically using the Bash tool
+- **DO** provide command text for manual execution by the user
+- **DO** explain what each command does
+- **Format**: Provide commands in code blocks with explanations
+
+**Exception**: Commands may be executed automatically only if the user explicitly requests it (e.g., "execute this command", "run it for me").
+
+**Example interaction:**
+```
+User: How do I check git status?
+Assistant: Use this command:
+  git status
+This will show you the current state of your working directory and staging area.
+```
+
 ## Building and Testing
 
 ### Build Commands
