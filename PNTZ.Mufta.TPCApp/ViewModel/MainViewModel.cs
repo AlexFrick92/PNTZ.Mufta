@@ -132,7 +132,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             cli.RegisterCommand("rr_pullresults", (args) => repositoryContext.PullResults(string.Join(" ", args)));
             cli.RegisterCommand("rr_clearresults", (args) => repositoryContext.ClearLocalResults());
             cli.RegisterCommand("rr_fetchresults", (args) => repositoryContext.FetchRemoteResultsNames());
-            cli.RegisterCommand("shoulder", (args) => (jointView.DataContext as JointProcessViewModel).ResearchShoulder());
+            cli.RegisterCommand("shoulder", (args) =>
+                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    (jointView.DataContext as JointProcessViewModel).ResearchShoulder() ))
+            );
 
             if (connectOnStartup)
             {

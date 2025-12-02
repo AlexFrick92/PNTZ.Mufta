@@ -17,7 +17,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         /// <summary>
         /// Размер окна для скользящего усреднения производной (количество точек)
         /// </summary>
-        public int WindowSize { get; set; } = 200;
+        public int WindowSize { get; set; } = 300;
 
         /// <summary>
         /// Шаг для вычисления производной (каждая N-ая точка)
@@ -194,7 +194,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         }
 
         /// <summary>
-        /// Находит индекс окна, где производная превышает порог (3-сигма или 2-сигма)
+        /// Находит индекс окна с максимальной производной (точка заплечника)
         /// </summary>
         /// <param name="avgDerivatives">Массив производных</param>
         /// <param name="baselineAvg">Базовое среднее</param>
@@ -202,16 +202,17 @@ namespace PNTZ.Mufta.TPCApp.Domain
         /// <returns>Индекс окна или null</returns>
         private int? FindShoulderWindowIndex(List<double> avgDerivatives, double baselineAvg, double baselineStd)
         {
-            int endIdx = (int)(avgDerivatives.Count * 0.7);
+            int startIdx = (int)(avgDerivatives.Count * 0.7);
 
             // Пробуем правило 3-сигма
             double threshold = baselineAvg + 3 * baselineStd;
             Console.WriteLine($"Trying 3-sigma threshold: {threshold:F2} Nm/ms");
-            int? shoulderIdx = FindFirstExceedingThreshold(avgDerivatives, threshold, endIdx);
+            int? shoulderIdx = FindMaximumDerivativeAboveThreshold(avgDerivatives, threshold, startIdx);
 
             if (shoulderIdx != null)
             {
                 Console.WriteLine($"Shoulder found with 3-sigma at window index {shoulderIdx}");
+                Console.WriteLine($"Maximum derivative: {avgDerivatives[shoulderIdx.Value]:F2} Nm/ms");
                 return shoulderIdx;
             }
 
@@ -220,30 +221,35 @@ namespace PNTZ.Mufta.TPCApp.Domain
             Console.WriteLine("Trying 2-sigma threshold...");
             threshold = baselineAvg + 2 * baselineStd;
             Console.WriteLine($"2-sigma threshold: {threshold:F2} Nm/ms");
-            shoulderIdx = FindFirstExceedingThreshold(avgDerivatives, threshold, endIdx);
+            shoulderIdx = FindMaximumDerivativeAboveThreshold(avgDerivatives, threshold, startIdx);
 
             if (shoulderIdx != null)
             {
                 Console.WriteLine($"Shoulder found with 2-sigma at window index {shoulderIdx}");
+                Console.WriteLine($"Maximum derivative: {avgDerivatives[shoulderIdx.Value]:F2} Nm/ms");
             }
 
             return shoulderIdx;
         }
 
         /// <summary>
-        /// Находит первый индекс, где производная превышает порог
+        /// Находит индекс с максимальной производной среди точек, превышающих порог
         /// </summary>
-        private int? FindFirstExceedingThreshold(List<double> avgDerivatives, double threshold, int startFrom)
+        private int? FindMaximumDerivativeAboveThreshold(List<double> avgDerivatives, double threshold, int startFrom)
         {
+            int? maxIdx = null;
+            double maxDerivative = threshold;
+
             for (int i = startFrom; i < avgDerivatives.Count; i++)
             {
-                if (avgDerivatives[i] > threshold)
+                if (avgDerivatives[i] > maxDerivative)
                 {
-                    return i;
+                    maxDerivative = avgDerivatives[i];
+                    maxIdx = i;
                 }
             }
 
-            return null;
+            return maxIdx;
         }
     }
 }
