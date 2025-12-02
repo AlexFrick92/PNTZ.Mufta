@@ -37,9 +37,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.TPCApp.Test", "P
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{37B05808-D214-484A-9EE4-13CA09D5DD44}"
 	ProjectSection(SolutionItems) = preProject
-		ClassStructureConvention.txt = ClassStructureConvention.txt
+		Doc\ClassStructureConvention.txt = Doc\ClassStructureConvention.txt
 		Doc\coding-style.md = Doc\coding-style.md
-		PartOfCurve.txt = PartOfCurve.txt
+		Doc\JointProcessDpWorker.md = Doc\JointProcessDpWorker.md
 		Doc\ShoulderDetection.md = Doc\ShoulderDetection.md
 	EndProjectSection
 EndProject
