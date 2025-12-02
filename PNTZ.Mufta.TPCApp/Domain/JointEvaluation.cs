@@ -50,9 +50,10 @@ namespace PNTZ.Mufta.TPCApp.Domain
                     return EvaluateTorque(result);
 
                 case JointMode.TorqueShoulder:                    
-                    return EstimateShoulderTorque(result) 
+                    var evaluation = EstimateShoulderTorque(result) 
                         & EvaluateTorque(result) 
                         & EvaluateShoulder(result);
+                    return false; //evaluation;
 
                 case JointMode.TorqueLength:
                     return EvaluateTorque(result) && EvaluateLength(result);
