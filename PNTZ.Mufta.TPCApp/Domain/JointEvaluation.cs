@@ -49,14 +49,10 @@ namespace PNTZ.Mufta.TPCApp.Domain
                 case JointMode.Torque:
                     return EvaluateTorque(result);
 
-                case JointMode.TorqueShoulder:
-                    result.FinalShoulderTorque = EstimateShoulderTorque(result);
-                    if(result.FinalShoulderTorque == 0)
-                    {
-                        _logger.Info("Оценка отклонена, так как точка заплечника не обнаружена.");
-                        return false;
-                    }
-                    return EvaluateTorque(result) && EvaluateShoulder(result);
+                case JointMode.TorqueShoulder:                    
+                    return EstimateShoulderTorque(result) 
+                        & EvaluateTorque(result) 
+                        & EvaluateShoulder(result);
 
                 case JointMode.TorqueLength:
                     return EvaluateTorque(result) && EvaluateLength(result);
@@ -118,20 +114,23 @@ namespace PNTZ.Mufta.TPCApp.Domain
             }
         }
 
-        private float EstimateShoulderTorque(JointResult result)
+        private bool EstimateShoulderTorque(JointResult result)
         {
             ShoulderPointDetector detector = new ShoulderPointDetector(result.Series);
             int? shoulderIndex = detector.DetectShoulderPoint();
             if (shoulderIndex != null)
             {
                 float shoulderTorque = result.Series[shoulderIndex.Value].Torque;
+                float shoulderTurns = result.Series[shoulderIndex.Value].Turns;
                 _logger.Info($"Точка заплечника обнаружена на индексе {shoulderIndex.Value} с моментом {shoulderTorque} Нм.");
-                return shoulderTorque;
+                result.FinalShoulderTorque = shoulderTorque;
+                result.FinalShoulderTurns = shoulderTurns;
+                return true;
             }
             else
             {
                 _logger.Info("Точка заплечника не обнаружена");
-                return 0;
+                return false;
             }
         }
     }

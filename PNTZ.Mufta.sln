@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{37B05808-D21
 	ProjectSection(SolutionItems) = preProject
 		ClassStructureConvention.txt = ClassStructureConvention.txt
 		Doc\coding-style.md = Doc\coding-style.md
+		PartOfCurve.txt = PartOfCurve.txt
 		Doc\ShoulderDetection.md = Doc\ShoulderDetection.md
 	EndProjectSection
 EndProject

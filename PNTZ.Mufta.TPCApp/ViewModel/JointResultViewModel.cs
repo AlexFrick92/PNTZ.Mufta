@@ -54,6 +54,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public float FinalJVal => ResultModel.FinalJVal;
         public float FinalLength => ResultModel.FinalLength * 1000;
         public float FinalTurns => ResultModel.FinalTurns;
+
+        public float FinalShoulderTorque => ResultModel.FinalShoulderTorque;
+        public float FinalShoulderTurns => ResultModel.FinalShoulderTurns;
+
         public List<TqTnLenPointViewModel> Series { get => ResultModel.Series.Select(x => new TqTnLenPointViewModel(x)).ToList(); }
 
         public DateTime FinishTimeStamp => ResultModel.FinishTimeStamp;

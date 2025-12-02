@@ -506,6 +506,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             }
         }
 
+        public void ResearchShoulder()
+        {
+            JointEvaluation evaluation = new JointEvaluation(logger);
+            evaluation.Evaluate(LastJointResult.ResultModel);
+            OnPropertyChanged(nameof(LastJointResult));
+        }
+
     }
 }
 

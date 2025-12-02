@@ -188,8 +188,8 @@
 
                                             <dxc:ConstantLineTitle>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Label Style="{StaticResource LimitLineLabelStyle}" Foreground="{Binding Color}" Content="{Binding Label}"/>
-                                                    <TextBlock Foreground="{Binding Color}" Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value}" VerticalAlignment="Center"/>
+                                                    <Label Style="{StaticResource LimitLineLabelStyle}" Foreground="{Binding Color}" Content="{Binding Label}" Margin="0,0,4,0"/>
+                                                    <TextBlock Foreground="{Binding Color}" Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value, StringFormat={}{0:F2}}" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </dxc:ConstantLineTitle>
                                         </dxc:ConstantLine.Title>
@@ -250,8 +250,8 @@
 
                                             <dxc:ConstantLineTitle>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Label Foreground="{Binding Color}" Style="{StaticResource LimitLineLabelStyle}" Content="{Binding Label}"/>
-                                                    <TextBlock Foreground="{Binding Color}" Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value}" VerticalAlignment="Center"/>
+                                                    <Label Foreground="{Binding Color}" Style="{StaticResource LimitLineLabelStyle}" Content="{Binding Label}" Margin="0,0,2,0"/>
+                                                    <TextBlock Foreground="{Binding Color}" Style="{StaticResource LimitLineTextBoxStyle}" Text="{Binding Value, StringFormat={}{0:F0}}"  VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </dxc:ConstantLineTitle>
                                         </dxc:ConstantLine.Title>

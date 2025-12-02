@@ -262,7 +262,15 @@
                                                             Label="Мин." Color="DarkRed"/>
                                 <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Opt, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                                                             Label="Опт." Color="DarkRed"/>
+
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LastJointResult.FinalShoulderTorque, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            Label="Буртик" Color="Orange"/>
                             </ctrl:RealtimeChartView.YConstantLines>
+
+                            <ctrl:RealtimeChartView.XConstantLines>
+                                <ctrl:ConstantLineModel Value="{Binding DataContext.LastJointResult.FinalShoulderTurns, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            Label="Буртик" Color="Orange"/>
+                            </ctrl:RealtimeChartView.XConstantLines>
 
                         </ctrl:RealtimeChartView>
                     </Border>
