@@ -163,6 +163,7 @@
     <Compile Include="Domain\ComparableValueValidator.cs" />
     <Compile Include="Domain\JointResult.cs" />
     <Compile Include="Domain\MachineParam.cs" />
+    <Compile Include="Domain\ShoulderPointDetector.cs" />
     <Compile Include="Domain\ThreadType.cs" />
     <Compile Include="Domain\TqTnLenPoint.cs" />
     <Compile Include="DpConnect\HeartbeatCheck.cs" />

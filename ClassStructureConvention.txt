@@ -1,0 +1,29 @@
+1. Константы (const)
+2. Статические поля (static fields)
+3. Поля экземпляра (instance fields)
+4. Конструкторы (constructors)
+5. Деструктор (finalizer/destructor)
+6. Свойства (properties)
+7. Индексаторы (indexers)
+8. События (events)
+9. Делегаты (delegates)
+10. Методы (methods):
+
+Публичные (public)
+Защищённые (protected)
+Приватные (private)
+
+
+Вложенные типы (nested types)
+
+Внутри каждой категории порядок по модификаторам доступа:
+
+public
+internal
+protected internal
+protected
+private protected
+private
+
+
+https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/coding-style.md

@@ -49,6 +49,9 @@ namespace PNTZ.Mufta.TPCApp.Domain
                 case JointMode.Torque:
                     return EvaluateTorque(result);
 
+                case JointMode.TorqueShoulder:
+                    EstimateShoulderTorque(result);
+                    return EvaluateTorque(result) && EvaluateShoulder(result);
 
                 case JointMode.TorqueLength:
                     return EvaluateTorque(result) && EvaluateLength(result);
@@ -92,6 +95,31 @@ namespace PNTZ.Mufta.TPCApp.Domain
                 _logger.Info($"Длина {(result.FinalLength * 1000)} м в пределах допустимого диапазона.");
                 return true;
             }
+        }
+        
+        private bool EvaluateShoulder(JointResult result)
+        {
+            _logger.Info("Оценка плеча...");
+            _logger.Info($"Плечо: {result.FinalShoulderTorque} Нм, допустимый диапазон: {result.Recipe.MU_TqShoulder_Max} - {result.Recipe.MU_TqShoulder_Min} Нм");
+            if (result.FinalShoulderTorque < result.Recipe.MU_TqShoulder_Max || result.FinalShoulderTorque > result.Recipe.MU_TqShoulder_Min)
+            {
+                _logger.Info($"Отклонено! Плечо {result.FinalShoulderTorque} Нм вне допустимого диапазона.");
+                return false;
+            }
+            else
+            {
+                _logger.Info($"Плечо {result.FinalShoulderTorque} Нм в пределах допустимого диапазона.");
+                return true;
+            }
+        }
+
+        private float EstimateShoulderTorque(JointResult result)
+        {
+            // Пример простой оценки плеча на основе финального момента и некоторого коэффициента
+            float shoulderCoefficient = 0.1f; // Этот коэффициент может быть определен в рецепте или другом месте
+            float estimatedShoulderTorque = result.FinalTorque * shoulderCoefficient;
+            _logger.Info($"Поиск плеча: {estimatedShoulderTorque} Нм на основе финального момента {result.FinalTorque} Нм и коэффициента {shoulderCoefficient}");
+            return estimatedShoulderTorque;
         }
     }
 }
