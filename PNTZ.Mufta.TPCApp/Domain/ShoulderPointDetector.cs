@@ -17,7 +17,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         /// <summary>
         /// Размер окна для скользящего усреднения производной (количество точек)
         /// </summary>
-        public int WindowSize { get; set; } = 300;
+        public int WindowSize { get; set; } = 180;
 
         /// <summary>
         /// Шаг для вычисления производной (каждая N-ая точка)
