@@ -141,7 +141,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             OnPropertyChanged(nameof(JointStatus));
         }
 
-        private void ResultDpWorker_AwaitForEvaluation(object sender, EventArgs e)
+        private void ResultDpWorker_AwaitForEvaluation(object sender, JointResult e)
         {
             JointStatus = "Ожидание оценки оператора";
             OnPropertyChanged(nameof(JointStatus));

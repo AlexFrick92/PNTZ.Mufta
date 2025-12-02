@@ -13,7 +13,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         event EventHandler<JointResult> PipeAppear;
         event EventHandler<EventArgs> RecordingBegun;
         event EventHandler<JointResult> RecordingFinished;
-        event EventHandler AwaitForEvaluation;
+        event EventHandler<JointResult> AwaitForEvaluation;
         event EventHandler<TqTnLenPoint> NewTqTnLenPoint;
         event EventHandler<JointResult> JointFinished;
 

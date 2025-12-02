@@ -65,7 +65,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         public event EventHandler<EventArgs> RecordingBegun;
         public event EventHandler<JointResult> RecordingFinished;
         //Ожидание оценки оператором
-        public event EventHandler AwaitForEvaluation;       
+        public event EventHandler<JointResult> AwaitForEvaluation;       
         //Свинчивание завершено
         public event EventHandler<JointResult> JointFinished;     
         //Новая точках данных
@@ -469,7 +469,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 {
                     TaskCompletionSource<uint> awaitEvaluation = new TaskCompletionSource<uint>();
                     Evaluated += (s, v) => awaitEvaluation.TrySetResult(v);
-                    AwaitForEvaluation?.Invoke(null, EventArgs.Empty);
+                    AwaitForEvaluation?.Invoke(this, jointResult);
 
                     var firstTask = await Task.WhenAny(awaitEvaluation.Task, tcs.Task);
                     jointResult.ResultTotal = awaitEvaluation.Task.Result;

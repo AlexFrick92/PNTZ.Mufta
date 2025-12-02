@@ -109,6 +109,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
                 jointProcessWorker.AwaitForEvaluation += (s, v) =>
                 {
+                    LastJointResult = new JointResultViewModel(v);
+                    OnPropertyChanged(nameof(LastJointResult));
                     ShowResultButtons = true;
                     OnPropertyChanged(nameof(ShowResultButtons));
                 };

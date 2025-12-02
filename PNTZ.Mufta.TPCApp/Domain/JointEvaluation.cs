@@ -102,7 +102,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         private bool EvaluateShoulder(JointResult result)
         {
             _logger.Info("Оценка плеча...");
-            _logger.Info($"Плечо: {result.FinalShoulderTorque} Нм, допустимый диапазон: {result.Recipe.MU_TqShoulder_Max} - {result.Recipe.MU_TqShoulder_Min} Нм");
+            _logger.Info($"Плечо: {result.FinalShoulderTorque} Нм, допустимый диапазон: {result.Recipe.MU_TqShoulder_Min} - {result.Recipe.MU_TqShoulder_Max} Нм");
             if (result.FinalShoulderTorque < result.Recipe.MU_TqShoulder_Max || result.FinalShoulderTorque > result.Recipe.MU_TqShoulder_Min)
             {
                 _logger.Info($"Отклонено! Плечо {result.FinalShoulderTorque} Нм вне допустимого диапазона.");
