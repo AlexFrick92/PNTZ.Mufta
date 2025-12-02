@@ -50,7 +50,12 @@ namespace PNTZ.Mufta.TPCApp.Domain
                     return EvaluateTorque(result);
 
                 case JointMode.TorqueShoulder:
-                    EstimateShoulderTorque(result);
+                    result.FinalShoulderTorque = EstimateShoulderTorque(result);
+                    if(result.FinalShoulderTorque == 0)
+                    {
+                        _logger.Info("Оценка отклонена, так как точка заплечника не обнаружена.");
+                        return false;
+                    }
                     return EvaluateTorque(result) && EvaluateShoulder(result);
 
                 case JointMode.TorqueLength:
@@ -115,11 +120,19 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
         private float EstimateShoulderTorque(JointResult result)
         {
-            // Пример простой оценки плеча на основе финального момента и некоторого коэффициента
-            float shoulderCoefficient = 0.1f; // Этот коэффициент может быть определен в рецепте или другом месте
-            float estimatedShoulderTorque = result.FinalTorque * shoulderCoefficient;
-            _logger.Info($"Поиск плеча: {estimatedShoulderTorque} Нм на основе финального момента {result.FinalTorque} Нм и коэффициента {shoulderCoefficient}");
-            return estimatedShoulderTorque;
+            ShoulderPointDetector detector = new ShoulderPointDetector(result.Series);
+            int? shoulderIndex = detector.DetectShoulderPoint();
+            if (shoulderIndex != null)
+            {
+                float shoulderTorque = result.Series[shoulderIndex.Value].Torque;
+                _logger.Info($"Точка заплечника обнаружена на индексе {shoulderIndex.Value} с моментом {shoulderTorque} Нм.");
+                return shoulderTorque;
+            }
+            else
+            {
+                _logger.Info("Точка заплечника не обнаружена");
+                return 0;
+            }
         }
     }
 }
