@@ -15,29 +15,39 @@ namespace PNTZ.Mufta.TPCApp.Domain
         private List<TqTnLenPoint> _series;
 
         /// <summary>
-        /// Размер окна для скользящего усреднения производной (количество точек)
+        /// Размер окна для сглаживания (борьба с шумом)
         /// </summary>
-        public int WindowSize { get; set; } = 180;
+        public int WindowSize { get; set; } = 20;
 
         /// <summary>
-        /// Шаг для вычисления производной (каждая N-ая точка)
+        /// Множитель сигма для определения порога (чувствительность детектора)
+        /// Меньше = раньше срабатывает, больше = позже срабатывает
         /// </summary>
-        public int Step { get; set; } = 5;
+        public double SigmaMultiplier { get; set; } = 7;
+
+        /// <summary>
+        /// С какого места начинать искать заплечник (доля от общей длины)
+        /// </summary>
+        public double SearchStartRatio { get; set; } = 0.7;
+
+        /// <summary>
+        /// Шаг для вычисления производной
+        /// </summary>
+        public int Step { get; set; } = 1;
 
         public ShoulderPointDetector(List<TqTnLenPoint> series)
         {
             _series = series ?? throw new ArgumentNullException(nameof(series));
         }
 
-        /// <summary>
-        /// Определяет индекс точки контакта с заплечником.
-        /// Использует анализ скользящего среднего производной момента по времени.
-        /// </summary>
-        /// <returns>Индекс точки контакта или null, если точка не найдена</returns>
         public int? DetectShoulderPoint()
         {
             Console.WriteLine("=== Universal Shoulder Detection ===");
             Console.WriteLine($"Total points: {_series.Count}");
+            Console.WriteLine($"Parameters:");
+            Console.WriteLine($"  WindowSize (smoothing): {WindowSize}");
+            Console.WriteLine($"  SigmaMultiplier (sensitivity): {SigmaMultiplier}");
+            Console.WriteLine($"  SearchStartRatio: {SearchStartRatio}");
             Console.WriteLine();
 
             if (_series == null || _series.Count < WindowSize * 2)
@@ -55,7 +65,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
             Console.WriteLine("Analyzing up to maximum, excluding unloading phase");
             Console.WriteLine();
 
-            // Фаза 2: Вычислить скользящее среднее производной dTorque/dTime
+            // Фаза 2: Вычислить скользящее среднее производной
             Console.WriteLine($"Calculating moving average derivatives (window={WindowSize} points)...");
             var (avgDerivatives, windowCenters) = CalculateMovingAverageDerivatives(analyzeEnd);
 
@@ -80,7 +90,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
             Console.WriteLine($"  Torque range: {_series[windowCenters[startIdx]].Torque:F0}-{_series[windowCenters[endIdx]].Torque:F0} Nm");
             Console.WriteLine();
 
-            // Фаза 4: Найти точку заплечника (превышение порога 3-сигма или 2-сигма)
+            // Фаза 4: Найти точку заплечника с настраиваемым порогом
             int? shoulderWindowIdx = FindShoulderWindowIndex(avgDerivatives, baselineAvg, baselineStd);
 
             if (shoulderWindowIdx == null)
@@ -107,9 +117,60 @@ namespace PNTZ.Mufta.TPCApp.Domain
             return shoulderIndex;
         }
 
+        private int? FindShoulderWindowIndex(List<double> avgDerivatives, double baselineAvg, double baselineStd)
+        {
+            int startIdx = (int)(avgDerivatives.Count * SearchStartRatio);
+
+            // Используем настраиваемый множитель сигма
+            double threshold = baselineAvg + SigmaMultiplier * baselineStd;
+
+            Console.WriteLine($"Using {SigmaMultiplier}-sigma threshold: {threshold:F2} Nm/ms");
+            Console.WriteLine($"Starting search from index {startIdx} ({SearchStartRatio * 100:F0}%)");
+
+            // ВАЖНО: Ищем ПЕРВУЮ точку, превышающую порог, а не максимум!
+            int? shoulderIdx = FindFirstDerivativeAboveThreshold(avgDerivatives, threshold, startIdx);
+
+            if (shoulderIdx != null)
+            {
+                Console.WriteLine($"Shoulder found at window index {shoulderIdx}");
+                Console.WriteLine($"Derivative at point: {avgDerivatives[shoulderIdx.Value]:F2} Nm/ms");
+
+                // Покажем контекст вокруг найденной точки
+                Console.WriteLine("Context (5 points before and after):");
+                int contextStart = Math.Max(0, shoulderIdx.Value - 5);
+                int contextEnd = Math.Min(avgDerivatives.Count, shoulderIdx.Value + 6);
+
+                for (int i = contextStart; i < contextEnd; i++)
+                {
+                    string marker = i == shoulderIdx.Value ? " <-- SHOULDER" : "";
+                    Console.WriteLine($"  Window {i}: derivative = {avgDerivatives[i]:F2} Nm/ms{marker}");
+                }
+
+                return shoulderIdx;
+            }
+
+            Console.WriteLine($"Shoulder not found with {SigmaMultiplier}-sigma threshold");
+            return null;
+        }
+
         /// <summary>
-        /// Находит индекс точки с максимальным моментом
+        /// Находит ПЕРВУЮ точку, где производная превышает порог
+        /// (а не максимум, как было раньше!)
         /// </summary>
+        private int? FindFirstDerivativeAboveThreshold(List<double> avgDerivatives, double threshold, int startFrom)
+        {
+            for (int i = startFrom; i < avgDerivatives.Count; i++)
+            {
+                if (avgDerivatives[i] > threshold)
+                {
+                    return i;
+                }
+            }
+
+            return null;
+        }
+
+        // Остальные методы остаются без изменений
         private int FindMaxTorqueIndex()
         {
             float maxTorque = float.MinValue;
@@ -127,11 +188,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
             return maxIndex;
         }
 
-        /// <summary>
-        /// Вычисляет скользящее среднее производной момента по времени
-        /// </summary>
-        /// <param name="analyzeEnd">Конечный индекс для анализа</param>
-        /// <returns>Кортеж: массив производных и соответствующих им центров окон</returns>
         private (List<double> derivatives, List<int> centers) CalculateMovingAverageDerivatives(int analyzeEnd)
         {
             var avgDerivatives = new List<double>();
@@ -146,7 +202,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
                 for (int j = i - halfWindow; j < i + halfWindow - 1; j++)
                 {
-                    // Производная dTorque/dTime
                     double dt = _series[j + 1].TimeStamp - _series[j].TimeStamp;
 
                     if (dt > 0)
@@ -167,14 +222,8 @@ namespace PNTZ.Mufta.TPCApp.Domain
             return (avgDerivatives, windowCenters);
         }
 
-        /// <summary>
-        /// Вычисляет базовую линию производной для фазы свободного навертывания
-        /// </summary>
-        /// <param name="avgDerivatives">Массив производных</param>
-        /// <returns>Кортеж: среднее значение и стандартное отклонение</returns>
         private (double average, double stdDev) CalculateBaseline(List<double> avgDerivatives)
         {
-            // Берем средние 50% данных (от 20% до 70%)
             int startIdx = (int)(avgDerivatives.Count * 0.2);
             int endIdx = (int)(avgDerivatives.Count * 0.7);
 
@@ -182,7 +231,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
             double baselineAvg = freeThreadingDerivatives.Average();
 
-            // Вычисляем стандартное отклонение
             double variance = 0;
             foreach (var d in freeThreadingDerivatives)
             {
@@ -191,65 +239,6 @@ namespace PNTZ.Mufta.TPCApp.Domain
             double baselineStd = Math.Sqrt(variance / freeThreadingDerivatives.Count);
 
             return (baselineAvg, baselineStd);
-        }
-
-        /// <summary>
-        /// Находит индекс окна с максимальной производной (точка заплечника)
-        /// </summary>
-        /// <param name="avgDerivatives">Массив производных</param>
-        /// <param name="baselineAvg">Базовое среднее</param>
-        /// <param name="baselineStd">Базовое стандартное отклонение</param>
-        /// <returns>Индекс окна или null</returns>
-        private int? FindShoulderWindowIndex(List<double> avgDerivatives, double baselineAvg, double baselineStd)
-        {
-            int startIdx = (int)(avgDerivatives.Count * 0.7);
-
-            // Пробуем правило 3-сигма
-            double threshold = baselineAvg + 3 * baselineStd;
-            Console.WriteLine($"Trying 3-sigma threshold: {threshold:F2} Nm/ms");
-            int? shoulderIdx = FindMaximumDerivativeAboveThreshold(avgDerivatives, threshold, startIdx);
-
-            if (shoulderIdx != null)
-            {
-                Console.WriteLine($"Shoulder found with 3-sigma at window index {shoulderIdx}");
-                Console.WriteLine($"Maximum derivative: {avgDerivatives[shoulderIdx.Value]:F2} Nm/ms");
-                return shoulderIdx;
-            }
-
-            // Если не найдено, пробуем 2-сигма
-            Console.WriteLine("Shoulder not found with 3-sigma threshold");
-            Console.WriteLine("Trying 2-sigma threshold...");
-            threshold = baselineAvg + 2 * baselineStd;
-            Console.WriteLine($"2-sigma threshold: {threshold:F2} Nm/ms");
-            shoulderIdx = FindMaximumDerivativeAboveThreshold(avgDerivatives, threshold, startIdx);
-
-            if (shoulderIdx != null)
-            {
-                Console.WriteLine($"Shoulder found with 2-sigma at window index {shoulderIdx}");
-                Console.WriteLine($"Maximum derivative: {avgDerivatives[shoulderIdx.Value]:F2} Nm/ms");
-            }
-
-            return shoulderIdx;
-        }
-
-        /// <summary>
-        /// Находит индекс с максимальной производной среди точек, превышающих порог
-        /// </summary>
-        private int? FindMaximumDerivativeAboveThreshold(List<double> avgDerivatives, double threshold, int startFrom)
-        {
-            int? maxIdx = null;
-            double maxDerivative = threshold;
-
-            for (int i = startFrom; i < avgDerivatives.Count; i++)
-            {
-                if (avgDerivatives[i] > maxDerivative)
-                {
-                    maxDerivative = avgDerivatives[i];
-                    maxIdx = i;
-                }
-            }
-
-            return maxIdx;
         }
     }
 }
