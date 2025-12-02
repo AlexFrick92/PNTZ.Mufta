@@ -349,10 +349,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             TorqueTurnsChartConfig.XMaxValue = result.FinalTurns * 1.05;
             TurnsPerMinuteTurnsChartConfig.XMaxValue = result.FinalTurns * 1.05;
+            TurnsPerMinuteTurnsChartConfig.YMaxValue = ChartSeries.Max(s => s.TurnsPerMinute) * 1.3;            
 
             TorqueLengthChartConfig.XMaxValue = result.FinalLength * 1.05;
 
             TorqueTimeChartConfig.XMaxValue = result.Series.Last().TimeStamp * 1.05;
+
+
+
 
             Console.WriteLine("Точек в результате: {0}", res.Series.Count);
             Console.WriteLine("Точек на графике: {0}", ChartSeries.Count);

@@ -294,7 +294,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             while (true)
             {
                 awaitCommandFeedback = new TaskCompletionSource<uint>();
-                DpPlcCommand.ValueUpdated += (s, v) => awaitCommandFeedback.TrySetResult(v);
+                EventHandler<uint> handler = null;
+                handler = (s, v) => {
+                    awaitCommandFeedback.TrySetResult(v);
+                    DpPlcCommand.ValueUpdated -= handler; // Отписываемся сразу
+                };
+                DpPlcCommand.ValueUpdated += handler;                
 
                 first = await Task.WhenAny(awaitCommandFeedback.Task, tcs.Task);
 
@@ -331,10 +336,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 }
                 else
                     throw new InvalidOperationException("Неверный ответ от ПЛК. Ожидалось 10");
-
             }
-
-
 
             //Отправляем 20 и ждем 30 или 28 - Либо успешно, либо ошибка преднавёртки
             DpTpcCommand.Value = 20;
@@ -362,9 +364,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     throw new InvalidProgramException();
                 else
                     throw new InvalidOperationException($"Неверный ответ от ПЛК: Ожидалось 30(Навинчивание) или 25(Развинчивание) или 28(Ошибка преднавёртки)");
-
             }
-
 
             /*
                 - Если пришёл ответ 28 - ошибка преднавёртки.
@@ -376,9 +376,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             {
                 logger.Info("Joint. Ошибка преднавёртки. Завершаем процедуру свинчивания без записи параметров.");
                 jointResult.ResultTotal = 2;
-                jointResult.Series = new List<TqTnLenPoint>();
-
-                
+                jointResult.Series = new List<TqTnLenPoint>();                
             }
             else
             {
@@ -451,7 +449,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
                         RecordingFinished?.Invoke(this, jointResult);
                     }
-
                 }
                 else
                 {
@@ -475,7 +472,6 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                     jointResult.ResultTotal = awaitEvaluation.Task.Result;
                     logger.Info("Оценка установлена оператором: " + awaitEvaluation.Task.Result);
                 }
-
             }
 
             //Устанавливаем 50 - отправили оценку
