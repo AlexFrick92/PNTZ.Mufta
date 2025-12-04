@@ -433,8 +433,17 @@
                                 <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Tq_Min, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                             Label="Мин." Color="DarkRed"/>
                                 <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.Recipe.MU_Tq_Opt, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                                            Label="Опт." Color="DarkRed"/>
+                                                            Label="Опт." Color="LimeGreen"/>
+
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.FinalShoulderTorque, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            Label="Буртик" Color="Orange"/>
                             </control:RealtimeChartView.YConstantLines>
+
+                            <control:RealtimeChartView.XConstantLines>
+                                <control:ConstantLineModel Value="{Binding DataContext.SelectedResult.FinalShoulderTurns, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                 Label="Буртик" Color="Orange"/>
+                            </control:RealtimeChartView.XConstantLines>
+
 
                         </control:RealtimeChartView>
                     </ContentControl>

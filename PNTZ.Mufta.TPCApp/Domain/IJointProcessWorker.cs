@@ -14,7 +14,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         event EventHandler<EventArgs> RecordingBegun;
         event EventHandler<JointResult> RecordingFinished;
         event EventHandler<JointResult> AwaitForEvaluation;
-        event EventHandler<TqTnLenPoint> NewTqTnLenPoint;
+        event EventHandler<TqTnLenPoint> NewTqTnLenPoint;        
         event EventHandler<JointResult> JointFinished;
 
         bool CyclicallyListen { get; set; }

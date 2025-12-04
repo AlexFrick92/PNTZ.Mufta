@@ -158,9 +158,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             var torqueTurnsChartConfig = new ChartViewConfig()
             {
                 XMinValue = series.First().Turns,
-                XMaxValue = series.Last().Turns,
-                YMinValue = series.Min(x => x.Torque),
-                YMaxValue = series.Max(x => x.Torque),
+                XMaxValue = series.Last().Turns * 1.2,
+                YMinValue = 0,
+                YMaxValue = Math.Max(series.Max(x => x.Torque), result.Recipe.MU_Tq_Max) * 1.2,
 
             };
             TorqueTurnsChartConfig = torqueTurnsChartConfig;
@@ -172,7 +172,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 XMinValue = series.First().Turns,
                 XMaxValue = series.Last().Turns,
-                YMinValue = series.Min(x => x.TurnsPerMinute),
+                YMinValue = 0,
                 YMaxValue = series.Max(x => x.TurnsPerMinute),
             };
             TurnsPerMinuteTurnsChartConfig = turnsPerMinuteTurnsChartConfig;
@@ -183,9 +183,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             var torqueTimeChartConfig = new ChartViewConfig()
             {
                 XMinValue = series.First().TimeStamp,
-                XMaxValue = series.Last().TimeStamp,
-                YMinValue = series.Min(x => x.Torque),
-                YMaxValue = series.Max(x => x.Torque),
+                XMaxValue = series.Last().TimeStamp * 1.2,
+                YMinValue = 0,
+                YMaxValue = Math.Max(series.Max(x => x.Torque), result.Recipe.MU_Tq_Max) * 1.2,
             };
             TorqueTimeChartConfig = torqueTimeChartConfig;
             OnPropertyChanged(nameof(TorqueTimeChartConfig));
@@ -194,9 +194,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             var torqueLengthChartConfig = new ChartViewConfig()
             {
                 XMinValue = series.First().Length,
-                XMaxValue = series.Last().Length,
-                YMinValue = series.Min(x => x.Torque),
-                YMaxValue = series.Max(x => x.Torque),
+                XMaxValue = (series.Last().Length - series.First().Length ) * 0.2 + series.Last().Length,
+                YMinValue = 0,
+                YMaxValue = Math.Max(series.Max(x => x.Torque), result.Recipe.MU_Tq_Max) * 1.2
             };
             TorqueLengthChartConfig = torqueLengthChartConfig;
             OnPropertyChanged(nameof(TorqueLengthChartConfig));

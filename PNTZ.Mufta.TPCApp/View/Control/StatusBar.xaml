@@ -147,7 +147,7 @@
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
                             <DataTrigger Binding="{Binding PlcHeartbeat}" Value="True">
-                                <Setter Property="Fill" Value="Green"/>
+                                <Setter Property="Fill" Value="LimeGreen"/>
 
                             </DataTrigger>
                         </Style.Triggers>
@@ -170,7 +170,7 @@
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
                             <DataTrigger Binding="{Binding SensorAedOk}" Value="True">
-                                <Setter Property="Fill" Value="Green"/>
+                                <Setter Property="Fill" Value="LimeGreen"/>
 
                             </DataTrigger>
                         </Style.Triggers>
@@ -192,7 +192,7 @@
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
                             <DataTrigger Binding="{Binding SensorRotateOk}" Value="True">
-                                <Setter Property="Fill" Value="Green"/>
+                                <Setter Property="Fill" Value="LimeGreen"/>
 
                             </DataTrigger>
                         </Style.Triggers>
@@ -214,7 +214,7 @@
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
                             <DataTrigger Binding="{Binding SensorLengthOk}" Value="True">
-                                <Setter Property="Fill" Value="Green"/>
+                                <Setter Property="Fill" Value="LimeGreen"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

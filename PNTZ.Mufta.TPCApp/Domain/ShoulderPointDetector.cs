@@ -17,13 +17,13 @@ namespace PNTZ.Mufta.TPCApp.Domain
         /// <summary>
         /// Размер окна для сглаживания (борьба с шумом)
         /// </summary>
-        public int WindowSize { get; set; } = 20;
+        public int WindowSize { get; set; } = 30;
 
         /// <summary>
         /// Множитель сигма для определения порога (чувствительность детектора)
         /// Меньше = раньше срабатывает, больше = позже срабатывает
         /// </summary>
-        public double SigmaMultiplier { get; set; } = 7;
+        public double SigmaMultiplier { get; set; } = 10;
 
         /// <summary>
         /// С какого места начинать искать заплечник (доля от общей длины)

@@ -54,7 +54,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
             DpParam.ValueUpdated += SetLastPoint;
         }        
 
-        public TimeSpan CommandAwaitTimeout { get; set; } = TimeSpan.FromSeconds(60);
+        public TimeSpan CommandAwaitTimeout { get; set; } = TimeSpan.FromMinutes(60);
         public TimeSpan RecordingTimeout { get; set; } = TimeSpan.FromSeconds(60);
 
         //События соединения
@@ -236,7 +236,12 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                 finally
                 {
                     if (DpTpcCommand.IsConnected)
-                        DpTpcCommand.Value = 0;
+                    {
+                        DpTpcCommand.Value = 35;
+                        //35 - ответ об ошибке. ПЛК ответит 36. Затем сбрасываем в 0
+                        Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+                        DpTpcCommand.Value = 0;                                            
+                    }
                     try
                     {
                         if (jointResult != null)

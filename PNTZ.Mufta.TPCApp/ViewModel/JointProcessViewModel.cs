@@ -345,6 +345,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         
         private void AdjustChartConfigByResult(JointResult res)
         {
+            if (res.Series == null || res.Series.Count == 0 || ChartSeries == null || ChartSeries.Count == 0)
+                return; 
+
+
             JointResultViewModel result = new JointResultViewModel(res);
 
             TorqueTurnsChartConfig.XMaxValue = result.FinalTurns * 1.05;

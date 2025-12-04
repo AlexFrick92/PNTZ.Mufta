@@ -261,7 +261,7 @@
                                 <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Min, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                             Label="Мин." Color="DarkRed"/>
                                 <ctrl:ConstantLineModel Value="{Binding DataContext.LoadedRecipe.MU_Tq_Opt, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                                            Label="Опт." Color="DarkRed"/>
+                                                            Label="Опт." Color="LimeGreen"/>
 
                                 <ctrl:ConstantLineModel Value="{Binding DataContext.LastJointResult.FinalShoulderTorque, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                                                             Label="Буртик" Color="Orange"/>
