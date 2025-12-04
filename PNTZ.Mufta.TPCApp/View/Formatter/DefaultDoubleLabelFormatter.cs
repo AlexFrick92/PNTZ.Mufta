@@ -1,7 +1,7 @@
 ﻿using DevExpress.Xpf.Charts;
 using System;
 
-namespace PNTZ.Mufta.TPCApp.View
+namespace PNTZ.Mufta.TPCApp.View.Formatter
 {
     public class DefaultDoubleLabelFormatter : IAxisLabelFormatter
     {

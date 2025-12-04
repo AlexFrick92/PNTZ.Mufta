@@ -60,6 +60,20 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             set => SetValue(ColorProperty, value);
         }
 
+        // ValueFormat (например, "F2" для 2 знаков после запятой, "F0" для целых чисел)
+        public static readonly DependencyProperty ValueFormatProperty =
+            DependencyProperty.Register(
+                nameof(ValueFormat),
+                typeof(string),
+                typeof(ConstantLineModel),
+                new PropertyMetadata("F2"));
+
+        public string ValueFormat
+        {
+            get => (string)GetValue(ValueFormatProperty);
+            set => SetValue(ValueFormatProperty, value);
+        }
+
         public ConstantLineModel() { }
     }
 }

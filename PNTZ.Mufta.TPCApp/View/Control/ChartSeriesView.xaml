@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+             
+             
              xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
+             xmlns:fmtr="clr-namespace:PNTZ.Mufta.TPCApp.View.Formatter"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -89,7 +93,7 @@
                                 <dxc:AxisX2D.Label>
                                     <dxc:AxisLabel>
                                         <dxc:AxisLabel.Formatter>
-                                            <view:DefaultDoubleLabelFormatter/>
+                                            <fmtr:DefaultDoubleLabelFormatter/>
                                         </dxc:AxisLabel.Formatter>
                                     </dxc:AxisLabel>
                                 </dxc:AxisX2D.Label>
@@ -110,7 +114,7 @@
                                 <dxc:AxisY2D.Label>
                                     <dxc:AxisLabel>
                                         <dxc:AxisLabel.Formatter>
-                                            <view:DefaultDoubleLabelFormatter/>
+                                            <fmtr:DefaultDoubleLabelFormatter/>
                                         </dxc:AxisLabel.Formatter>
                                     </dxc:AxisLabel>
                                 </dxc:AxisY2D.Label>

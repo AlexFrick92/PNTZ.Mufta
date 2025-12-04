@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"                    
+             
+             xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"     
+             
              xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
+             xmlns:fmtr="clr-namespace:PNTZ.Mufta.TPCApp.View.Formatter"
+             
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
              xmlns:core="http://schemas.devexpress.com/winfx/2008/xaml/core"
              mc:Ignorable="d" 
@@ -168,7 +172,7 @@
                             <dxc:AxisX2D.Label>
                                 <dxc:AxisLabel>
                                     <dxc:AxisLabel.Formatter>
-                                        <view:DefaultDoubleLabelFormatter/>
+                                        <fmtr:DefaultDoubleLabelFormatter/>
                                     </dxc:AxisLabel.Formatter>
                                 </dxc:AxisLabel>
                             </dxc:AxisX2D.Label>
@@ -231,7 +235,7 @@
                             <dxc:AxisY2D.Label>
                                 <dxc:AxisLabel>
                                     <dxc:AxisLabel.Formatter>
-                                        <view:DefaultDoubleLabelFormatter/>
+                                        <fmtr:DefaultDoubleLabelFormatter/>
                                     </dxc:AxisLabel.Formatter>
                                 </dxc:AxisLabel>
                             </dxc:AxisY2D.Label>

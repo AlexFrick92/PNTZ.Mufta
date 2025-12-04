@@ -191,6 +191,9 @@
     <Compile Include="Repository\RemoteRepository.cs" />
     <Compile Include="Repository\RemoteRepositoryContext.cs" />
     <Compile Include="Toolbox\Smoothing\MovingAverage.cs" />
+    <Compile Include="ViewModel\Control\ChartViewModel.cs" />
+    <Compile Include="ViewModel\Control\ConstantLineViewModel.cs" />
+    <Compile Include="ViewModel\Control\SeriesViewModel.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />
     <Compile Include="ViewModel\JointProcessViewModel.cs" />
@@ -205,6 +208,9 @@
     <Compile Include="View\ChartViewConfig.cs" />
     <Compile Include="View\Control\ChartSeriesView.xaml.cs">
       <DependentUpon>ChartSeriesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Control\ChartView.xaml.cs">
+      <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Control\ConstantLineModel.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
@@ -240,7 +246,8 @@
       <DependentUpon>JointResultsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TimeStampLabelFormatter.cs" />
-    <Compile Include="View\DefaultDoubleLabelFormatter.cs" />
+    <Compile Include="View\Formatter\DefaultDoubleLabelFormatter.cs" />
+    <Compile Include="View\Formatter\DoubleFormatConverter.cs" />
     <Compile Include="View\ValueDescription.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +299,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\Control\ChartSeriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Control\ChartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
