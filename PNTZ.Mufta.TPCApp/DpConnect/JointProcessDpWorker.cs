@@ -247,9 +247,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
                         if (jointResult != null)
                         {
                             JointFinished?.Invoke(this, jointResult);
-                        }
-                        else
-                            JointFinished?.Invoke(this, new JointResult(actualRecipe));
+                            jointResult = null;
+                        }                        
                     }
                     catch (Exception ex)
                     {
