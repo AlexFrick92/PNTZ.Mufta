@@ -1,32 +1,35 @@
 ﻿<UserControl x:Class="PNTZ.Mufta.TPCApp.View.Control.ChartView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View"
              xmlns:fmtr="clr-namespace:PNTZ.Mufta.TPCApp.View.Formatter"
-
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
              xmlns:dxcore="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             
              xmlns:vmControl="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Control"
-             
              d:DataContext="{d:DesignInstance Type=vmControl:ChartViewModel}"
-             
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    
-    
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+
+    <!-- ========================================
+         РЕСУРСЫ
+         ======================================== -->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Конвертер для форматирования значений -->
+            <!-- Конвертер для форматирования значений типа Double -->
             <fmtr:DefaultDoubleLabelFormatter x:Key="DoubleFormatConverter"/>
 
+            <!-- ========================================
+                 СТИЛИ
+                 ======================================== -->
+
+            <!-- Стиль для заголовка графика -->
             <Style TargetType="Label" x:Key="ChartHeader">
                 <Setter Property="Grid.Row" Value="0"/>
                 <Setter Property="BorderThickness" Value="0"/>
@@ -35,136 +38,159 @@
                 <Setter Property="Margin" Value="0,10,0,-5"/>
             </Style>
 
+            <!-- Стиль для ChartControl -->
             <Style TargetType="dxc:ChartControl" x:Key="ChartStyle">
                 <Setter Property="BorderThickness" Value="0"/>
             </Style>
 
+            <!-- Стиль для панели графика -->
             <Style TargetType="dxc:Pane" x:Key="PaneStyle">
                 <Setter Property="DomainBrush" Value="Transparent"/>
             </Style>
 
+            <!-- Стиль для оси X -->
             <Style TargetType="dxc:AxisX2D" x:Key="AxisXStyle">
                 <Setter Property="GridLinesVisible" Value="True"/>
                 <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
             </Style>
 
+            <!-- Стиль для оси Y -->
             <Style TargetType="dxc:AxisY2D" x:Key="AxisYStyle">
                 <Setter Property="GridLinesVisible" Value="True"/>
                 <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
                 <Setter Property="Interlaced" Value="False"/>
             </Style>
 
-           <!-- Шаблон данных для постоянных линий (DataContext: ConstantLineViewModel) -->
+            <!-- ========================================
+                 ШАБЛОНЫ ДАННЫХ
+                 ======================================== -->
+
+            <!-- Шаблон для постоянных линий (DataContext: ConstantLineViewModel) -->
             <DataTemplate x:Key="ConstantLineTemplate">
-                <dxc:ConstantLine
-                      Value="{Binding Value}"
-                      Brush="{Binding Color}">
+                <dxc:ConstantLine Value="{Binding Value}"
+                                  Brush="{Binding Color}">
                     <dxc:ConstantLine.Title>
                         <dxc:ConstantLineTitle>
                             <StackPanel Orientation="Horizontal">
+                                <!-- Метка линии -->
                                 <Label Foreground="{Binding Color}"
                                        FontSize="12"
                                        Content="{Binding Label}"
                                        Margin="0,0,4,0"/>
+
+                                <!-- Значение линии -->
                                 <TextBlock Foreground="{Binding Color}"
                                            Text="{Binding Value}"
                                            FontSize="12"
-                                           VerticalAlignment="Center">
-                                    <!--<TextBlock.Text>
-                                        <MultiBinding Converter="{StaticResource DoubleFormatConverter}">
-                                            <Binding Path="Value"/>
-                                            <Binding Path="ValueFormat"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>-->
-                                </TextBlock>
+                                           VerticalAlignment="Center"/>
                             </StackPanel>
                         </dxc:ConstantLineTitle>
                     </dxc:ConstantLine.Title>
                 </dxc:ConstantLine>
             </DataTemplate>
 
-
         </ResourceDictionary>
     </UserControl.Resources>
 
+    <!-- ========================================
+         ОСНОВНАЯ РАЗМЕТКА
+         ======================================== -->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label
-           Style="{StaticResource ChartHeader}"
-           Content="{Binding ChartTitle}" />
+        <!-- Заголовок графика -->
+        <Label Grid.Row="0"
+               Style="{StaticResource ChartHeader}"
+               Content="{Binding ChartTitle}"/>
 
-        <dxc:ChartControl Grid.Row="1" Style="{StaticResource ChartStyle}"
-                     CrosshairEnabled="True"    
-                     dxcore:ThemeManager.ThemeName="MetropolisLight">
-            
+        <!-- ========================================
+             ГРАФИК (DevExpress ChartControl)
+             ======================================== -->
+        <dxc:ChartControl Grid.Row="1"
+                          Style="{StaticResource ChartStyle}"
+                          CrosshairEnabled="True"
+                          dxcore:ThemeManager.ThemeName="MetropolisLight">
+
+            <!-- Настройки перекрестия -->
             <dxc:ChartControl.CrosshairOptions>
                 <dxc:CrosshairOptions ShowCrosshairLabels="False"
-                         ShowValueLabels="True" 
-                         ShowValueLine="True" 
-                         ShowArgumentLabels="True" 
-                         HighlightPoints="False"                              
-                         ShowArgumentLine="True"/>
-                
+                                      ShowValueLabels="True"
+                                      ShowValueLine="True"
+                                      ShowArgumentLabels="True"
+                                      HighlightPoints="False"
+                                      ShowArgumentLine="True"/>
             </dxc:ChartControl.CrosshairOptions>
 
+            <!-- ========================================
+                 ДИАГРАММА XY
+                 ======================================== -->
             <dxc:ChartControl.Diagram>
-                <dxc:XYDiagram2D EnableAxisXNavigation="True"
-                           EnableAxisYNavigation="True"
-                           x:Name="diagram">
+                <dxc:XYDiagram2D x:Name="diagram"
+                                 EnableAxisXNavigation="True"
+                                 EnableAxisYNavigation="True">
+
+                    <!-- Настройки навигации -->
                     <dxc:XYDiagram2D.NavigationOptions>
-                        <dxc:NavigationOptions 
-                       UseKeyboard="False"
-                       UseScrollBars="True"
-                       UseMouse="True"
-                       UseTouchDevice="False"                                                        
-                       />
+                        <dxc:NavigationOptions UseKeyboard="False"
+                                               UseScrollBars="True"
+                                               UseMouse="True"
+                                               UseTouchDevice="False"/>
                     </dxc:XYDiagram2D.NavigationOptions>
 
+                    <!-- ========================================
+                         ПАНЕЛЬ ГРАФИКА
+                         ======================================== -->
                     <dxc:XYDiagram2D.DefaultPane>
                         <dxc:Pane Style="{StaticResource PaneStyle}">
+
+                            <!-- Скроллбар оси X -->
                             <dxc:Pane.AxisXScrollBarOptions>
                                 <dxc:ScrollBarOptions Visible="False"
-                                                 BarThickness="10"                                                      
-                                                 AnnotatedElements="None"
-                                                 Alignment="Far"
-                                                 />
+                                                      BarThickness="10"
+                                                      AnnotatedElements="None"
+                                                      Alignment="Far"/>
                             </dxc:Pane.AxisXScrollBarOptions>
-                            <dxc:Pane.AxisYScrollBarOptions>
-                                <dxc:ScrollBarOptions Alignment="Far" 
-                                 BarThickness="10"
-                                 AnnotatedElements="None"                                                        
-                                 Visible="False">
 
-                                </dxc:ScrollBarOptions>
+                            <!-- Скроллбар оси Y -->
+                            <dxc:Pane.AxisYScrollBarOptions>
+                                <dxc:ScrollBarOptions Visible="False"
+                                                      BarThickness="10"
+                                                      AnnotatedElements="None"
+                                                      Alignment="Far"/>
                             </dxc:Pane.AxisYScrollBarOptions>
+
                         </dxc:Pane>
                     </dxc:XYDiagram2D.DefaultPane>
 
+                    <!-- ========================================
+                         ОСЬ X
+                         ======================================== -->
                     <dxc:XYDiagram2D.AxisX>
                         <dxc:AxisX2D Style="{StaticResource AxisXStyle}">
 
+                            <!-- Полный диапазон оси X -->
                             <dxc:AxisX2D.WholeRange>
-                                <dxc:Range
-                                   MinValue="{Binding XMin}"
-                                   MaxValue="{Binding XMax}"
-                                   SideMarginsValue="0"/>
+                                <dxc:Range MinValue="{Binding XMin}"
+                                           MaxValue="{Binding XMax}"
+                                           SideMarginsValue="0"/>
                             </dxc:AxisX2D.WholeRange>
 
+                            <!-- Видимый диапазон оси X -->
                             <dxc:AxisX2D.VisualRange>
-                                <dxc:Range
-                                   MinValue="{Binding XMin}"
-                                   MaxValue="{Binding XMax}"
-                                   SideMarginsValue="0"/>
+                                <dxc:Range MinValue="{Binding XMin}"
+                                           MaxValue="{Binding XMax}"
+                                           SideMarginsValue="0"/>
                             </dxc:AxisX2D.VisualRange>
 
+                            <!-- Формат меток перекрестия -->
                             <dxc:AxisX2D.CrosshairAxisLabelOptions>
-                                <dxc:CrosshairAxisLabelOptions Pattern="{}{V:.#}" />
+                                <dxc:CrosshairAxisLabelOptions Pattern="{}{V:.#}"/>
                             </dxc:AxisX2D.CrosshairAxisLabelOptions>
 
+                            <!-- Формат меток оси -->
                             <dxc:AxisX2D.Label>
                                 <dxc:AxisLabel>
                                     <dxc:AxisLabel.Formatter>
@@ -173,8 +199,9 @@
                                 </dxc:AxisLabel>
                             </dxc:AxisX2D.Label>
 
+                            <!-- Постоянные линии (за элементами графика) -->
                             <dxc:AxisX2D.ConstantLineBehindItemsSource>
-                                <Binding Path="XConstantLines" />
+                                <Binding Path="XConstantLines"/>
                             </dxc:AxisX2D.ConstantLineBehindItemsSource>
 
                             <dxc:AxisX2D.ConstantLineBehindItemTemplate>
@@ -182,31 +209,34 @@
                             </dxc:AxisX2D.ConstantLineBehindItemTemplate>
 
                         </dxc:AxisX2D>
-
                     </dxc:XYDiagram2D.AxisX>
 
+                    <!-- ========================================
+                         ОСЬ Y
+                         ======================================== -->
                     <dxc:XYDiagram2D.AxisY>
                         <dxc:AxisY2D Style="{StaticResource AxisYStyle}">
 
+                            <!-- Полный диапазон оси Y -->
                             <dxc:AxisY2D.WholeRange>
-                                <dxc:Range
-                                   MinValue="{Binding YMin}"
-                                   MaxValue="{Binding YMax}"
-                                   SideMarginsValue="0"/>
+                                <dxc:Range MinValue="{Binding YMin}"
+                                           MaxValue="{Binding YMax}"
+                                           SideMarginsValue="0"/>
                             </dxc:AxisY2D.WholeRange>
 
+                            <!-- Видимый диапазон оси Y -->
                             <dxc:AxisY2D.VisualRange>
-                                <dxc:Range
-                                   MinValue="{Binding YMin}"
-                                   MaxValue="{Binding YMax}"
-                                   SideMarginsValue="0"/>
+                                <dxc:Range MinValue="{Binding YMin}"
+                                           MaxValue="{Binding YMax}"
+                                           SideMarginsValue="0"/>
                             </dxc:AxisY2D.VisualRange>
-                          
+
+                            <!-- Формат меток перекрестия -->
                             <dxc:AxisY2D.CrosshairAxisLabelOptions>
-                                <dxc:CrosshairAxisLabelOptions Pattern="{}{V:.#}" />
+                                <dxc:CrosshairAxisLabelOptions Pattern="{}{V:.#}"/>
                             </dxc:AxisY2D.CrosshairAxisLabelOptions>
 
-
+                            <!-- Формат меток оси -->
                             <dxc:AxisY2D.Label>
                                 <dxc:AxisLabel>
                                     <dxc:AxisLabel.Formatter>
@@ -215,12 +245,14 @@
                                 </dxc:AxisLabel>
                             </dxc:AxisY2D.Label>
 
-                            <dxc:AxisY2D.ConstantLineBehindItemTemplate >
+                            <!-- Постоянные линии (за элементами графика) -->
+                            <dxc:AxisY2D.ConstantLineBehindItemTemplate>
                                 <StaticResource ResourceKey="ConstantLineTemplate"/>
-                            </dxc:AxisY2D.ConstantLineBehindItemTemplate >
+                            </dxc:AxisY2D.ConstantLineBehindItemTemplate>
 
+                            <!-- Постоянные линии (перед элементами графика) -->
                             <dxc:AxisY2D.ConstantLineInFrontItemsSource>
-                                <Binding Path="YConstantLines" />
+                                <Binding Path="YConstantLines"/>
                             </dxc:AxisY2D.ConstantLineInFrontItemsSource>
 
                             <dxc:AxisY2D.ConstantLineInFrontItemTemplate>
@@ -230,14 +262,17 @@
                         </dxc:AxisY2D>
                     </dxc:XYDiagram2D.AxisY>
 
-                    <dxc:AreaSeries2D
-                       DataSource="{Binding ChartData}"
-                       ArgumentDataMember="{Binding ArgumentMember}"
-                       ValueDataMember="{Binding ValueMember}"
-                       ArgumentScaleType="Numerical"
-                       CrosshairEnabled="True"
-                       Transparency="1">
+                    <!-- ========================================
+                         СЕРИЯ ДАННЫХ (Area Chart)
+                         ======================================== -->
+                    <dxc:AreaSeries2D DataSource="{Binding ChartData}"
+                                      ArgumentDataMember="{Binding ArgumentMember}"
+                                      ValueDataMember="{Binding ValueMember}"
+                                      ArgumentScaleType="Numerical"
+                                      CrosshairEnabled="True"
+                                      Transparency="1">
 
+                        <!-- Граница серии (линия графика) -->
                         <dxc:AreaSeries2D.Border>
                             <dxc:SeriesBorder Brush="{Binding LineColor}">
                                 <dxc:SeriesBorder.LineStyle>
@@ -245,10 +280,13 @@
                                 </dxc:SeriesBorder.LineStyle>
                             </dxc:SeriesBorder>
                         </dxc:AreaSeries2D.Border>
+
                     </dxc:AreaSeries2D>
 
                 </dxc:XYDiagram2D>
             </dxc:ChartControl.Diagram>
+
         </dxc:ChartControl>
+
     </Grid>
 </UserControl>
