@@ -35,38 +35,130 @@ namespace PNTZ.Mufta.Showcase.Data
             int pointCount = xValues.Length;
             double[] yValues = new double[pointCount];
 
+            // Случайные параметры для каждой генерации
+            double phase1End = 0.15 + _random.NextDouble() * 0.15;      // 15-30%
+            double phase2End = 0.50 + _random.NextDouble() * 0.25;      // 50-75%
+            double phase1Peak = 0.30 + _random.NextDouble() * 0.20;     // 30-50% от максимума
+            double phase2Level = 0.40 + _random.NextDouble() * 0.20;    // 40-60% от максимума
+            double noiseLevel = 0.02 + _random.NextDouble() * 0.03;     // 2-5% шума
+            double growthCurve = 1.2 + _random.NextDouble() * 1.3;      // 1.2-2.5 экспонента роста
+
+            // Генерация случайных "событий" (резкие изменения)
+            int eventsCount = _random.Next(2, 6);
+            List<int> eventIndices = new List<int>();
+            List<double> eventMagnitudes = new List<double>();
+
+            for (int e = 0; e < eventsCount; e++)
+            {
+                int eventIndex = _random.Next((int)(pointCount * 0.1), (int)(pointCount * 0.9));
+                double eventMagnitude = (_random.NextDouble() - 0.5) * 0.15; // ±15%
+                eventIndices.Add(eventIndex);
+                eventMagnitudes.Add(eventMagnitude);
+            }
+
             for (int i = 0; i < pointCount; i++)
             {
-                // Симуляция реального процесса навёртки
-                // Фаза 1: Начальный подъем (0-20%) - быстрый рост момента
-                // Фаза 2: Стабилизация (20-60%) - момент держится на уровне с колебаниями
-                // Фаза 3: Финальный рост (60-100%) - момент растет к финальному значению
-
+                double progress = (double)i / pointCount;
                 double torque;
-                if (i < pointCount * 0.2)
+
+                if (progress < phase1End)
                 {
-                    // Фаза 1: Начальный подъем
-                    torque = Math.Pow(i / (pointCount * 0.2), 1.5) * maxTorque * 0.4;
+                    // Фаза 1: Начальный подъем с вариацией
+                    double phase1Progress = progress / phase1End;
+                    torque = Math.Pow(phase1Progress, growthCurve) * maxTorque * phase1Peak;
+
+                    // Добавляем волнообразность в начале
+                    torque += Math.Sin(phase1Progress * Math.PI * 4) * maxTorque * 0.05;
                 }
-                else if (i < pointCount * 0.6)
+                else if (progress < phase2End)
                 {
-                    // Фаза 2: Стабилизация с небольшими колебаниями
-                    torque = maxTorque * 0.4 + (maxTorque * 0.2) * _random.NextDouble();
+                    // Фаза 2: Стабилизация с колебаниями и трендом
+                    double phase2Progress = (progress - phase1End) / (phase2End - phase1End);
+                    double baseLevel = maxTorque * phase2Level;
+
+                    // Медленный рост внутри фазы
+                    double trend = phase2Progress * maxTorque * 0.15;
+
+                    // Волнообразные колебания разной частоты
+                    double wave1 = Math.Sin(phase2Progress * Math.PI * 8) * maxTorque * 0.08;
+                    double wave2 = Math.Sin(phase2Progress * Math.PI * 3) * maxTorque * 0.05;
+
+                    torque = baseLevel + trend + wave1 + wave2;
                 }
                 else
                 {
-                    // Фаза 3: Финальный рост
-                    double progress = (i - pointCount * 0.6) / (pointCount * 0.4);
-                    torque = maxTorque * 0.6 + Math.Pow(progress, 2) * maxTorque * 0.4;
+                    // Фаза 3: Финальный рост к целевому моменту
+                    double phase3Progress = (progress - phase2End) / (1.0 - phase2End);
+                    double startLevel = maxTorque * phase2Level;
+                    double growthRange = maxTorque - startLevel;
+
+                    // Нелинейный рост с вариацией
+                    torque = startLevel + Math.Pow(phase3Progress, growthCurve * 0.8) * growthRange;
+
+                    // Добавляем финальные колебания
+                    torque += Math.Sin(phase3Progress * Math.PI * 5) * maxTorque * 0.04;
                 }
 
-                // Добавляем небольшой шум (±2% от максимума)
-                torque += (_random.NextDouble() - 0.5) * maxTorque * 0.02;
+                // Применяем случайные "события"
+                for (int e = 0; e < eventIndices.Count; e++)
+                {
+                    int eventIndex = eventIndices[e];
+                    double eventMagnitude = eventMagnitudes[e];
+
+                    // Гауссово влияние события (влияет на окрестность точки)
+                    double distance = Math.Abs(i - eventIndex);
+                    double eventWidth = pointCount * 0.05; // 5% ширина события
+                    double influence = Math.Exp(-Math.Pow(distance / eventWidth, 2));
+
+                    torque += influence * eventMagnitude * maxTorque;
+                }
+
+                // Добавляем высокочастотный шум
+                double noise = (_random.NextDouble() - 0.5) * maxTorque * noiseLevel;
+
+                // Добавляем низкочастотный шум (Perlin-подобный)
+                double lowFreqNoise = Math.Sin(progress * Math.PI * 20 + _random.NextDouble() * 2) * maxTorque * (noiseLevel * 0.5);
+
+                torque += noise + lowFreqNoise;
+
+                // Ограничиваем значения
+                torque = Math.Max(0, Math.Min(maxTorque * 1.1, torque));
 
                 yValues[i] = torque;
             }
 
+            // Применяем легкое сглаживание для более естественного вида
+            yValues = ApplyMovingAverage(yValues, 3);
+
             return yValues;
+        }
+
+        /// <summary>
+        /// Применяет скользящее среднее для сглаживания данных
+        /// </summary>
+        private static double[] ApplyMovingAverage(double[] data, int windowSize)
+        {
+            if (windowSize <= 1 || data.Length < windowSize)
+                return data;
+
+            double[] smoothed = new double[data.Length];
+            int halfWindow = windowSize / 2;
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                double sum = 0;
+                int count = 0;
+
+                for (int j = Math.Max(0, i - halfWindow); j <= Math.Min(data.Length - 1, i + halfWindow); j++)
+                {
+                    sum += data[j];
+                    count++;
+                }
+
+                smoothed[i] = sum / count;
+            }
+
+            return smoothed;
         }
 
         /// <summary>

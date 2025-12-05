@@ -22,6 +22,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private List<SeriesPoint> _fullDataSet;
         private int _currentIndex = 0;
         private Random _random = new Random();
+        private int _currentInterval = 50; // Текущий интервал в миллисекундах
 
         // Мастер-коллекция с общей сеткой X для всех серий
         private List<SeriesPoint> _masterData;
@@ -326,6 +327,54 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         #endregion
 
+        #region Обработчики кнопок - Интервал
+
+        private void SetInterval10_Click(object sender, RoutedEventArgs e)
+        {
+            SetInterval(10);
+        }
+
+        private void SetInterval50_Click(object sender, RoutedEventArgs e)
+        {
+            SetInterval(50);
+        }
+
+        private void SetInterval100_Click(object sender, RoutedEventArgs e)
+        {
+            SetInterval(100);
+        }
+
+        /// <summary>
+        /// Устанавливает интервал и обновляет подсветку кнопок
+        /// </summary>
+        private void SetInterval(int interval)
+        {
+            _currentInterval = interval;
+
+            // Сбрасываем цвета всех кнопок интервала
+            BtnInterval10.Background = _inactiveColor;
+            BtnInterval50.Background = _inactiveColor;
+            BtnInterval100.Background = _inactiveColor;
+
+            // Подсвечиваем выбранную кнопку
+            switch (interval)
+            {
+                case 10:
+                    BtnInterval10.Background = _activeGreenColor;
+                    break;
+                case 50:
+                    BtnInterval50.Background = _activeGreenColor;
+                    break;
+                case 100:
+                    BtnInterval100.Background = _activeGreenColor;
+                    break;
+            }
+
+            UpdateStatus($"Интервал изменён на {interval} мс");
+        }
+
+        #endregion
+
         #region Обработчики параметров осей
 
         /// <summary>
@@ -364,10 +413,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                         var yMargin = (maxY - minY) * 0.05;
 
                         SetAxisValues(
-                            minX - xMargin,
-                            maxX + xMargin,
-                            minY - yMargin,
-                            maxY + yMargin
+                            minX, //- xMargin,
+                            maxX, //+ xMargin,
+                            minY, //- yMargin,
+                            maxY //+ yMargin
                         );
 
                         UpdateStatus("Зум сброшен - оси подогнаны под данные");
@@ -574,15 +623,11 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
 
         /// <summary>
-        /// Получает интервал обновления из TextBox (миллисекунды)
+        /// Получает интервал обновления (миллисекунды)
         /// </summary>
         private int GetInterval()
         {
-            if (int.TryParse(IntervalTextBox.Text, out int interval) && interval > 0 && interval <= 5000)
-            {
-                return interval;
-            }
-            return 50; // Значение по умолчанию: 50 мс
+            return _currentInterval;
         }
 
         /// <summary>

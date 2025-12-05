@@ -36,7 +36,7 @@ namespace PNTZ.Mufta.TPCApp.View.Control
         {
             if (e.PropertyName == nameof(ChartViewModel.ResetZoomTrigger))
             {
-                ResetZoom();
+                //ResetZoom();
             }
         }
 
