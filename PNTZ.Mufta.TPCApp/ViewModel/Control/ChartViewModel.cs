@@ -92,7 +92,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public string ChartTitle
         {
             get => _chartTitle;
-            set => _chartTitle = value;
+            set
+            {
+                _chartTitle = value;
+                OnPropertyChanged(nameof(ChartTitle));
+            }
         }
 
         /// <summary>
@@ -114,7 +118,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public string ArgumentMember
         {
             get => _argumentMember;
-            set => _argumentMember = value;  
+            set
+            {
+                _argumentMember = value;
+                OnPropertyChanged(nameof(ArgumentMember));
+            }
         }
 
         /// <summary>
@@ -123,7 +131,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public string ValueMember
         {
             get => _valueMember;
-            set => _valueMember = value;
+            set
+            {
+                _valueMember = value;
+                OnPropertyChanged(nameof(ValueMember));
+            }
         }
 
         /// <summary>
@@ -132,7 +144,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double XMin
         {
             get => _xMin;
-            set => _xMin = value;
+            set
+            {
+                _xMin = value;
+                OnPropertyChanged(nameof(XMin));
+            }
         }
 
         /// <summary>
@@ -141,7 +157,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double XMax
         {
             get => _xMax;
-            set => _xMax = value;
+            set
+            {
+                _xMax = value;
+                OnPropertyChanged(nameof(XMax));
+            }
         }
 
         /// <summary>
@@ -150,7 +170,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double YMin
         {
             get => _yMin;
-            set => _yMin = value;
+            set
+            {
+                _yMin = value;
+                OnPropertyChanged(nameof(YMin));
+            }
         }
 
         /// <summary>
@@ -172,7 +196,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double XGridSpacing
         {
             get => _xGridSpacing;
-            set => _xGridSpacing = value;
+            set
+            {
+                _xGridSpacing = value;
+                OnPropertyChanged(nameof(XGridSpacing));
+            }
         }
 
         /// <summary>
@@ -181,7 +209,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double YGridSpacing
         {
             get => _yGridSpacing;
-            set => _yGridSpacing = value;
+            set
+            {
+                _yGridSpacing = value;
+                OnPropertyChanged(nameof(YGridSpacing));
+            }
         }
 
         /// <summary>
@@ -190,7 +222,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public SolidColorBrush LineColor
         {
             get => _lineColor;
-            set => _lineColor = value;
+            set
+            {
+                _lineColor = value;
+                OnPropertyChanged(nameof(LineColor));
+            }
         }
 
         /// <summary>
@@ -199,7 +235,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double LineThickness
         {
             get => _lineThickness;
-            set => _lineThickness = value;
+            set
+            {
+                _lineThickness = value;
+                OnPropertyChanged(nameof(LineThickness));
+            }
         }
 
         /// <summary>
@@ -208,7 +248,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public object ResetZoomTrigger
         {
             get => _resetZoomTrigger;
-            set => _resetZoomTrigger = value;
+            set
+            {
+                _resetZoomTrigger = value;
+                OnPropertyChanged(nameof(ResetZoomTrigger));
+            }
         }
 
         /// <summary>
@@ -217,7 +261,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public ObservableCollection<ConstantLineViewModel> XConstantLines
         {
             get => _xConstantLines;
-            set => _xConstantLines = value;
+            set
+            {
+                _xConstantLines = value;
+                OnPropertyChanged(nameof(XConstantLines));
+            }
         }
 
         /// <summary>
@@ -226,7 +274,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public ObservableCollection<ConstantLineViewModel> YConstantLines
         {
             get => _yConstantLines;
-            set => _yConstantLines = value;
+            set
+            {
+                _yConstantLines = value;
+                OnPropertyChanged(nameof(YConstantLines));
+            }
         }
 
         public ChartViewModel()

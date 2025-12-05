@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using PNTZ.Mufta.Showcase.Data;
+using System.Linq;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -19,6 +20,17 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private List<TorquePoint> _fullDataSet;
         private int _currentIndex = 0;
         private Random _random = new Random();
+
+        // Флаг для предотвращения рекурсивного обновления осей
+        private bool _isUpdatingAxes = false;
+
+        // Цвета кнопок
+        private readonly SolidColorBrush _inactiveColor = new SolidColorBrush(Color.FromRgb(149, 165, 166)); // #95A5A6 - серый
+        private readonly SolidColorBrush _activeGreenColor = new SolidColorBrush(Color.FromRgb(39, 174, 96)); // #27AE60 - зеленый
+        private readonly SolidColorBrush _activeOrangeColor = new SolidColorBrush(Color.FromRgb(243, 156, 18)); // #F39C12 - оранжевый
+        private readonly SolidColorBrush _activeRedColor = new SolidColorBrush(Color.FromRgb(231, 76, 60)); // #E74C3C - красный
+        private readonly SolidColorBrush _activeBlueColor = new SolidColorBrush(Color.FromRgb(52, 152, 219)); // #3498DB - синий
+        private readonly SolidColorBrush _activePurpleColor = new SolidColorBrush(Color.FromRgb(155, 89, 182)); // #9B59B6 - фиолетовый
 
         public ChartViewTestWindow()
         {
@@ -71,8 +83,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 maxTorque: 8000);
 
             _viewModel.ChartData = data;
-            _viewModel.XMax = 50;
-            _viewModel.YMax = 10000;
+            SetAxisValues(0, 50, 0, 10000);
+
+            // Обновляем цвета кнопок
+            ResetDataButtonColors();
+            ResetRealtimeButtonColors();
+            BtnRealisticData.Background = _activeGreenColor;
+            BtnStop.Background = _activeRedColor;
 
             UpdateStatus($"Загружены реалистичные данные ({pointCount} точек)");
         }
@@ -88,8 +105,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 frequency: 3);
 
             _viewModel.ChartData = data;
-            _viewModel.XMax = 100;
-            _viewModel.YMax = 10000;
+            SetAxisValues(0, 100, 0, 10000);
+
+            // Обновляем цвета кнопок
+            ResetDataButtonColors();
+            ResetRealtimeButtonColors();
+            BtnSineWave.Background = _activeBlueColor;
+            BtnStop.Background = _activeRedColor;
 
             UpdateStatus($"Загружена синусоида ({pointCount} точек)");
         }
@@ -105,8 +127,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 maxTorque: 10000);
 
             _viewModel.ChartData = data;
-            _viewModel.XMax = 50;
-            _viewModel.YMax = 10000;
+            SetAxisValues(0, 50, 0, 10000);
+
+            // Обновляем цвета кнопок
+            ResetDataButtonColors();
+            ResetRealtimeButtonColors();
+            BtnLinearData.Background = _activePurpleColor;
+            BtnStop.Background = _activeRedColor;
 
             UpdateStatus($"Загружены линейные данные ({pointCount} точек)");
         }
@@ -122,8 +149,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 maxTorque: 10000);
 
             _viewModel.ChartData = data;
-            _viewModel.XMax = 50;
-            _viewModel.YMax = 10000;
+            SetAxisValues(0, 50, 0, 10000);
+
+            // Обновляем цвета кнопок
+            ResetDataButtonColors();
+            ResetRealtimeButtonColors();
+            BtnRandomData.Background = _activeOrangeColor;
+            BtnStop.Background = _activeRedColor;
 
             UpdateStatus($"Загружены случайные данные ({pointCount} точек)");
         }
@@ -132,6 +164,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             StopRealtime();
             _viewModel.ChartData = null;
+
+            // Обновляем цвета кнопок
+            ResetDataButtonColors();
+            ResetRealtimeButtonColors();
+            BtnClearData.Background = _activeRedColor;
+            BtnStop.Background = _activeRedColor;
+
             UpdateStatus("График очищен");
         }
 
@@ -157,6 +196,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
             // Запускаем таймер
             _realtimeTimer.Start();
+
+            // Обновляем цвета кнопок
+            ResetDataButtonColors();
+            ResetRealtimeButtonColors();
+            BtnStart.Background = _activeGreenColor;
+
             UpdateStatus($"Real-time симуляция запущена (интервал: {interval} мс)");
         }
 
@@ -165,11 +210,21 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             if (_realtimeTimer.IsEnabled)
             {
                 _realtimeTimer.Stop();
+
+                // Обновляем цвета кнопок
+                ResetRealtimeButtonColors();
+                BtnPause.Background = _activeOrangeColor;
+
                 UpdateStatus($"Real-time симуляция приостановлена (точек: {_currentIndex}/{_fullDataSet?.Count ?? 0})");
             }
             else if (_fullDataSet != null && _currentIndex < _fullDataSet.Count)
             {
                 _realtimeTimer.Start();
+
+                // Обновляем цвета кнопок
+                ResetRealtimeButtonColors();
+                BtnStart.Background = _activeGreenColor;
+
                 UpdateStatus("Real-time симуляция возобновлена");
             }
         }
@@ -177,6 +232,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private void StopRealtime_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
+
+            // Обновляем цвета кнопок
+            ResetRealtimeButtonColors();
+            BtnStop.Background = _activeRedColor;
         }
 
         private void StopRealtime()
@@ -193,6 +252,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             if (_fullDataSet == null || _currentIndex >= _fullDataSet.Count)
             {
                 _realtimeTimer.Stop();
+
+                // Обновляем цвета кнопок - симуляция завершена
+                ResetRealtimeButtonColors();
+
                 UpdateStatus($"Real-time симуляция завершена ({_fullDataSet?.Count ?? 0} точек)");
                 return;
             }
@@ -251,7 +314,139 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         #endregion
 
+        #region Обработчики параметров осей
+
+        /// <summary>
+        /// Обработчик изменения параметров осей
+        /// </summary>
+        private void AxisParameter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (_isUpdatingAxes || _viewModel == null)
+                return;
+
+            UpdateAxesFromTextBoxes();
+        }
+
+        /// <summary>
+        /// Обработчик кнопки "Сброс зума"
+        /// </summary>
+        private void ResetZoom_Click(object sender, RoutedEventArgs e)
+        {
+            // Устанавливаем значения по умолчанию в зависимости от текущих данных
+            if (_viewModel.ChartData != null)
+            {
+                // Если есть данные, подгоняем оси под данные
+                var data = _viewModel.ChartData as System.Collections.Generic.IEnumerable<TorquePoint>;
+                if (data != null)
+                {
+                    var points = new List<TorquePoint>(data);
+                    if (points.Count > 0)
+                    {
+                        var minX = points.Min(p => p.Turns);
+                        var maxX = points.Max(p => p.Turns);
+                        var minY = points.Min(p => p.Torque);
+                        var maxY = points.Max(p => p.Torque);
+
+                        // Добавляем небольшой отступ (5%)
+                        var xMargin = (maxX - minX) * 0.05;
+                        var yMargin = (maxY - minY) * 0.05;
+
+                        SetAxisValues(
+                            minX - xMargin,
+                            maxX + xMargin,
+                            minY - yMargin,
+                            maxY + yMargin
+                        );
+
+                        UpdateStatus("Зум сброшен - оси подогнаны под данные");
+                        return;
+                    }
+                }
+            }
+
+            // Если данных нет, используем значения по умолчанию
+            SetAxisValues(0, 50, 0, 10000);
+            UpdateStatus("Зум сброшен - установлены значения по умолчанию");
+        }
+
+        #endregion
+
         #region Вспомогательные методы
+
+        /// <summary>
+        /// Сбрасывает цвета всех кнопок выбора данных на неактивное состояние
+        /// </summary>
+        private void ResetDataButtonColors()
+        {
+            BtnRealisticData.Background = _inactiveColor;
+            BtnSineWave.Background = _inactiveColor;
+            BtnLinearData.Background = _inactiveColor;
+            BtnRandomData.Background = _inactiveColor;
+            BtnClearData.Background = _inactiveColor;
+        }
+
+        /// <summary>
+        /// Сбрасывает цвета всех кнопок real-time управления на неактивное состояние
+        /// </summary>
+        private void ResetRealtimeButtonColors()
+        {
+            BtnStart.Background = _inactiveColor;
+            BtnPause.Background = _inactiveColor;
+            BtnStop.Background = _inactiveColor;
+        }
+
+        /// <summary>
+        /// Обновляет оси графика из TextBox'ов
+        /// </summary>
+        private void UpdateAxesFromTextBoxes()
+        {
+            if (_isUpdatingAxes)
+                return;
+
+            try
+            {
+                double xMin = double.TryParse(XMinTextBox.Text, out double xMinVal) ? xMinVal : 0;
+                double xMax = double.TryParse(XMaxTextBox.Text, out double xMaxVal) ? xMaxVal : 50;
+                double yMin = double.TryParse(YMinTextBox.Text, out double yMinVal) ? yMinVal : 0;
+                double yMax = double.TryParse(YMaxTextBox.Text, out double yMaxVal) ? yMaxVal : 10000;
+
+                _viewModel.XMin = xMin;
+                _viewModel.XMax = xMax;
+                _viewModel.YMin = yMin;
+                _viewModel.YMax = yMax;
+            }
+            catch
+            {
+                // Игнорируем ошибки парсинга
+            }
+        }
+
+        /// <summary>
+        /// Устанавливает значения осей и обновляет TextBox'ы
+        /// </summary>
+        private void SetAxisValues(double xMin, double xMax, double yMin, double yMax)
+        {
+            _isUpdatingAxes = true;
+
+            try
+            {
+                // Обновляем ViewModel
+                _viewModel.XMin = xMin;
+                _viewModel.XMax = xMax;
+                _viewModel.YMin = yMin;
+                _viewModel.YMax = yMax;
+
+                // Обновляем TextBox'ы
+                XMinTextBox.Text = xMin.ToString("F2");
+                XMaxTextBox.Text = xMax.ToString("F2");
+                YMinTextBox.Text = yMin.ToString("F2");
+                YMaxTextBox.Text = yMax.ToString("F2");
+            }
+            finally
+            {
+                _isUpdatingAxes = false;
+            }
+        }
 
         /// <summary>
         /// Получает количество точек из TextBox

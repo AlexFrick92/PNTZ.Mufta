@@ -104,6 +104,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Toolbox\GUI\Desktop\Desktop.csproj">
+      <Project>{1a71939f-8f0d-408b-8603-f0d231af83e3}</Project>
+      <Name>Desktop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PNTZ.Mufta.TPCApp\PNTZ.Mufta.TPCApp.csproj">
       <Project>{212fddfb-56ac-4ec4-b629-8fefb2a118cd}</Project>
       <Name>PNTZ.Mufta.TPCApp</Name>
