@@ -8,7 +8,7 @@ namespace PNTZ.Mufta.Showcase.Data
     /// </summary>
     public class SeriesPoint
     {
-        public double XVal { get; set; }
+        public int XVal { get; set; }
         public double YVal1 { get; set; }
         public double YVal2 { get; set; }
         public double YVal3 { get; set; }
@@ -30,7 +30,7 @@ namespace PNTZ.Mufta.Showcase.Data
         /// <param name="xValues">Массив значений X (время в мс)</param>
         /// <param name="maxTorque">Максимальный крутящий момент</param>
         /// <returns>Массив значений Y (крутящий момент)</returns>
-        public static double[] GenerateRealisticTorqueData(double[] xValues, double maxTorque = 8000)
+        public static double[] GenerateRealisticTorqueData(int[] xValues, double maxTorque = 8000)
         {
             int pointCount = xValues.Length;
             double[] yValues = new double[pointCount];
@@ -76,7 +76,7 @@ namespace PNTZ.Mufta.Showcase.Data
         /// <param name="amplitude">Амплитуда синусоиды</param>
         /// <param name="frequency">Частота синусоиды (количество периодов)</param>
         /// <returns>Массив значений Y</returns>
-        public static double[] GenerateSineWaveData(double[] xValues, double amplitude = 5000, double frequency = 3)
+        public static double[] GenerateSineWaveData(int[] xValues, double amplitude = 5000, double frequency = 3)
         {
             int pointCount = xValues.Length;
             double[] yValues = new double[pointCount];
@@ -95,7 +95,7 @@ namespace PNTZ.Mufta.Showcase.Data
         /// <param name="xValues">Массив значений X (время в мс)</param>
         /// <param name="maxTorque">Максимальный крутящий момент</param>
         /// <returns>Массив значений Y</returns>
-        public static double[] GenerateRandomData(double[] xValues, double maxTorque = 10000)
+        public static double[] GenerateRandomData(int[] xValues, double maxTorque = 10000)
         {
             int pointCount = xValues.Length;
             double[] yValues = new double[pointCount];
@@ -114,7 +114,7 @@ namespace PNTZ.Mufta.Showcase.Data
         /// <param name="xValues">Массив значений X (время в мс)</param>
         /// <param name="maxTorque">Максимальный крутящий момент</param>
         /// <returns>Массив значений Y</returns>
-        public static double[] GenerateLinearData(double[] xValues, double maxTorque = 10000)
+        public static double[] GenerateLinearData(int[] xValues, double maxTorque = 10000)
         {
             int pointCount = xValues.Length;
             double[] yValues = new double[pointCount];

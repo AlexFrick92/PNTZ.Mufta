@@ -172,7 +172,7 @@
                             <dxc:AxisX2D.Label>
                                 <dxc:AxisLabel>
                                     <dxc:AxisLabel.Formatter>
-                                        <fmtr:DefaultDoubleLabelFormatter/>
+                                        <fmtr:ThousandsDoubleLabelFormatter/>
                                     </dxc:AxisLabel.Formatter>
                                 </dxc:AxisLabel>
                             </dxc:AxisX2D.Label>
@@ -235,7 +235,7 @@
                             <dxc:AxisY2D.Label>
                                 <dxc:AxisLabel>
                                     <dxc:AxisLabel.Formatter>
-                                        <fmtr:DefaultDoubleLabelFormatter/>
+                                        <fmtr:ThousandsDoubleLabelFormatter/>
                                     </dxc:AxisLabel.Formatter>
                                 </dxc:AxisLabel>
                             </dxc:AxisY2D.Label>

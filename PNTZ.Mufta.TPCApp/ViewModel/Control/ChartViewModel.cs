@@ -1,4 +1,5 @@
 ﻿using Desktop.MVVM;
+using DevExpress.Xpf.Charts;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -106,6 +107,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         private ObservableCollection<ChartSeriesViewModel> _series;
         private string _xAxisTitle;
         private string _yAxisTitle;
+        private IAxisLabelFormatter _xAxisLabelFormatter;
+        private IAxisLabelFormatter _yAxisLabelFormatter;
 
         /// <summary>
         /// Заголовок графика
@@ -300,6 +303,32 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             {
                 _yAxisTitle = value;
                 OnPropertyChanged(nameof(YAxisTitle));
+            }
+        }
+
+        /// <summary>
+        /// Форматтер меток оси X
+        /// </summary>
+        public IAxisLabelFormatter XAxisLabelFormatter
+        {
+            get => _xAxisLabelFormatter;
+            set
+            {
+                _xAxisLabelFormatter = value;
+                OnPropertyChanged(nameof(XAxisLabelFormatter));
+            }
+        }
+
+        /// <summary>
+        /// Форматтер меток оси Y
+        /// </summary>
+        public IAxisLabelFormatter YAxisLabelFormatter
+        {
+            get => _yAxisLabelFormatter;
+            set
+            {
+                _yAxisLabelFormatter = value;
+                OnPropertyChanged(nameof(YAxisLabelFormatter));
             }
         }
 

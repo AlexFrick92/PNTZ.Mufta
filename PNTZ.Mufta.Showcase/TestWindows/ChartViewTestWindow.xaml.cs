@@ -7,6 +7,7 @@ using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using PNTZ.Mufta.Showcase.Data;
 using System.Linq;
 using System.Windows.Controls;
+using PNTZ.Mufta.TPCApp.View.Formatter;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -69,7 +70,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 YMin = 0,
                 YMax = 10000,
                 XAxisTitle = "Cек",
-                YAxisTitle = "Нм"
+                YAxisTitle = "Нм",
+                YAxisLabelFormatter = new ThousandsDoubleLabelFormatter(),
+                XAxisLabelFormatter = new SecondsIntegerLabelFormatter(),
+
             };
 
             ChartView.DataContext = _viewModel;
@@ -173,7 +177,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             string realtimeField = "YVal1";
 
             // Генерируем полный набор данных Y
-            double[] xValues = _masterData.Select(p => p.XVal).ToArray();
+            int[] xValues = _masterData.Select(p => p.XVal).ToArray();
             _fullDataSet = new List<SeriesPoint>(); // Переиспользуем для хранения только Y-значений
 
             double[] yValues = MockDataGenerator.GenerateRealisticTorqueData(xValues, yMax);
@@ -400,7 +404,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             {
                 _masterData.Add(new SeriesPoint
                 {
-                    XVal = xMin + i * interval,
+                    XVal = (int)(xMin + i * interval),
                     YVal1 = 0,
                     YVal2 = 0,
                     YVal3 = 0,
@@ -414,7 +418,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Универсальный обработчик toggle для кнопок добавления данных
         /// </summary>
-        private void ToggleSeries(Button button, Func<double[], double[]> dataGenerator)
+        private void ToggleSeries(Button button, Func<int[], double[]> dataGenerator)
         {
             if (!_seriesTracking.ContainsKey(button))
                 return;
@@ -460,7 +464,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 }
 
                 // Получаем массив X
-                double[] xValues = _masterData.Select(p => p.XVal).ToArray();
+                int[] xValues = _masterData.Select(p => p.XVal).ToArray();
 
                 // Генерируем данные Y
                 double[] yValues = dataGenerator(xValues);

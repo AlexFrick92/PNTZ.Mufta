@@ -22,9 +22,6 @@
                 <ResourceDictionary Source="../Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Конвертер для форматирования значений типа Double -->
-            <fmtr:DefaultDoubleLabelFormatter x:Key="DoubleFormatConverter"/>
-
             <!-- ========================================
                  СТИЛИ
                  ======================================== -->
@@ -195,11 +192,11 @@
                          ОСЬ X
                          ======================================== -->
                     <dxc:XYDiagram2D.AxisX>
-                        <dxc:AxisX2D Style="{StaticResource AxisXStyle}">
+                        <dxc:AxisX2D Style="{StaticResource AxisXStyle}" Alignment="Zero"> 
 
                             <!-- Заголовок оси X -->
                             <dxc:AxisX2D.Title>
-                                <dxc:AxisTitle Content="{Binding XAxisTitle}"/>
+                                <dxc:AxisTitle Content="{Binding XAxisTitle}" Foreground="Black"/>
                             </dxc:AxisX2D.Title>
 
                             <!-- Полный диапазон оси X -->
@@ -223,11 +220,7 @@
 
                             <!-- Формат меток оси -->
                             <dxc:AxisX2D.Label>
-                                <dxc:AxisLabel>
-                                    <dxc:AxisLabel.Formatter>
-                                        <fmtr:DefaultDoubleLabelFormatter/>
-                                    </dxc:AxisLabel.Formatter>
-                                </dxc:AxisLabel>
+                                <dxc:AxisLabel Formatter="{Binding XAxisLabelFormatter}"/>
                             </dxc:AxisX2D.Label>
 
                             <!-- Постоянные линии (за элементами графика) -->
@@ -246,11 +239,11 @@
                          ОСЬ Y
                          ======================================== -->
                     <dxc:XYDiagram2D.AxisY>
-                        <dxc:AxisY2D Style="{StaticResource AxisYStyle}">
+                        <dxc:AxisY2D Style="{StaticResource AxisYStyle}" Alignment="Zero">
 
                             <!-- Заголовок оси Y -->
                             <dxc:AxisY2D.Title>
-                                <dxc:AxisTitle Content="{Binding YAxisTitle}"/>
+                                <dxc:AxisTitle Content="{Binding YAxisTitle}" Foreground="Black"/>
                             </dxc:AxisY2D.Title>
 
                             <!-- Полный диапазон оси Y -->
@@ -274,11 +267,7 @@
 
                             <!-- Формат меток оси -->
                             <dxc:AxisY2D.Label>
-                                <dxc:AxisLabel>
-                                    <dxc:AxisLabel.Formatter>
-                                        <fmtr:DefaultDoubleLabelFormatter/>
-                                    </dxc:AxisLabel.Formatter>
-                                </dxc:AxisLabel>
+                                <dxc:AxisLabel Formatter="{Binding YAxisLabelFormatter}"/>
                             </dxc:AxisY2D.Label>
 
                             <!-- Постоянные линии (за элементами графика) -->

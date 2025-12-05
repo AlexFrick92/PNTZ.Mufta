@@ -3,7 +3,7 @@ using System;
 
 namespace PNTZ.Mufta.TPCApp.View.Formatter
 {
-    public class DefaultDoubleLabelFormatter : IAxisLabelFormatter
+    public class ThousandsDoubleLabelFormatter : IAxisLabelFormatter
     {
         public string GetAxisLabelText(object axisValue)
         {
