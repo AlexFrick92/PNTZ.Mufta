@@ -291,13 +291,16 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void AddXLine_Click(object sender, RoutedEventArgs e)
         {
-            double value = _random.Next(10, 40);
+            // Генерируем значение в диапазоне 20-80% от XMax
+            double xRange = _viewModel.XMax - _viewModel.XMin;
+            double value = _viewModel.XMin + xRange * (0.2 + _random.NextDouble() * 0.6);
 
             _viewModel.XConstantLines.Add(new ConstantLineViewModel
             {
                 Value = value,
                 Label = $"X-{_viewModel.XConstantLines.Count + 1}",
-                Color = GetRandomBrush()
+                Color = GetRandomBrush(),
+                ValueFormat = "F0"
             });
 
             UpdateStatus($"Добавлена константная линия X = {value:F1}");
@@ -305,13 +308,16 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void AddYLine_Click(object sender, RoutedEventArgs e)
         {
-            double value = _random.Next(3000, 8000);
+            // Генерируем значение в диапазоне 20-80% от YMax
+            double yRange = _viewModel.YMax - _viewModel.YMin;
+            double value = _viewModel.YMin + yRange * (0.2 + _random.NextDouble() * 0.6);
 
             _viewModel.YConstantLines.Add(new ConstantLineViewModel
             {
                 Value = value,
                 Label = $"Y-{_viewModel.YConstantLines.Count + 1}",
-                Color = GetRandomBrush()
+                Color = GetRandomBrush(),
+                ValueFormat = "F1"
             });
 
             UpdateStatus($"Добавлена константная линия Y = {value:F0}");

@@ -77,7 +77,7 @@
 
                                 <!-- Значение линии -->
                                 <TextBlock Foreground="{Binding Color}"
-                                           Text="{Binding Value}"
+                                           Text="{Binding FormattedValue}"
                                            FontSize="12"
                                            VerticalAlignment="Center"/>
                             </StackPanel>

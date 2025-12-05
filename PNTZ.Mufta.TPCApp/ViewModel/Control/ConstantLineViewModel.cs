@@ -19,7 +19,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double Value
         {
             get => _value;
-            set => _value = value;
+            set
+            {
+                _value = value;
+                OnPropertyChanged(nameof(Value));
+                OnPropertyChanged(nameof(FormattedValue));
+            }
         }
 
         /// <summary>
@@ -46,7 +51,26 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public string ValueFormat
         {
             get => _valueFormat;
-            set => _valueFormat = value;
+            set
+            {
+                _valueFormat = value;
+                OnPropertyChanged(nameof(ValueFormat));
+                OnPropertyChanged(nameof(FormattedValue));
+            }
+        }
+
+        /// <summary>
+        /// Отформатированное значение согласно ValueFormat
+        /// </summary>
+        public string FormattedValue
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_valueFormat))
+                    return _value.ToString();
+
+                return _value.ToString(_valueFormat);
+            }
         }
 
         public ConstantLineViewModel()
