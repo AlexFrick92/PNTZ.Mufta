@@ -67,14 +67,15 @@
                                        Content="{Binding Label}"
                                        Margin="0,0,4,0"/>
                                 <TextBlock Foreground="{Binding Color}"
+                                           Text="{Binding Value}"
                                            FontSize="12"
                                            VerticalAlignment="Center">
-                                    <TextBlock.Text>
+                                    <!--<TextBlock.Text>
                                         <MultiBinding Converter="{StaticResource DoubleFormatConverter}">
                                             <Binding Path="Value"/>
                                             <Binding Path="ValueFormat"/>
                                         </MultiBinding>
-                                    </TextBlock.Text>
+                                    </TextBlock.Text>-->
                                 </TextBlock>
                             </StackPanel>
                         </dxc:ConstantLineTitle>
@@ -148,16 +149,16 @@
 
                             <dxc:AxisX2D.WholeRange>
                                 <dxc:Range
-                               MinValue="{Binding XMin}"
-                               MaxValue="{Binding XMax}"
-                               SideMarginsValue="0"/>
+                                   MinValue="{Binding XMin}"
+                                   MaxValue="{Binding XMax}"
+                                   SideMarginsValue="0"/>
                             </dxc:AxisX2D.WholeRange>
 
                             <dxc:AxisX2D.VisualRange>
                                 <dxc:Range
-                               MinValue="{Binding XMin}"
-                               MaxValue="{Binding XMax}"
-                               SideMarginsValue="0"/>
+                                   MinValue="{Binding XMin}"
+                                   MaxValue="{Binding XMax}"
+                                   SideMarginsValue="0"/>
                             </dxc:AxisX2D.VisualRange>
 
                             <dxc:AxisX2D.CrosshairAxisLabelOptions>
@@ -196,9 +197,9 @@
 
                             <dxc:AxisY2D.VisualRange>
                                 <dxc:Range
-                               MinValue="{Binding YMin}"
-                               MaxValue="{Binding YMax}"
-                               SideMarginsValue="0"/>
+                                   MinValue="{Binding YMin}"
+                                   MaxValue="{Binding YMax}"
+                                   SideMarginsValue="0"/>
                             </dxc:AxisY2D.VisualRange>
                           
                             <dxc:AxisY2D.CrosshairAxisLabelOptions>

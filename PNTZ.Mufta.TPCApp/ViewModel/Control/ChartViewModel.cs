@@ -155,7 +155,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public double YMax
         {
             get => _yMax;
-            set => _yMax = value;   
+            set 
+            {
+                _yMax = value;
+                OnPropertyChanged(nameof(YMax));
+            }
         }
 
         /// <summary>

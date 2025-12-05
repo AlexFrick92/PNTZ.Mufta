@@ -240,7 +240,10 @@
                             BorderBrush="{StaticResource GridColor}"
                             Grid.Row="0" Grid.Column="0">
 
-                        <ctrl:RealtimeChartView
+                        <ctrl:ChartView DataContext="{Binding TorqueChart}"/>
+
+
+                        <!--<ctrl:RealtimeChartView
                                 ChartTitle="Момент/обороты"
                                 ChartData="{Binding ChartSeries}"
                                 ArgumentMember="Turns"
@@ -272,7 +275,7 @@
                                                             Label="Буртик" Color="Orange"/>
                             </ctrl:RealtimeChartView.XConstantLines>
 
-                        </ctrl:RealtimeChartView>
+                        </ctrl:RealtimeChartView>-->
                     </Border>
 
                     <!--(Обороты/Мин)/обороты-->

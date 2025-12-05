@@ -24,11 +24,20 @@ using System.Windows.Threading;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using System.Linq;
+using PNTZ.Mufta.TPCApp.ViewModel.Control;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointProcessViewModel : BaseViewModel
     {
+
+        public ChartViewModel TorqueChart { get; set; } = new ChartViewModel()
+        {
+            ChartTitle = "Момент/Обороты",
+            XMax = 5,
+            YMax = 20_000,
+        };
+
         public JointProcessViewModel(IJointProcessWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, LocalRepository repo )
         {
             this.logger = logger;
@@ -186,14 +195,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 {
                     LoadedRecipe = v;
 
-                    TempProp = 2000;
-                    OnPropertyChanged(nameof(TempProp));
                     OnPropertyChanged(nameof(LoadedRecipe));
                 };
             }
-        }
-
-        public double TempProp { get; set; } = 1000;
+        }        
 
         JointRecipe loadedRecipe;
         public JointRecipe LoadedRecipe 
@@ -266,6 +271,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             TorqueTimeChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
             
             TurnsPerMinuteTurnsChartConfig.XMaxValue = TorqueTurnsChartConfig.XMaxValue;
+
+            TorqueChart.YMax = TorqueTurnsChartConfig.YMaxValue;
+
+            TorqueChart.YConstantLines.Add(new ConstantLineViewModel()
+            {
+                Value = TorqueChart.YMax / 2
+            });
 
         }
 
