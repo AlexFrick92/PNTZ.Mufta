@@ -76,15 +76,18 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             StopRealtime();
 
+            // Получаем текущие значения осей
+            double xMax = GetAxisValue(XMaxTextBox, 50);
+            double yMax = GetAxisValue(YMaxTextBox, 10000);
+
             // Используем фиксированное количество точек для статичных данных (детальный график)
             const int pointCount = 200;
             var data = MockDataGenerator.GenerateRealisticTorqueData(
                 pointCount: pointCount,
-                maxTurns: 50,
-                maxTorque: 8000);
+                maxTurns: xMax,
+                maxTorque: yMax);
 
             _viewModel.ChartData = data;
-            SetAxisValues(0, 50, 0, 10000);
 
             // Обновляем цвета кнопок
             ResetDataButtonColors();
@@ -92,21 +95,27 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             BtnRealisticData.Background = _activeGreenColor;
             BtnStop.Background = _activeRedColor;
 
-            UpdateStatus($"Загружены реалистичные данные ({pointCount} точек)");
+            UpdateStatus($"Загружены реалистичные данные ({pointCount} точек, X: 0-{xMax:F0}, Y: 0-{yMax:F0})");
         }
 
         private void LoadSineWave_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
 
+            // Получаем текущие значения осей
+            double xMin = GetAxisValue(XMinTextBox, 0);
+            double xMax = GetAxisValue(XMaxTextBox, 100);
+            double yMax = GetAxisValue(YMaxTextBox, 10000);
+
             const int pointCount = 200;
             var data = MockDataGenerator.GenerateSineWaveData(
                 pointCount: pointCount,
-                amplitude: 4000,
+                minTurns: xMin,
+                maxTurns: xMax,
+                amplitude: yMax / 2.5,  // Амплитуда = ~40% от максимума
                 frequency: 3);
 
             _viewModel.ChartData = data;
-            SetAxisValues(0, 100, 0, 10000);
 
             // Обновляем цвета кнопок
             ResetDataButtonColors();
@@ -114,21 +123,24 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             BtnSineWave.Background = _activeBlueColor;
             BtnStop.Background = _activeRedColor;
 
-            UpdateStatus($"Загружена синусоида ({pointCount} точек)");
+            UpdateStatus($"Загружена синусоида ({pointCount} точек, X: {xMin:F0}-{xMax:F0}, Y: 0-{yMax:F0})");
         }
 
         private void LoadLinearData_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
 
+            // Получаем текущие значения осей
+            double xMax = GetAxisValue(XMaxTextBox, 50);
+            double yMax = GetAxisValue(YMaxTextBox, 10000);
+
             const int pointCount = 200;
             var data = MockDataGenerator.GenerateLinearData(
                 pointCount: pointCount,
-                maxTurns: 50,
-                maxTorque: 10000);
+                maxTurns: xMax,
+                maxTorque: yMax);
 
             _viewModel.ChartData = data;
-            SetAxisValues(0, 50, 0, 10000);
 
             // Обновляем цвета кнопок
             ResetDataButtonColors();
@@ -136,21 +148,24 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             BtnLinearData.Background = _activePurpleColor;
             BtnStop.Background = _activeRedColor;
 
-            UpdateStatus($"Загружены линейные данные ({pointCount} точек)");
+            UpdateStatus($"Загружены линейные данные ({pointCount} точек, X: 0-{xMax:F0}, Y: 0-{yMax:F0})");
         }
 
         private void LoadRandomData_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
 
+            // Получаем текущие значения осей
+            double xMax = GetAxisValue(XMaxTextBox, 50);
+            double yMax = GetAxisValue(YMaxTextBox, 10000);
+
             const int pointCount = 200;
             var data = MockDataGenerator.GenerateRandomData(
                 pointCount: pointCount,
-                maxTurns: 50,
-                maxTorque: 10000);
+                maxTurns: xMax,
+                maxTorque: yMax);
 
             _viewModel.ChartData = data;
-            SetAxisValues(0, 50, 0, 10000);
 
             // Обновляем цвета кнопок
             ResetDataButtonColors();
@@ -158,7 +173,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             BtnRandomData.Background = _activeOrangeColor;
             BtnStop.Background = _activeRedColor;
 
-            UpdateStatus($"Загружены случайные данные ({pointCount} точек)");
+            UpdateStatus($"Загружены случайные данные ({pointCount} точек, X: 0-{xMax:F0}, Y: 0-{yMax:F0})");
         }
 
         private void ClearData_Click(object sender, RoutedEventArgs e)
@@ -482,6 +497,18 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 return interval;
             }
             return 50; // Значение по умолчанию: 50 мс
+        }
+
+        /// <summary>
+        /// Получает значение оси из TextBox с fallback на значение по умолчанию
+        /// </summary>
+        private double GetAxisValue(System.Windows.Controls.TextBox textBox, double defaultValue)
+        {
+            if (textBox != null && double.TryParse(textBox.Text, out double value) && value > 0)
+            {
+                return value;
+            }
+            return defaultValue;
         }
 
         /// <summary>

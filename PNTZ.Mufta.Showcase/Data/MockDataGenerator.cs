@@ -74,19 +74,24 @@ namespace PNTZ.Mufta.Showcase.Data
         /// Генерирует синусоидальные данные для тестирования
         /// </summary>
         /// <param name="pointCount">Количество точек</param>
+        /// <param name="minTurns">Минимальное значение оборотов</param>
+        /// <param name="maxTurns">Максимальное значение оборотов</param>
         /// <param name="amplitude">Амплитуда синусоиды</param>
         /// <param name="frequency">Частота синусоиды</param>
         /// <returns>Список точек для графика</returns>
         public static List<TorquePoint> GenerateSineWaveData(
             int pointCount = 200,
+            double minTurns = 0,
+            double maxTurns = 100,
             double amplitude = 5000,
             double frequency = 2)
         {
             var data = new List<TorquePoint>();
+            double turnsRange = maxTurns - minTurns;
 
             for (int i = 0; i < pointCount; i++)
             {
-                double turns = (100.0 / pointCount) * i;
+                double turns = minTurns + (turnsRange / pointCount) * i;
                 double torque = amplitude * Math.Sin(frequency * Math.PI * i / pointCount) + amplitude;
 
                 data.Add(new TorquePoint { Turns = turns, Torque = torque });
