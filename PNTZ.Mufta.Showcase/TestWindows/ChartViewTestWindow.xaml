@@ -163,16 +163,17 @@
                           Margin="0,0,0,10"
                           Padding="10">
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Кол-во точек:"
+                        <Label Content="Скорость (ед/сек):"
                                VerticalAlignment="Center"
                                FontSize="13"/>
-                        <TextBox x:Name="PointCountTextBox"
-                                 Text="100"
+                        <TextBox x:Name="SpeedTextBox"
+                                 Text="10"
                                  Width="60"
                                  Margin="5,0,15,0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Padding="5"/>
+                                 Padding="5"
+                                 ToolTip="Скорость изменения графика (единиц по оси X в секунду)"/>
 
                         <Label Content="Интервал (мс):"
                                VerticalAlignment="Center"
@@ -183,7 +184,8 @@
                                  Margin="5,0,20,0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Padding="5"/>
+                                 Padding="5"
+                                 ToolTip="Частота обновления графика (детализация)"/>
 
                         <Label Content="X Min:"
                                VerticalAlignment="Center"

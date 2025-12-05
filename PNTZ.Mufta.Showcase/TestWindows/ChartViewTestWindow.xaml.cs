@@ -76,7 +76,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             StopRealtime();
 
-            int pointCount = GetPointCount();
+            // Используем фиксированное количество точек для статичных данных (детальный график)
+            const int pointCount = 200;
             var data = MockDataGenerator.GenerateRealisticTorqueData(
                 pointCount: pointCount,
                 maxTurns: 50,
@@ -98,7 +99,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             StopRealtime();
 
-            int pointCount = GetPointCount();
+            const int pointCount = 200;
             var data = MockDataGenerator.GenerateSineWaveData(
                 pointCount: pointCount,
                 amplitude: 4000,
@@ -120,7 +121,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             StopRealtime();
 
-            int pointCount = GetPointCount();
+            const int pointCount = 200;
             var data = MockDataGenerator.GenerateLinearData(
                 pointCount: pointCount,
                 maxTurns: 50,
@@ -142,7 +143,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             StopRealtime();
 
-            int pointCount = GetPointCount();
+            const int pointCount = 200;
             var data = MockDataGenerator.GenerateRandomData(
                 pointCount: pointCount,
                 maxTurns: 50,
@@ -180,18 +181,29 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void StartRealtime_Click(object sender, RoutedEventArgs e)
         {
+            // Получаем параметры
+            double xMin = _viewModel.XMin;
+            double xMax = _viewModel.XMax;
+            double yMax = _viewModel.YMax;
+            double speed = GetSpeed(); // единиц/секунду
+            int interval = GetInterval(); // миллисекунды
+
+            // Вычисляем количество точек на основе интервала и скорости
+            double xRange = xMax - xMin; // диапазон по оси X
+            double totalTime = xRange / speed; // общее время анимации в секундах
+            int pointCount = (int)Math.Ceiling((totalTime * 1000) / interval); // количество точек
+
             // Генерируем полный набор данных
             _fullDataSet = MockDataGenerator.GenerateRealisticTorqueData(
-                pointCount: GetPointCount(),
-                maxTurns: 50,
-                maxTorque: 8000);
+                pointCount: pointCount,
+                maxTurns: xMax,
+                maxTorque: yMax);
 
             // Подготавливаем коллекцию для отображения
             _realtimeDataPoints = new List<TorquePoint>();
             _currentIndex = 0;
 
             // Настраиваем интервал таймера
-            int interval = GetInterval();
             _realtimeTimer.Interval = TimeSpan.FromMilliseconds(interval);
 
             // Запускаем таймер
@@ -202,7 +214,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             ResetRealtimeButtonColors();
             BtnStart.Background = _activeGreenColor;
 
-            UpdateStatus($"Real-time симуляция запущена (интервал: {interval} мс)");
+            UpdateStatus($"Real-time симуляция: {pointCount} точек, {totalTime:F1} сек, скорость {speed} ед/сек");
         }
 
         private void PauseRealtime_Click(object sender, RoutedEventArgs e)
@@ -449,19 +461,19 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
 
         /// <summary>
-        /// Получает количество точек из TextBox
+        /// Получает скорость из TextBox (единиц/секунду)
         /// </summary>
-        private int GetPointCount()
+        private double GetSpeed()
         {
-            if (int.TryParse(PointCountTextBox.Text, out int count) && count > 0 && count <= 10000)
+            if (double.TryParse(SpeedTextBox.Text, out double speed) && speed > 0 && speed <= 10000)
             {
-                return count;
+                return speed;
             }
-            return 100; // Значение по умолчанию
+            return 10; // Значение по умолчанию: 10 единиц/сек
         }
 
         /// <summary>
-        /// Получает интервал обновления из TextBox
+        /// Получает интервал обновления из TextBox (миллисекунды)
         /// </summary>
         private int GetInterval()
         {
@@ -469,7 +481,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             {
                 return interval;
             }
-            return 50; // Значение по умолчанию
+            return 50; // Значение по умолчанию: 50 мс
         }
 
         /// <summary>
