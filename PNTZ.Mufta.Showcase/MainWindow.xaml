@@ -1,12 +1,211 @@
-﻿<Window x:Class="PNTZ.Mufta.Showcase.MainWindow"
+<Window x:Class="PNTZ.Mufta.Showcase.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PNTZ.Mufta.Showcase"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="PNTZ.Mufta - Галерея контролов"
+        Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <!-- Стиль для ListBoxItem -->
+        <Style x:Key="ControlListItemStyle" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Border"
+                                Background="White"
+                                BorderBrush="#E0E0E0"
+                                BorderThickness="1"
+                                CornerRadius="5"
+                                Padding="15"
+                                Margin="5">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#F0F8FF"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#4A90E2"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#E3F2FD"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#2196F3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="Галерея контролов"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       Foreground="#2C3E50"/>
+            <TextBlock Text="PNTZ.Mufta.TPCApp"
+                       FontSize="16"
+                       Foreground="#7F8C8D"
+                       Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Поиск -->
+        <Border Grid.Row="1"
+                Background="White"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="10"
+                Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="🔍"
+                           FontSize="16"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"
+                           Foreground="#7F8C8D"/>
+
+                <TextBox Grid.Column="1"
+                         x:Name="SearchBox"
+                         TextChanged="SearchBox_TextChanged"
+                         BorderThickness="0"
+                         FontSize="14"
+                         VerticalAlignment="Center"
+                         Background="Transparent">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="#95A5A6"/>
+                            <Setter Property="Text" Value="Поиск контролов..."/>
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="Text" Value=""/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Foreground" Value="#95A5A6"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+        </Border>
+
+        <!-- Инструкция -->
+        <Border Grid.Row="2"
+                Background="#E8F5E9"
+                BorderBrush="#81C784"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="10"
+                Margin="0,0,0,15">
+            <TextBlock TextWrapping="Wrap" Foreground="#2E7D32">
+                <Run FontWeight="Bold">Как использовать:</Run>
+                <Run>Дважды кликните на контрол в списке ниже, чтобы открыть окно для его тестирования.</Run>
+            </TextBlock>
+        </Border>
+
+        <!-- Список контролов -->
+        <Border Grid.Row="3"
+                Background="White"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                CornerRadius="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                         Padding="10">
+                <ListBox x:Name="ControlsListBox"
+                         SelectionMode="Single"
+                         MouseDoubleClick="ControlsListBox_MouseDoubleClick"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         ItemContainerStyle="{StaticResource ControlListItemStyle}">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Название контрола -->
+                                <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Text="{Binding Name}"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           Foreground="#2C3E50"/>
+
+                                <!-- Категория (badge) -->
+                                <Border Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="#4A90E2"
+                                        CornerRadius="3"
+                                        Padding="8,3"
+                                        VerticalAlignment="Center"
+                                        Margin="10,0,0,0">
+                                    <TextBlock Text="{Binding Category}"
+                                               FontSize="12"
+                                               Foreground="White"
+                                               FontWeight="SemiBold"/>
+                                </Border>
+
+                                <!-- Описание -->
+                                <TextBlock Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Description}"
+                                           FontSize="14"
+                                           Foreground="#34495E"
+                                           TextWrapping="Wrap"
+                                           Margin="0,8,0,0"
+                                           LineHeight="20"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Футер -->
+        <Border Grid.Row="4"
+                Margin="0,15,0,0"
+                Padding="10"
+                Background="#ECEFF1"
+                CornerRadius="5">
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="12"
+                       Foreground="#546E7A">
+                <Run>Всего контролов:</Run>
+                <Run x:Name="ControlCountText" FontWeight="Bold">0</Run>
+            </TextBlock>
+        </Border>
     </Grid>
 </Window>
