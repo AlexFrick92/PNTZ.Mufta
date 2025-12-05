@@ -142,43 +142,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
                 _argumentMember = value;
                 OnPropertyChanged(nameof(ArgumentMember));
             }
-        }
-
-        /// <summary>
-        /// Имя свойства для оси Y (значение).
-        /// УСТАРЕЛО: Используйте коллекцию Series для добавления серий.
-        /// При установке этого свойства автоматически создаётся/обновляется первая серия.
-        /// </summary>
-        [Obsolete("Используйте коллекцию Series для добавления серий")]
-        public string ValueMember
-        {
-            get => _valueMember;
-            set
-            {
-                _valueMember = value;
-                OnPropertyChanged(nameof(ValueMember));
-
-                // Для обратной совместимости: создаём или обновляем первую серию
-                if (Series.Count == 0)
-                {
-                    Series.Add(new ChartSeriesViewModel
-                    {
-                        ValueMember = value,
-                        DisplayName = value,
-                        LineColor = _lineColor ?? Brushes.Blue,
-                        LineThickness = _lineThickness > 0 ? _lineThickness : 2.0
-                    });
-                }
-                else
-                {
-                    Series[0].ValueMember = value;
-                    if (string.IsNullOrEmpty(Series[0].DisplayName) || Series[0].DisplayName == _valueMember)
-                    {
-                        Series[0].DisplayName = value;
-                    }
-                }
-            }
-        }
+        }       
 
         /// <summary>
         /// Минимальное значение оси X
@@ -256,51 +220,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
                 _yGridSpacing = value;
                 OnPropertyChanged(nameof(YGridSpacing));
             }
-        }
-
-        /// <summary>
-        /// Цвет линии графика.
-        /// УСТАРЕЛО: Используйте коллекцию Series для настройки цвета серий.
-        /// При установке этого свойства обновляется цвет первой серии.
-        /// </summary>
-        [Obsolete("Используйте коллекцию Series для настройки цвета серий")]
-        public SolidColorBrush LineColor
-        {
-            get => _lineColor;
-            set
-            {
-                _lineColor = value;
-                OnPropertyChanged(nameof(LineColor));
-
-                // Для обратной совместимости: обновляем цвет первой серии
-                if (Series.Count > 0)
-                {
-                    Series[0].LineColor = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Толщина линии графика.
-        /// УСТАРЕЛО: Используйте коллекцию Series для настройки толщины серий.
-        /// При установке этого свойства обновляется толщина первой серии.
-        /// </summary>
-        [Obsolete("Используйте коллекцию Series для настройки толщины серий")]
-        public double LineThickness
-        {
-            get => _lineThickness;
-            set
-            {
-                _lineThickness = value;
-                OnPropertyChanged(nameof(LineThickness));
-
-                // Для обратной совместимости: обновляем толщину первой серии
-                if (Series.Count > 0)
-                {
-                    Series[0].LineThickness = value;
-                }
-            }
-        }
+        }               
 
         /// <summary>
         /// Триггер для сброса зума графика. Измените это свойство, чтобы сбросить зум.

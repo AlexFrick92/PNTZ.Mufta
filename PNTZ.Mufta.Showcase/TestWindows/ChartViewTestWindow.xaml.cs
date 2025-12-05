@@ -47,15 +47,19 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _viewModel = new ChartViewModel
             {
                 ChartTitle = "Тестирование графика крутящего момента",
-                ArgumentMember = "Turns",
-                ValueMember = "Torque",
+                ArgumentMember = "Turns",                
                 XMin = 0,
                 XMax = 50,
                 YMin = 0,
-                YMax = 10000,
-                LineColor = new SolidColorBrush(Color.FromRgb(52, 152, 219)), // Синий
-                LineThickness = 2.5
+                YMax = 10000,                
             };
+
+            _viewModel.Series.Add(new ChartSeriesViewModel(
+                 "Torque", 
+                 "SinWave", 
+                 new SolidColorBrush(Color.FromRgb(52, 152, 219)), 
+                 1
+            ));
 
             ChartView.DataContext = _viewModel;
             UpdateStatus("График инициализирован. Готов к тестированию.");
@@ -115,7 +119,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 amplitude: yMax / 2.5,  // Амплитуда = ~40% от максимума
                 frequency: 3);
 
-            _viewModel.ChartData = data;
+            _viewModel.ChartData = data;            
 
             // Обновляем цвета кнопок
             ResetDataButtonColors();
