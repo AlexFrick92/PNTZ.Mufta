@@ -104,6 +104,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         private ObservableCollection<ConstantLineViewModel> _xConstantLines;
         private ObservableCollection<ConstantLineViewModel> _yConstantLines;
         private ObservableCollection<ChartSeriesViewModel> _series;
+        private string _xAxisTitle;
+        private string _yAxisTitle;
 
         /// <summary>
         /// Заголовок графика
@@ -272,6 +274,32 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             {
                 _series = value;
                 OnPropertyChanged(nameof(Series));
+            }
+        }
+
+        /// <summary>
+        /// Заголовок оси X
+        /// </summary>
+        public string XAxisTitle
+        {
+            get => _xAxisTitle;
+            set
+            {
+                _xAxisTitle = value;
+                OnPropertyChanged(nameof(XAxisTitle));
+            }
+        }
+
+        /// <summary>
+        /// Заголовок оси Y
+        /// </summary>
+        public string YAxisTitle
+        {
+            get => _yAxisTitle;
+            set
+            {
+                _yAxisTitle = value;
+                OnPropertyChanged(nameof(YAxisTitle));
             }
         }
 

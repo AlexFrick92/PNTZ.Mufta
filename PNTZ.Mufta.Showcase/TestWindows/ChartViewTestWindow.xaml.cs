@@ -68,6 +68,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 XMax = 5000,
                 YMin = 0,
                 YMax = 10000,
+                XAxisTitle = "Cек",
+                YAxisTitle = "Нм"
             };
 
             ChartView.DataContext = _viewModel;

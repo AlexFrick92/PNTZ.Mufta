@@ -197,6 +197,11 @@
                     <dxc:XYDiagram2D.AxisX>
                         <dxc:AxisX2D Style="{StaticResource AxisXStyle}">
 
+                            <!-- Заголовок оси X -->
+                            <dxc:AxisX2D.Title>
+                                <dxc:AxisTitle Content="{Binding XAxisTitle}"/>
+                            </dxc:AxisX2D.Title>
+
                             <!-- Полный диапазон оси X -->
                             <dxc:AxisX2D.WholeRange>
                                 <dxc:Range MinValue="{Binding XMin}"
@@ -242,6 +247,11 @@
                          ======================================== -->
                     <dxc:XYDiagram2D.AxisY>
                         <dxc:AxisY2D Style="{StaticResource AxisYStyle}">
+
+                            <!-- Заголовок оси Y -->
+                            <dxc:AxisY2D.Title>
+                                <dxc:AxisTitle Content="{Binding YAxisTitle}"/>
+                            </dxc:AxisY2D.Title>
 
                             <!-- Полный диапазон оси Y -->
                             <dxc:AxisY2D.WholeRange>
