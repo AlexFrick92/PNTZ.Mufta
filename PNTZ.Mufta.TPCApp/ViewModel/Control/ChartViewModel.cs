@@ -101,7 +101,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         public IEnumerable ChartData
         {
             get => _chartData;
-            set => _chartData = value;
+            set
+            {
+                _chartData = value;
+                OnPropertyChanged(nameof(ChartData));
+            }
         }
 
         /// <summary>
