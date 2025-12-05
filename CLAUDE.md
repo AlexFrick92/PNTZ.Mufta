@@ -266,3 +266,17 @@ Results are stored as `JointResultTable` with serialized graph data. To work wit
 - Deserialize `TqTnLenPoints` field (serialized as string)
 - Points contain torque, turns, length, RPM over time
 - Use for charting or analysis
+
+## Communication Style
+
+When discussing code changes with the user:
+- **DO** provide a short plan of changes without showing code
+- **DO** ask clarifying questions before implementation
+- **DO NOT** show code examples until explicitly requested
+- **DO** wait for approval before making changes
+
+При обсуждении изменений кода:
+- **Предлагай** короткий план изменений без показа кода
+- **Задавай** уточняющие вопросы перед реализацией
+- **НЕ показывай** примеры кода, пока не попросят
+- **Жди** одобрения перед внесением изменений

@@ -163,18 +163,6 @@
                           Margin="0,0,0,10"
                           Padding="10">
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Скорость (ед/сек):"
-                               VerticalAlignment="Center"
-                               FontSize="13"/>
-                        <TextBox x:Name="SpeedTextBox"
-                                 Text="10"
-                                 Width="60"
-                                 Margin="5,0,15,0"
-                                 VerticalAlignment="Center"
-                                 VerticalContentAlignment="Center"
-                                 Padding="5"
-                                 ToolTip="Скорость изменения графика (единиц по оси X в секунду)"/>
-
                         <Label Content="Интервал (мс):"
                                VerticalAlignment="Center"
                                FontSize="13"/>
@@ -185,9 +173,9 @@
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
                                  Padding="5"
-                                 ToolTip="Частота обновления графика (детализация)"/>
+                                 ToolTip="Частота дискретизации графика (шаг между точками в миллисекундах)"/>
 
-                        <Label Content="X Min:"
+                        <Label Content="X Min (мс):"
                                VerticalAlignment="Center"
                                FontSize="13"/>
                         <TextBox x:Name="XMinTextBox"
@@ -199,11 +187,11 @@
                                  Padding="5"
                                  TextChanged="AxisParameter_TextChanged"/>
 
-                        <Label Content="X Max:"
+                        <Label Content="X Max (мс):"
                                VerticalAlignment="Center"
                                FontSize="13"/>
                         <TextBox x:Name="XMaxTextBox"
-                                 Text="50"
+                                 Text="5000"
                                  Width="60"
                                  Margin="5,0,20,0"
                                  VerticalAlignment="Center"

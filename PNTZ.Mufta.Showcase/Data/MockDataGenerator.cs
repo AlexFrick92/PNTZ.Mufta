@@ -6,10 +6,14 @@ namespace PNTZ.Mufta.Showcase.Data
     /// <summary>
     /// Точка данных для графика крутящего момента
     /// </summary>
-    public class TorquePoint
+    public class SeriesPoint
     {
-        public double Turns { get; set; }
-        public double Torque { get; set; }
+        public double XVal { get; set; }
+        public double YVal1 { get; set; }
+        public double YVal2 { get; set; }
+        public double YVal3 { get; set; }
+        public double YVal4 { get; set; }
+
     }
 
     /// <summary>
@@ -23,21 +27,16 @@ namespace PNTZ.Mufta.Showcase.Data
         /// Генерирует реалистичные данные для графика крутящего момента
         /// Имитирует реальный процесс навёртки муфты
         /// </summary>
-        /// <param name="pointCount">Количество точек</param>
-        /// <param name="maxTurns">Максимальное количество оборотов</param>
+        /// <param name="xValues">Массив значений X (время в мс)</param>
         /// <param name="maxTorque">Максимальный крутящий момент</param>
-        /// <returns>Список точек для графика</returns>
-        public static List<TorquePoint> GenerateRealisticTorqueData(
-            int pointCount = 100,
-            double maxTurns = 50,
-            double maxTorque = 8000)
+        /// <returns>Массив значений Y (крутящий момент)</returns>
+        public static double[] GenerateRealisticTorqueData(double[] xValues, double maxTorque = 8000)
         {
-            var data = new List<TorquePoint>();
+            int pointCount = xValues.Length;
+            double[] yValues = new double[pointCount];
 
             for (int i = 0; i < pointCount; i++)
             {
-                double turns = (maxTurns / pointCount) * i;
-
                 // Симуляция реального процесса навёртки
                 // Фаза 1: Начальный подъем (0-20%) - быстрый рост момента
                 // Фаза 2: Стабилизация (20-60%) - момент держится на уровне с колебаниями
@@ -64,91 +63,68 @@ namespace PNTZ.Mufta.Showcase.Data
                 // Добавляем небольшой шум (±2% от максимума)
                 torque += (_random.NextDouble() - 0.5) * maxTorque * 0.02;
 
-                data.Add(new TorquePoint { Turns = turns, Torque = torque });
+                yValues[i] = torque;
             }
 
-            return data;
+            return yValues;
         }
 
         /// <summary>
         /// Генерирует синусоидальные данные для тестирования
         /// </summary>
-        /// <param name="pointCount">Количество точек</param>
-        /// <param name="minTurns">Минимальное значение оборотов</param>
-        /// <param name="maxTurns">Максимальное значение оборотов</param>
+        /// <param name="xValues">Массив значений X (время в мс)</param>
         /// <param name="amplitude">Амплитуда синусоиды</param>
-        /// <param name="frequency">Частота синусоиды</param>
-        /// <returns>Список точек для графика</returns>
-        public static List<TorquePoint> GenerateSineWaveData(
-            int pointCount = 200,
-            double minTurns = 0,
-            double maxTurns = 100,
-            double amplitude = 5000,
-            double frequency = 2)
+        /// <param name="frequency">Частота синусоиды (количество периодов)</param>
+        /// <returns>Массив значений Y</returns>
+        public static double[] GenerateSineWaveData(double[] xValues, double amplitude = 5000, double frequency = 3)
         {
-            var data = new List<TorquePoint>();
-            double turnsRange = maxTurns - minTurns;
+            int pointCount = xValues.Length;
+            double[] yValues = new double[pointCount];
 
             for (int i = 0; i < pointCount; i++)
             {
-                double turns = minTurns + (turnsRange / pointCount) * i;
-                double torque = amplitude * Math.Sin(frequency * Math.PI * i / pointCount) + amplitude;
-
-                data.Add(new TorquePoint { Turns = turns, Torque = torque });
+                yValues[i] = amplitude * Math.Sin(frequency * 2 * Math.PI * i / pointCount) + amplitude;
             }
 
-            return data;
+            return yValues;
         }
 
         /// <summary>
         /// Генерирует случайные данные
         /// </summary>
-        /// <param name="pointCount">Количество точек</param>
-        /// <param name="maxTurns">Максимальное количество оборотов</param>
+        /// <param name="xValues">Массив значений X (время в мс)</param>
         /// <param name="maxTorque">Максимальный крутящий момент</param>
-        /// <returns>Список точек для графика</returns>
-        public static List<TorquePoint> GenerateRandomData(
-            int pointCount = 100,
-            double maxTurns = 50,
-            double maxTorque = 10000)
+        /// <returns>Массив значений Y</returns>
+        public static double[] GenerateRandomData(double[] xValues, double maxTorque = 10000)
         {
-            var data = new List<TorquePoint>();
+            int pointCount = xValues.Length;
+            double[] yValues = new double[pointCount];
 
             for (int i = 0; i < pointCount; i++)
             {
-                data.Add(new TorquePoint
-                {
-                    Turns = (maxTurns / pointCount) * i,
-                    Torque = maxTorque * _random.NextDouble()
-                });
+                yValues[i] = maxTorque * _random.NextDouble();
             }
 
-            return data;
+            return yValues;
         }
 
         /// <summary>
         /// Генерирует линейно возрастающие данные
         /// </summary>
-        /// <param name="pointCount">Количество точек</param>
-        /// <param name="maxTurns">Максимальное количество оборотов</param>
+        /// <param name="xValues">Массив значений X (время в мс)</param>
         /// <param name="maxTorque">Максимальный крутящий момент</param>
-        /// <returns>Список точек для графика</returns>
-        public static List<TorquePoint> GenerateLinearData(
-            int pointCount = 100,
-            double maxTurns = 50,
-            double maxTorque = 10000)
+        /// <returns>Массив значений Y</returns>
+        public static double[] GenerateLinearData(double[] xValues, double maxTorque = 10000)
         {
-            var data = new List<TorquePoint>();
+            int pointCount = xValues.Length;
+            double[] yValues = new double[pointCount];
 
             for (int i = 0; i < pointCount; i++)
             {
-                double turns = (maxTurns / pointCount) * i;
-                double torque = (maxTorque / pointCount) * i;
-
-                data.Add(new TorquePoint { Turns = turns, Torque = torque });
+                yValues[i] = (maxTorque / pointCount) * i;
             }
 
-            return data;
+            return yValues;
         }
     }
 }

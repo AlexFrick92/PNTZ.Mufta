@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using PNTZ.Mufta.Showcase.Data;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -16,10 +17,24 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     {
         private ChartViewModel _viewModel;
         private DispatcherTimer _realtimeTimer;
-        private List<TorquePoint> _realtimeDataPoints;
-        private List<TorquePoint> _fullDataSet;
+        private List<SeriesPoint> _realtimeDataPoints;
+        private List<SeriesPoint> _fullDataSet;
         private int _currentIndex = 0;
         private Random _random = new Random();
+
+        // Мастер-коллекция с общей сеткой X для всех серий
+        private List<SeriesPoint> _masterData;
+
+        // Трекинг серий: какая кнопка использует какое поле YValN
+        private class SeriesTracker
+        {
+            public string YValField { get; set; }  // "YVal1", "YVal2", etc.
+            public bool IsActive { get; set; }      // Активна ли серия
+            public SolidColorBrush Color { get; set; }
+            public string DisplayName { get; set; }
+        }
+
+        private Dictionary<Button, SeriesTracker> _seriesTracking;
 
         // Флаг для предотвращения рекурсивного обновления осей
         private bool _isUpdatingAxes = false;
@@ -37,6 +52,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             InitializeComponent();
             InitializeViewModel();
             InitializeRealtimeTimer();
+            InitializeSeriesTracking();
         }
 
         /// <summary>
@@ -47,19 +63,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _viewModel = new ChartViewModel
             {
                 ChartTitle = "Тестирование графика крутящего момента",
-                ArgumentMember = "Turns",                
+                ArgumentMember = "XVal",
                 XMin = 0,
-                XMax = 50,
+                XMax = 5000,
                 YMin = 0,
-                YMax = 10000,                
+                YMax = 10000,
             };
-
-            _viewModel.Series.Add(new ChartSeriesViewModel(
-                 "Torque", 
-                 "SinWave", 
-                 new SolidColorBrush(Color.FromRgb(52, 152, 219)), 
-                 1
-            ));
 
             ChartView.DataContext = _viewModel;
             UpdateStatus("График инициализирован. Готов к тестированию.");
@@ -74,124 +83,72 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _realtimeTimer.Tick += RealtimeTimer_Tick;
         }
 
+        /// <summary>
+        /// Инициализация трекинга серий для кнопок
+        /// </summary>
+        private void InitializeSeriesTracking()
+        {
+            _seriesTracking = new Dictionary<Button, SeriesTracker>
+            {
+                { BtnRealisticData, new SeriesTracker { YValField = "YVal1", IsActive = false, Color = _activeGreenColor, DisplayName = "Реалистичные" } },
+                { BtnSineWave, new SeriesTracker { YValField = "YVal2", IsActive = false, Color = _activeBlueColor, DisplayName = "Синусоида" } },
+                { BtnLinearData, new SeriesTracker { YValField = "YVal3", IsActive = false, Color = _activePurpleColor, DisplayName = "Линейный рост" } },
+                { BtnRandomData, new SeriesTracker { YValField = "YVal4", IsActive = false, Color = _activeOrangeColor, DisplayName = "Случайные" } }
+            };
+        }
+
         #region Обработчики кнопок - Тестовые данные
 
         private void LoadRealisticData_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
-
-            // Получаем текущие значения осей
-            double xMax = GetAxisValue(XMaxTextBox, 50);
             double yMax = GetAxisValue(YMaxTextBox, 10000);
-
-            // Используем фиксированное количество точек для статичных данных (детальный график)
-            const int pointCount = 200;
-            var data = MockDataGenerator.GenerateRealisticTorqueData(
-                pointCount: pointCount,
-                maxTurns: xMax,
-                maxTorque: yMax);
-
-            _viewModel.ChartData = data;
-
-            // Обновляем цвета кнопок
-            ResetDataButtonColors();
-            ResetRealtimeButtonColors();
-            BtnRealisticData.Background = _activeGreenColor;
-            BtnStop.Background = _activeRedColor;
-
-            UpdateStatus($"Загружены реалистичные данные ({pointCount} точек, X: 0-{xMax:F0}, Y: 0-{yMax:F0})");
+            ToggleSeries(BtnRealisticData, xValues => MockDataGenerator.GenerateRealisticTorqueData(xValues, yMax));
         }
 
         private void LoadSineWave_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
-
-            // Получаем текущие значения осей
-            double xMin = GetAxisValue(XMinTextBox, 0);
-            double xMax = GetAxisValue(XMaxTextBox, 100);
             double yMax = GetAxisValue(YMaxTextBox, 10000);
-
-            const int pointCount = 200;
-            var data = MockDataGenerator.GenerateSineWaveData(
-                pointCount: pointCount,
-                minTurns: xMin,
-                maxTurns: xMax,
-                amplitude: yMax / 2.5,  // Амплитуда = ~40% от максимума
-                frequency: 3);
-
-            _viewModel.ChartData = data;            
-
-            // Обновляем цвета кнопок
-            ResetDataButtonColors();
-            ResetRealtimeButtonColors();
-            BtnSineWave.Background = _activeBlueColor;
-            BtnStop.Background = _activeRedColor;
-
-            UpdateStatus($"Загружена синусоида ({pointCount} точек, X: {xMin:F0}-{xMax:F0}, Y: 0-{yMax:F0})");
+            ToggleSeries(BtnSineWave, xValues => MockDataGenerator.GenerateSineWaveData(xValues, yMax / 2.5, 3));
         }
 
         private void LoadLinearData_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
-
-            // Получаем текущие значения осей
-            double xMax = GetAxisValue(XMaxTextBox, 50);
             double yMax = GetAxisValue(YMaxTextBox, 10000);
-
-            const int pointCount = 200;
-            var data = MockDataGenerator.GenerateLinearData(
-                pointCount: pointCount,
-                maxTurns: xMax,
-                maxTorque: yMax);
-
-            _viewModel.ChartData = data;
-
-            // Обновляем цвета кнопок
-            ResetDataButtonColors();
-            ResetRealtimeButtonColors();
-            BtnLinearData.Background = _activePurpleColor;
-            BtnStop.Background = _activeRedColor;
-
-            UpdateStatus($"Загружены линейные данные ({pointCount} точек, X: 0-{xMax:F0}, Y: 0-{yMax:F0})");
+            ToggleSeries(BtnLinearData, xValues => MockDataGenerator.GenerateLinearData(xValues, yMax));
         }
 
         private void LoadRandomData_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
-
-            // Получаем текущие значения осей
-            double xMax = GetAxisValue(XMaxTextBox, 50);
             double yMax = GetAxisValue(YMaxTextBox, 10000);
-
-            const int pointCount = 200;
-            var data = MockDataGenerator.GenerateRandomData(
-                pointCount: pointCount,
-                maxTurns: xMax,
-                maxTorque: yMax);
-
-            _viewModel.ChartData = data;
-
-            // Обновляем цвета кнопок
-            ResetDataButtonColors();
-            ResetRealtimeButtonColors();
-            BtnRandomData.Background = _activeOrangeColor;
-            BtnStop.Background = _activeRedColor;
-
-            UpdateStatus($"Загружены случайные данные ({pointCount} точек, X: 0-{xMax:F0}, Y: 0-{yMax:F0})");
+            ToggleSeries(BtnRandomData, xValues => MockDataGenerator.GenerateRandomData(xValues, yMax));
         }
 
         private void ClearData_Click(object sender, RoutedEventArgs e)
         {
             StopRealtime();
+
+            // Очищаем мастер-коллекцию
+            _masterData = null;
+
+            // Очищаем все серии
+            _viewModel.Series.Clear();
             _viewModel.ChartData = null;
 
-            // Обновляем цвета кнопок
+            // Сбрасываем состояние трекеров
+            foreach (var tracker in _seriesTracking.Values)
+            {
+                tracker.IsActive = false;
+            }
+
+            // Сбрасываем цвета кнопок
             ResetDataButtonColors();
             ResetRealtimeButtonColors();
-            BtnClearData.Background = _activeRedColor;
-            BtnStop.Background = _activeRedColor;
 
-            UpdateStatus("График очищен");
+            UpdateStatus("График очищен. Коллекция данных сброшена.");
         }
 
         #endregion
@@ -200,40 +157,59 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void StartRealtime_Click(object sender, RoutedEventArgs e)
         {
+            // Инициализируем мастер-коллекцию, если нужно
+            if (_masterData == null || _masterData.Count == 0)
+            {
+                InitializeMasterData();
+            }
+
             // Получаем параметры
-            double xMin = _viewModel.XMin;
-            double xMax = _viewModel.XMax;
             double yMax = _viewModel.YMax;
-            double speed = GetSpeed(); // единиц/секунду
-            int interval = GetInterval(); // миллисекунды
+            int interval = GetInterval();
 
-            // Вычисляем количество точек на основе интервала и скорости
-            double xRange = xMax - xMin; // диапазон по оси X
-            double totalTime = xRange / speed; // общее время анимации в секундах
-            int pointCount = (int)Math.Ceiling((totalTime * 1000) / interval); // количество точек
+            // Используем YVal1 для real-time (можно изменить на любой свободный)
+            string realtimeField = "YVal1";
 
-            // Генерируем полный набор данных
-            _fullDataSet = MockDataGenerator.GenerateRealisticTorqueData(
-                pointCount: pointCount,
-                maxTurns: xMax,
-                maxTorque: yMax);
+            // Генерируем полный набор данных Y
+            double[] xValues = _masterData.Select(p => p.XVal).ToArray();
+            _fullDataSet = new List<SeriesPoint>(); // Переиспользуем для хранения только Y-значений
 
-            // Подготавливаем коллекцию для отображения
-            _realtimeDataPoints = new List<TorquePoint>();
+            double[] yValues = MockDataGenerator.GenerateRealisticTorqueData(xValues, yMax);
+            for (int i = 0; i < yValues.Length; i++)
+            {
+                _fullDataSet.Add(new SeriesPoint { XVal = xValues[i], YVal1 = yValues[i] });
+            }
+
+            // Сброс индекса
             _currentIndex = 0;
 
-            // Настраиваем интервал таймера
-            _realtimeTimer.Interval = TimeSpan.FromMilliseconds(interval);
+            // Обнуляем YVal1 перед началом
+            foreach (var point in _masterData)
+            {
+                point.YVal1 = 0;
+            }
 
-            // Запускаем таймер
+            // Добавляем серию для real-time, если её нет
+            if (!_viewModel.Series.Any(s => s.DisplayName == "Real-time"))
+            {
+                _viewModel.Series.Add(new ChartSeriesViewModel(
+                    realtimeField,
+                    "Real-time",
+                    _activeGreenColor,
+                    2.0
+                ));
+            }
+
+            // Настраиваем таймер
+            _realtimeTimer.Interval = TimeSpan.FromMilliseconds(interval);
             _realtimeTimer.Start();
 
             // Обновляем цвета кнопок
-            ResetDataButtonColors();
             ResetRealtimeButtonColors();
             BtnStart.Background = _activeGreenColor;
 
-            UpdateStatus($"Real-time симуляция: {pointCount} точек, {totalTime:F1} сек, скорость {speed} ед/сек");
+            double totalTime = (_masterData.Count * interval) / 1000.0;
+            UpdateStatus($"Real-time симуляция запущена: {_masterData.Count} точек, ~{totalTime:F1} сек");
         }
 
         private void PauseRealtime_Click(object sender, RoutedEventArgs e)
@@ -280,7 +256,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void RealtimeTimer_Tick(object sender, EventArgs e)
         {
-            if (_fullDataSet == null || _currentIndex >= _fullDataSet.Count)
+            if (_fullDataSet == null || _currentIndex >= _fullDataSet.Count || _masterData == null)
             {
                 _realtimeTimer.Stop();
 
@@ -291,13 +267,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 return;
             }
 
-            // Добавляем следующую точку
-            _realtimeDataPoints.Add(_fullDataSet[_currentIndex]);
+            // Обновляем следующую точку в мастер-коллекции
+            _masterData[_currentIndex].YVal1 = _fullDataSet[_currentIndex].YVal1;
             _currentIndex++;
 
             // Обновляем график (пересоздаем коллекцию для обновления UI)
-            var updatedData = new List<TorquePoint>(_realtimeDataPoints);
-            _viewModel.ChartData = updatedData;
+            _viewModel.ChartData = new List<SeriesPoint>(_masterData);
 
             // Обновляем статус
             UpdateStatus($"Real-time: {_currentIndex}/{_fullDataSet.Count} точек");
@@ -367,16 +342,16 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             if (_viewModel.ChartData != null)
             {
                 // Если есть данные, подгоняем оси под данные
-                var data = _viewModel.ChartData as System.Collections.Generic.IEnumerable<TorquePoint>;
+                var data = _viewModel.ChartData as System.Collections.Generic.IEnumerable<SeriesPoint>;
                 if (data != null)
                 {
-                    var points = new List<TorquePoint>(data);
+                    var points = new List<SeriesPoint>(data);
                     if (points.Count > 0)
                     {
-                        var minX = points.Min(p => p.Turns);
-                        var maxX = points.Max(p => p.Turns);
-                        var minY = points.Min(p => p.Torque);
-                        var maxY = points.Max(p => p.Torque);
+                        var minX = points.Min(p => p.XVal);
+                        var maxX = points.Max(p => p.XVal);
+                        var minY = points.Min(p => p.YVal1);
+                        var maxY = points.Max(p => p.YVal1);
 
                         // Добавляем небольшой отступ (5%)
                         var xMargin = (maxX - minX) * 0.05;
@@ -403,6 +378,119 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         #endregion
 
         #region Вспомогательные методы
+
+        /// <summary>
+        /// Инициализирует мастер-коллекцию с общей сеткой X для всех серий
+        /// </summary>
+        private void InitializeMasterData()
+        {
+            double xMin = _viewModel.XMin;
+            double xMax = _viewModel.XMax;
+            int interval = GetInterval();
+
+            // Рассчитываем количество точек
+            double xRange = xMax - xMin;
+            int pointCount = (int)Math.Ceiling(xRange / interval);
+
+            // Создаём коллекцию с заполненными значениями X
+            _masterData = new List<SeriesPoint>(pointCount);
+            for (int i = 0; i < pointCount; i++)
+            {
+                _masterData.Add(new SeriesPoint
+                {
+                    XVal = xMin + i * interval,
+                    YVal1 = 0,
+                    YVal2 = 0,
+                    YVal3 = 0,
+                    YVal4 = 0
+                });
+            }
+
+            UpdateStatus($"Инициализирована коллекция: {pointCount} точек, интервал {interval} мс, диапазон {xMin}-{xMax} мс");
+        }
+
+        /// <summary>
+        /// Универсальный обработчик toggle для кнопок добавления данных
+        /// </summary>
+        private void ToggleSeries(Button button, Func<double[], double[]> dataGenerator)
+        {
+            if (!_seriesTracking.ContainsKey(button))
+                return;
+
+            var tracker = _seriesTracking[button];
+
+            // Проверяем, активна ли серия
+            if (tracker.IsActive)
+            {
+                // Удаляем серию
+                var seriesToRemove = _viewModel.Series.FirstOrDefault(s => s.ValueMember == tracker.YValField);
+                if (seriesToRemove != null)
+                {
+                    _viewModel.Series.Remove(seriesToRemove);
+                }
+
+                // Обнуляем данные в мастер-коллекции
+                if (_masterData != null)
+                {
+                    foreach (var point in _masterData)
+                    {
+                        switch (tracker.YValField)
+                        {
+                            case "YVal1": point.YVal1 = 0; break;
+                            case "YVal2": point.YVal2 = 0; break;
+                            case "YVal3": point.YVal3 = 0; break;
+                            case "YVal4": point.YVal4 = 0; break;
+                        }
+                    }
+                    _viewModel.ChartData = new List<SeriesPoint>(_masterData);
+                }
+
+                tracker.IsActive = false;
+                button.Background = _inactiveColor;
+                UpdateStatus($"Серия '{tracker.DisplayName}' удалена");
+            }
+            else
+            {
+                // Инициализируем мастер-коллекцию, если нужно
+                if (_masterData == null || _masterData.Count == 0)
+                {
+                    InitializeMasterData();
+                }
+
+                // Получаем массив X
+                double[] xValues = _masterData.Select(p => p.XVal).ToArray();
+
+                // Генерируем данные Y
+                double[] yValues = dataGenerator(xValues);
+
+                // Заполняем YValN в мастер-коллекции
+                for (int i = 0; i < _masterData.Count && i < yValues.Length; i++)
+                {
+                    switch (tracker.YValField)
+                    {
+                        case "YVal1": _masterData[i].YVal1 = yValues[i]; break;
+                        case "YVal2": _masterData[i].YVal2 = yValues[i]; break;
+                        case "YVal3": _masterData[i].YVal3 = yValues[i]; break;
+                        case "YVal4": _masterData[i].YVal4 = yValues[i]; break;
+                    }
+                }
+
+                // Добавляем серию
+                _viewModel.Series.Add(new ChartSeriesViewModel(
+                    tracker.YValField,
+                    tracker.DisplayName,
+                    tracker.Color,
+                    2.0
+                ));
+
+                // Обновляем график
+                _viewModel.ChartData = new List<SeriesPoint>(_masterData);
+
+                tracker.IsActive = true;
+                button.Background = tracker.Color;
+                UpdateStatus($"Серия '{tracker.DisplayName}' добавлена ({_masterData.Count} точек)");
+            }
+        }
 
         /// <summary>
         /// Сбрасывает цвета всех кнопок выбора данных на неактивное состояние
@@ -477,18 +565,6 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             {
                 _isUpdatingAxes = false;
             }
-        }
-
-        /// <summary>
-        /// Получает скорость из TextBox (единиц/секунду)
-        /// </summary>
-        private double GetSpeed()
-        {
-            if (double.TryParse(SpeedTextBox.Text, out double speed) && speed > 0 && speed <= 10000)
-            {
-                return speed;
-            }
-            return 10; // Значение по умолчанию: 10 единиц/сек
         }
 
         /// <summary>
