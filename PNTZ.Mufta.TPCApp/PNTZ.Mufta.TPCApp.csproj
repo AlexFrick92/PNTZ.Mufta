@@ -191,9 +191,9 @@
     <Compile Include="Repository\RemoteRepository.cs" />
     <Compile Include="Repository\RemoteRepositoryContext.cs" />
     <Compile Include="Toolbox\Smoothing\MovingAverage.cs" />
+    <Compile Include="ViewModel\Control\ChartSeriesViewModel.cs" />
     <Compile Include="ViewModel\Control\ChartViewModel.cs" />
     <Compile Include="ViewModel\Control\ConstantLineViewModel.cs" />
-    <Compile Include="ViewModel\Control\SeriesViewModel.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />
     <Compile Include="ViewModel\JointProcessViewModel.cs" />

@@ -89,6 +89,28 @@
                 </dxc:ConstantLine>
             </DataTemplate>
 
+            <!-- Шаблон для серий данных (DataContext: ChartSeriesViewModel) -->
+            <DataTemplate x:Key="ChartSeriesTemplate">
+                <dxc:AreaSeries2D DataSource="{Binding DataContext.ChartData, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                  ArgumentDataMember="{Binding DataContext.ArgumentMember, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                  ValueDataMember="{Binding ValueMember}"
+                                  ArgumentScaleType="Numerical"
+                                  CrosshairEnabled="True"
+                                  Transparency="1"
+                                  DisplayName="{Binding DisplayName}">
+
+                    <!-- Граница серии (линия графика) -->
+                    <dxc:AreaSeries2D.Border>
+                        <dxc:SeriesBorder Brush="{Binding LineColor}">
+                            <dxc:SeriesBorder.LineStyle>
+                                <dxc:LineStyle Thickness="{Binding LineThickness}"/>
+                            </dxc:SeriesBorder.LineStyle>
+                        </dxc:SeriesBorder>
+                    </dxc:AreaSeries2D.Border>
+
+                </dxc:AreaSeries2D>
+            </DataTemplate>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -112,7 +134,8 @@
         <dxc:ChartControl Grid.Row="1"
                           Style="{StaticResource ChartStyle}"
                           CrosshairEnabled="True"
-                          dxcore:ThemeManager.ThemeName="MetropolisLight">
+                          dxcore:ThemeManager.ThemeName="MetropolisLight"
+                          >
 
             <!-- Настройки перекрестия -->
             <dxc:ChartControl.CrosshairOptions>
@@ -130,7 +153,10 @@
             <dxc:ChartControl.Diagram>
                 <dxc:XYDiagram2D x:Name="diagram"
                                  EnableAxisXNavigation="True"
-                                 EnableAxisYNavigation="True">
+                                 EnableAxisYNavigation="True"
+                                 SeriesItemsSource="{Binding Series}"
+                                 SeriesItemTemplate="{StaticResource ChartSeriesTemplate}">
+
 
                     <!-- Настройки навигации -->
                     <dxc:XYDiagram2D.NavigationOptions>
@@ -262,26 +288,10 @@
                         </dxc:AxisY2D>
                     </dxc:XYDiagram2D.AxisY>
 
-                    <!-- ========================================
-                         СЕРИЯ ДАННЫХ (Area Chart)
-                         ======================================== -->
-                    <dxc:AreaSeries2D DataSource="{Binding ChartData}"
-                                      ArgumentDataMember="{Binding ArgumentMember}"
-                                      ValueDataMember="{Binding ValueMember}"
-                                      ArgumentScaleType="Numerical"
-                                      CrosshairEnabled="True"
-                                      Transparency="1">
+                    <dxc:XYDiagram2D.Series>
+                            
+                    </dxc:XYDiagram2D.Series>
 
-                        <!-- Граница серии (линия графика) -->
-                        <dxc:AreaSeries2D.Border>
-                            <dxc:SeriesBorder Brush="{Binding LineColor}">
-                                <dxc:SeriesBorder.LineStyle>
-                                    <dxc:LineStyle Thickness="{Binding LineThickness}"/>
-                                </dxc:SeriesBorder.LineStyle>
-                            </dxc:SeriesBorder>
-                        </dxc:AreaSeries2D.Border>
-
-                    </dxc:AreaSeries2D>
 
                 </dxc:XYDiagram2D>
             </dxc:ChartControl.Diagram>
