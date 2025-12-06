@@ -28,6 +28,44 @@ Assistant: Use this command:
 This will show you the current state of your working directory and staging area.
 ```
 
+## Git Commit Messages
+
+When asked to provide commit messages, use this format:
+
+**Structure:**
+1. **Summary line**: One sentence describing the essence (max 10 words)
+2. **Details list**: Bulleted clarifications (max 7 points)
+
+**Content Guidelines:**
+- **DO** focus on **what** changed and **why** (functionality, not file names)
+- **DO** describe business logic and feature changes
+- **DO NOT** list file names (git tracks this automatically)
+- **DO NOT** include technical file structure details
+
+**When to mention files:**
+- Renaming/removing critical files
+- Breaking changes to important configurations
+- Refactoring with significant structural impact
+
+**Example format:**
+```
+Добавлен JointProcessChartView в галерею Showcase
+
+- Создано окно для проверки разметки контрола
+- Зарегистрирован в галерее (категория "Графики")
+- Реализована базовая структура для тестирования
+```
+
+**Not recommended:**
+```
+Добавлены файлы JointProcessChartViewTestWindow.xaml и .xaml.cs
+
+- Создан TestWindows\JointProcessChartViewTestWindow.xaml
+- Создан TestWindows\JointProcessChartViewTestWindow.xaml.cs
+- Изменён MainWindow.xaml.cs
+- Обновлён PNTZ.Mufta.Showcase.csproj
+```
+
 ## Building and Testing
 
 ### Build Commands

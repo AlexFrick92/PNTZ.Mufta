@@ -30,14 +30,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class JointProcessViewModel : BaseViewModel
     {
-
-        public ChartViewModel TorqueChart { get; set; } = new ChartViewModel()
-        {
-            ChartTitle = "Момент/Обороты",
-            XMax = 5,
-            YMax = 20_000,
-        };
-
         public JointProcessViewModel(IJointProcessWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger, ICliProgram cliProgram, LocalRepository repo )
         {
             this.logger = logger;
@@ -144,14 +136,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         {
             updateTimer.Tick += dispatcherTimer_Tick;
             updateTimer.Interval = UpdateInterval;
-            updateTimer.Start();
-            
-            //_actualPointStream
-            //        //.Buffer(UpdateInterval)
-            //        //.Where(buf => buf.Count > 0)
-            //        //.Select(TqTnLenPoint.SmoothAverage)
-            //        .Sample(UpdateInterval)
-            //        .Subscribe(UpdateActualPoint);           
+            updateTimer.Start();          
         }
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -271,13 +256,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             TorqueTimeChartConfig.YMaxValue = recipe.MU_Tq_Max * 1.1;
             
             TurnsPerMinuteTurnsChartConfig.XMaxValue = TorqueTurnsChartConfig.XMaxValue;
-
-            TorqueChart.YMax = TorqueTurnsChartConfig.YMaxValue;
-
-            TorqueChart.YConstantLines.Add(new ConstantLineViewModel()
-            {
-                Value = TorqueChart.YMax / 2
-            });
 
         }
 

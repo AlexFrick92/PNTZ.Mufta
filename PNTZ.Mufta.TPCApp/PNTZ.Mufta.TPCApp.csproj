@@ -197,6 +197,7 @@
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />
     <Compile Include="ViewModel\JointProcessViewModel.cs" />
+    <Compile Include="ViewModel\Joint\JointProcessChartViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NewRecipeViewModel.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
     <Compile Include="ViewModel\TqTnLenPointViewModel.cs" />
     <Compile Include="View\ChartViewConfig.cs" />
+    <Compile Include="View\ControlHelper\GridHelper.cs" />
     <Compile Include="View\Control\ChartSeriesView.xaml.cs">
       <DependentUpon>ChartSeriesView.xaml</DependentUpon>
     </Compile>
@@ -225,6 +227,9 @@
     <Compile Include="View\EnumHelper.cs" />
     <Compile Include="View\EnumToCollectionConverter.cs" />
     <Compile Include="View\Formatter\SecondsIntegerLabelFormatter.cs" />
+    <Compile Include="View\Joint\JointProcessChartView.xaml.cs">
+      <DependentUpon>JointProcessChartView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Joint\JointProcessView.xaml.cs">
       <DependentUpon>JointProcessView.xaml</DependentUpon>
     </Compile>
@@ -316,6 +321,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Control\StatusBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Joint\JointProcessChartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

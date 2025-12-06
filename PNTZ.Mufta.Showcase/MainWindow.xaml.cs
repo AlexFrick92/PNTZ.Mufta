@@ -47,6 +47,14 @@ namespace PNTZ.Mufta.Showcase
                     WindowType = typeof(ChartViewTestWindow)
                 },
 
+                new ControlInfo
+                {
+                    Name = "JointProcessChartView",
+                    Category = "Графики",
+                    Description = "Компонент для отображения графиков процесса навёртки муфты.",
+                    WindowType = typeof(JointProcessChartViewTestWindow)
+                },
+
                 // Здесь будут добавляться другие контролы в будущем
                 // Пример:
                 // new ControlInfo

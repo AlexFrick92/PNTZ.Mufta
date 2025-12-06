@@ -65,6 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TestWindows\JointProcessChartViewTestWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -77,6 +81,9 @@
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="TestWindows\ChartViewTestWindow.xaml.cs">
       <DependentUpon>ChartViewTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestWindows\JointProcessChartViewTestWindow.xaml.cs">
+      <DependentUpon>JointProcessChartViewTestWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
