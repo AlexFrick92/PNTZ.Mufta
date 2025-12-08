@@ -24,13 +24,13 @@ namespace PNTZ.Mufta.TPCApp.Domain
             get => name;            
             set
             {
-                if (value != null && value.Length < 20)
+                if (value != null && value.Length < 40)
                 {
                     name = value;
                 }
                 else
                 {
-                    throw new ArgumentException("Значение имени должно быть от 1 до 20 символов");                    
+                    throw new ArgumentException("Значение имени должно быть от 1 до 40 символов");                    
                 }
             }
         }

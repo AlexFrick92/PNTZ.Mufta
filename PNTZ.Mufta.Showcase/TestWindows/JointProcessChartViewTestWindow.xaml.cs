@@ -48,6 +48,26 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
 
         /// <summary>
+        /// Загрузить тестовый рецепт по моменту и длине
+        /// </summary>
+        private void LoadRecipeTorqueLength_Click(object sender, RoutedEventArgs e)
+        {
+            var recipe = CreateTestRecipeTorqueLength();
+            _viewModel.UpdateRecipe(recipe);
+            StatusText.Text = $"Загружен рецепт: {recipe.Name} (режим: {recipe.JointMode})";
+        }
+
+        /// <summary>
+        /// Загрузить тестовый рецепт по моменту до упора
+        /// </summary>
+        private void LoadRecipeTorqueShoulder_Click(object sender, RoutedEventArgs e)
+        {
+            var recipe = CreateTestRecipeTorqueShoulder();
+            _viewModel.UpdateRecipe(recipe);
+            StatusText.Text = $"Загружен рецепт: {recipe.Name} (режим: {recipe.JointMode})";
+        }
+
+        /// <summary>
         /// Создать тестовый рецепт по длине
         /// </summary>
         private JointRecipe CreateTestRecipeLength()
@@ -95,8 +115,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 MU_Len_Speed_1 = 50f,
                 MU_Len_Speed_2 = 30f,
                 MU_Len_Dump = 150f,
-                MU_Len_Min = 200f,
-                MU_Len_Max = 300f,
+                MU_Len_Min = 108f,
+                MU_Len_Max = 116f,
 
                 // Параметры силового свинчивания по J
                 MU_JVal_Speed_1 = 100f,
@@ -157,8 +177,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 MU_Len_Speed_1 = 60f,
                 MU_Len_Speed_2 = 40f,
                 MU_Len_Dump = 180f,
-                MU_Len_Min = 250f,
-                MU_Len_Max = 350f,
+                MU_Len_Min = 108f,
+                MU_Len_Max = 116f,
 
                 // Параметры силового свинчивания по J
                 MU_JVal_Speed_1 = 120f,
@@ -166,6 +186,130 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 MU_JVal_Dump = 600f,
                 MU_JVal_Min = 1200f,
                 MU_JVal_Max = 2500f,
+
+                TimeStamp = DateTime.Now
+            };
+        }
+
+        /// <summary>
+        /// Создать тестовый рецепт по моменту и длине
+        /// </summary>
+        private JointRecipe CreateTestRecipeTorqueLength()
+        {
+            return new JointRecipe
+            {
+                Id = Guid.NewGuid(),
+                Name = "TEST_TORQUE_LENGTH",
+                JointMode = JointMode.TorqueLength,
+                SelectedThreadType = ThreadType.RIGHT,
+
+                // Общие данные
+                HEAD_OPEN_PULSES = 110f,
+                TURNS_BREAK = 0.4f,
+                PLC_PROG_NR = 3,
+                LOG_NO = 3,
+                Tq_UNIT = 1,
+                Thread_step = 25.4f,
+                PIPE_TYPE = "TEST_PIPE_TQLEN",
+
+                // Параметры муфты
+                Box_Moni_Time = 5500,
+                Box_Len_Min = 12f,
+                Box_Len_Max = 55f,
+
+                // Параметры преднавёртки
+                Pre_Moni_Time = 11000,
+                Pre_Len_Max = 110f,
+                Pre_Len_Min = 22f,
+
+                // Параметры силового свинчивания общие
+                MU_Moni_Time = 16000,
+                MU_Tq_Ref = 6000f,
+                MU_Tq_Save = 5500f,
+                MU_TqSpeedRed_1 = 3500f,
+                MU_TqSpeedRed_2 = 4500f,
+                MU_Tq_Dump = 2500f,
+                MU_Tq_Max = 9000f,
+                MU_Tq_Min = 3500f,
+                MU_Tq_Opt = 7000f,
+                MU_TqShoulder_Min = 2800f,
+                MU_TqShoulder_Max = 3800f,
+
+                // Параметры силового свинчивания по длине
+                MU_Len_Speed_1 = 55f,
+                MU_Len_Speed_2 = 35f,
+                MU_Len_Dump = 160f,
+                MU_Len_Min = 108f,
+                MU_Len_Max = 116f,
+
+                // Параметры силового свинчивания по J
+                MU_JVal_Speed_1 = 110f,
+                MU_JVal_Speed_2 = 85f,
+                MU_JVal_Dump = 550f,
+                MU_JVal_Min = 1100f,
+                MU_JVal_Max = 2200f,
+
+                TimeStamp = DateTime.Now
+            };
+        }
+
+        /// <summary>
+        /// Создать тестовый рецепт по моменту до упора
+        /// </summary>
+        private JointRecipe CreateTestRecipeTorqueShoulder()
+        {
+            return new JointRecipe
+            {
+                Id = Guid.NewGuid(),
+                Name = "TEST_TORQUE_SHOULDER",
+                JointMode = JointMode.TorqueShoulder,
+                SelectedThreadType = ThreadType.RIGHT,
+
+                // Общие данные
+                HEAD_OPEN_PULSES = 115f,
+                TURNS_BREAK = 0.35f,
+                PLC_PROG_NR = 4,
+                LOG_NO = 4,
+                Tq_UNIT = 1,
+                Thread_step = 25.4f,
+                PIPE_TYPE = "TEST_PIPE_TQSH",
+
+                // Параметры муфты
+                Box_Moni_Time = 5800,
+                Box_Len_Min = 13f,
+                Box_Len_Max = 57f,
+
+                // Параметры преднавёртки
+                Pre_Moni_Time = 11500,
+                Pre_Len_Max = 115f,
+                Pre_Len_Min = 23f,
+
+                // Параметры силового свинчивания общие
+                MU_Moni_Time = 17000,
+                MU_Tq_Ref = 6500f,
+                MU_Tq_Save = 6000f,
+                MU_TqSpeedRed_1 = 3800f,
+                MU_TqSpeedRed_2 = 5000f,
+                MU_Tq_Dump = 2800f,
+                MU_Tq_Max = 9500f,
+                MU_Tq_Min = 3800f,
+                MU_Tq_Opt = 7500f,
+                MU_TqShoulder_Min = 3200f,
+                MU_TqShoulder_Max = 4200f,
+
+                // Параметры силового свинчивания по длине
+                MU_Len_Speed_1 = 58f,
+                MU_Len_Speed_2 = 38f,
+                MU_Len_Dump = 170f,
+                MU_Len_Min = 240f,
+                MU_Len_Max = 340f,
+
+                // Параметры силового свинчивания по J
+                MU_JVal_Speed_1 = 115f,
+                MU_JVal_Speed_2 = 88f,
+                MU_JVal_Dump = 580f,
+                MU_JVal_Min = 1150f,
+                MU_JVal_Max = 2300f,
 
                 TimeStamp = DateTime.Now
             };

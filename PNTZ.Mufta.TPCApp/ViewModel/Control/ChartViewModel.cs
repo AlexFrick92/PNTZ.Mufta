@@ -8,85 +8,8 @@ using System.Windows.Media;
 namespace PNTZ.Mufta.TPCApp.ViewModel.Control
 {
     /// <summary>
-    /// ViewModel для ChartView.
-    /// Управляет данными графика, включая коллекции серий и константных линий для осей X и Y.
+    /// ViewModel для ChartView
     /// </summary>
-    /// <example>
-    /// Использование в XAML:
-    /// <code>
-    /// &lt;control:ChartView DataContext="{Binding MyChartViewModel}" /&gt;
-    /// </code>
-    ///
-    /// Использование в C# (несколько серий):
-    /// <code>
-    /// public class MyViewModel : BaseViewModel
-    /// {
-    ///     public ChartViewModel MyChartViewModel { get; set; }
-    ///
-    ///     public MyViewModel()
-    ///     {
-    ///         MyChartViewModel = new ChartViewModel
-    ///         {
-    ///             ChartTitle = "График момента и давления",
-    ///             ArgumentMember = "Turns",
-    ///             XMin = 0, XMax = 100,
-    ///             YMin = 0, YMax = 10000
-    ///         };
-    ///
-    ///         // Добавление нескольких серий
-    ///         MyChartViewModel.Series.Add(new ChartSeriesViewModel
-    ///         {
-    ///             ValueMember = "Torque",
-    ///             DisplayName = "Крутящий момент",
-    ///             LineColor = Brushes.Blue,
-    ///             LineThickness = 2.5
-    ///         });
-    ///
-    ///         MyChartViewModel.Series.Add(new ChartSeriesViewModel
-    ///         {
-    ///             ValueMember = "Pressure",
-    ///             DisplayName = "Давление",
-    ///             LineColor = Brushes.Red,
-    ///             LineThickness = 2.0
-    ///         });
-    ///
-    ///         // Установка данных
-    ///         MyChartViewModel.ChartData = myDataCollection;
-    ///
-    ///         // Добавление константных линий для оси X (например, обороты)
-    ///         MyChartViewModel.XConstantLines.Add(new ConstantLineViewModel
-    ///         {
-    ///             Value = 10.5,
-    ///             Label = "Мин",
-    ///             Color = Brushes.DarkRed,
-    ///             ValueFormat = "F2"  // 2 знака после запятой: "10.50"
-    ///         });
-    ///
-    ///         // Добавление константных линий для оси Y (например, момент)
-    ///         MyChartViewModel.YConstantLines.Add(new ConstantLineViewModel
-    ///         {
-    ///             Value = 5000,
-    ///             Label = "Макс",
-    ///             Color = Brushes.OrangeRed,
-    ///             ValueFormat = "F0"  // Целое число: "5000"
-    ///         });
-    ///
-    ///         // Сброс зума графика (при необходимости)
-    ///         // MyChartViewModel.ResetZoomTrigger = new object();
-    ///     }
-    /// }
-    ///
-    /// // ValueFormat поддерживает стандартные форматы .NET:
-    /// // "F0" - целое число
-    /// // "F1" - 1 знак после запятой
-    /// // "F2" - 2 знака после запятой
-    /// // "N0" - целое число с разделителями тысяч
-    /// // "N2" - 2 знака после запятой с разделителями тысяч
-    ///
-    /// // ПРИМЕЧАНИЕ: Старые свойства ValueMember, LineColor и LineThickness сохранены для обратной совместимости.
-    /// // При установке этих свойств автоматически создаётся первая серия.
-    /// </code>
-    /// </example>
     public class ChartViewModel : BaseViewModel
     {
         private string _chartTitle;
