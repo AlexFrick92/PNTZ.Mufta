@@ -75,8 +75,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         {
             // График: Момент/обороты
             TorqueTurnsChart = new ChartViewModel
-            {
-                ChartTitle = "Момент/обороты",
+            {                
                 ArgumentMember = "Turns",
                 XAxisTitle = "Обороты",
                 YAxisTitle = "Момент",
@@ -88,8 +87,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
             // График: (Обороты/Мин)/обороты
             TurnsPerMinuteTurnsChart = new ChartViewModel
-            {
-                ChartTitle = "(Обороты/Мин)/обороты",
+            {                
                 ArgumentMember = "Turns",
                 XAxisTitle = "Обороты",
                 YAxisTitle = "Обороты/Мин",
@@ -101,8 +99,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
             // График: Момент/длина
             TorqueLengthChart = new ChartViewModel
-            {
-                ChartTitle = "Момент/длина",
+            {                
                 ArgumentMember = "Length",
                 XAxisTitle = "Длина",
                 YAxisTitle = "Момент",
@@ -114,8 +111,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
             // График: Момент/время
             TorqueTimeChart = new ChartViewModel
-            {
-                ChartTitle = "Момент/Время",
+            {                
                 ArgumentMember = "TimeStamp",
                 XAxisTitle = "Время",
                 YAxisTitle = "Момент",

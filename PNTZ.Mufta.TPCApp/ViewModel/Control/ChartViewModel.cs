@@ -334,10 +334,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
 
         public ChartViewModel()
         {
-            // Значения по умолчанию
-            _chartTitle = "График";
-            _argumentMember = "Turns";
-            _valueMember = "Torque";
+            // Значения по умолчанию            
+            _argumentMember = "Аргумент";
+            _valueMember = "Значение";
             _xMin = 0.0;
             _xMax = 100.0;
             _yMin = 0.0;

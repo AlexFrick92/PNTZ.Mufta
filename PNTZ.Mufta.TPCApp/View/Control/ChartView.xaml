@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View"
              xmlns:fmtr="clr-namespace:PNTZ.Mufta.TPCApp.View.Formatter"
+             xmlns:converter="clr-namespace:PNTZ.Mufta.TPCApp.View.Converter"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
              xmlns:dxcore="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:vmControl="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Control"
@@ -21,6 +22,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- ========================================
+                 КОНВЕРТЕРЫ
+                 ======================================== -->
+            <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
 
             <!-- ========================================
                  СТИЛИ
@@ -123,7 +129,8 @@
         <!-- Заголовок графика -->
         <Label Grid.Row="0"
                Style="{StaticResource ChartHeader}"
-               Content="{Binding ChartTitle}"/>
+               Content="{Binding ChartTitle}"
+               Visibility="{Binding ChartTitle, Converter={StaticResource NullToVisibilityConverter}}"/>
 
         <!-- ========================================
              ГРАФИК (DevExpress ChartControl)
@@ -196,7 +203,9 @@
 
                             <!-- Заголовок оси X -->
                             <dxc:AxisX2D.Title>
-                                <dxc:AxisTitle Content="{Binding XAxisTitle}" Foreground="Black"/>
+                                <dxc:AxisTitle Content="{Binding XAxisTitle}"
+                                               Foreground="Black"
+                                               Visibility="{Binding XAxisTitle, Converter={StaticResource NullToVisibilityConverter}}"/>
                             </dxc:AxisX2D.Title>
 
                             <!-- Полный диапазон оси X -->
@@ -243,7 +252,9 @@
 
                             <!-- Заголовок оси Y -->
                             <dxc:AxisY2D.Title>
-                                <dxc:AxisTitle Content="{Binding YAxisTitle}" Foreground="Black"/>
+                                <dxc:AxisTitle Content="{Binding YAxisTitle}"
+                                               Foreground="Black"
+                                               Visibility="{Binding YAxisTitle, Converter={StaticResource NullToVisibilityConverter}}"/>
                             </dxc:AxisY2D.Title>
 
                             <!-- Полный диапазон оси Y -->
