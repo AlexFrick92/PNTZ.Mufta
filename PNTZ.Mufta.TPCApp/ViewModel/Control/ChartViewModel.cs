@@ -27,6 +27,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         private object _resetZoomTrigger;
         private ObservableCollection<ConstantLineViewModel> _xConstantLines;
         private ObservableCollection<ConstantLineViewModel> _yConstantLines;
+        private ObservableCollection<StripViewModel> _xStrips;
+        private ObservableCollection<StripViewModel> _yStrips;
         private ObservableCollection<ChartSeriesViewModel> _series;
         private string _xAxisTitle;
         private string _yAxisTitle;
@@ -190,6 +192,32 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         }
 
         /// <summary>
+        /// Коллекция выделенных областей (Strips) для оси X
+        /// </summary>
+        public ObservableCollection<StripViewModel> XStrips
+        {
+            get => _xStrips;
+            set
+            {
+                _xStrips = value;
+                OnPropertyChanged(nameof(XStrips));
+            }
+        }
+
+        /// <summary>
+        /// Коллекция выделенных областей (Strips) для оси Y
+        /// </summary>
+        public ObservableCollection<StripViewModel> YStrips
+        {
+            get => _yStrips;
+            set
+            {
+                _yStrips = value;
+                OnPropertyChanged(nameof(YStrips));
+            }
+        }
+
+        /// <summary>
         /// Коллекция серий данных для отображения на графике.
         /// Каждая серия имеет своё свойство ValueMember, цвет и толщину линии.
         /// </summary>
@@ -271,6 +299,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
 
             _xConstantLines = new ObservableCollection<ConstantLineViewModel>();
             _yConstantLines = new ObservableCollection<ConstantLineViewModel>();
+            _xStrips = new ObservableCollection<StripViewModel>();
+            _yStrips = new ObservableCollection<StripViewModel>();
             _series = new ObservableCollection<ChartSeriesViewModel>();
         }
     }

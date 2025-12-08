@@ -145,6 +145,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _viewModel.Series.Clear();
             _viewModel.ChartData = null;
 
+            // Очищаем константные линии и Strip'ы
+            _viewModel.XConstantLines.Clear();
+            _viewModel.YConstantLines.Clear();
+            _viewModel.XStrips.Clear();
+            _viewModel.YStrips.Clear();
+
             // Сбрасываем состояние трекеров
             foreach (var tracker in _seriesTracking.Values)
             {
@@ -155,7 +161,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             ResetDataButtonColors();
             ResetRealtimeButtonColors();
 
-            UpdateStatus("График очищен. Коллекция данных сброшена.");
+            UpdateStatus("График очищен. Коллекция данных, линии и области сброшены.");
         }
 
         #endregion
@@ -329,6 +335,52 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _viewModel.XConstantLines.Clear();
             _viewModel.YConstantLines.Clear();
             UpdateStatus($"Очищено {totalLines} константных линий");
+        }
+
+        #endregion
+
+        #region Обработчики кнопок - Выделенные области (Strips)
+
+        private void AddXStrip_Click(object sender, RoutedEventArgs e)
+        {
+            // Генерируем диапазон в пределах 20-80% от XMax
+            double xRange = _viewModel.XMax - _viewModel.XMin;
+            double minValue = _viewModel.XMin + xRange * (0.2 + _random.NextDouble() * 0.4);
+            double maxValue = minValue + xRange * (0.1 + _random.NextDouble() * 0.2);
+
+            _viewModel.XStrips.Add(new StripViewModel
+            {
+                MinValue = minValue,
+                MaxValue = maxValue,
+                Color = GetRandomTransparentBrush()
+            });
+
+            UpdateStatus($"Добавлена выделенная область X: [{minValue:F1}, {maxValue:F1}]");
+        }
+
+        private void AddYStrip_Click(object sender, RoutedEventArgs e)
+        {
+            // Генерируем диапазон в пределах 20-80% от YMax
+            double yRange = _viewModel.YMax - _viewModel.YMin;
+            double minValue = _viewModel.YMin + yRange * (0.2 + _random.NextDouble() * 0.4);
+            double maxValue = minValue + yRange * (0.1 + _random.NextDouble() * 0.2);
+
+            _viewModel.YStrips.Add(new StripViewModel
+            {
+                MinValue = minValue,
+                MaxValue = maxValue,
+                Color = GetRandomTransparentBrush()
+            });
+
+            UpdateStatus($"Добавлена выделенная область Y: [{minValue:F0}, {maxValue:F0}]");
+        }
+
+        private void ClearStrips_Click(object sender, RoutedEventArgs e)
+        {
+            int totalStrips = _viewModel.XStrips.Count + _viewModel.YStrips.Count;
+            _viewModel.XStrips.Clear();
+            _viewModel.YStrips.Clear();
+            UpdateStatus($"Очищено {totalStrips} выделенных областей");
         }
 
         #endregion
@@ -673,6 +725,25 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             };
 
             return new SolidColorBrush(colors[_random.Next(colors.Length)]);
+        }
+
+        /// <summary>
+        /// Генерирует случайную полупрозрачную кисть для выделенных областей
+        /// </summary>
+        private SolidColorBrush GetRandomTransparentBrush()
+        {
+            var colors = new[]
+            {
+                Color.FromRgb(231, 76, 60),   // Красный
+                Color.FromRgb(230, 126, 34),  // Оранжевый
+                Color.FromRgb(241, 196, 15),  // Желтый
+                Color.FromRgb(46, 204, 113),  // Зеленый
+                Color.FromRgb(52, 152, 219),  // Синий
+                Color.FromRgb(155, 89, 182),  // Фиолетовый
+                Color.FromRgb(52, 73, 94)     // Темно-синий
+            };
+
+            return new SolidColorBrush(colors[_random.Next(colors.Length)]) { Opacity = 0.2 };
         }
 
         #endregion

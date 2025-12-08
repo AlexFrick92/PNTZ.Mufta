@@ -43,6 +43,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         public void UpdateRecipe(JointRecipe recipe)
         {
             UpdateConstantLines(recipe);
+            UpdateStrips(recipe);
 
             //График: Момент/Обороты
             TorqueTurnsChart.YMax = recipe.MU_Tq_Max * 1.1;
@@ -68,8 +69,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             var torqueMinLine = new ConstantLineViewModel(recipe.MU_Tq_Min, "Мин", Brushes.DarkRed, "F0");
             var torqueMaxLine = new ConstantLineViewModel(recipe.MU_Tq_Max, "Макс", Brushes.DarkRed, "F0");
             var torqueOptLine = new ConstantLineViewModel(recipe.MU_Tq_Opt, "Опт", Brushes.DarkGreen, "F0");
+            var torqueDump = new ConstantLineViewModel(recipe.MU_Tq_Dump, "сброс", Brushes.DarkGray, "F0");
             var lengthMinLine = new ConstantLineViewModel(recipe.MU_Len_Min, "Мин", Brushes.DarkRed, "F0");
             var lengthMaxLine = new ConstantLineViewModel(recipe.MU_Len_Max, "Макс", Brushes.DarkRed, "F0");
+            var lengthDump = new ConstantLineViewModel(recipe.MU_Len_Dump, "сброс", Brushes.DarkGray, "F0");
             var shoulderMinLine = new ConstantLineViewModel(recipe.MU_TqShoulder_Min, "Мин. буртик", Brushes.DarkOrange, "F0");
             var shoulderMaxLine = new ConstantLineViewModel(recipe.MU_TqShoulder_Max, "Макс. буртик", Brushes.DarkOrange, "F0");
 
@@ -85,20 +88,78 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             switch (recipe.JointMode)
             {
                 case JointMode.Torque:
-                    TorqueTurnsChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine);
+                    TorqueTurnsChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine, torqueOptLine, torqueDump);
                     TorqueLengthChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine);
                     break;
                 case JointMode.TorqueShoulder:
-                    TorqueTurnsChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine, shoulderMinLine, shoulderMaxLine);                    
+                    TorqueTurnsChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine, shoulderMinLine, shoulderMaxLine, torqueDump, torqueOptLine);
+                    TorqueLengthChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine, torqueDump);
                     break;
 
                 case JointMode.TorqueLength:
-                    TorqueLengthChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine);
-                    TorqueTurnsChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine);
-                    TorqueLengthChart.XConstantLines.AddRange(lengthMinLine, lengthMaxLine);
+                    TorqueLengthChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine, torqueDump);
+                    TorqueTurnsChart.YConstantLines.AddRange(torqueMinLine, torqueMaxLine, torqueOptLine, torqueDump);
+                    TorqueLengthChart.XConstantLines.AddRange(lengthMinLine, lengthMaxLine, lengthDump);
                     break;
                 case JointMode.Length:
-                    TorqueLengthChart.XConstantLines.AddRange(lengthMinLine, lengthMaxLine);
+                    TorqueLengthChart.XConstantLines.AddRange(lengthMinLine, lengthMaxLine, lengthDump);
+                    break;
+
+                case JointMode.TorqueJVal:
+                case JointMode.Jval:
+                    break;
+            }
+        }
+
+        private void UpdateStrips(JointRecipe recipe)
+        {
+            // Создаем выделенные области для допустимых диапазонов
+            var torqueStrip = new StripViewModel(
+                recipe.MU_Tq_Min,
+                recipe.MU_Tq_Max,
+                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.2 });
+
+            var lengthStrip = new StripViewModel(
+                recipe.MU_Len_Min,
+                recipe.MU_Len_Max,
+                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.2 });
+
+            var shoulderStrip = new StripViewModel(
+                recipe.MU_TqShoulder_Min,
+                recipe.MU_TqShoulder_Max,
+                new SolidColorBrush(Colors.OrangeRed) { Opacity = 0.2 });
+
+            // Очищаем существующие Strip'ы
+            TorqueTurnsChart.YStrips.Clear();
+            TorqueTurnsChart.XStrips.Clear();
+            TorqueLengthChart.YStrips.Clear();
+            TorqueLengthChart.XStrips.Clear();
+            TurnsPerMinuteTurnsChart.YStrips.Clear();
+            TurnsPerMinuteTurnsChart.XStrips.Clear();
+            TorqueTimeChart.YStrips.Clear();
+            TorqueTimeChart.XStrips.Clear();
+
+            // Добавляем Strip'ы в зависимости от режима
+            switch (recipe.JointMode)
+            {
+                case JointMode.Torque:
+                    TorqueTurnsChart.YStrips.Add(torqueStrip);
+                    TorqueLengthChart.YStrips.Add(torqueStrip);                    
+                    break;
+
+                case JointMode.TorqueShoulder:
+                    TorqueTurnsChart.YStrips.AddRange(torqueStrip, shoulderStrip);
+                    TorqueLengthChart.YStrips.Add(torqueStrip);                    
+                    break;
+
+                case JointMode.TorqueLength:
+                    TorqueTurnsChart.YStrips.Add(torqueStrip);
+                    TorqueLengthChart.YStrips.Add(torqueStrip);
+                    TorqueLengthChart.XStrips.Add(lengthStrip);                    
+                    break;
+
+                case JointMode.Length:
+                    TorqueLengthChart.XStrips.Add(lengthStrip);
                     break;
 
                 case JointMode.TorqueJVal:

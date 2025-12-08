@@ -68,14 +68,14 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
 
         /// <summary>
-        /// Создать тестовый рецепт по длине
+        /// Создать базовый рецепт с заполненными всеми полями
         /// </summary>
-        private JointRecipe CreateTestRecipeLength()
+        private JointRecipe CreateBaseRecipe(Action<JointRecipe> configure)
         {
-            return new JointRecipe
+            var recipe = new JointRecipe
             {
                 Id = Guid.NewGuid(),
-                Name = "TEST_LENGTH",
+                Name = "TEST_BASE",
                 JointMode = JointMode.Length,
                 SelectedThreadType = ThreadType.RIGHT,
 
@@ -127,6 +127,39 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
                 TimeStamp = DateTime.Now
             };
+
+            configure?.Invoke(recipe);
+            return recipe;
+        }
+
+        /// <summary>
+        /// Создать тестовый рецепт по длине
+        /// </summary>
+        private JointRecipe CreateTestRecipeLength()
+        {
+            return CreateBaseRecipe(recipe =>
+            {
+                recipe.Name = "TEST_LENGTH";
+                recipe.JointMode = JointMode.Length;
+                recipe.PLC_PROG_NR = 1;
+                recipe.LOG_NO = 1;
+
+                // Средние параметры между Length и Torque              
+                recipe.MU_Moni_Time = 16000;
+
+                recipe.MU_Tq_Ref = 6000f;
+                recipe.MU_Tq_Save = 5500f;
+                recipe.MU_Tq_Dump = 2500f;
+                recipe.MU_Tq_Max = 9000f;
+                recipe.MU_Tq_Min = 3500f;
+                recipe.MU_Tq_Opt = 7000f;
+
+                recipe.MU_Len_Speed_1 = 55f;
+                recipe.MU_Len_Speed_2 = 35f;
+                recipe.MU_Len_Min = 108f;
+                recipe.MU_Len_Max = 112f;
+                recipe.MU_Len_Dump = 110f;
+            });
         }
 
         /// <summary>
@@ -134,61 +167,24 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private JointRecipe CreateTestRecipeTorque()
         {
-            return new JointRecipe
+            return CreateBaseRecipe(recipe =>
             {
-                Id = Guid.NewGuid(),
-                Name = "TEST_TORQUE",
-                JointMode = JointMode.Torque,
-                SelectedThreadType = ThreadType.RIGHT,
-
-                // Общие данные
-                HEAD_OPEN_PULSES = 120f,
-                TURNS_BREAK = 0.3f,
-                PLC_PROG_NR = 2,
-                LOG_NO = 2,
-                Tq_UNIT = 1,
-                Thread_step = 25.4f,
-                PIPE_TYPE = "TEST_PIPE_TQ",
-
-                // Параметры муфты
-                Box_Moni_Time = 6000,
-                Box_Len_Min = 15f,
-                Box_Len_Max = 60f,
-
-                // Параметры преднавёртки
-                Pre_Moni_Time = 12000,
-                Pre_Len_Max = 120f,
-                Pre_Len_Min = 25f,
-
-                // Параметры силового свинчивания общие
-                MU_Moni_Time = 18000,
-                MU_Tq_Ref = 7000f,
-                MU_Tq_Save = 6500f,
-                MU_TqSpeedRed_1 = 4000f,
-                MU_TqSpeedRed_2 = 5500f,
-                MU_Tq_Dump = 3000f,
-                MU_Tq_Max = 10000f,
-                MU_Tq_Min = 4000f,
-                MU_Tq_Opt = 8000f,
-                MU_TqShoulder_Min = 3000f,
-                MU_TqShoulder_Max = 4000f,
-
-                // Параметры силового свинчивания по длине
-                MU_Len_Speed_1 = 60f,
-                MU_Len_Speed_2 = 40f,
-                MU_Len_Dump = 180f,
-                MU_Len_Min = 108f,
-                MU_Len_Max = 116f,
-
-                // Параметры силового свинчивания по J
-                MU_JVal_Speed_1 = 120f,
-                MU_JVal_Speed_2 = 90f,
-                MU_JVal_Dump = 600f,
-                MU_JVal_Min = 1200f,
-                MU_JVal_Max = 2500f,
-
-                TimeStamp = DateTime.Now
-            };
+                recipe.Name = "TEST_TORQUE";
+                recipe.JointMode = JointMode.Torque;
+                recipe.PLC_PROG_NR = 2;
+                recipe.LOG_NO = 2;
+                recipe.PIPE_TYPE = "TEST_PIPE_TQ";
+               
+                recipe.MU_Moni_Time = 18000;
+                recipe.MU_Tq_Ref = 7000f;
+                recipe.MU_Tq_Save = 6500f;
+                recipe.MU_TqSpeedRed_1 = 4000f;
+                recipe.MU_TqSpeedRed_2 = 5500f;
+                recipe.MU_Tq_Dump = 3000f;
+                recipe.MU_Tq_Max = 10000f;
+                recipe.MU_Tq_Min = 4000f;
+                recipe.MU_Tq_Opt = 8000f;
+            });
         }
 
         /// <summary>
@@ -196,61 +192,29 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private JointRecipe CreateTestRecipeTorqueLength()
         {
-            return new JointRecipe
+            return CreateBaseRecipe(recipe =>
             {
-                Id = Guid.NewGuid(),
-                Name = "TEST_TORQUE_LENGTH",
-                JointMode = JointMode.TorqueLength,
-                SelectedThreadType = ThreadType.RIGHT,
+                recipe.Name = "TEST_TORQUE_LENGTH";
+                recipe.JointMode = JointMode.TorqueLength;
+                recipe.PLC_PROG_NR = 3;
+                recipe.LOG_NO = 3;
+                recipe.PIPE_TYPE = "TEST_PIPE_TQLEN";
 
-                // Общие данные
-                HEAD_OPEN_PULSES = 110f,
-                TURNS_BREAK = 0.4f,
-                PLC_PROG_NR = 3,
-                LOG_NO = 3,
-                Tq_UNIT = 1,
-                Thread_step = 25.4f,
-                PIPE_TYPE = "TEST_PIPE_TQLEN",
+                // Средние параметры между Length и Torque              
+                recipe.MU_Moni_Time = 16000;
+                recipe.MU_Tq_Ref = 6000f;
+                recipe.MU_Tq_Save = 5500f;
+                recipe.MU_Tq_Dump = 2500f;
+                recipe.MU_Tq_Max = 9000f;
+                recipe.MU_Tq_Min = 3500f;
+                recipe.MU_Tq_Opt = 7000f;
 
-                // Параметры муфты
-                Box_Moni_Time = 5500,
-                Box_Len_Min = 12f,
-                Box_Len_Max = 55f,
-
-                // Параметры преднавёртки
-                Pre_Moni_Time = 11000,
-                Pre_Len_Max = 110f,
-                Pre_Len_Min = 22f,
-
-                // Параметры силового свинчивания общие
-                MU_Moni_Time = 16000,
-                MU_Tq_Ref = 6000f,
-                MU_Tq_Save = 5500f,
-                MU_TqSpeedRed_1 = 3500f,
-                MU_TqSpeedRed_2 = 4500f,
-                MU_Tq_Dump = 2500f,
-                MU_Tq_Max = 9000f,
-                MU_Tq_Min = 3500f,
-                MU_Tq_Opt = 7000f,
-                MU_TqShoulder_Min = 2800f,
-                MU_TqShoulder_Max = 3800f,
-
-                // Параметры силового свинчивания по длине
-                MU_Len_Speed_1 = 55f,
-                MU_Len_Speed_2 = 35f,
-                MU_Len_Dump = 160f,
-                MU_Len_Min = 108f,
-                MU_Len_Max = 116f,
-
-                // Параметры силового свинчивания по J
-                MU_JVal_Speed_1 = 110f,
-                MU_JVal_Speed_2 = 85f,
-                MU_JVal_Dump = 550f,
-                MU_JVal_Min = 1100f,
-                MU_JVal_Max = 2200f,
-
-                TimeStamp = DateTime.Now
-            };
+                recipe.MU_Len_Speed_1 = 55f;
+                recipe.MU_Len_Speed_2 = 35f;
+                recipe.MU_Len_Min = 108f;
+                recipe.MU_Len_Max = 112f;
+                recipe.MU_Len_Dump = 110f;
+            });
         }
 
         /// <summary>
@@ -258,61 +222,27 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private JointRecipe CreateTestRecipeTorqueShoulder()
         {
-            return new JointRecipe
+            return CreateBaseRecipe(recipe =>
             {
-                Id = Guid.NewGuid(),
-                Name = "TEST_TORQUE_SHOULDER",
-                JointMode = JointMode.TorqueShoulder,
-                SelectedThreadType = ThreadType.RIGHT,
+                recipe.Name = "TEST_TORQUE_SHOULDER";
+                recipe.JointMode = JointMode.TorqueShoulder;
+                recipe.PLC_PROG_NR = 3;
+                recipe.LOG_NO = 3;
+                recipe.PIPE_TYPE = "TEST_PIPE_TQSHL";
 
-                // Общие данные
-                HEAD_OPEN_PULSES = 115f,
-                TURNS_BREAK = 0.35f,
-                PLC_PROG_NR = 4,
-                LOG_NO = 4,
-                Tq_UNIT = 1,
-                Thread_step = 25.4f,
-                PIPE_TYPE = "TEST_PIPE_TQSH",
-
-                // Параметры муфты
-                Box_Moni_Time = 5800,
-                Box_Len_Min = 13f,
-                Box_Len_Max = 57f,
-
-                // Параметры преднавёртки
-                Pre_Moni_Time = 11500,
-                Pre_Len_Max = 115f,
-                Pre_Len_Min = 23f,
-
-                // Параметры силового свинчивания общие
-                MU_Moni_Time = 17000,
-                MU_Tq_Ref = 6500f,
-                MU_Tq_Save = 6000f,
-                MU_TqSpeedRed_1 = 3800f,
-                MU_TqSpeedRed_2 = 5000f,
-                MU_Tq_Dump = 2800f,
-                MU_Tq_Max = 9500f,
-                MU_Tq_Min = 3800f,
-                MU_Tq_Opt = 7500f,
-                MU_TqShoulder_Min = 3200f,
-                MU_TqShoulder_Max = 4200f,
-
-                // Параметры силового свинчивания по длине
-                MU_Len_Speed_1 = 58f,
-                MU_Len_Speed_2 = 38f,
-                MU_Len_Dump = 170f,
-                MU_Len_Min = 240f,
-                MU_Len_Max = 340f,
-
-                // Параметры силового свинчивания по J
-                MU_JVal_Speed_1 = 115f,
-                MU_JVal_Speed_2 = 88f,
-                MU_JVal_Dump = 580f,
-                MU_JVal_Min = 1150f,
-                MU_JVal_Max = 2300f,
-
-                TimeStamp = DateTime.Now
-            };
+                // Средние параметры между Length и Torque              
+                recipe.MU_Moni_Time = 16000;
+                recipe.MU_Tq_Ref = 6000f;
+                recipe.MU_Tq_Save = 5500f;
+                recipe.MU_TqSpeedRed_1 = 3500f;
+                recipe.MU_TqSpeedRed_2 = 4500f;
+                recipe.MU_Tq_Dump = 6700;
+                recipe.MU_Tq_Max = 9000f;
+                recipe.MU_Tq_Min = 3500f;
+                recipe.MU_Tq_Opt = 7000f;
+                recipe.MU_TqShoulder_Min = 4000f;
+                recipe.MU_TqShoulder_Max = 4200f;              
+            });         
         }
     }
 }

@@ -70,8 +70,11 @@
 
             <!-- Шаблон для постоянных линий (DataContext: ConstantLineViewModel) -->
             <DataTemplate x:Key="ConstantLineTemplate">
-                <dxc:ConstantLine Value="{Binding Value}"
+                <dxc:ConstantLine Value="{Binding Value}"                                  
                                   Brush="{Binding Color}">
+                    <dxc:ConstantLine.LineStyle>
+                        <dxc:LineStyle Thickness="1"/>
+                    </dxc:ConstantLine.LineStyle>
                     <dxc:ConstantLine.Title>
                         <dxc:ConstantLineTitle>
                             <StackPanel Orientation="Horizontal">
@@ -91,6 +94,17 @@
                     </dxc:ConstantLine.Title>
                 </dxc:ConstantLine>
             </DataTemplate>
+
+            <DataTemplate x:Key="StripDataTemplate">
+                <dxc:Strip  
+                    MinLimit="{Binding MinValue}"
+                    MaxLimit="{Binding MaxValue}"
+                    Brush="{Binding Color}"
+                    BorderColor="Transparent"
+                    />
+
+            </DataTemplate>
+
 
             <!-- Шаблон для серий данных (DataContext: ChartSeriesViewModel) -->
             <DataTemplate x:Key="ChartSeriesTemplate">
@@ -241,6 +255,17 @@
                                 <StaticResource ResourceKey="ConstantLineTemplate"/>
                             </dxc:AxisX2D.ConstantLineBehindItemTemplate>
 
+                            
+                            <!--Выделенные области-->
+                            <dxc:AxisX2D.StripItemsSource>
+                                <Binding Path="XStrips"/>
+                            </dxc:AxisX2D.StripItemsSource>
+                            
+                            <dxc:AxisX2D.StripItemTemplate>
+                                <StaticResource ResourceKey="StripDataTemplate"/>
+                            </dxc:AxisX2D.StripItemTemplate>
+
+
                         </dxc:AxisX2D>
                     </dxc:XYDiagram2D.AxisX>
 
@@ -294,6 +319,15 @@
                             <dxc:AxisY2D.ConstantLineInFrontItemTemplate>
                                 <StaticResource ResourceKey="ConstantLineTemplate"/>
                             </dxc:AxisY2D.ConstantLineInFrontItemTemplate>
+
+                            <!--Выделенные области-->
+                            <dxc:AxisY2D.StripItemsSource>
+                                <Binding Path="YStrips"/>
+                            </dxc:AxisY2D.StripItemsSource>
+
+                            <dxc:AxisY2D.StripItemTemplate>
+                                <StaticResource ResourceKey="StripDataTemplate"/>
+                            </dxc:AxisY2D.StripItemTemplate>
 
                         </dxc:AxisY2D>
                     </dxc:XYDiagram2D.AxisY>

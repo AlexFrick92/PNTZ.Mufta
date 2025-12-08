@@ -158,6 +158,40 @@
                         </StackPanel>
                     </GroupBox>
 
+                    <!-- Группа: Выделенные области (Strips) -->
+                    <GroupBox Header="Выделенные области"
+                              Margin="0,0,15,10"
+                              Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="+ X область"
+                                    Click="AddXStrip_Click"
+                                    Width="110"
+                                    Margin="0,0,5,0"
+                                    Padding="8,5"
+                                    Background="#16A085"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                            <Button Content="+ Y область"
+                                    Click="AddYStrip_Click"
+                                    Width="110"
+                                    Margin="0,0,5,0"
+                                    Padding="8,5"
+                                    Background="#16A085"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                            <Button Content="Очистить области"
+                                    Click="ClearStrips_Click"
+                                    Width="140"
+                                    Padding="8,5"
+                                    Background="#95A5A6"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                    </GroupBox>
+
                     <!-- Группа: Параметры (в отдельной строке) -->
                     <GroupBox Header="Параметры"
                           Margin="0,0,0,10"
