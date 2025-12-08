@@ -12,8 +12,10 @@ namespace PNTZ.Mufta.TPCApp.Domain
         }
         public JointRecipe Recipe { get; private set; }
         public float MVS_Len { get; set; }
+        public float MVS_Len_mm => MVS_Len * 1000;
         public float FinalTorque { get; set; }
         public float FinalLength { get; set; }
+        public float FinalLength_mm => FinalLength * 1000;
         public float FinalJVal { get; set; }
         public float FinalTurns { get; set; }
         public float FinalShoulderTorque { get; set; }

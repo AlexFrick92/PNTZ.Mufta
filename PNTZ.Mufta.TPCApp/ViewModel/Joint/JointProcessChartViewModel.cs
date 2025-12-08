@@ -2,6 +2,7 @@
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using Promatis.Core.Extensions;
+using System.Collections.ObjectModel;
 using System.Windows.Media;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
@@ -30,25 +31,78 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <summary>
         /// График: Момент/время
         /// </summary>
-        public ChartViewModel TorqueTimeChart { get; private set; }
+        public ChartViewModel TorqueTimeChart { get; private set; }        
 
         public JointProcessChartViewModel()
         {
             InitializeCharts();
         }
+
+        private ObservableCollection<TqTnLenPoint> tqTnLenPoints;
+
+        /// <summary>
+        /// Первичная настройка графиков
+        /// </summary>
+        private void InitializeCharts()
+        {
+            // График: Момент/обороты
+            TorqueTurnsChart = new ChartViewModel
+            {
+                ArgumentMember = "Turns",
+                XAxisTitle = "Обороты",
+                YAxisTitle = "Момент",
+            };
+
+            // График: (Обороты/Мин)/обороты
+            TurnsPerMinuteTurnsChart = new ChartViewModel
+            {
+                ArgumentMember = "Turns",
+                XAxisTitle = "Обороты",
+                YAxisTitle = "Обороты/Мин",
+            };
+
+            // График: Момент/длина
+            TorqueLengthChart = new ChartViewModel
+            {
+                ArgumentMember = "Length",
+                XAxisTitle = "Длина",
+                YAxisTitle = "Момент",
+            };
+
+            // График: Момент/время
+            TorqueTimeChart = new ChartViewModel
+            {
+                ArgumentMember = "TimeStamp",
+                XAxisTitle = "Время",
+                YAxisTitle = "Момент",
+            };
+
+            // Уведомляем View о готовности всех графиков
+            OnPropertyChanged(nameof(TorqueTurnsChart));
+            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChart));
+            OnPropertyChanged(nameof(TorqueLengthChart));
+            OnPropertyChanged(nameof(TorqueTimeChart));
+        }
+        #region Настройка графиков по данным рецепта       
         /// <summary>
         /// Настроить графики под рецепт
         /// </summary>
         /// <param name="recipe"></param>
         public void UpdateRecipe(JointRecipe recipe)
         {
+            UpdateRanges(recipe);
             UpdateConstantLines(recipe);
             UpdateStrips(recipe);
-
+        }
+        /// <summary>
+        /// Задать диапазон графиков по данным рцепта
+        /// </summary>
+        /// <param name="recipe"></param>
+        private void UpdateRanges(JointRecipe recipe)
+        {
             //График: Момент/Обороты
             TorqueTurnsChart.YMax = recipe.MU_Tq_Max * 1.1;
             TorqueTurnsChart.XMax = 3;
-
 
             //График: Момент/Длина
             TorqueLengthChart.YMax = recipe.MU_Tq_Max * 1.1;
@@ -60,9 +114,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             //График: Момент/Время
             TorqueTimeChart.YMax = recipe.MU_Tq_Max * 1.1;
             TorqueTimeChart.XMax = 15000;
-
         }
-
+        /// <summary>
+        /// Нарисовать прямые линии по данным рецепта
+        /// </summary>
+        /// <param name="recipe"></param>
         private void UpdateConstantLines(JointRecipe recipe)
         {
             //Создаем постоянные прямые для графика
@@ -110,24 +166,27 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                     break;
             }
         }
-
+        /// <summary>
+        /// Нарисовать выделенные области по данным рецепта
+        /// </summary>
+        /// <param name="recipe"></param>
         private void UpdateStrips(JointRecipe recipe)
         {
             // Создаем выделенные области для допустимых диапазонов
             var torqueStrip = new StripViewModel(
                 recipe.MU_Tq_Min,
                 recipe.MU_Tq_Max,
-                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.2 });
+                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.1 });
 
             var lengthStrip = new StripViewModel(
                 recipe.MU_Len_Min,
                 recipe.MU_Len_Max,
-                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.2 });
+                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.1 });
 
             var shoulderStrip = new StripViewModel(
                 recipe.MU_TqShoulder_Min,
                 recipe.MU_TqShoulder_Max,
-                new SolidColorBrush(Colors.OrangeRed) { Opacity = 0.2 });
+                new SolidColorBrush(Colors.OrangeRed) { Opacity = 0.1 });
 
             // Очищаем существующие Strip'ы
             TorqueTurnsChart.YStrips.Clear();
@@ -144,18 +203,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             {
                 case JointMode.Torque:
                     TorqueTurnsChart.YStrips.Add(torqueStrip);
-                    TorqueLengthChart.YStrips.Add(torqueStrip);                    
+                    TorqueLengthChart.YStrips.Add(torqueStrip);
                     break;
 
                 case JointMode.TorqueShoulder:
                     TorqueTurnsChart.YStrips.AddRange(torqueStrip, shoulderStrip);
-                    TorqueLengthChart.YStrips.Add(torqueStrip);                    
+                    TorqueLengthChart.YStrips.Add(torqueStrip);
                     break;
 
                 case JointMode.TorqueLength:
                     TorqueTurnsChart.YStrips.Add(torqueStrip);
                     TorqueLengthChart.YStrips.Add(torqueStrip);
-                    TorqueLengthChart.XStrips.Add(lengthStrip);                    
+                    TorqueLengthChart.XStrips.Add(lengthStrip);
                     break;
 
                 case JointMode.Length:
@@ -167,48 +226,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                     break;
             }
         }
+        #endregion
 
-        private void InitializeCharts()
+        #region Настройка графиков при начале свинчивания
+
+        /// <summary>
+        /// Настроить графики при появлении трубы
+        /// </summary>
+        /// <param name="result"></param>
+        public void UpdatePipeApper(JointResult result)
         {
-            // График: Момент/обороты
-            TorqueTurnsChart = new ChartViewModel
-            {
-                ArgumentMember = "Turns",
-                XAxisTitle = "Обороты",
-                YAxisTitle = "Момент",
-            };
-
-            // График: (Обороты/Мин)/обороты
-            TurnsPerMinuteTurnsChart = new ChartViewModel
-            {
-                ArgumentMember = "Turns",
-                XAxisTitle = "Обороты",
-                YAxisTitle = "Обороты/Мин",
-            };
-
-            // График: Момент/длина
-            TorqueLengthChart = new ChartViewModel
-            {
-                ArgumentMember = "Length",
-                XAxisTitle = "Длина",
-                YAxisTitle = "Момент",
-            };
-
-            // График: Момент/время
-            TorqueTimeChart = new ChartViewModel
-            {
-                ArgumentMember = "TimeStamp",
-                XAxisTitle = "Время",
-                YAxisTitle = "Момент",
-            };
-
-            // Уведомляем View о готовности всех графиков
-            OnPropertyChanged(nameof(TorqueTurnsChart));
-            OnPropertyChanged(nameof(TurnsPerMinuteTurnsChart));
-            OnPropertyChanged(nameof(TorqueLengthChart));
-            OnPropertyChanged(nameof(TorqueTimeChart));
+            TorqueLengthChart.XMin = result.MVS_Len_mm;
+        }
+        public void UodateSeries(ObservableCollection<TqTnLenPoint> series)
+        {
+            tqTnLenPoints = series;
         }
 
-        
+        #endregion
     }
 }
