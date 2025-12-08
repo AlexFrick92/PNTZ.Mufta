@@ -12,23 +12,73 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
+        <!-- Панель управления -->
         <Border Grid.Row="0"
                 Background="#F8F9FA"
                 BorderBrush="#DEE2E6"
                 BorderThickness="0,0,0,1"
                 Padding="15">
-            <TextBlock Text="JointProcessChartView - Проверка разметки"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Foreground="#2C3E50"/>
+
+            <StackPanel Orientation="Vertical">
+
+                <!-- Заголовок -->
+                <TextBlock Text="JointProcessChartView - Проверка разметки"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#2C3E50"
+                           Margin="0,0,0,15"/>
+
+                <!-- Кнопки управления -->
+                <WrapPanel>
+                    <!-- Группа: Тестовые рецепты -->
+                    <GroupBox Header="Тестовые рецепты"
+                              Margin="0,0,15,10"
+                              Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="BtnRecipeLength"
+                                    Content="Рецепт по длине"
+                                    Click="LoadRecipeLength_Click"
+                                    Width="150"
+                                    Margin="0,0,5,0"
+                                    Padding="8,5"
+                                    Background="#3498DB"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                            <Button x:Name="BtnRecipeTorque"
+                                    Content="Рецепт по моменту"
+                                    Click="LoadRecipeTorque_Click"
+                                    Width="150"
+                                    Padding="8,5"
+                                    Background="#E67E22"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                    </GroupBox>
+                </WrapPanel>
+
+                <!-- Статус -->
+                <Border Background="#D5F4E6"
+                        BorderBrush="#27AE60"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Padding="8"
+                        Margin="0,5,0,0">
+                    <TextBlock x:Name="StatusText"
+                               Text="Готов к тестированию. Выберите рецепт для загрузки."
+                               FontSize="12"
+                               Foreground="#27AE60"/>
+                </Border>
+            </StackPanel>
         </Border>
 
         <!-- Контрол для тестирования -->
         <Border Grid.Row="1"
-                Margin="10"
                 BorderBrush="#DEE2E6"
-                BorderThickness="1">
+                BorderThickness="1,0,1,1"
+                Margin="15"
+                Background="White">
             <joint:JointProcessChartView x:Name="JointChartView"/>
         </Border>
     </Grid>

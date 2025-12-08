@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-
-using static PNTZ.Mufta.TPCApp.App;
 
 namespace PNTZ.Mufta.TPCApp.Domain
 {
@@ -15,7 +14,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
         public DomainObjectXmlConfigurator()
         {
-            config = XDocument.Load($"{AppInstance.CurrentDirectory}/Domain/{typeof(T).Name}.xml");
+            config = XDocument.Load($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Domain/{typeof(T).Name}.xml");
 
             InitValidators();
         }

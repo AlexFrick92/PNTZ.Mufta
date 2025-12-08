@@ -41,12 +41,12 @@ namespace PNTZ.Mufta.TPCApp.Domain
                 if (value.CompareTo(MaxValue) == 1)
                 {
                     actualValue = MaxValue;
-                    AppInstance.Logger.Info($"Максимальное значение для параметра \"{ParamName}\" - {MaxValue}");
+                    //AppInstance.Logger.Info($"Максимальное значение для параметра \"{ParamName}\" - {MaxValue}");
                 }
                 else if (value.CompareTo(MinValue) == -1)
                 {
                     actualValue = MinValue;
-                    AppInstance.Logger.Info($"Минимальное значение для \"{ParamName}\" - {MinValue}");
+                    //AppInstance.Logger.Info($"Минимальное значение для \"{ParamName}\" - {MinValue}");
                 }
                 else
                     actualValue = value;
