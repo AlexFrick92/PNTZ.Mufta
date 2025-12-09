@@ -214,7 +214,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             // Расчет TurnsPerMinute
             if (_lastPoint != null)
             {
-                newPoint.TurnsPerMinute = (float)TqTnLenPoint.CalculateTurnsPerMinute(_lastPoint, newPoint);
+                newPoint.TurnsPerMinute = 30;
             }
 
             // Добавление точки в коллекцию
