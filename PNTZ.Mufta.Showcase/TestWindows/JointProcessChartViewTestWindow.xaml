@@ -76,6 +76,43 @@
                                     Cursor="Hand"/>
                         </StackPanel>
                     </GroupBox>
+
+                    <!-- Группа: Симуляция данных -->
+                    <GroupBox Header="Симуляция данных"
+                              Margin="0,0,15,10"
+                              Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="BtnStartSimulation"
+                                    Content="▶ Начать запись"
+                                    Click="StartSimulation_Click"
+                                    Width="140"
+                                    Margin="0,0,5,0"
+                                    Padding="8,5"
+                                    Background="#27AE60"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                            <Button x:Name="BtnStopSimulation"
+                                    Content="⏹ Стоп"
+                                    Click="StopSimulation_Click"
+                                    Width="90"
+                                    Margin="0,0,5,0"
+                                    Padding="8,5"
+                                    Background="#E74C3C"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                            <Button x:Name="BtnResetSimulation"
+                                    Content="Сброс графиков"
+                                    Click="ResetSimulation_Click"
+                                    Width="130"
+                                    Padding="8,5"
+                                    Background="#95A5A6"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                    </GroupBox>
                 </WrapPanel>
 
                 <!-- Статус -->

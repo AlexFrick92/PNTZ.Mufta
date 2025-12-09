@@ -59,4 +59,24 @@
     <SolidColorBrush x:Key="ChartAxisX_Foreground" Color="Black"/>
     <SolidColorBrush x:Key="ChartAxisY_Foreground" Color="Black"/>
 
+    <!-- ========================================== -->
+    <!-- Графики: Цвета линий серий данных         -->
+    <!-- ========================================== -->
+
+    <!-- График: Момент/Обороты -->
+    <SolidColorBrush x:Key="ChartTorqueTurns_Line" Color="#2E86DE"/>
+    <!-- Синий -->
+
+    <!-- График: Обороты в минуту/Обороты -->
+    <SolidColorBrush x:Key="ChartTurnsPerMinute_Line" Color="#10AC84"/>
+    <!-- Зеленый -->
+
+    <!-- График: Момент/Длина -->
+    <SolidColorBrush x:Key="ChartTorqueLength_Line" Color="#EE5A6F"/>
+    <!-- Красный -->
+
+    <!-- График: Момент/Время -->
+    <SolidColorBrush x:Key="ChartTorqueTime_Line" Color="#9B59B6"/>
+    <!-- Фиолетовый -->
+
 </ResourceDictionary>

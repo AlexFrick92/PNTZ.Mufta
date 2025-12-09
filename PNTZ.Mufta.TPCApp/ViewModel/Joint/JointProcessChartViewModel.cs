@@ -4,6 +4,7 @@ using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using Promatis.Core.Extensions;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows.Media;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
@@ -36,10 +37,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
         public JointProcessChartViewModel()
         {
+            TqTnLenPoints = new ObservableCollection<TqTnLenPoint>();
+            TqTnLenPoints.CollectionChanged += OnTqTnLenPointsChanged;
             InitializeCharts();
         }
 
-        private ObservableCollection<TqTnLenPoint> tqTnLenPoints;
+        public ObservableCollection<TqTnLenPoint> TqTnLenPoints { get; private set; }
 
         /// <summary>
         /// Первичная настройка графиков
@@ -53,6 +56,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 XAxisTitle = "Обороты",
                 YAxisTitle = "Момент",
             };
+            TorqueTurnsChart.Series.Add(new ChartSeriesViewModel(
+                "Torque",
+                "Момент",
+                AppColors.ChartTorqueTurns_Line as SolidColorBrush ?? Brushes.Blue,
+                2.0));
 
             // График: (Обороты/Мин)/обороты
             TurnsPerMinuteTurnsChart = new ChartViewModel
@@ -61,6 +69,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 XAxisTitle = "Обороты",
                 YAxisTitle = "Обороты/Мин",
             };
+            TurnsPerMinuteTurnsChart.Series.Add(new ChartSeriesViewModel(
+                "TurnsPerMinute",
+                "Об/Мин",
+                AppColors.ChartTurnsPerMinute_Line as SolidColorBrush ?? Brushes.Green,
+                2.0));
 
             // График: Момент/длина
             TorqueLengthChart = new ChartViewModel
@@ -69,6 +82,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 XAxisTitle = "Длина",
                 YAxisTitle = "Момент",
             };
+            TorqueLengthChart.Series.Add(new ChartSeriesViewModel(
+                "Torque",
+                "Момент",
+                AppColors.ChartTorqueLength_Line as SolidColorBrush ?? Brushes.Red,
+                2.0));
 
             // График: Момент/время
             TorqueTimeChart = new ChartViewModel
@@ -77,6 +95,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 XAxisTitle = "Время",
                 YAxisTitle = "Момент",
             };
+            TorqueTimeChart.Series.Add(new ChartSeriesViewModel(
+                "Torque",
+                "Момент",
+                AppColors.ChartTorqueTime_Line as SolidColorBrush ?? Brushes.Purple,
+                2.0));
 
             // Уведомляем View о готовности всех графиков
             OnPropertyChanged(nameof(TorqueTurnsChart));
@@ -284,9 +307,27 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         {
             TorqueLengthChart.XMin = result.MVS_Len_mm;
         }
-        public void UodateSeries(ObservableCollection<TqTnLenPoint> series)
+
+        #endregion
+
+        #region Обработка изменений коллекции точек
+
+        /// <summary>
+        /// Обработчик изменений коллекции TqTnLenPoints
+        /// </summary>
+        private void OnTqTnLenPointsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            tqTnLenPoints = series;
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Reset:
+                    // Обновляем данные для всех графиков
+                    TorqueTurnsChart.ChartData = TqTnLenPoints;
+                    TurnsPerMinuteTurnsChart.ChartData = TqTnLenPoints;
+                    TorqueLengthChart.ChartData = TqTnLenPoints;
+                    TorqueTimeChart.ChartData = TqTnLenPoints;
+                    break;
+            }
         }
 
         #endregion

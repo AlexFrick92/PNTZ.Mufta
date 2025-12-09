@@ -104,6 +104,23 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Графики: Цвета линий серий данных
+        // ==========================================
+
+        /// <summary>ChartTorqueTurns_Line - цвет линии графика Момент/Обороты</summary>
+        public static Brush ChartTorqueTurns_Line => Get("ChartTorqueTurns_Line");
+
+        /// <summary>ChartTurnsPerMinute_Line - цвет линии графика Обороты в минуту/Обороты</summary>
+        public static Brush ChartTurnsPerMinute_Line => Get("ChartTurnsPerMinute_Line");
+
+        /// <summary>ChartTorqueLength_Line - цвет линии графика Момент/Длина</summary>
+        public static Brush ChartTorqueLength_Line => Get("ChartTorqueLength_Line");
+
+        /// <summary>ChartTorqueTime_Line - цвет линии графика Момент/Время</summary>
+        public static Brush ChartTorqueTime_Line => Get("ChartTorqueTime_Line");
+
+
+        // ==========================================
         // Вспомогательный метод
         // ==========================================
 
