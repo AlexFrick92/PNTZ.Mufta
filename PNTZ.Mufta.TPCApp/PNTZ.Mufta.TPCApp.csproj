@@ -202,6 +202,7 @@
     <Compile Include="ViewModel\JointResultViewModel.cs" />
     <Compile Include="ViewModel\JointProcessViewModel.cs" />
     <Compile Include="ViewModel\Joint\JointProcessChartViewModel.cs" />
+    <Compile Include="ViewModel\Joint\JointProcessDataViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NewRecipeViewModel.cs" />
@@ -234,6 +235,9 @@
     <Compile Include="View\Formatter\SecondsIntegerLabelFormatter.cs" />
     <Compile Include="View\Joint\JointProcessChartView.xaml.cs">
       <DependentUpon>JointProcessChartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Joint\JointProcessDataView.xaml.cs">
+      <DependentUpon>JointProcessDataView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Joint\JointProcessView.xaml.cs">
       <DependentUpon>JointProcessView.xaml</DependentUpon>
@@ -333,6 +337,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Joint\JointProcessChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Joint\JointProcessDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
