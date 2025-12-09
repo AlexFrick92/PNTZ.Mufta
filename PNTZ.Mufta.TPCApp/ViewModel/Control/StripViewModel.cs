@@ -10,7 +10,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
     {
         private double _minValue;
         private double _maxValue;
-        private SolidColorBrush _color;
+        private Brush _color;
 
         /// <summary>
         /// Минимальное значение диапазона
@@ -41,7 +41,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         /// <summary>
         /// Цвет выделенной области
         /// </summary>
-        public SolidColorBrush Color
+        public Brush Color
         {
             get => _color;
             set => _color = value;
@@ -54,7 +54,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             _maxValue = 0;
         }
 
-        public StripViewModel(double minValue, double maxValue, SolidColorBrush color)
+        public StripViewModel(double minValue, double maxValue, Brush color)
         {
             _minValue = minValue;
             _maxValue = maxValue;

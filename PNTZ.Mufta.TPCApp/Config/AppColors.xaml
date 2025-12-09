@@ -1,0 +1,42 @@
+<!-- Кастомные цвета приложения (опциональный override) -->
+<!--
+  Этот файл позволяет переопределить дефолтные цвета без перекомпиляции.
+  Укажите только те цвета, которые хотите изменить.
+  Остальные цвета будут взяты из встроенного Styles/AppColors.xaml
+
+  Примеры использования:
+
+  1. Изменить цвет минимальной границы на красный:
+     <SolidColorBrush x:Key="ChartLimitMin" Color="Red"/>
+
+  2. Изменить прозрачность области момента:
+     <SolidColorBrush x:Key="ChartStripTorque" Color="LightGreen" Opacity="0.3"/>
+
+  3. Использовать корпоративные цвета:
+     <SolidColorBrush x:Key="ChartLimitMin" Color="#0066CC"/>
+     <SolidColorBrush x:Key="ChartLimitMax" Color="#0066CC"/>
+
+  Доступные ключи (см. Styles/AppColors.xaml):
+
+  Границы допусков:
+  - ChartLimitMin, ChartLimitMax, ChartLimitOptimal, ChartLimitDump
+
+  Длина:
+  - ChartLengthMin, ChartLengthMax, ChartLengthDump
+
+  Буртик:
+  - ChartShoulderMin, ChartShoulderMax
+
+  Выделенные области:
+  - ChartStripTorque, ChartStripLength, ChartStripShoulder
+-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Здесь можно добавить свои переопределения цветов -->
+
+    <!-- Пример: изменить цвет минимальной границы -->
+    <!-- <SolidColorBrush x:Key="ChartLimitMin" Color="Yellow"/> -->
+
+</ResourceDictionary>

@@ -1,0 +1,40 @@
+<!-- Дефолтные цвета приложения -->
+<!-- Этот файл компилируется в сборку и всегда доступен -->
+<!-- Для кастомизации создайте Config/AppColors.xaml с нужными переопределениями -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ========================================== -->
+    <!-- Графики: Границы допусков (ConstantLines) -->
+    <!-- ========================================== -->
+
+    <SolidColorBrush x:Key="ChartLimitMin" Color="LimeGreen"/>
+    <SolidColorBrush x:Key="ChartLimitMax" Color="LimeGreen"/>
+    <SolidColorBrush x:Key="ChartLimitOptimal" Color="DarkGreen"/>
+    <SolidColorBrush x:Key="ChartLimitDump" Color="DarkGray"/>
+
+    <!-- ========================================== -->
+    <!-- Графики: Длина (Length)                   -->
+    <!-- ========================================== -->
+
+    <SolidColorBrush x:Key="ChartLengthMin" Color="LimeGreen"/>
+    <SolidColorBrush x:Key="ChartLengthMax" Color="LimeGreen"/>
+    <SolidColorBrush x:Key="ChartLengthDump" Color="DarkGray"/>
+
+    <!-- ========================================== -->
+    <!-- Графики: Буртик (Shoulder)                -->
+    <!-- ========================================== -->
+
+    <SolidColorBrush x:Key="ChartShoulderMin" Color="DarkOrange"/>
+    <SolidColorBrush x:Key="ChartShoulderMax" Color="DarkOrange"/>
+
+    <!-- ========================================== -->
+    <!-- Графики: Выделенные области (Strips)      -->
+    <!-- ========================================== -->
+
+    <SolidColorBrush x:Key="ChartStripTorque" Color="LightGreen" Opacity="0.1"/>
+    <SolidColorBrush x:Key="ChartStripLength" Color="LightGreen" Opacity="0.1"/>
+    <SolidColorBrush x:Key="ChartStripShoulder" Color="OrangeRed" Opacity="0.1"/>
+
+</ResourceDictionary>

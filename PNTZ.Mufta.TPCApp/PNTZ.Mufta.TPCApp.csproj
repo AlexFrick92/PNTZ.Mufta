@@ -190,6 +190,7 @@
     <Compile Include="Repository\LocalRepository.cs" />
     <Compile Include="Repository\RemoteRepository.cs" />
     <Compile Include="Repository\RemoteRepositoryContext.cs" />
+    <Compile Include="Styles\AppColors.cs" />
     <Compile Include="Toolbox\Smoothing\MovingAverage.cs" />
     <Compile Include="ViewModel\Control\ChartSeriesViewModel.cs" />
     <Compile Include="ViewModel\Control\ChartViewModel.cs" />
@@ -362,8 +363,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Styles\AppColors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\AppColors.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="DpConnect\DpConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

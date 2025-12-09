@@ -20,8 +20,11 @@ using Promatis.Logging.NLog;
 
 using System;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Markup;
 
 using Toolkit.IO;
 using Toolkit.Logging;
@@ -55,7 +58,10 @@ namespace PNTZ.Mufta.TPCApp
         {
             AppInstance = this;
             CurrentDirectory = currentDirectory;
-            
+
+            // Загружаем цветовую схему приложения
+            LoadAppColors();
+
             Logger = NLogManager.GetLogger("_logger");
             CliLogger cliLogger = new CliLogger(cli, Logger);
 
@@ -102,9 +108,51 @@ namespace PNTZ.Mufta.TPCApp
             mainWindow.DataContext = container.Resolve<MainViewModel>();
         }
 
-        protected override void AfterInit() 
+        protected override void AfterInit()
         {
-            
+
+        }
+
+        /// <summary>
+        /// Загрузка цветовой схемы приложения
+        /// 1. Загружаем встроенный Styles/AppColors.xaml (дефолтные цвета)
+        /// 2. Пытаемся загрузить внешний Config/AppColors.xaml (опциональный override)
+        /// </summary>
+        private void LoadAppColors()
+        {
+            // 1. Загружаем дефолтные цвета из встроенного ресурса
+            try
+            {
+                var defaultColorsUri = new Uri("pack://application:,,,/Styles/AppColors.xaml", UriKind.Absolute);
+                var defaultColors = new ResourceDictionary { Source = defaultColorsUri };
+                this.Resources.MergedDictionaries.Add(defaultColors);
+            }
+            catch (Exception ex)
+            {
+                // Критичная ошибка - дефолтные цвета должны быть всегда
+                throw new InvalidOperationException("Не удалось загрузить Styles/AppColors.xaml", ex);
+            }
+
+            // 2. Пытаемся загрузить кастомные цвета из внешнего файла
+            string customColorsPath = Path.Combine(CurrentDirectory, "Config", "AppColors.xaml");
+
+            if (File.Exists(customColorsPath))
+            {
+                try
+                {
+                    using (var stream = File.OpenRead(customColorsPath))
+                    {
+                        var customColors = (ResourceDictionary)XamlReader.Load(stream);
+                        this.Resources.MergedDictionaries.Add(customColors);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Не критично - используем дефолтные цвета
+                    // Логирование будет позже, когда Logger инициализируется
+                    Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppColors.xaml - {ex.Message}");
+                }
+            }
         }
     }
 }

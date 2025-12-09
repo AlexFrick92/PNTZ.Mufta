@@ -10,7 +10,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
     {
         private double _value;
         private string _label;
-        private SolidColorBrush _color;
+        private Brush _color;
         private string _valueFormat;
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         /// <summary>
         /// Цвет линии и текста
         /// </summary>
-        public SolidColorBrush Color
+        public Brush Color
         {
             get => _color;
             set => _color = value;
@@ -80,7 +80,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             _label = string.Empty;
         }
 
-        public ConstantLineViewModel(double value, string label, SolidColorBrush color, string valueFormat = "F2")
+        public ConstantLineViewModel(double value, string label, Brush color, string valueFormat = "F2")
         {
             _value = value;
             _label = label;

@@ -1,5 +1,6 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using Promatis.Core.Extensions;
 using System.Collections.ObjectModel;
@@ -122,15 +123,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private void UpdateConstantLines(JointRecipe recipe)
         {
             //Создаем постоянные прямые для графика
-            var torqueMinLine = new ConstantLineViewModel(recipe.MU_Tq_Min, "Мин", Brushes.DarkRed, "F0");
-            var torqueMaxLine = new ConstantLineViewModel(recipe.MU_Tq_Max, "Макс", Brushes.DarkRed, "F0");
-            var torqueOptLine = new ConstantLineViewModel(recipe.MU_Tq_Opt, "Опт", Brushes.DarkGreen, "F0");
-            var torqueDump = new ConstantLineViewModel(recipe.MU_Tq_Dump, "сброс", Brushes.DarkGray, "F0");
-            var lengthMinLine = new ConstantLineViewModel(recipe.MU_Len_Min, "Мин", Brushes.DarkRed, "F0");
-            var lengthMaxLine = new ConstantLineViewModel(recipe.MU_Len_Max, "Макс", Brushes.DarkRed, "F0");
-            var lengthDump = new ConstantLineViewModel(recipe.MU_Len_Dump, "сброс", Brushes.DarkGray, "F0");
-            var shoulderMinLine = new ConstantLineViewModel(recipe.MU_TqShoulder_Min, "Мин. буртик", Brushes.DarkOrange, "F0");
-            var shoulderMaxLine = new ConstantLineViewModel(recipe.MU_TqShoulder_Max, "Макс. буртик", Brushes.DarkOrange, "F0");
+            var torqueMinLine = new ConstantLineViewModel(recipe.MU_Tq_Min, "Мин", AppColors.ChartLimitMin, "F0");
+            var torqueMaxLine = new ConstantLineViewModel(recipe.MU_Tq_Max, "Макс", AppColors.ChartLimitMax, "F0");
+            var torqueOptLine = new ConstantLineViewModel(recipe.MU_Tq_Opt, "Опт", AppColors.ChartLimitOptimal, "F0");
+            var torqueDump = new ConstantLineViewModel(recipe.MU_Tq_Dump, "сброс", AppColors.ChartLimitDump, "F0");
+            var lengthMinLine = new ConstantLineViewModel(recipe.MU_Len_Min, "Мин", AppColors.ChartLengthMin, "F0");
+            var lengthMaxLine = new ConstantLineViewModel(recipe.MU_Len_Max, "Макс", AppColors.ChartLengthMax, "F0");
+            var lengthDump = new ConstantLineViewModel(recipe.MU_Len_Dump, "сброс", AppColors.ChartLengthDump, "F0");
+            var shoulderMinLine = new ConstantLineViewModel(recipe.MU_TqShoulder_Min, "Мин. буртик", AppColors.ChartShoulderMin, "F0");
+            var shoulderMaxLine = new ConstantLineViewModel(recipe.MU_TqShoulder_Max, "Макс. буртик", AppColors.ChartShoulderMax, "F0");
 
             TorqueTurnsChart.YConstantLines.Clear();
             TorqueTurnsChart.XConstantLines.Clear();
@@ -176,17 +177,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             var torqueStrip = new StripViewModel(
                 recipe.MU_Tq_Min,
                 recipe.MU_Tq_Max,
-                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.1 });
+                AppColors.ChartStripTorque);
 
             var lengthStrip = new StripViewModel(
                 recipe.MU_Len_Min,
                 recipe.MU_Len_Max,
-                new SolidColorBrush(Colors.LightGreen) { Opacity = 0.1 });
+                AppColors.ChartStripLength);
 
             var shoulderStrip = new StripViewModel(
                 recipe.MU_TqShoulder_Min,
                 recipe.MU_TqShoulder_Max,
-                new SolidColorBrush(Colors.OrangeRed) { Opacity = 0.1 });
+                AppColors.ChartStripShoulder);
 
             // Очищаем существующие Strip'ы
             TorqueTurnsChart.YStrips.Clear();

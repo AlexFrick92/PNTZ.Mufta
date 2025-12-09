@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:PNTZ.Mufta.Showcase"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Подключаем цвета из основного проекта TPCApp -->
+                <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/Styles/AppColors.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
