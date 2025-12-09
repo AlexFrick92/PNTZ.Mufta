@@ -78,7 +78,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             // График: Момент/длина
             TorqueLengthChart = new ChartViewModel
             {
-                ArgumentMember = "Length",
+                ArgumentMember = "Length_mm",
                 XAxisTitle = "Длина",
                 YAxisTitle = "Момент",
             };

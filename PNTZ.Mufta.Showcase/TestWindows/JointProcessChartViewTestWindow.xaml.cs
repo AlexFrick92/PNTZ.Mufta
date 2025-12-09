@@ -13,6 +13,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     {
         private JointProcessChartViewModel _viewModel;
         private JointRecipe _currentRecipe;
+        private JointResult _currentJointResult;
 
         // Симуляция данных
         private DispatcherTimer _simulationTimer;
@@ -98,6 +99,38 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             StatusText.Text = $"Загружен рецепт: {recipe.Name} (режим: {recipe.JointMode})";
         }
 
+        /// <summary>
+        /// Обработчик появления трубы на позиции
+        /// </summary>
+        private void PipeAppear_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверка загрузки рецепта
+            if (_currentRecipe == null)
+            {
+                StatusText.Text = "Ошибка: Сначала загрузите рецепт!";
+                return;
+            }
+
+            // Парсинг значения MVS_Len из TextBox
+            if (!float.TryParse(TxtMvsLen.Text, out float mvsLenMm))
+            {
+                StatusText.Text = "Ошибка: Некорректное значение MVS_Len!";
+                return;
+            }
+
+            // Создание нового JointResult
+            _currentJointResult = new JointResult(_currentRecipe)
+            {
+                MVS_Len = mvsLenMm / 1000f, // Преобразуем мм в метры
+                StartTimeStamp = DateTime.Now
+            };
+
+            // Вызываем метод UpdatePipeApper у ViewModel
+            _viewModel.UpdatePipeApper(_currentJointResult);
+
+            StatusText.Text = $"Труба появилась на позиции: {mvsLenMm:F1} мм (MVS_Len = {_currentJointResult.MVS_Len:F4} м)";
+        }
+
         #region Обработчики симуляции
 
         /// <summary>
@@ -114,7 +147,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             // Инициализация параметров симуляции
             _currentTimeStamp = 0;
             _currentTorque = 0;
-            _currentLength = 0;
+            _currentLength = _currentJointResult?.MVS_Len_mm ?? 0; // Начинаем от позиции трубы
             _currentTurns = 0;
             _lastPoint = null;
 
@@ -141,7 +174,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _viewModel.TqTnLenPoints.Clear();
             _currentTimeStamp = 0;
             _currentTorque = 0;
-            _currentLength = 0;
+            _currentLength = _currentJointResult?.MVS_Len_mm ?? 0;
             _currentTurns = 0;
             _lastPoint = null;
             StatusText.Text = "Графики сброшены";
@@ -215,8 +248,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             if (_currentRecipe == null) return 0;
 
+            // Начальная позиция (MVS_Len_mm) + дельта до максимума
+            float startLength = _currentJointResult?.MVS_Len_mm ?? 0;
             float maxLength = _currentRecipe.MU_Len_Max;
-            return maxLength * progress;
+            float deltaLength = maxLength - startLength;
+
+            return startLength + (deltaLength * progress);
         }
 
         /// <summary>

@@ -77,6 +77,33 @@
                         </StackPanel>
                     </GroupBox>
 
+                    <!-- Группа: Начало процесса -->
+                    <GroupBox Header="Начало процесса"
+                              Margin="0,0,15,10"
+                              Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="MVS_Len (мм):"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,8,0"
+                                       FontSize="12"/>
+                            <TextBox x:Name="TxtMvsLen"
+                                     Width="80"
+                                     VerticalAlignment="Center"
+                                     Text="50"
+                                     Margin="0,0,10,0"
+                                     Padding="5,3"/>
+                            <Button x:Name="BtnPipeAppear"
+                                    Content="Труба появилась"
+                                    Click="PipeAppear_Click"
+                                    Width="140"
+                                    Padding="8,5"
+                                    Background="#F39C12"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                    </GroupBox>
+
                     <!-- Группа: Симуляция данных -->
                     <GroupBox Header="Симуляция данных"
                               Margin="0,0,15,10"
