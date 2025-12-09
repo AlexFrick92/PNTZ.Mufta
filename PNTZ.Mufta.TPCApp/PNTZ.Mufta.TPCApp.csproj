@@ -238,6 +238,9 @@
     <Compile Include="View\Joint\JointProcessView.xaml.cs">
       <DependentUpon>JointProcessView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Joint\JointView.xaml.cs">
+      <DependentUpon>JointView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -334,6 +337,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Joint\JointProcessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Joint\JointView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

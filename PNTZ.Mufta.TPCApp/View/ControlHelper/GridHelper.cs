@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -44,33 +45,40 @@ namespace PNTZ.Mufta.TPCApp.View.ControlHelper
             var brush = GetBorderBrush(grid);
             var thickness = GetBorderThickness(grid);
 
-            // Вертикальные линии (между колонками)
-            for (int i = 1; i < grid.ColumnDefinitions.Count; i++)
-            {
-                var line = new Rectangle
-                {
-                    Fill = brush,
-                    Width = thickness,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Stretch
-                };
-                Grid.SetColumn(line, i);
-                Grid.SetRowSpan(line, grid.RowDefinitions.Count);
-                grid.Children.Add(line);
-            }
+            int rowCount = Math.Max(1, grid.RowDefinitions.Count);
+            int colCount = Math.Max(1, grid.ColumnDefinitions.Count);
 
-            // Горизонтальные линии (между строками)
-            for (int i = 1; i < grid.RowDefinitions.Count; i++)
+            // Горизонтальные линии (включая верхнюю и нижнюю границы)
+            for (int i = 0; i <= grid.RowDefinitions.Count; i++)
             {
                 var line = new Rectangle
                 {
                     Fill = brush,
                     Height = thickness,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Top
+                    VerticalAlignment = i < grid.RowDefinitions.Count ? VerticalAlignment.Top : VerticalAlignment.Bottom
                 };
-                Grid.SetRow(line, i);
-                Grid.SetColumnSpan(line, grid.ColumnDefinitions.Count);
+
+                int row = Math.Min(i, grid.RowDefinitions.Count - 1);
+                Grid.SetRow(line, row);
+                Grid.SetColumnSpan(line, colCount);
+                grid.Children.Add(line);
+            }
+
+            // Вертикальные линии (включая левую и правую границы)
+            for (int i = 0; i <= grid.ColumnDefinitions.Count; i++)
+            {
+                var line = new Rectangle
+                {
+                    Fill = brush,
+                    Width = thickness,
+                    HorizontalAlignment = i < grid.ColumnDefinitions.Count ? HorizontalAlignment.Left : HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
+
+                int col = Math.Min(i, grid.ColumnDefinitions.Count - 1);
+                Grid.SetColumn(line, col);
+                Grid.SetRowSpan(line, rowCount);
                 grid.Children.Add(line);
             }
         }

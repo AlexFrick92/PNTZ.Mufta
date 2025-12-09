@@ -6,11 +6,14 @@
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              xmlns:vmJoint="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint"
+             xmlns:hlp="clr-namespace:PNTZ.Mufta.TPCApp.View.ControlHelper"
              d:DataContext="{d:DesignInstance Type=vmJoint:JointProcessChartViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1000">
 
-    <Grid>
+    <Grid hlp:GridHelper.ShowBorders="True"
+            hlp:GridHelper.BorderBrush="LightGray"
+            hlp:GridHelper.BorderThickness="1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -22,32 +25,17 @@
         </Grid.RowDefinitions>
 
         <!-- Момент/обороты -->
-        <Border BorderThickness="0,0,1,1"
-                BorderBrush="LightGray"
-                Grid.Row="0" Grid.Column="0">
-            <ctrl:ChartView DataContext="{Binding TorqueTurnsChart}"/>
-        </Border>
+        <ctrl:ChartView Grid.Row="0" Grid.Column="0" DataContext="{Binding TorqueTurnsChart}"/>
 
         <!-- (Обороты/Мин)/обороты -->
-        <Border BorderThickness="0,0,1,1"
-                BorderBrush="LightGray"
-                Grid.Row="1" Grid.Column="0">
-            <ctrl:ChartView DataContext="{Binding TurnsPerMinuteTurnsChart}"/>
-        </Border>
+        <ctrl:ChartView Grid.Row="1" Grid.Column="0" DataContext="{Binding TurnsPerMinuteTurnsChart}"/>
 
         <!-- Момент/длина -->
-        <Border BorderThickness="0,0,1,1"
-                BorderBrush="LightGray"
-                Grid.Row="0" Grid.Column="1">
-            <ctrl:ChartView DataContext="{Binding TorqueLengthChart}"/>
-        </Border>
-
+        <ctrl:ChartView Grid.Row="0" Grid.Column="1" DataContext="{Binding TorqueLengthChart}"/>
+        
         <!-- Момент/время -->
-        <Border BorderThickness="0,0,1,1"
-                BorderBrush="LightGray"
-                Grid.Row="1" Grid.Column="1">
-            <ctrl:ChartView DataContext="{Binding TorqueTimeChart}"/>
-        </Border>
+        <ctrl:ChartView Grid.Row="1" Grid.Column="1" DataContext="{Binding TorqueTimeChart}"/>
+
 
     </Grid>
 </UserControl>
