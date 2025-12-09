@@ -3,8 +3,10 @@ using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using Promatis.Core.Extensions;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Windows.Media;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
@@ -15,6 +17,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     /// </summary>
     public class JointProcessChartViewModel : BaseViewModel
     {
+        /// <summary>
+        /// Отступ для границ графиков (10%)
+        /// </summary>
+        private const double CHART_MARGIN = 0.05;
+
         /// <summary>
         /// График: Момент/обороты
         /// </summary>
@@ -125,19 +132,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private void UpdateRanges(JointRecipe recipe)
         {
             //График: Момент/Обороты
-            TorqueTurnsChart.YMax = recipe.MU_Tq_Max * 1.1;
+            TorqueTurnsChart.YMax = recipe.MU_Tq_Max * (1 + CHART_MARGIN);
+            TorqueTurnsChart.YMin = 0;
             TorqueTurnsChart.XMax = 3;
+            TorqueTurnsChart.XMin = 0;
 
             //График: Момент/Длина
-            TorqueLengthChart.YMax = recipe.MU_Tq_Max * 1.1;
-            TorqueLengthChart.XMax = recipe.MU_Len_Max * 1.05;
+            TorqueLengthChart.YMax = recipe.MU_Tq_Max * (1 + CHART_MARGIN);
+            TorqueLengthChart.YMin = 0;
+            TorqueLengthChart.XMax = recipe.MU_Len_Max * (1 + CHART_MARGIN);
+            TorqueLengthChart.XMin = 0;
 
             //График: Обороты/ОборотыВминуту
+            TurnsPerMinuteTurnsChart.YMax = 100;
+            TurnsPerMinuteTurnsChart.YMin = 0;
             TurnsPerMinuteTurnsChart.XMax = 3;
+            TurnsPerMinuteTurnsChart.XMin = 0;
 
             //График: Момент/Время
-            TorqueTimeChart.YMax = recipe.MU_Tq_Max * 1.1;
+            TorqueTimeChart.YMax = recipe.MU_Tq_Max * (1 + CHART_MARGIN);
+            TorqueTimeChart.YMin = 0;
             TorqueTimeChart.XMax = 15000;
+            TorqueTimeChart.XMin = 0;
         }
         /// <summary>
         /// Нарисовать прямые линии по данным рецепта
@@ -340,24 +356,22 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
         /// <summary>
         /// Проверяет, не выходит ли новая точка за границы графиков,
-        /// и расширяет границы при необходимости с запасом 15%
+        /// и расширяет границы при необходимости с запасом
         /// </summary>
         /// <param name="point">Новая точка данных</param>
         private void UpdateChartBoundsIfNeeded(TqTnLenPoint point)
         {
-            const double margin = 0.5; // 15% запаса
-
             // График: Момент/обороты
-            ExpandBoundsIfNeeded(TorqueTurnsChart, point.Turns, point.Torque, margin);
+            ExpandBoundsIfNeeded(TorqueTurnsChart, point.Turns, point.Torque, CHART_MARGIN);
 
             // График: (Обороты/Мин)/обороты
-            ExpandBoundsIfNeeded(TurnsPerMinuteTurnsChart, point.Turns, point.TurnsPerMinute, margin);
+            ExpandBoundsIfNeeded(TurnsPerMinuteTurnsChart, point.Turns, point.TurnsPerMinute, CHART_MARGIN);
 
             // График: Момент/длина
-            ExpandBoundsIfNeeded(TorqueLengthChart, point.Length_mm, point.Torque, margin);
+            ExpandBoundsIfNeeded(TorqueLengthChart, point.Length_mm, point.Torque, CHART_MARGIN);
 
             // График: Момент/время
-            ExpandBoundsIfNeeded(TorqueTimeChart, point.TimeStamp, point.Torque, margin);
+            ExpandBoundsIfNeeded(TorqueTimeChart, point.TimeStamp, point.Torque, CHART_MARGIN);
         }
 
         /// <summary>
@@ -366,7 +380,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <param name="chart">График</param>
         /// <param name="xValue">Значение по оси X</param>
         /// <param name="yValue">Значение по оси Y</param>
-        /// <param name="margin">Процент запаса при расширении (например, 0.15 для 15%)</param>
+        /// <param name="margin">Коэффициент запаса при расширении (например, 0.1 для 10%)</param>
         private void ExpandBoundsIfNeeded(ChartViewModel chart, double xValue, double yValue, double margin)
         {
             // Проверка и расширение оси X
@@ -396,7 +410,137 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
         public void UpdateJointFinished(JointResult result)
         {
-            
+            if(result.ResultTotal == 1)
+                FitChartsToData();
+        }
+
+        /// <summary>
+        /// Подгоняет границы всех графиков под финальные данные с небольшим отступом
+        /// </summary>
+        private void FitChartsToData()
+        {
+            if (TqTnLenPoints == null || TqTnLenPoints.Count == 0)
+                return;
+
+            // График: Момент/обороты
+            FitChartBounds(
+                TorqueTurnsChart,
+                TqTnLenPoints.Min(p => p.Turns),
+                TqTnLenPoints.Max(p => p.Turns),
+                TqTnLenPoints.Min(p => p.Torque),
+                TqTnLenPoints.Max(p => p.Torque),
+                CHART_MARGIN,
+                adjustXMin: true,
+                adjustYMin: true);
+
+            // График: (Обороты/Мин)/обороты
+            FitChartBounds(
+                TurnsPerMinuteTurnsChart,
+                TqTnLenPoints.Min(p => p.Turns),
+                TqTnLenPoints.Max(p => p.Turns),
+                TqTnLenPoints.Min(p => p.TurnsPerMinute),
+                TqTnLenPoints.Max(p => p.TurnsPerMinute),
+                CHART_MARGIN,
+                adjustXMin: true,
+                adjustYMin: true);
+
+            // График: Момент/длина (XMin сохраняем текущее значение)
+            FitChartBounds(
+                TorqueLengthChart,
+                TqTnLenPoints.Min(p => p.Length_mm),
+                TqTnLenPoints.Max(p => p.Length_mm),
+                TqTnLenPoints.Min(p => p.Torque),
+                TqTnLenPoints.Max(p => p.Torque),
+                CHART_MARGIN,
+                adjustXMin: false, // Сохраняем XMin установленный в UpdatePipeAppear
+                adjustYMin: true);
+
+            // График: Момент/время
+            FitChartBounds(
+                TorqueTimeChart,
+                TqTnLenPoints.Min(p => p.TimeStamp),
+                TqTnLenPoints.Max(p => p.TimeStamp),
+                TqTnLenPoints.Min(p => p.Torque),
+                TqTnLenPoints.Max(p => p.Torque),
+                CHART_MARGIN,
+                adjustXMin: true,
+                adjustYMin: true);
+        }
+
+        /// <summary>
+        /// Устанавливает границы графика с учетом данных, ConstantLines и Strips
+        /// </summary>
+        /// <param name="chart">График</param>
+        /// <param name="dataXMin">Минимум X из данных</param>
+        /// <param name="dataXMax">Максимум X из данных</param>
+        /// <param name="dataYMin">Минимум Y из данных</param>
+        /// <param name="dataYMax">Максимум Y из данных</param>
+        /// <param name="margin">Коэффициент отступа (например, 0.1 для 10%)</param>
+        /// <param name="adjustXMin">Корректировать ли XMin</param>
+        /// <param name="adjustYMin">Корректировать ли YMin</param>
+        private void FitChartBounds(
+            ChartViewModel chart,
+            double dataXMin,
+            double dataXMax,
+            double dataYMin,
+            double dataYMax,
+            double margin,
+            bool adjustXMin,
+            bool adjustYMin)
+        {
+            // Учитываем ConstantLines по оси X
+            if (chart.XConstantLines.Any())
+            {
+                var xLineMin = chart.XConstantLines.Min(line => line.Value);
+                var xLineMax = chart.XConstantLines.Max(line => line.Value);
+                dataXMin = Math.Min(dataXMin, xLineMin);
+                dataXMax = Math.Max(dataXMax, xLineMax);
+            }
+
+            // Учитываем Strips по оси X
+            if (chart.XStrips.Any())
+            {
+                var xStripMin = chart.XStrips.Min(strip => strip.MinValue);
+                var xStripMax = chart.XStrips.Max(strip => strip.MaxValue);
+                dataXMin = Math.Min(dataXMin, xStripMin);
+                dataXMax = Math.Max(dataXMax, xStripMax);
+            }
+
+            // Учитываем ConstantLines по оси Y
+            if (chart.YConstantLines.Any())
+            {
+                var yLineMin = chart.YConstantLines.Min(line => line.Value);
+                var yLineMax = chart.YConstantLines.Max(line => line.Value);
+                dataYMin = Math.Min(dataYMin, yLineMin);
+                dataYMax = Math.Max(dataYMax, yLineMax);
+            }
+
+            // Учитываем Strips по оси Y
+            if (chart.YStrips.Any())
+            {
+                var yStripMin = chart.YStrips.Min(strip => strip.MinValue);
+                var yStripMax = chart.YStrips.Max(strip => strip.MaxValue);
+                dataYMin = Math.Min(dataYMin, yStripMin);
+                dataYMax = Math.Max(dataYMax, yStripMax);
+            }
+
+            // Вычисляем диапазоны с отступом
+            double xRange = dataXMax - dataXMin;
+            double yRange = dataYMax - dataYMin;
+
+            // Устанавливаем границы оси X
+            if (adjustXMin)
+            {
+                chart.XMin = dataXMin;
+            }
+            chart.XMax = dataXMax + xRange * margin;
+
+            // Устанавливаем границы оси Y
+            if (adjustYMin)
+            {
+                chart.YMin = dataYMin;
+            }
+            chart.YMax = dataYMax + yRange * margin;
         }
     }
 }

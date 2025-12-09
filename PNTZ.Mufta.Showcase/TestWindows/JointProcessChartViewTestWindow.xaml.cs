@@ -168,6 +168,16 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private void StopSimulation_Click(object sender, RoutedEventArgs e)
         {
             _simulationTimer.Stop();
+
+            // Подгоняем границы графиков под финальные данные
+            if (_currentJointResult != null)
+            {
+                _currentJointResult.ResultTotal = 2;
+                _currentJointResult.FinishTimeStamp = DateTime.Now;
+                _viewModel.UpdateJointFinished(_currentJointResult);
+
+            }
+
             StatusText.Text = $"Симуляция остановлена (точек: {_viewModel.TqTnLenPoints.Count})";
         }
 
@@ -195,6 +205,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             if (_currentTimeStamp >= SIMULATION_DURATION_MS)
             {
                 _simulationTimer.Stop();
+
+                // Подгоняем границы графиков под финальные данные
+                _currentJointResult.FinishTimeStamp = DateTime.Now;
+                _currentJointResult.ResultTotal = 1;
+                _viewModel.UpdateJointFinished(_currentJointResult);
+
                 StatusText.Text = $"Симуляция завершена ({_viewModel.TqTnLenPoints.Count} точек)";
                 return;
             }

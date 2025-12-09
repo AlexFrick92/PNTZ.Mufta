@@ -156,6 +156,7 @@
                           Style="{StaticResource ChartStyle}"
                           CrosshairEnabled="True"
                           dxcore:ThemeManager.ThemeName="MetropolisLight"
+                          BorderThickness="0"
                           >
 
             <!-- Настройки перекрестия -->
@@ -176,7 +177,8 @@
                                  EnableAxisXNavigation="True"
                                  EnableAxisYNavigation="True"
                                  SeriesItemsSource="{Binding Series}"
-                                 SeriesItemTemplate="{StaticResource ChartSeriesTemplate}">
+                                 SeriesItemTemplate="{StaticResource ChartSeriesTemplate}"
+                                 BorderThickness="0">
 
 
                     <!-- Настройки навигации -->
@@ -191,7 +193,7 @@
                          ПАНЕЛЬ ГРАФИКА
                          ======================================== -->
                     <dxc:XYDiagram2D.DefaultPane>
-                        <dxc:Pane Style="{StaticResource PaneStyle}">
+                        <dxc:Pane Style="{StaticResource PaneStyle}" BorderThickness="0" DomainBorderBrush="Transparent">
 
                             <!-- Скроллбар оси X -->
                             <dxc:Pane.AxisXScrollBarOptions>
