@@ -54,13 +54,13 @@
             <!-- Стиль для оси X -->
             <Style TargetType="dxc:AxisX2D" x:Key="AxisXStyle">
                 <Setter Property="GridLinesVisible" Value="True"/>
-                <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
+                <Setter Property="GridLinesBrush" Value="{StaticResource ChartGrid_Line}"/>
             </Style>
 
             <!-- Стиль для оси Y -->
             <Style TargetType="dxc:AxisY2D" x:Key="AxisYStyle">
                 <Setter Property="GridLinesVisible" Value="True"/>
-                <Setter Property="GridLinesBrush" Value="#F0F0F0"/>
+                <Setter Property="GridLinesBrush" Value="{StaticResource ChartGrid_Line}"/>
                 <Setter Property="Interlaced" Value="False"/>
             </Style>
 

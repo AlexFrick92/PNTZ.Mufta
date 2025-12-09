@@ -79,4 +79,11 @@
     <SolidColorBrush x:Key="ChartTorqueTime_Line" Color="#9B59B6"/>
     <!-- Фиолетовый -->
 
+    <!-- ========================================== -->
+    <!-- Графики: Сетка                            -->
+    <!-- ========================================== -->
+
+    <!-- Цвет линий сетки графика -->
+    <SolidColorBrush x:Key="ChartGrid_Line" Color="Transparent"/>
+
 </ResourceDictionary>
