@@ -6,6 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- Подключаем настройки из основного проекта TPCApp -->
+                <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/Styles/AppSettings.xaml"/>
                 <!-- Подключаем цвета из основного проекта TPCApp -->
                 <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/Styles/AppColors.xaml"/>
                 <!-- Подключаем настройки шрифтов из основного проекта TPCApp -->

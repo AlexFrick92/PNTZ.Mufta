@@ -59,6 +59,9 @@ namespace PNTZ.Mufta.TPCApp
             AppInstance = this;
             CurrentDirectory = currentDirectory;
 
+            // Загружаем настройки приложения
+            LoadAppSettings();
+
             // Загружаем цветовую схему приложения
             LoadAppColors();
 
@@ -196,6 +199,48 @@ namespace PNTZ.Mufta.TPCApp
                     // Не критично - используем дефолтные настройки шрифтов
                     // Логирование будет позже, когда Logger инициализируется
                     Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppFonts.xaml - {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Загрузка настроек приложения
+        /// 1. Загружаем встроенный Styles/AppSettings.xaml (дефолтные настройки)
+        /// 2. Пытаемся загрузить внешний Config/AppSettings.xaml (опциональный override)
+        /// </summary>
+        private void LoadAppSettings()
+        {
+            // 1. Загружаем дефолтные настройки из встроенного ресурса
+            try
+            {
+                var defaultSettingsUri = new Uri("pack://application:,,,/Styles/AppSettings.xaml", UriKind.Absolute);
+                var defaultSettings = new ResourceDictionary { Source = defaultSettingsUri };
+                this.Resources.MergedDictionaries.Add(defaultSettings);
+            }
+            catch (Exception ex)
+            {
+                // Критичная ошибка - дефолтные настройки должны быть всегда
+                throw new InvalidOperationException("Не удалось загрузить Styles/AppSettings.xaml", ex);
+            }
+
+            // 2. Пытаемся загрузить кастомные настройки из внешнего файла
+            string customSettingsPath = Path.Combine(CurrentDirectory, "Config", "AppSettings.xaml");
+
+            if (File.Exists(customSettingsPath))
+            {
+                try
+                {
+                    using (var stream = File.OpenRead(customSettingsPath))
+                    {
+                        var customSettings = (ResourceDictionary)XamlReader.Load(stream);
+                        this.Resources.MergedDictionaries.Add(customSettings);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Не критично - используем дефолтные настройки
+                    // Логирование будет позже, когда Logger инициализируется
+                    Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppSettings.xaml - {ex.Message}");
                 }
             }
         }

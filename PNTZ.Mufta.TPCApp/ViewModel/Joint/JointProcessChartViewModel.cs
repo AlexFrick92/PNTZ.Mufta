@@ -18,11 +18,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     public class JointProcessChartViewModel : BaseViewModel
     {
         /// <summary>
-        /// Отступ для границ графиков (10%)
-        /// </summary>
-        private const double CHART_MARGIN = 0.05;
-
-        /// <summary>
         /// График: Момент/обороты
         /// </summary>
         public ChartViewModel TorqueTurnsChart { get; private set; }
@@ -132,15 +127,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private void UpdateRanges(JointRecipe recipe)
         {
             //График: Момент/Обороты
-            TorqueTurnsChart.YMax = recipe.MU_Tq_Max * (1 + CHART_MARGIN);
+            TorqueTurnsChart.YMax = recipe.MU_Tq_Max * (1 + AppSettings.ChartMargin);
             TorqueTurnsChart.YMin = 0;
             TorqueTurnsChart.XMax = 3;
             TorqueTurnsChart.XMin = 0;
 
             //График: Момент/Длина
-            TorqueLengthChart.YMax = recipe.MU_Tq_Max * (1 + CHART_MARGIN);
+            TorqueLengthChart.YMax = recipe.MU_Tq_Max * (1 + AppSettings.ChartMargin);
             TorqueLengthChart.YMin = 0;
-            TorqueLengthChart.XMax = recipe.MU_Len_Max * (1 + CHART_MARGIN);
+            TorqueLengthChart.XMax = recipe.MU_Len_Max * (1 + AppSettings.ChartMargin);
             TorqueLengthChart.XMin = 0;
 
             //График: Обороты/ОборотыВминуту
@@ -150,7 +145,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             TurnsPerMinuteTurnsChart.XMin = 0;
 
             //График: Момент/Время
-            TorqueTimeChart.YMax = recipe.MU_Tq_Max * (1 + CHART_MARGIN);
+            TorqueTimeChart.YMax = recipe.MU_Tq_Max * (1 + AppSettings.ChartMargin);
             TorqueTimeChart.YMin = 0;
             TorqueTimeChart.XMax = 15000;
             TorqueTimeChart.XMin = 0;
@@ -362,16 +357,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private void UpdateChartBoundsIfNeeded(TqTnLenPoint point)
         {
             // График: Момент/обороты
-            ExpandBoundsIfNeeded(TorqueTurnsChart, point.Turns, point.Torque, CHART_MARGIN);
+            ExpandBoundsIfNeeded(TorqueTurnsChart, point.Turns, point.Torque, AppSettings.ChartMargin);
 
             // График: (Обороты/Мин)/обороты
-            ExpandBoundsIfNeeded(TurnsPerMinuteTurnsChart, point.Turns, point.TurnsPerMinute, CHART_MARGIN);
+            ExpandBoundsIfNeeded(TurnsPerMinuteTurnsChart, point.Turns, point.TurnsPerMinute, AppSettings.ChartMargin);
 
             // График: Момент/длина
-            ExpandBoundsIfNeeded(TorqueLengthChart, point.Length_mm, point.Torque, CHART_MARGIN);
+            ExpandBoundsIfNeeded(TorqueLengthChart, point.Length_mm, point.Torque, AppSettings.ChartMargin);
 
             // График: Момент/время
-            ExpandBoundsIfNeeded(TorqueTimeChart, point.TimeStamp, point.Torque, CHART_MARGIN);
+            ExpandBoundsIfNeeded(TorqueTimeChart, point.TimeStamp, point.Torque, AppSettings.ChartMargin);
         }
 
         /// <summary>
@@ -429,7 +424,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 TqTnLenPoints.Max(p => p.Turns),
                 TqTnLenPoints.Min(p => p.Torque),
                 TqTnLenPoints.Max(p => p.Torque),
-                CHART_MARGIN,
+                AppSettings.ChartMargin,
                 adjustXMin: true,
                 adjustYMin: true);
 
@@ -440,7 +435,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 TqTnLenPoints.Max(p => p.Turns),
                 TqTnLenPoints.Min(p => p.TurnsPerMinute),
                 TqTnLenPoints.Max(p => p.TurnsPerMinute),
-                CHART_MARGIN,
+                AppSettings.ChartMargin,
                 adjustXMin: true,
                 adjustYMin: true);
 
@@ -451,7 +446,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 TqTnLenPoints.Max(p => p.Length_mm),
                 TqTnLenPoints.Min(p => p.Torque),
                 TqTnLenPoints.Max(p => p.Torque),
-                CHART_MARGIN,
+                AppSettings.ChartMargin,
                 adjustXMin: false, // Сохраняем XMin установленный в UpdatePipeAppear
                 adjustYMin: true);
 
@@ -462,7 +457,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 TqTnLenPoints.Max(p => p.TimeStamp),
                 TqTnLenPoints.Min(p => p.Torque),
                 TqTnLenPoints.Max(p => p.Torque),
-                CHART_MARGIN,
+                AppSettings.ChartMargin,
                 adjustXMin: true,
                 adjustYMin: true);
         }

@@ -1,0 +1,16 @@
+<!-- Дефолтные настройки приложения -->
+<!-- Этот файл компилируется в сборку и всегда доступен -->
+<!-- Для кастомизации создайте Config/AppSettings.xaml с нужными переопределениями -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ========================================== -->
+    <!-- Графики: Настройки отображения            -->
+    <!-- ========================================== -->
+
+    <!-- Отступ для границ графиков (10% = 0.05) -->
+    <sys:Double x:Key="ChartMargin">0.05</sys:Double>
+
+</ResourceDictionary>
