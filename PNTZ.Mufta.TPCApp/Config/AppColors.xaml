@@ -29,6 +29,9 @@
 
   Выделенные области:
   - ChartStripTorque, ChartStripLength, ChartStripShoulder
+
+  Заголовки осей:
+  - ChartAxisX_Foreground, ChartAxisY_Foreground
 -->
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

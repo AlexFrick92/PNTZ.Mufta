@@ -93,6 +93,17 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Графики: Заголовки осей
+        // ==========================================
+
+        /// <summary>ChartAxisX_Foreground - цвет текста заголовка оси X</summary>
+        public static Brush ChartAxisX_Foreground => Get("ChartAxisX_Foreground");
+
+        /// <summary>ChartAxisY_Foreground - цвет текста заголовка оси Y</summary>
+        public static Brush ChartAxisY_Foreground => Get("ChartAxisY_Foreground");
+
+
+        // ==========================================
         // Вспомогательный метод
         // ==========================================
 

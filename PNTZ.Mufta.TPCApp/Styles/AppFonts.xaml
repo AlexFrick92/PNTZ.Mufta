@@ -63,4 +63,18 @@
     <FontWeight x:Key="ChartShoulderMax_FontWeight">Normal</FontWeight>
     <FontFamily x:Key="ChartShoulderMax_FontFamily">Segoe UI</FontFamily>
 
+    <!-- ========================================== -->
+    <!-- Графики: Заголовки осей                   -->
+    <!-- ========================================== -->
+
+    <!-- Заголовок оси X -->
+    <sys:Double x:Key="ChartAxisX_FontSize">16</sys:Double>
+    <FontWeight x:Key="ChartAxisX_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartAxisX_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Заголовок оси Y -->
+    <sys:Double x:Key="ChartAxisY_FontSize">16</sys:Double>
+    <FontWeight x:Key="ChartAxisY_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartAxisY_FontFamily">Segoe UI</FontFamily>
+
 </ResourceDictionary>

@@ -52,4 +52,11 @@
     <SolidColorBrush x:Key="ChartStripLength" Color="LightGreen" Opacity="0.1"/>
     <SolidColorBrush x:Key="ChartStripShoulder" Color="OrangeRed" Opacity="0.1"/>
 
+    <!-- ========================================== -->
+    <!-- Графики: Заголовки осей                   -->
+    <!-- ========================================== -->
+
+    <SolidColorBrush x:Key="ChartAxisX_Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="ChartAxisY_Foreground" Color="Black"/>
+
 </ResourceDictionary>

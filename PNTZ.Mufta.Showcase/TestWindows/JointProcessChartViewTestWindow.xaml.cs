@@ -238,10 +238,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 recipe.MU_TqSpeedRed_2 = 4500f;
                 recipe.MU_Tq_Dump = 6700;
                 recipe.MU_Tq_Max = 9000f;
-                recipe.MU_Tq_Min = 3500f;
+                recipe.MU_Tq_Min = 2500f;
                 recipe.MU_Tq_Opt = 7000f;
                 recipe.MU_TqShoulder_Min = 4000f;
-                recipe.MU_TqShoulder_Max = 4200f;              
+                recipe.MU_TqShoulder_Max = 6200f;              
             });         
         }
     }

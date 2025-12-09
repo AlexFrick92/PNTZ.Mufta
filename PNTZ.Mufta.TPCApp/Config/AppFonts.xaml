@@ -37,6 +37,10 @@
   - ChartShoulderMin_FontSize, ChartShoulderMin_FontWeight, ChartShoulderMin_FontFamily
   - ChartShoulderMax_FontSize, ChartShoulderMax_FontWeight, ChartShoulderMax_FontFamily
 
+  Заголовки осей:
+  - ChartAxisX_FontSize, ChartAxisX_FontWeight, ChartAxisX_FontFamily
+  - ChartAxisY_FontSize, ChartAxisY_FontWeight, ChartAxisY_FontFamily
+
   Доступные значения FontWeight:
   - Thin, ExtraLight, Light, Normal, Medium, SemiBold, Bold, ExtraBold, Black
 -->

@@ -112,6 +112,30 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Графики: Заголовки осей
+        // ==========================================
+
+        /// <summary>ChartAxisX - заголовок оси X (размер шрифта)</summary>
+        public static double ChartAxisX_FontSize => GetDouble("ChartAxisX_FontSize");
+
+        /// <summary>ChartAxisX - заголовок оси X (толщина шрифта)</summary>
+        public static FontWeight ChartAxisX_FontWeight => GetFontWeight("ChartAxisX_FontWeight");
+
+        /// <summary>ChartAxisX - заголовок оси X (семейство шрифта)</summary>
+        public static FontFamily ChartAxisX_FontFamily => GetFontFamily("ChartAxisX_FontFamily");
+
+
+        /// <summary>ChartAxisY - заголовок оси Y (размер шрифта)</summary>
+        public static double ChartAxisY_FontSize => GetDouble("ChartAxisY_FontSize");
+
+        /// <summary>ChartAxisY - заголовок оси Y (толщина шрифта)</summary>
+        public static FontWeight ChartAxisY_FontWeight => GetFontWeight("ChartAxisY_FontWeight");
+
+        /// <summary>ChartAxisY - заголовок оси Y (семейство шрифта)</summary>
+        public static FontFamily ChartAxisY_FontFamily => GetFontFamily("ChartAxisY_FontFamily");
+
+
+        // ==========================================
         // Вспомогательные методы
         // ==========================================
 

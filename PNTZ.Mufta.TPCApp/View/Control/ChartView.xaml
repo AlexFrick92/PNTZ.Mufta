@@ -221,7 +221,10 @@
                             <!-- Заголовок оси X -->
                             <dxc:AxisX2D.Title>
                                 <dxc:AxisTitle Content="{Binding XAxisTitle}"
-                                               Foreground="Black"
+                                               Foreground="{StaticResource ChartAxisX_Foreground}"
+                                               FontSize="{StaticResource ChartAxisX_FontSize}"
+                                               FontWeight="{StaticResource ChartAxisX_FontWeight}"
+                                               FontFamily="{StaticResource ChartAxisX_FontFamily}"
                                                Visibility="{Binding XAxisTitle, Converter={StaticResource NullToVisibilityConverter}}"/>
                             </dxc:AxisX2D.Title>
 
@@ -281,7 +284,10 @@
                             <!-- Заголовок оси Y -->
                             <dxc:AxisY2D.Title>
                                 <dxc:AxisTitle Content="{Binding YAxisTitle}"
-                                               Foreground="Black"
+                                               Foreground="{StaticResource ChartAxisY_Foreground}"
+                                               FontSize="{StaticResource ChartAxisY_FontSize}"
+                                               FontWeight="{StaticResource ChartAxisY_FontWeight}"
+                                               FontFamily="{StaticResource ChartAxisY_FontFamily}"
                                                Visibility="{Binding YAxisTitle, Converter={StaticResource NullToVisibilityConverter}}"/>
                             </dxc:AxisY2D.Title>
 
