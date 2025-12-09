@@ -129,6 +129,23 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Параметры: Индикация состояния
+        // ==========================================
+
+        /// <summary>ParameterGood_Background - фон для состояния Good (годное)</summary>
+        public static Brush ParameterGood_Background => Get("ParameterGood_Background");
+
+        /// <summary>ParameterGood_Foreground - цвет текста для состояния Good (годное)</summary>
+        public static Brush ParameterGood_Foreground => Get("ParameterGood_Foreground");
+
+        /// <summary>ParameterBad_Background - фон для состояния Bad (брак)</summary>
+        public static Brush ParameterBad_Background => Get("ParameterBad_Background");
+
+        /// <summary>ParameterBad_Foreground - цвет текста для состояния Bad (брак)</summary>
+        public static Brush ParameterBad_Foreground => Get("ParameterBad_Foreground");
+
+
+        // ==========================================
         // Вспомогательный метод
         // ==========================================
 

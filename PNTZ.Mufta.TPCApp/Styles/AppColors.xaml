@@ -86,4 +86,18 @@
     <!-- Цвет линий сетки графика -->
     <SolidColorBrush x:Key="ChartGrid_Line" Color="Transparent"/>
 
+    <!-- ========================================== -->
+    <!-- Параметры: Индикация состояния            -->
+    <!-- ========================================== -->
+
+    <!-- Состояние Good (годное) -->
+    <SolidColorBrush x:Key="ParameterGood_Background" Color="#E0FFE0"/>
+    <!-- Светло-зеленый -->
+    <SolidColorBrush x:Key="ParameterGood_Foreground" Color="DarkGreen"/>
+
+    <!-- Состояние Bad (брак) -->
+    <SolidColorBrush x:Key="ParameterBad_Background" Color="#FFE0E0"/>
+    <!-- Светло-красный -->
+    <SolidColorBrush x:Key="ParameterBad_Foreground" Color="DarkRed"/>
+
 </ResourceDictionary>
