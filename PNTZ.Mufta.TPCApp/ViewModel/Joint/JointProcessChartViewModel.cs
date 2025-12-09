@@ -297,20 +297,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
         #endregion
 
-        #region Настройка графиков при начале свинчивания
-
         /// <summary>
         /// Настроить графики при появлении трубы
         /// </summary>
         /// <param name="result"></param>
-        public void UpdatePipeApper(JointResult result)
+        public void UpdatePipeAppear(JointResult result)
         {
             TorqueLengthChart.XMin = result.MVS_Len_mm;
         }
-
-        #endregion
-
-        #region Обработка изменений коллекции точек
 
         /// <summary>
         /// Обработчик изменений коллекции TqTnLenPoints
@@ -320,6 +314,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+                    // Проверяем и расширяем границы для каждой добавленной точки
+                    if (e.NewItems != null)
+                    {
+                        foreach (TqTnLenPoint point in e.NewItems)
+                        {
+                            UpdateChartBoundsIfNeeded(point);
+                        }
+                    }
+                    // Обновляем данные для всех графиков
+                    TorqueTurnsChart.ChartData = TqTnLenPoints;
+                    TurnsPerMinuteTurnsChart.ChartData = TqTnLenPoints;
+                    TorqueLengthChart.ChartData = TqTnLenPoints;
+                    TorqueTimeChart.ChartData = TqTnLenPoints;
+                    break;
                 case NotifyCollectionChangedAction.Reset:
                     // Обновляем данные для всех графиков
                     TorqueTurnsChart.ChartData = TqTnLenPoints;
@@ -330,6 +338,65 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Проверяет, не выходит ли новая точка за границы графиков,
+        /// и расширяет границы при необходимости с запасом 15%
+        /// </summary>
+        /// <param name="point">Новая точка данных</param>
+        private void UpdateChartBoundsIfNeeded(TqTnLenPoint point)
+        {
+            const double margin = 0.5; // 15% запаса
+
+            // График: Момент/обороты
+            ExpandBoundsIfNeeded(TorqueTurnsChart, point.Turns, point.Torque, margin);
+
+            // График: (Обороты/Мин)/обороты
+            ExpandBoundsIfNeeded(TurnsPerMinuteTurnsChart, point.Turns, point.TurnsPerMinute, margin);
+
+            // График: Момент/длина
+            ExpandBoundsIfNeeded(TorqueLengthChart, point.Length_mm, point.Torque, margin);
+
+            // График: Момент/время
+            ExpandBoundsIfNeeded(TorqueTimeChart, point.TimeStamp, point.Torque, margin);
+        }
+
+        /// <summary>
+        /// Расширяет границы графика если значения выходят за пределы
+        /// </summary>
+        /// <param name="chart">График</param>
+        /// <param name="xValue">Значение по оси X</param>
+        /// <param name="yValue">Значение по оси Y</param>
+        /// <param name="margin">Процент запаса при расширении (например, 0.15 для 15%)</param>
+        private void ExpandBoundsIfNeeded(ChartViewModel chart, double xValue, double yValue, double margin)
+        {
+            // Проверка и расширение оси X
+            if (xValue < chart.XMin)
+            {
+                double delta = chart.XMin - xValue;
+                chart.XMin = xValue - delta * margin;
+            }
+            else if (xValue > chart.XMax)
+            {
+                double delta = xValue - chart.XMax;
+                chart.XMax = xValue + delta * margin;
+            }
+
+            // Проверка и расширение оси Y
+            if (yValue < chart.YMin)
+            {
+                double delta = chart.YMin - yValue;
+                chart.YMin = yValue - delta * margin;
+            }
+            else if (yValue > chart.YMax)
+            {
+                double delta = yValue - chart.YMax;
+                chart.YMax = yValue + delta * margin;
+            }
+        }
+
+        public void UpdateJointFinished(JointResult result)
+        {
+            
+        }
     }
 }

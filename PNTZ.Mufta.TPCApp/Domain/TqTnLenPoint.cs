@@ -17,7 +17,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         /// <summary>
         /// Длина в миллиметрах (псевдоним для Length)
         /// </summary>
-        public float Length_mm => Length;
+        public float Length_mm => Length * 1000;
         public float Turns { get; set; }
 
         public float TurnsPerMinute { get; set; }

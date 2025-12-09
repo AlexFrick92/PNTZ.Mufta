@@ -29,6 +29,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private const int SIMULATION_DURATION_MS = 15000;
         private const float MAX_TURNS = 2.5f;
 
+        // Коэффициенты превышения пределов для тестирования auto-expand
+        private const float TORQUE_OVERSHOOT = 1.25f;  // Превышение момента на 25%
+        private const float LENGTH_OVERSHOOT = 1.15f;  // Превышение длины на 15%
+        private const float TURNS_OVERSHOOT = 1.3f;    // Превышение оборотов на 30%
+        private const float RPM_MAX = 40f;             // Максимальные обороты в минуту
+
         public JointProcessChartViewTestWindow()
         {
             InitializeComponent();
@@ -125,8 +131,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 StartTimeStamp = DateTime.Now
             };
 
-            // Вызываем метод UpdatePipeApper у ViewModel
-            _viewModel.UpdatePipeApper(_currentJointResult);
+            // Вызываем метод UpdatePipeAppear у ViewModel
+            _viewModel.UpdatePipeAppear(_currentJointResult);
 
             StatusText.Text = $"Труба появилась на позиции: {mvsLenMm:F1} мм (MVS_Len = {_currentJointResult.MVS_Len:F4} м)";
         }
@@ -198,7 +204,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
             // Генерация данных с линейным ростом и шумом
             _currentTorque = GenerateTorqueValue(progress);
-            _currentLength = GenerateLengthValue(progress);
+            _currentLength = GenerateLengthValue(progress) / 1000;
             _currentTurns = GenerateTurnsValue(progress);
 
             // Создание новой точки
@@ -211,10 +217,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 TurnsPerMinute = 0
             };
 
-            // Расчет TurnsPerMinute
+            // Расчет TurnsPerMinute с вариацией
             if (_lastPoint != null)
             {
-                newPoint.TurnsPerMinute = 30;
+                newPoint.TurnsPerMinute = GenerateRPMValue(progress);
             }
 
             // Добавление точки в коллекцию
@@ -229,39 +235,62 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
 
         /// <summary>
-        /// Генерация значения момента с линейным ростом и шумом
+        /// Генерация значения момента с линейным ростом и шумом.
+        /// Превышает MU_Tq_Max на 25% для тестирования auto-expand границ.
         /// </summary>
         private float GenerateTorqueValue(float progress)
         {
             if (_currentRecipe == null) return 0;
 
-            float maxTorque = _currentRecipe.MU_Tq_Max;
-            float linearValue = maxTorque * progress;
-            float noise = (float)(_random.NextDouble() * 2 - 1) * (maxTorque * 0.05f); // ±5% шум
-            return Math.Max(0, linearValue + noise);
+            // Используем превышенный максимум для тестирования расширения границ
+            float targetMaxTorque = _currentRecipe.MU_Tq_Max * TORQUE_OVERSHOOT;
+            float linearValue = targetMaxTorque * progress;
+            float noise = (float)(_random.NextDouble() * 2 - 1) * (targetMaxTorque * 0.05f); // ±5% шум
+
+            // Иногда уходим в отрицательные значения в начале для тестирования Min
+            if (progress < 0.1f)
+            {
+                linearValue = (float)(_random.NextDouble() * 2 - 1) * (_currentRecipe.MU_Tq_Min * 0.3f);
+            }
+
+            return linearValue + noise;
         }
 
         /// <summary>
-        /// Генерация значения длины с линейным ростом (без шума)
+        /// Генерация значения длины с линейным ростом (без шума).
+        /// Превышает MU_Len_Max на 15% для тестирования auto-expand границ.
         /// </summary>
         private float GenerateLengthValue(float progress)
         {
             if (_currentRecipe == null) return 0;
 
-            // Начальная позиция (MVS_Len_mm) + дельта до максимума
+            // Начальная позиция (MVS_Len_mm) + дельта до превышенного максимума
             float startLength = _currentJointResult?.MVS_Len_mm ?? 0;
-            float maxLength = _currentRecipe.MU_Len_Max;
-            float deltaLength = maxLength - startLength;
+            float targetMaxLength = _currentRecipe.MU_Len_Max * LENGTH_OVERSHOOT;
+            float deltaLength = targetMaxLength - startLength;
 
             return startLength + (deltaLength * progress);
         }
 
         /// <summary>
-        /// Генерация значения оборотов с линейным ростом (без шума)
+        /// Генерация значения оборотов с линейным ростом (без шума).
+        /// Превышает MAX_TURNS на 30% для тестирования auto-expand границ.
         /// </summary>
         private float GenerateTurnsValue(float progress)
         {
-            return MAX_TURNS * progress;
+            return MAX_TURNS * TURNS_OVERSHOOT * progress;
+        }
+
+        /// <summary>
+        /// Генерация значения оборотов в минуту с вариацией.
+        /// Достигает до 40 RPM для тестирования auto-expand границ.
+        /// </summary>
+        private float GenerateRPMValue(float progress)
+        {
+            // Плавное изменение RPM с небольшим шумом
+            float baseRPM = RPM_MAX * (0.7f + 0.3f * progress);
+            float noise = (float)(_random.NextDouble() * 2 - 1) * (RPM_MAX * 0.1f); // ±10% шум
+            return Math.Max(0, baseRPM + noise);
         }
 
         #endregion
