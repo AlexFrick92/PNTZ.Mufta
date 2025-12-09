@@ -301,11 +301,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             double xRange = _viewModel.XMax - _viewModel.XMin;
             double value = _viewModel.XMin + xRange * (0.2 + _random.NextDouble() * 0.6);
 
+            var color = GetRandomBrush();
             _viewModel.XConstantLines.Add(new ConstantLineViewModel
             {
                 Value = value,
                 Label = $"X-{_viewModel.XConstantLines.Count + 1}",
-                Color = GetRandomBrush(),
+                LineColor = color,
+                LabelColor = color,
                 ValueFormat = "F0"
             });
 
@@ -318,11 +320,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             double yRange = _viewModel.YMax - _viewModel.YMin;
             double value = _viewModel.YMin + yRange * (0.2 + _random.NextDouble() * 0.6);
 
+            var color = GetRandomBrush();
             _viewModel.YConstantLines.Add(new ConstantLineViewModel
             {
                 Value = value,
                 Label = $"Y-{_viewModel.YConstantLines.Count + 1}",
-                Color = GetRandomBrush(),
+                LineColor = color,
+                LabelColor = color,
                 ValueFormat = "F1"
             });
 

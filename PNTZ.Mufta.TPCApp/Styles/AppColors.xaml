@@ -9,25 +9,40 @@
     <!-- Графики: Границы допусков (ConstantLines) -->
     <!-- ========================================== -->
 
-    <SolidColorBrush x:Key="ChartLimitMin" Color="LimeGreen"/>
-    <SolidColorBrush x:Key="ChartLimitMax" Color="LimeGreen"/>
-    <SolidColorBrush x:Key="ChartLimitOptimal" Color="DarkGreen"/>
-    <SolidColorBrush x:Key="ChartLimitDump" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ChartLimitMin_Line" Color="LimeGreen" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartLimitMin_Label" Color="LimeGreen"/>
+
+    <SolidColorBrush x:Key="ChartLimitMax_Line" Color="LimeGreen" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartLimitMax_Label" Color="LimeGreen"/>
+
+    <SolidColorBrush x:Key="ChartLimitOptimal_Line" Color="DarkGreen"/>
+    <SolidColorBrush x:Key="ChartLimitOptimal_Label" Color="DarkGreen"/>
+
+    <SolidColorBrush x:Key="ChartLimitDump_Line" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ChartLimitDump_Label" Color="DarkGray"/>
 
     <!-- ========================================== -->
     <!-- Графики: Длина (Length)                   -->
     <!-- ========================================== -->
 
-    <SolidColorBrush x:Key="ChartLengthMin" Color="LimeGreen"/>
-    <SolidColorBrush x:Key="ChartLengthMax" Color="LimeGreen"/>
-    <SolidColorBrush x:Key="ChartLengthDump" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ChartLengthMin_Line" Color="LimeGreen" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartLengthMin_Label" Color="LimeGreen"/>
+
+    <SolidColorBrush x:Key="ChartLengthMax_Line" Color="LimeGreen" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartLengthMax_Label" Color="LimeGreen"/>
+
+    <SolidColorBrush x:Key="ChartLengthDump_Line" Color="Gray" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartLengthDump_Label" Color="Gray"/>
 
     <!-- ========================================== -->
     <!-- Графики: Буртик (Shoulder)                -->
     <!-- ========================================== -->
 
-    <SolidColorBrush x:Key="ChartShoulderMin" Color="DarkOrange"/>
-    <SolidColorBrush x:Key="ChartShoulderMax" Color="DarkOrange"/>
+    <SolidColorBrush x:Key="ChartShoulderMin_Line" Color="DarkOrange" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartShoulderMin_Label" Color="DarkOrange"/>
+
+    <SolidColorBrush x:Key="ChartShoulderMax_Line" Color="DarkOrange" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartShoulderMax_Label" Color="DarkOrange"/>
 
     <!-- ========================================== -->
     <!-- Графики: Выделенные области (Strips)      -->

@@ -70,8 +70,7 @@
 
             <!-- Шаблон для постоянных линий (DataContext: ConstantLineViewModel) -->
             <DataTemplate x:Key="ConstantLineTemplate">
-                <dxc:ConstantLine Value="{Binding Value}"                                  
-                                  Brush="{Binding Color}">
+                <dxc:ConstantLine Value="{Binding Value}" Brush="{Binding LineColor}">
                     <dxc:ConstantLine.LineStyle>
                         <dxc:LineStyle Thickness="1"/>
                     </dxc:ConstantLine.LineStyle>
@@ -79,13 +78,13 @@
                         <dxc:ConstantLineTitle>
                             <StackPanel Orientation="Horizontal">
                                 <!-- Метка линии -->
-                                <Label Foreground="{Binding Color}"
+                                <Label Foreground="{Binding LabelColor}"
                                        FontSize="12"
                                        Content="{Binding Label}"
                                        Margin="0,0,4,0"/>
 
                                 <!-- Значение линии -->
-                                <TextBlock Foreground="{Binding Color}"
+                                <TextBlock Foreground="{Binding LabelColor}"
                                            Text="{Binding FormattedValue}"
                                            FontSize="12"
                                            VerticalAlignment="Center"/>
