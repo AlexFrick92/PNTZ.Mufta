@@ -31,8 +31,8 @@
     <SolidColorBrush x:Key="ChartLengthMax_Line" Color="LimeGreen" Opacity="0.3"/>
     <SolidColorBrush x:Key="ChartLengthMax_Label" Color="LimeGreen"/>
 
-    <SolidColorBrush x:Key="ChartLengthDump_Line" Color="Gray" Opacity="0.3"/>
-    <SolidColorBrush x:Key="ChartLengthDump_Label" Color="Gray"/>
+    <SolidColorBrush x:Key="ChartLengthDump_Line" Color="DarkGray" Opacity="0.3"/>
+    <SolidColorBrush x:Key="ChartLengthDump_Label" Color="DarkGray"/>
 
     <!-- ========================================== -->
     <!-- Графики: Буртик (Shoulder)                -->

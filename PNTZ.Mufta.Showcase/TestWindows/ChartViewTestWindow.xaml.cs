@@ -308,7 +308,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 Label = $"X-{_viewModel.XConstantLines.Count + 1}",
                 LineColor = color,
                 LabelColor = color,
-                ValueFormat = "F0"
+                ValueFormat = "F0",
+                FontSize = 12,
+                FontWeight = FontWeights.Normal,
+                FontFamily = new FontFamily("Segoe UI")
             });
 
             UpdateStatus($"Добавлена константная линия X = {value:F1}");
@@ -327,7 +330,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 Label = $"Y-{_viewModel.YConstantLines.Count + 1}",
                 LineColor = color,
                 LabelColor = color,
-                ValueFormat = "F1"
+                ValueFormat = "F1",
+                FontSize = 12,
+                FontWeight = FontWeights.Normal,
+                FontFamily = new FontFamily("Segoe UI")
             });
 
             UpdateStatus($"Добавлена константная линия Y = {value:F0}");

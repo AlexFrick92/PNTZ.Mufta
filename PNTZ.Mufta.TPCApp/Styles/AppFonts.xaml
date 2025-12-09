@@ -1,0 +1,66 @@
+<!-- Дефолтные настройки шрифтов приложения -->
+<!-- Этот файл компилируется в сборку и всегда доступен -->
+<!-- Для кастомизации создайте Config/AppFonts.xaml с нужными переопределениями -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ========================================== -->
+    <!-- Графики: Границы допусков (ConstantLines) -->
+    <!-- ========================================== -->
+
+    <!-- Минимальная граница допуска -->
+    <sys:Double x:Key="ChartLimitMin_FontSize">14</sys:Double>
+    <FontWeight x:Key="ChartLimitMin_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartLimitMin_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Максимальная граница допуска -->
+    <sys:Double x:Key="ChartLimitMax_FontSize">14</sys:Double>
+    <FontWeight x:Key="ChartLimitMax_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartLimitMax_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Оптимальное значение -->
+    <sys:Double x:Key="ChartLimitOptimal_FontSize">14</sys:Double>
+    <FontWeight x:Key="ChartLimitOptimal_FontWeight">Bold</FontWeight>
+    <FontFamily x:Key="ChartLimitOptimal_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Сброс момента -->
+    <sys:Double x:Key="ChartLimitDump_FontSize">10</sys:Double>
+    <FontWeight x:Key="ChartLimitDump_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartLimitDump_FontFamily">Segoe UI</FontFamily>
+
+    <!-- ========================================== -->
+    <!-- Графики: Длина (Length)                   -->
+    <!-- ========================================== -->
+
+    <!-- Минимальная длина -->
+    <sys:Double x:Key="ChartLengthMin_FontSize">14</sys:Double>
+    <FontWeight x:Key="ChartLengthMin_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartLengthMin_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Максимальная длина -->
+    <sys:Double x:Key="ChartLengthMax_FontSize">14</sys:Double>
+    <FontWeight x:Key="ChartLengthMax_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartLengthMax_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Сброс по длине -->
+    <sys:Double x:Key="ChartLengthDump_FontSize">10</sys:Double>
+    <FontWeight x:Key="ChartLengthDump_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartLengthDump_FontFamily">Segoe UI</FontFamily>
+
+    <!-- ========================================== -->
+    <!-- Графики: Буртик (Shoulder)                -->
+    <!-- ========================================== -->
+
+    <!-- Минимальный момент буртика -->
+    <sys:Double x:Key="ChartShoulderMin_FontSize">12</sys:Double>
+    <FontWeight x:Key="ChartShoulderMin_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartShoulderMin_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Максимальный момент буртика -->
+    <sys:Double x:Key="ChartShoulderMax_FontSize">12</sys:Double>
+    <FontWeight x:Key="ChartShoulderMax_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ChartShoulderMax_FontFamily">Segoe UI</FontFamily>
+
+</ResourceDictionary>

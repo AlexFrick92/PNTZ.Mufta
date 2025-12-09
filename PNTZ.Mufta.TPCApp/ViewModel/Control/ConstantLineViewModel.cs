@@ -1,4 +1,5 @@
 ﻿using Desktop.MVVM;
+using System.Windows;
 using System.Windows.Media;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Control
@@ -13,6 +14,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         private Brush _lineColor;
         private Brush _labelColor;
         private string _valueFormat;
+        private double _fontSize;
+        private FontWeight _fontWeight;
+        private FontFamily _fontFamily;
 
         /// <summary>
         /// Значение, на котором будет отображаться линия
@@ -83,12 +87,54 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             }
         }
 
+        /// <summary>
+        /// Размер шрифта для лейбла
+        /// </summary>
+        public double FontSize
+        {
+            get => _fontSize;
+            set
+            {
+                _fontSize = value;
+                OnPropertyChanged(nameof(FontSize));
+            }
+        }
+
+        /// <summary>
+        /// Толщина шрифта для лейбла
+        /// </summary>
+        public FontWeight FontWeight
+        {
+            get => _fontWeight;
+            set
+            {
+                _fontWeight = value;
+                OnPropertyChanged(nameof(FontWeight));
+            }
+        }
+
+        /// <summary>
+        /// Семейство шрифта для лейбла
+        /// </summary>
+        public FontFamily FontFamily
+        {
+            get => _fontFamily;
+            set
+            {
+                _fontFamily = value;
+                OnPropertyChanged(nameof(FontFamily));
+            }
+        }
+
         public ConstantLineViewModel()
         {
             _lineColor = Brushes.DarkRed;
             _labelColor = Brushes.DarkRed;
             _valueFormat = "F2";
             _label = string.Empty;
+            _fontSize = 12.0;
+            _fontWeight = FontWeights.Normal;
+            _fontFamily = new FontFamily("Segoe UI");
         }
 
         public ConstantLineViewModel(double value, string label, Brush lineColor, Brush labelColor, string valueFormat = "F2")
@@ -98,6 +144,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             _lineColor = lineColor;
             _labelColor = labelColor;
             _valueFormat = valueFormat;
+            _fontSize = 12.0;
+            _fontWeight = FontWeights.Normal;
+            _fontFamily = new FontFamily("Segoe UI");
         }
     }
 }

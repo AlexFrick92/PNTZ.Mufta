@@ -79,14 +79,18 @@
                             <StackPanel Orientation="Horizontal">
                                 <!-- Метка линии -->
                                 <Label Foreground="{Binding LabelColor}"
-                                       FontSize="12"
+                                       FontSize="{Binding FontSize}"
+                                       FontWeight="{Binding FontWeight}"
+                                       FontFamily="{Binding FontFamily}"
                                        Content="{Binding Label}"
                                        Margin="0,0,4,0"/>
 
                                 <!-- Значение линии -->
                                 <TextBlock Foreground="{Binding LabelColor}"
                                            Text="{Binding FormattedValue}"
-                                           FontSize="12"
+                                           FontSize="{Binding FontSize}"
+                                           FontWeight="{Binding FontWeight}"
+                                           FontFamily="{Binding FontFamily}"
                                            VerticalAlignment="Center"/>
                             </StackPanel>
                         </dxc:ConstantLineTitle>

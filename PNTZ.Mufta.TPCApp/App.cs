@@ -62,6 +62,9 @@ namespace PNTZ.Mufta.TPCApp
             // Загружаем цветовую схему приложения
             LoadAppColors();
 
+            // Загружаем настройки шрифтов приложения
+            LoadAppFonts();
+
             Logger = NLogManager.GetLogger("_logger");
             CliLogger cliLogger = new CliLogger(cli, Logger);
 
@@ -151,6 +154,48 @@ namespace PNTZ.Mufta.TPCApp
                     // Не критично - используем дефолтные цвета
                     // Логирование будет позже, когда Logger инициализируется
                     Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppColors.xaml - {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Загрузка настроек шрифтов приложения
+        /// 1. Загружаем встроенный Styles/AppFonts.xaml (дефолтные настройки шрифтов)
+        /// 2. Пытаемся загрузить внешний Config/AppFonts.xaml (опциональный override)
+        /// </summary>
+        private void LoadAppFonts()
+        {
+            // 1. Загружаем дефолтные настройки шрифтов из встроенного ресурса
+            try
+            {
+                var defaultFontsUri = new Uri("pack://application:,,,/Styles/AppFonts.xaml", UriKind.Absolute);
+                var defaultFonts = new ResourceDictionary { Source = defaultFontsUri };
+                this.Resources.MergedDictionaries.Add(defaultFonts);
+            }
+            catch (Exception ex)
+            {
+                // Критичная ошибка - дефолтные шрифты должны быть всегда
+                throw new InvalidOperationException("Не удалось загрузить Styles/AppFonts.xaml", ex);
+            }
+
+            // 2. Пытаемся загрузить кастомные настройки шрифтов из внешнего файла
+            string customFontsPath = Path.Combine(CurrentDirectory, "Config", "AppFonts.xaml");
+
+            if (File.Exists(customFontsPath))
+            {
+                try
+                {
+                    using (var stream = File.OpenRead(customFontsPath))
+                    {
+                        var customFonts = (ResourceDictionary)XamlReader.Load(stream);
+                        this.Resources.MergedDictionaries.Add(customFonts);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Не критично - используем дефолтные настройки шрифтов
+                    // Логирование будет позже, когда Logger инициализируется
+                    Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppFonts.xaml - {ex.Message}");
                 }
             }
         }
