@@ -471,6 +471,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Styles\AppStylesManual.md" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="View\Resource\Images\Results.drawio.png" />
   </ItemGroup>
   <ItemGroup>

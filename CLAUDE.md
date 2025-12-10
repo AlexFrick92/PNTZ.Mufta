@@ -1,32 +1,16 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Project Overview
 
-PNTZ.Mufta.TPCApp is a WPF desktop application for monitoring and controlling pipe joint threading operations (муфтонавёртка). The application interfaces with PLCs via OPC UA, manages threading recipes, and records joint operation results to local SQLite and remote PostgreSQL databases.
+PNTZ.Mufta.TPCApp is a WPF desktop application for monitoring and controlling pipe joint threading operations (муфтонавёртка). 
+The application interfaces with PLCs via OPC UA, manages threading recipes, and records joint operation results to local SQLite and remote PostgreSQL databases.
 
 **Target Framework**: .NET Framework 4.6.2
-
-**Note**: The project was written for .NET 6, but there are issues with DevExpress controls on .NET 8, and .NET 7 is no longer supported by Microsoft (as noted in readme.md).
 
 ## Working Mode with Console Commands
 
 When working with git and other console commands:
 - **DO NOT** execute commands automatically using the Bash tool
-- **DO** provide command text for manual execution by the user
-- **DO** explain what each command does
-- **Format**: Provide commands in code blocks with explanations
-
-**Exception**: Commands may be executed automatically only if the user explicitly requests it (e.g., "execute this command", "run it for me").
-
-**Example interaction:**
-```
-User: How do I check git status?
-Assistant: Use this command:
-  git status
-This will show you the current state of your working directory and staging area.
-```
 
 ## Git Commit Messages
 
@@ -56,53 +40,9 @@ When asked to provide commit messages, use this format:
 - Реализована базовая структура для тестирования
 ```
 
-**Not recommended:**
-```
-Добавлены файлы JointProcessChartViewTestWindow.xaml и .xaml.cs
-
-- Создан TestWindows\JointProcessChartViewTestWindow.xaml
-- Создан TestWindows\JointProcessChartViewTestWindow.xaml.cs
-- Изменён MainWindow.xaml.cs
-- Обновлён PNTZ.Mufta.Showcase.csproj
-```
-
-## Building and Testing
-
-### Build Commands
-```bash
-# Build entire solution
-msbuild PNTZ.Mufta.sln /p:Configuration=Debug /p:Platform="Any CPU"
-
-# Build release version
-msbuild PNTZ.Mufta.sln /p:Configuration=Release /p:Platform="Any CPU"
-
-# Build main app only
-msbuild PNTZ.Mufta.TPCApp\PNTZ.Mufta.TPCApp.csproj /p:Configuration=Debug
-
-# Build test project
-msbuild PNTZ.Mufta.TPCApp.Test\PNTZ.Mufta.TPCApp.Test.csproj /p:Configuration=Debug
-```
-
-**Note**: Debug builds use x64 platform target, Release builds use AnyCPU.
-
-### Running Tests
-```bash
-# Run all tests using NUnit
-nunit3-console PNTZ.Mufta.TPCApp.Test\bin\Debug\PNTZ.Mufta.TPCApp.Test.dll
-
-# Run tests in Visual Studio Test Explorer or use:
-dotnet test PNTZ.Mufta.sln
-```
-
-### Running the Application
-```bash
-# Run from build output
-PNTZ.Mufta.TPCApp\bin\Debug\PNTZ.Mufta.TPCApp.exe
-```
-
 ## Architecture
 
-### Application Lifecycle (StagedApplication Pattern)
+### Application Lifecycle
 
 The application uses a staged startup pattern from the Desktop library:
 
@@ -208,19 +148,6 @@ DpConnect is a custom framework for PLC communication via OPC UA:
 
 **Navigation**: `MainViewModel` uses `RelayCommand` to switch between views via `MainContent` property.
 
-### CLI Commands (MainViewModel.cs:127-134)
-
-The application has an integrated CLI accessible from the UI:
-
-- `start` - Open PLC connections
-- `stop` - Close PLC connections
-- `rr_init` - Initialize remote repository tables
-- `rr_syncrecipes` - Sync recipes between local and remote
-- `rr_pushresults` - Upload results to remote repository
-- `rr_pullresults [recipeName]` - Download results from remote
-- `rr_clearresults` - Clear local results database
-- `rr_fetchresults` - List remote recipe names
-
 ### Joint Process Workflow
 
 1. **PipeAppear Event**: Pipe detected on station
@@ -232,16 +159,6 @@ The application has an integrated CLI accessible from the UI:
 7. **JointFinished Event**: Result saved to LocalRepository
 
 Implemented in `JointProcessDpWorker` and coordinated by `JointProcessViewModel`.
-
-### Configuration Files
-
-- `App.config`: Connection strings, logging configuration
-- `DpConnect/DpConfig.xml`: OPC UA connection and DpWorker bindings
-- `Domain/JointRecipe.xml`: Recipe validation rules
-- `ViewModel/JointProcessViewModel.xml`: Process view settings
-- `ViewModel/MainViewModel.xml`: Startup settings (ConnectOnStartup)
-- `View/ViewConfig.xml`: UI view configuration
-- `nlog.config`: NLog logging configuration
 
 ## External Dependencies
 
@@ -260,23 +177,6 @@ Implemented in `JointProcessDpWorker` and coordinated by `JointProcessViewModel`
 - `DpConnect/` - DpConnect core, DpConnect.OpcUa
 - `Tools/` - Promatis.Opc.UA.Client, Promatis.IoC.DryIoc
 
-## Code Patterns
-
-### Custom Validation
-The project uses a custom validation system:
-- `ComparableValidationPropertyAttribute`: Marks properties for validation
-- `ComparableValueValidator`: Validates values against min/max/target with tolerance
-- Used extensively in `JointRecipe` for validating threading parameters
-
-### XML Configuration Loading
-Domain objects use `DomainObjectXmlConfigurator` to load validation rules from XML files, allowing runtime configuration of validation without recompiling.
-
-### Event-Driven PLC Communication
-DpConnect uses event-driven patterns. DpWorkers subscribe to `IDpValue<T>.ValueUpdated` events to react to PLC data changes in real-time.
-
-### Data Smoothing
-`Toolbox/Smoothing/MovingAverage` is used to smooth torque readings for better visualization and noise reduction.
-
 ## Common Tasks
 
 **IMPORTANT**: When creating new files (XAML, C#, config, etc.), always add them to the corresponding `.csproj` file:
@@ -284,13 +184,6 @@ DpConnect uses event-driven patterns. DpWorkers subscribe to `IDpValue<T>.ValueU
 - C# code-behind: Add as `<Compile>` with `<DependentUpon>` pointing to XAML
 - Other C# files: Add as `<Compile>`
 - Config/MD files: Add as `<None>` or `<Content>`
-
-### Adding a New DpWorker
-1. Create class implementing `IDpWorker` interface
-2. Define `IDpValue<T>` properties for PLC data points
-3. Implement `DpBound()` method to subscribe to value updates
-4. Register in `App.cs:BeforeInit()` with container
-5. Add configuration to `DpConnect/DpConfig.xml`
 
 ### Adding a New View
 1. Create XAML view in `View/` subdirectory
@@ -305,12 +198,6 @@ DpConnect uses event-driven patterns. DpWorkers subscribe to `IDpValue<T>.ValueU
 4. Update corresponding `REZ_*` structs if PLC communication affected
 5. Regenerate or update database schema
 
-### Working with Results
-Results are stored as `JointResultTable` with serialized graph data. To work with graph points:
-- Deserialize `TqTnLenPoints` field (serialized as string)
-- Points contain torque, turns, length, RPM over time
-- Use for charting or analysis
-
 ## Communication Style
 
 When discussing code changes with the user:
@@ -318,9 +205,3 @@ When discussing code changes with the user:
 - **DO** ask clarifying questions before implementation
 - **DO NOT** show code examples until explicitly requested
 - **DO** wait for approval before making changes
-
-При обсуждении изменений кода:
-- **Предлагай** короткий план изменений без показа кода
-- **Задавай** уточняющие вопросы перед реализацией
-- **НЕ показывай** примеры кода, пока не попросят
-- **Жди** одобрения перед внесением изменений

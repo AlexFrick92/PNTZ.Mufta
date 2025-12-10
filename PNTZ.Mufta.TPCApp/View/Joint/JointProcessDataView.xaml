@@ -45,7 +45,7 @@
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_CurrentReadings}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <ctrl:ParameterDisplayControl Label="Момен, Нм" Value="{Binding ActualPoint.Torque}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Момент, Нм" Value="{Binding ActualPoint.Torque}" StringFormat="N0" State="Normal"/>
         <ctrl:ParameterDisplayControl Label="Длина, мм" Value="{Binding ActualPoint.Length_mm}" StringFormat="N1" State="Normal"/>
         <ctrl:ParameterDisplayControl Label="Обороты" Value="{Binding ActualPoint.Turns}" StringFormat="N2" State="Normal"/>
         <ctrl:ParameterDisplayControl Label="Обороты/Мин" Value="{Binding ActualPoint.TurnsPerMinute}" StringFormat="N0" State="Normal"/>
