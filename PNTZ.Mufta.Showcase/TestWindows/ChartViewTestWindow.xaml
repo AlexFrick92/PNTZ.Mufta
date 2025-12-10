@@ -196,12 +196,12 @@
                     <GroupBox Header="Параметры"
                           Margin="0,0,0,10"
                           Padding="10">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Интервал (мс):"
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Интервал (мс):"
                                VerticalAlignment="Center"
                                FontSize="13"
                                Margin="0,0,5,0"/>
-                        <Button x:Name="BtnInterval10"
+                            <Button x:Name="BtnInterval10"
                                 Content="10"
                                 Click="SetInterval10_Click"
                                 Width="50"
@@ -211,7 +211,7 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"/>
-                        <Button x:Name="BtnInterval50"
+                            <Button x:Name="BtnInterval50"
                                 Content="50"
                                 Click="SetInterval50_Click"
                                 Width="50"
@@ -221,7 +221,7 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"/>
-                        <Button x:Name="BtnInterval100"
+                            <Button x:Name="BtnInterval100"
                                 Content="100"
                                 Click="SetInterval100_Click"
                                 Width="50"
@@ -232,10 +232,10 @@
                                 BorderThickness="0"
                                 Cursor="Hand"/>
 
-                        <Label Content="X Min (мс):"
+                            <Label Content="X Min (мс):"
                                VerticalAlignment="Center"
                                FontSize="13"/>
-                        <TextBox x:Name="XMinTextBox"
+                            <TextBox x:Name="XMinTextBox"
                                  Text="0"
                                  Width="60"
                                  Margin="5,0,10,0"
@@ -244,10 +244,10 @@
                                  Padding="5"
                                  TextChanged="AxisParameter_TextChanged"/>
 
-                        <Label Content="X Max (мс):"
+                            <Label Content="X Max (мс):"
                                VerticalAlignment="Center"
                                FontSize="13"/>
-                        <TextBox x:Name="XMaxTextBox"
+                            <TextBox x:Name="XMaxTextBox"
                                  Text="5000"
                                  Width="60"
                                  Margin="5,0,20,0"
@@ -256,10 +256,10 @@
                                  Padding="5"
                                  TextChanged="AxisParameter_TextChanged"/>
 
-                        <Label Content="Y Min:"
+                            <Label Content="Y Min:"
                                VerticalAlignment="Center"
                                FontSize="13"/>
-                        <TextBox x:Name="YMinTextBox"
+                            <TextBox x:Name="YMinTextBox"
                                  Text="0"
                                  Width="60"
                                  Margin="5,0,10,0"
@@ -268,10 +268,10 @@
                                  Padding="5"
                                  TextChanged="AxisParameter_TextChanged"/>
 
-                        <Label Content="Y Max:"
+                            <Label Content="Y Max:"
                                VerticalAlignment="Center"
                                FontSize="13"/>
-                        <TextBox x:Name="YMaxTextBox"
+                            <TextBox x:Name="YMaxTextBox"
                                  Text="10000"
                                  Width="60"
                                  Margin="5,0,15,0"
@@ -280,7 +280,7 @@
                                  Padding="5"
                                  TextChanged="AxisParameter_TextChanged"/>
 
-                        <Button x:Name="BtnResetZoom"
+                            <Button x:Name="BtnResetZoom"
                                 Content="Сброс зума"
                                 Click="ResetZoom_Click"
                                 Width="100"
@@ -289,8 +289,8 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"/>
-                    </StackPanel>
-                </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
                 </WrapPanel>
 
                 <!-- Статус -->

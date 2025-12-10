@@ -11,7 +11,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
     {
         public float Torque { get; set; }
         /// <summary>
-        /// В миллиметрах
+        /// В метрах
         /// </summary>
         public float Length { get; set; }
         /// <summary>

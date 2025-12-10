@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint" 
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
-             d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessChartViewModel}"
+             d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessDataViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -38,14 +38,11 @@
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_CurrentReadings}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <ctrl:ParameterDisplayControl Label="Момен12 132 12 т" Value="12000" StringFormat="N0" State="Normal"/>
-
-        <ctrl:ParameterDisplayControl Label="Длина" Value="125.122" StringFormat="N1" State="Normal"/>
-
-        <ctrl:ParameterDisplayControl Label="Обороты" Value="3.2322" StringFormat="N2" State="Normal"/>
-
-        <ctrl:ParameterDisplayControl Label="Результат" Value="Успех" StringFormat="N0" State="Good"/>
-        <ctrl:ParameterDisplayControl Label="Результат" Value="Брак" StringFormat="N0" State="Bad"/>
+        <ctrl:ParameterDisplayControl Label="Момен, Нм" Value="{Binding ActualPoint.Torque}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Длина, мм" Value="{Binding ActualPoint.Length_mm}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Обороты" Value="{Binding ActualPoint.Turns}" StringFormat="N2" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Обороты/Мин" Value="{Binding ActualPoint.TurnsPerMinute}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Отсчёт, сек" Value="{Binding SecondsFromBeginJointing}" StringFormat="N0" State="Normal"/>
 
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_Result}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>

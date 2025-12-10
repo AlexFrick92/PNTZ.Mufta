@@ -24,9 +24,60 @@
                            FontWeight="Bold"
                            Foreground="#2C3E50"
                            Margin="0,0,0,10"/>
-                <TextBlock Text="Проверка разметки контрола без интерактивности"
-                           FontSize="13"
-                           Foreground="#7F8C8D"/>
+
+                <!-- Кнопки управления -->
+                <WrapPanel>
+                    <!-- Группа: Тестовые данные -->
+                    <GroupBox Header="Тестовые данные"
+                          Margin="0,0,15,10"
+                          Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Интервал обновления:"
+                               VerticalAlignment="Center"
+                               FontSize="13"/>
+                            <TextBox x:Name="UpdateIntervalTextBox"
+                                 Text="0"
+                                 Width="60"
+                                 Margin="5,0,10,0"
+                                 VerticalAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Padding="5"
+                                 TextChanged="UpdateInterval_TextChanged"/>
+                            <Button x:Name="BtnStartSimulation"
+                                Content="Старт симуляция"
+                                Click="BtnStartSimulation_Click"
+                                Width="160"
+                                Margin="0,0,5,0"
+                                Padding="8,5"
+                                Background="Green"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                            <Button x:Name="BtnStopSimulation"
+                                Content="Стоп"
+                                Click="BtnStopSimulation_Click"
+                                Width="100"
+                                Margin="0,0,5,0"
+                                Padding="8,5"
+                                Background="DarkRed"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                        </StackPanel>
+                    </GroupBox>
+                </WrapPanel>
+                <!-- Статус -->
+                <Border Background="#D5F4E6"
+                    BorderBrush="#27AE60"
+                    BorderThickness="1"
+                    CornerRadius="3"
+                    Padding="8"
+                    Margin="0,5,0,0">
+                    <TextBlock x:Name="StatusText"
+                           Text="Готов к тестированию. Задайте интервал и запустите симуляцию."
+                           FontSize="12"
+                           Foreground="#27AE60"/>
+                </Border>
             </StackPanel>
         </Border>
 
@@ -41,10 +92,10 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <joint:JointProcessDataView x:Name="JointProcessDataView"/>
             </Grid>
-            
+
         </Border>
     </Grid>
 </Window>
