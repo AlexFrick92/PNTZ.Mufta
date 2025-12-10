@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Threading;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.ViewModel.Joint;
+using PNTZ.Mufta.Showcase.Helper;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -22,7 +23,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
         private void InitializeView()
         {
-            UpdateIntervalTextBox.Text = "100";// UpdateInterval.ToString();
+            UpdateIntervalTextBox.Text = "10";// UpdateInterval.ToString();
         }
         private void InitializeViewModel()
         {
@@ -73,7 +74,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 TimeStamp = 0
             };
         }
-
+        public JointRecipe Recipe { get; set; }
         public void StartSimulation()
         {
             if (IsSimulationRunning)
@@ -101,7 +102,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _simulationTimer.Stop();
             IsSimulationRunning = false;
 
-            var result = new JointResult(new JointRecipe());
+            var result = new JointResult(Recipe);
             if(_viewModel.ActualPoint.Torque < 5000)
             {
                 result.ResultTotal = 2; // Плохой результат
@@ -208,11 +209,32 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             StopSimulation();
         }
 
-        private void BtnLoadRecipe_Click(object sender, RoutedEventArgs e)
+        private void BtnLoadRecipeLength_Click(object sender, RoutedEventArgs e)
         {
-            var recipe = new JointRecipe();
-            _viewModel.UpdateRecipe(recipe);
-            UpdateStatus("Рецепт загружен с дефолтными параметрами.");
+            Recipe = RecipeHelper.CreateTestRecipeLength();
+            _viewModel.UpdateRecipe(Recipe);
+            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
+        }
+
+        private void BtnLoadRecipeTorque_Click(object sender, RoutedEventArgs e)
+        {
+            Recipe  = RecipeHelper.CreateTestRecipeTorque();
+            _viewModel.UpdateRecipe(Recipe);
+            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
+        }
+
+        private void BtnLoadRecipeTorqueLength_Click(object sender, RoutedEventArgs e)
+        {
+            Recipe = RecipeHelper.CreateTestRecipeTorqueLength();
+            _viewModel.UpdateRecipe(Recipe);
+            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
+        }
+
+        private void BtnLoadRecipeTorqueShoulder_Click(object sender, RoutedEventArgs e)
+        {
+            Recipe = RecipeHelper.CreateTestRecipeTorqueShoulder();
+            _viewModel.UpdateRecipe(Recipe);
+            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
         }
     }
 }

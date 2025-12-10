@@ -24,28 +24,55 @@
                            FontWeight="Bold"
                            Foreground="#2C3E50"
                            Margin="0,0,0,10"/>
-
-                <!-- Кнопки управления -->
-                <WrapPanel>
-                    <!-- Группа: Тестовые данные -->
-                    <GroupBox Header="Тестовые данные"
+                <!-- Группа: Тестовые данные -->
+                <GroupBox Header="Тестовые данные"
                           Margin="0,0,15,10"
                           Padding="10">
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="BtnLoadRecipe"
-                                Content="Загрузить рецепт"
-                                Click="BtnLoadRecipe_Click"
-                                Width="160"
-                                Margin="0,0,10,0"
+                    <WrapPanel>
+                        <Button x:Name="BtnLoadRecipeLength"
+                                Content="Length"
+                                Click="BtnLoadRecipeLength_Click"
+                                Width="100"
+                                Margin="0,0,5,0"
                                 Padding="8,5"
                                 Background="#3498DB"
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"/>
-                            <Label Content="Интервал обновления:"
+                        <Button x:Name="BtnLoadRecipeTorque"
+                                Content="Torque"
+                                Click="BtnLoadRecipeTorque_Click"
+                                Width="100"
+                                Margin="0,0,5,0"
+                                Padding="8,5"
+                                Background="#9B59B6"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                        <Button x:Name="BtnLoadRecipeTorqueLength"
+                                Content="Torque+Length"
+                                Click="BtnLoadRecipeTorqueLength_Click"
+                                Width="130"
+                                Margin="0,0,5,0"
+                                Padding="8,5"
+                                Background="#E67E22"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                        <Button x:Name="BtnLoadRecipeTorqueShoulder"
+                                Content="Torque+Shoulder"
+                                Click="BtnLoadRecipeTorqueShoulder_Click"
+                                Width="150"
+                                Margin="0,0,10,0"
+                                Padding="8,5"
+                                Background="#16A085"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                        <Label Content="Интервал обновления:"
                                VerticalAlignment="Center"
                                FontSize="13"/>
-                            <TextBox x:Name="UpdateIntervalTextBox"
+                        <TextBox x:Name="UpdateIntervalTextBox"
                                  Text="0"
                                  Width="60"
                                  Margin="5,0,10,0"
@@ -53,7 +80,7 @@
                                  VerticalContentAlignment="Center"
                                  Padding="5"
                                  TextChanged="UpdateInterval_TextChanged"/>
-                            <Button x:Name="BtnStartSimulation"
+                        <Button x:Name="BtnStartSimulation"
                                 Content="Старт симуляция"
                                 Click="BtnStartSimulation_Click"
                                 Width="160"
@@ -63,7 +90,7 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"/>
-                            <Button x:Name="BtnStopSimulation"
+                        <Button x:Name="BtnStopSimulation"
                                 Content="Стоп"
                                 Click="BtnStopSimulation_Click"
                                 Width="100"
@@ -73,9 +100,9 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"/>
-                        </StackPanel>
-                    </GroupBox>
-                </WrapPanel>
+                    </WrapPanel>
+                </GroupBox>
+
                 <!-- Статус -->
                 <Border Background="#D5F4E6"
                     BorderBrush="#27AE60"
