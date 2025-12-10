@@ -35,9 +35,9 @@
     
     
     <StackPanel Orientation="Vertical" Grid.IsSharedSizeScope="True">
-        <Label Style="{StaticResource ParamHeaderLabel}" Content="📈 Текущие показания"/>
+        <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_CurrentReadings}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
-       
+
         <ctrl:ParameterDisplayControl Label="Момен12 132 12 т" Value="12000" StringFormat="N0" State="Normal"/>
 
         <ctrl:ParameterDisplayControl Label="Длина" Value="125.122" StringFormat="N1" State="Normal"/>
@@ -47,10 +47,10 @@
         <ctrl:ParameterDisplayControl Label="Результат" Value="Успех" StringFormat="N0" State="Good"/>
         <ctrl:ParameterDisplayControl Label="Результат" Value="Брак" StringFormat="N0" State="Bad"/>
 
-        <Label Style="{StaticResource ParamHeaderLabel}" Content="📋 Результат"/>
+        <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_Result}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <Label Style="{StaticResource ParamHeaderLabel}" Content="📐 Данные рецепта"/>
+        <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_RecipeData}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
     </StackPanel>

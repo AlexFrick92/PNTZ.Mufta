@@ -36,7 +36,15 @@
                 BorderThickness="1,0,1,1"
                 Margin="15"
                 Background="White">
-            <joint:JointProcessDataView x:Name="JointProcessDataView"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <joint:JointProcessDataView x:Name="JointProcessDataView"/>
+            </Grid>
+            
         </Border>
     </Grid>
 </Window>

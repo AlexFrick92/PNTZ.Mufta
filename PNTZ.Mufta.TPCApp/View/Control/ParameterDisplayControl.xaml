@@ -36,7 +36,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="ParamLabel"/>
-            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>
         </Grid.ColumnDefinitions>
 
         <Label Grid.Column="0"

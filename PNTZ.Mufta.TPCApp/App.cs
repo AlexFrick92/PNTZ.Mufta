@@ -68,6 +68,12 @@ namespace PNTZ.Mufta.TPCApp
             // Загружаем настройки шрифтов приложения
             LoadAppFonts();
 
+            // Загружаем тексты лейблов приложения
+            LoadAppLabels();
+
+            // Загружаем настройки разметки приложения
+            LoadAppLayouts();
+
             Logger = NLogManager.GetLogger("_logger");
             CliLogger cliLogger = new CliLogger(cli, Logger);
 
@@ -241,6 +247,90 @@ namespace PNTZ.Mufta.TPCApp
                     // Не критично - используем дефолтные настройки
                     // Логирование будет позже, когда Logger инициализируется
                     Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppSettings.xaml - {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Загрузка текстов лейблов приложения
+        /// 1. Загружаем встроенный Styles/AppLabels.xaml (дефолтные тексты)
+        /// 2. Пытаемся загрузить внешний Config/AppLabels.xaml (опциональный override)
+        /// </summary>
+        private void LoadAppLabels()
+        {
+            // 1. Загружаем дефолтные тексты из встроенного ресурса
+            try
+            {
+                var defaultLabelsUri = new Uri("pack://application:,,,/Styles/AppLabels.xaml", UriKind.Absolute);
+                var defaultLabels = new ResourceDictionary { Source = defaultLabelsUri };
+                this.Resources.MergedDictionaries.Add(defaultLabels);
+            }
+            catch (Exception ex)
+            {
+                // Критичная ошибка - дефолтные тексты должны быть всегда
+                throw new InvalidOperationException("Не удалось загрузить Styles/AppLabels.xaml", ex);
+            }
+
+            // 2. Пытаемся загрузить кастомные тексты из внешнего файла
+            string customLabelsPath = Path.Combine(CurrentDirectory, "Config", "AppLabels.xaml");
+
+            if (File.Exists(customLabelsPath))
+            {
+                try
+                {
+                    using (var stream = File.OpenRead(customLabelsPath))
+                    {
+                        var customLabels = (ResourceDictionary)XamlReader.Load(stream);
+                        this.Resources.MergedDictionaries.Add(customLabels);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Не критично - используем дефолтные тексты
+                    // Логирование будет позже, когда Logger инициализируется
+                    Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppLabels.xaml - {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Загрузка настроек разметки приложения
+        /// 1. Загружаем встроенный Styles/AppLayouts.xaml (дефолтные настройки разметки)
+        /// 2. Пытаемся загрузить внешний Config/AppLayouts.xaml (опциональный override)
+        /// </summary>
+        private void LoadAppLayouts()
+        {
+            // 1. Загружаем дефолтные настройки разметки из встроенного ресурса
+            try
+            {
+                var defaultLayoutsUri = new Uri("pack://application:,,,/Styles/AppLayouts.xaml", UriKind.Absolute);
+                var defaultLayouts = new ResourceDictionary { Source = defaultLayoutsUri };
+                this.Resources.MergedDictionaries.Add(defaultLayouts);
+            }
+            catch (Exception ex)
+            {
+                // Критичная ошибка - дефолтные настройки разметки должны быть всегда
+                throw new InvalidOperationException("Не удалось загрузить Styles/AppLayouts.xaml", ex);
+            }
+
+            // 2. Пытаемся загрузить кастомные настройки разметки из внешнего файла
+            string customLayoutsPath = Path.Combine(CurrentDirectory, "Config", "AppLayouts.xaml");
+
+            if (File.Exists(customLayoutsPath))
+            {
+                try
+                {
+                    using (var stream = File.OpenRead(customLayoutsPath))
+                    {
+                        var customLayouts = (ResourceDictionary)XamlReader.Load(stream);
+                        this.Resources.MergedDictionaries.Add(customLayouts);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Не критично - используем дефолтные настройки разметки
+                    // Логирование будет позже, когда Logger инициализируется
+                    Console.WriteLine($"Предупреждение: не удалось загрузить Config/AppLayouts.xaml - {ex.Message}");
                 }
             }
         }

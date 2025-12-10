@@ -12,6 +12,10 @@
                 <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/Styles/AppColors.xaml"/>
                 <!-- Подключаем настройки шрифтов из основного проекта TPCApp -->
                 <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/Styles/AppFonts.xaml"/>
+                <!-- Подключаем тексты лейблов из основного проекта TPCApp -->
+                <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/Styles/AppLabels.xaml"/>
+                <!-- Подключаем настройки разметки из основного проекта TPCApp -->
+                <ResourceDictionary Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/Styles/AppLayouts.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
