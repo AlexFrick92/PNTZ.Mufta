@@ -77,4 +77,13 @@
     <FontWeight x:Key="ChartAxisY_FontWeight">Normal</FontWeight>
     <FontFamily x:Key="ChartAxisY_FontFamily">Segoe UI</FontFamily>
 
+    <!-- ========================================== -->
+    <!-- Окно процесса свинчивания                 -->
+    <!-- ========================================== -->
+
+    <!-- Заголовок параметра -->
+    <sys:Double x:Key="JointProcess_ParamHeader_FontSize">14</sys:Double>
+    <FontWeight x:Key="JointProcess_ParamHeader_FontWeight">SemiBold</FontWeight>
+    <FontFamily x:Key="JointProcess_ParamHeader_FontFamily">Segoe UI</FontFamily>
+
 </ResourceDictionary>

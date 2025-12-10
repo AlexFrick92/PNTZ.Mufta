@@ -146,6 +146,14 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Окно процесса свинчивания
+        // ==========================================
+
+        /// <summary>JointProcess_ParamHeader_Foreground - цвет текста заголовка параметра</summary>
+        public static Brush JointProcess_ParamHeader_Foreground => Get("JointProcess_ParamHeader_Foreground");
+
+
+        // ==========================================
         // Вспомогательный метод
         // ==========================================
 

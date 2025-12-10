@@ -136,6 +136,20 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Окно процесса свинчивания
+        // ==========================================
+
+        /// <summary>JointProcess_ParamHeader - заголовок параметра (размер шрифта)</summary>
+        public static double JointProcess_ParamHeader_FontSize => GetDouble("JointProcess_ParamHeader_FontSize");
+
+        /// <summary>JointProcess_ParamHeader - заголовок параметра (толщина шрифта)</summary>
+        public static FontWeight JointProcess_ParamHeader_FontWeight => GetFontWeight("JointProcess_ParamHeader_FontWeight");
+
+        /// <summary>JointProcess_ParamHeader - заголовок параметра (семейство шрифта)</summary>
+        public static FontFamily JointProcess_ParamHeader_FontFamily => GetFontFamily("JointProcess_ParamHeader_FontFamily");
+
+
+        // ==========================================
         // Вспомогательные методы
         // ==========================================
 

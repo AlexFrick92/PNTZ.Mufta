@@ -100,4 +100,11 @@
     <!-- Светло-красный -->
     <SolidColorBrush x:Key="ParameterBad_Foreground" Color="DarkRed"/>
 
+    <!-- ========================================== -->
+    <!-- Окно процесса свинчивания                 -->
+    <!-- ========================================== -->
+
+    <!-- Заголовок параметра -->
+    <SolidColorBrush x:Key="JointProcess_ParamHeader_Foreground" Color="Black"/>
+
 </ResourceDictionary>
