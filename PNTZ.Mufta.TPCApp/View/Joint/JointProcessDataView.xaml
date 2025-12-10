@@ -34,11 +34,11 @@
     </UserControl.Resources>
     
     
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" Grid.IsSharedSizeScope="True">
         <Label Style="{StaticResource ParamHeaderLabel}" Content="📈 Текущие показания"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
        
-        <ctrl:ParameterDisplayControl Label="Момент" Value="12000" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Момен12 132 12 т" Value="12000" StringFormat="N0" State="Normal"/>
 
         <ctrl:ParameterDisplayControl Label="Длина" Value="125.122" StringFormat="N1" State="Normal"/>
 
