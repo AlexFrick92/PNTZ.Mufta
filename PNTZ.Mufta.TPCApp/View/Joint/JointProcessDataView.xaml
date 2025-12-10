@@ -100,12 +100,12 @@
                                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Min}" StringFormat="N1" State="Normal"
                                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
-            <ctrl:ParameterDisplayControl Label="Сброс длины" Value="{Binding LoadedRecipe.MU_Len_Dump}" StringFormat="N1" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Dump}" StringFormat="N1" State="Normal"
                                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
 
-            <ctrl:ParameterDisplayControl Label="Макс. буртик" Value="{Binding LoadedRecipe.MU_TqShoulder_Max}" StringFormat="N0" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxShoulderTorque_Label}" Value="{Binding LoadedRecipe.MU_TqShoulder_Max}" StringFormat="N0" State="Normal"
                           Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
-            <ctrl:ParameterDisplayControl Label="Макс. буртик" Value="{Binding LoadedRecipe.MU_TqShoulder_Min}" StringFormat="N0" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinShoulderTorque_Label}" Value="{Binding LoadedRecipe.MU_TqShoulder_Min}" StringFormat="N0" State="Normal"
                           Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
 
 

@@ -74,6 +74,15 @@ namespace PNTZ.Mufta.TPCApp.Styles
         /// <summary>Лейбл параметра "Мин. глубина, мм" (данные рецепта)</summary>
         public static string JointProcess_MinLength_Label => GetString("JointProcess_MinLength_Label");
 
+        /// <summary>Лейбл параметра "Сброс глубины, мм" (данные рецепта)</summary>
+        public static string JointProcess_DumpLength_Label => GetString("JointProcess_DumpLength_Label");
+
+        /// <summary>Лейбл параметра "Макс. буртик, Нм" (данные рецепта)</summary>
+        public static string JointProcess_MaxShoulderTorque_Label => GetString("JointProcess_MaxShoulderTorque_Label");
+
+        /// <summary>Лейбл параметра "Мин. буртик, Нм" (данные рецепта)</summary>
+        public static string JointProcess_MinShoulderTorque_Label => GetString("JointProcess_MinShoulderTorque_Label");
+
         /// <summary>Оценка результата "Годная"</summary>
         public static string JointProcessResult_Good => GetString("JointProcessResult_Good");
 

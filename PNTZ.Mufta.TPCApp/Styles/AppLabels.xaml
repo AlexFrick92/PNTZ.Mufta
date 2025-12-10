@@ -38,6 +38,9 @@
     <sys:String x:Key="JointProcess_DumpTorque_Label">Момент сброса, Нм</sys:String>
     <sys:String x:Key="JointProcess_MaxLength_Label">Макс. глубина, мм</sys:String>
     <sys:String x:Key="JointProcess_MinLength_Label">Мин. глубина, мм</sys:String>
+    <sys:String x:Key="JointProcess_DumpLength_Label">Сброс глубины, мм</sys:String>
+    <sys:String x:Key="JointProcess_MaxShoulderTorque_Label">Макс. буртик, Нм</sys:String>
+    <sys:String x:Key="JointProcess_MinShoulderTorque_Label">Мин. буртик, Нм</sys:String>
 
     <!-- Оценки результата -->
     <sys:String x:Key="JointProcessResult_Good">Годная</sys:String>
