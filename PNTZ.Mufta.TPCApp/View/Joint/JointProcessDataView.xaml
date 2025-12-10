@@ -77,13 +77,13 @@
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Evaluation_Label}" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}}" 
                                       StringFormat="" State="{Binding ResultTotalState}" />
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTorque_Label}" Value="{Binding JointResult.FinalTorque}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTorque_Label}" Value="{Binding JointResult.FinalTorque}" StringFormat="N0" State="{Binding ResultTorqueState}"/>
 
             <!--Итог буртик отображаем только в режиме с буртиком-->
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalShoulderTorque_Label}" Value="{Binding JointResult.FinalShoulderTorque}" StringFormat="N0" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalShoulderTorque_Label}" Value="{Binding JointResult.FinalShoulderTorque}" StringFormat="N0" State="{Binding ResultShoulderState}"
                                       Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalLength_Label}" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalLength_Label}" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="{Binding ResultLengthState}"/>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MakeupLength_Label}" Value="{Binding JointResult.FinalMakeupLength_mm}" StringFormat="N1" State="Normal"/>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MVSLength_Label}" Value="{Binding JointResult.MVS_Len_mm}" StringFormat="N1" State="Normal"/>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTurns_Label}" Value="{Binding JointResult.FinalTurns}" StringFormat="N2" State="Normal"/>

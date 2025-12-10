@@ -106,10 +106,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             if(_viewModel.ActualPoint.Torque < 5000)
             {
                 result.ResultTotal = 2; // Плохой результат
+                result.EvaluationVerdict = new EvaluationVerdict() { LentghOk = true, ShoulderOk = true, TorqueOk = false };
             }
             else
             {
                 result.ResultTotal = 1; // Хороший результат
+                result.EvaluationVerdict = new EvaluationVerdict() { LentghOk = true, ShoulderOk = true, TorqueOk = true};
             }
 
             _viewModel.FinishJointing(result);

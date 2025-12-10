@@ -56,6 +56,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             get { return _resultTotalState; }
             set { _resultTotalState = value; OnPropertyChanged(nameof(ResultTotalState)); }
         }
+
+        private ParameterState _resultTorqueState;
+        public ParameterState ResultTorqueState
+        {
+            get { return _resultTorqueState; }
+            set { _resultTorqueState = value; OnPropertyChanged(nameof(ResultTorqueState)); }
+        }
+
+        private ParameterState _resultLengthState;
+        public ParameterState ResultLengthState
+        {
+            get { return _resultLengthState; }
+            set { _resultLengthState = value; OnPropertyChanged(nameof(ResultLengthState)); }
+        }
+
+        private ParameterState _resultShoulderState;
+        public ParameterState ResultShoulderState
+        {
+            get { return _resultShoulderState; }
+            set { _resultShoulderState = value; OnPropertyChanged(nameof(ResultShoulderState)); }
+        }
+
         public bool IsLengthMode => LoadedRecipe != null && (LoadedRecipe.JointMode == JointMode.Length || LoadedRecipe.JointMode == JointMode.TorqueLength);
         public bool IsShoulderMode => LoadedRecipe != null && LoadedRecipe.JointMode == JointMode.TorqueShoulder;
 
@@ -78,6 +100,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _timer.Start();
             JointResult = null;
             ResultTotalState = ParameterState.Normal;
+            ResultTorqueState = ParameterState.Normal;
+            ResultLengthState = ParameterState.Normal;
+            ResultShoulderState = ParameterState.Normal;
         }
         public void FinishJointing(JointResult jointResult)
         {
@@ -100,10 +125,26 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                         ResultTotalState = ParameterState.Normal;
                         break;
                 }
+
+                if(jointResult.EvaluationVerdict != null)
+                {
+                    ResultTorqueState = jointResult.EvaluationVerdict.TorqueOk ? ParameterState.Good : ParameterState.Bad;
+                    ResultLengthState = jointResult.EvaluationVerdict.LentghOk ? ParameterState.Good : ParameterState.Bad;
+                    ResultShoulderState = jointResult.EvaluationVerdict.ShoulderOk ? ParameterState.Good : ParameterState.Bad;
+                }
+                else
+                {
+                    ResultTorqueState = ParameterState.Normal;
+                    ResultLengthState = ParameterState.Normal;
+                    ResultShoulderState = ParameterState.Normal;
+                }
             }
             else
             {
                 ResultTotalState = ParameterState.Normal;
+                ResultTorqueState = ParameterState.Normal;
+                ResultLengthState = ParameterState.Normal;
+                ResultShoulderState = ParameterState.Normal;
             }
         }
         private void UpdateTimer_Tick(object sender, EventArgs e)
