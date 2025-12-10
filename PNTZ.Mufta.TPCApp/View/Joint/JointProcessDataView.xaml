@@ -5,12 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint" 
+             xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessChartViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
+    
+    <!-- ========================================
+         РЕСУРСЫ
+         ======================================== -->
+    
     <UserControl.Resources>
         
+        <!-- ========================================
+        СТИЛИ
+        ======================================== -->
+        
+        <!--Заголовок-->
+        <Style x:Key="ParamHeaderLabel" TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
         <!--Линия под заголовком-->
         <Style x:Key="HeaderUnderStroke" TargetType="Border">
             <Setter Property="BorderThickness" Value="0,1,0,0"/>
@@ -21,9 +35,24 @@
     
     
     <StackPanel Orientation="Vertical">
-        <Label Content="📈 Текущие показания"/>
+        <Label Style="{StaticResource ParamHeaderLabel}" Content="📈 Текущие показания"/>
+        <Border Style="{StaticResource HeaderUnderStroke}"/>
+       
+        <ctrl:ParameterDisplayControl Label="Момент" Value="12000" StringFormat="N0" State="Normal"/>
+
+        <ctrl:ParameterDisplayControl Label="Длина" Value="125.122" StringFormat="N1" State="Normal"/>
+
+        <ctrl:ParameterDisplayControl Label="Обороты" Value="3.2322" StringFormat="N2" State="Normal"/>
+
+        <ctrl:ParameterDisplayControl Label="Результат" Value="Успех" StringFormat="N0" State="Good"/>
+        <ctrl:ParameterDisplayControl Label="Результат" Value="Брак" StringFormat="N0" State="Bad"/>
+
+        <Label Style="{StaticResource ParamHeaderLabel}" Content="📋 Результат"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
+        <Label Style="{StaticResource ParamHeaderLabel}" Content="📐 Данные рецепта"/>
+        <Border Style="{StaticResource HeaderUnderStroke}"/>
 
     </StackPanel>
+    
 </UserControl>

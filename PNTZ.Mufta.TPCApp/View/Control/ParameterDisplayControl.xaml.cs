@@ -115,8 +115,25 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             {
                 if (!string.IsNullOrEmpty(StringFormat))
                 {
-                    // Применяем форматирование
-                    FormattedValue = string.Format($"{{0:{StringFormat}}}", Value);
+                    // Если Value - строка, пытаемся распарсить как число
+                    if (Value is string strValue)
+                    {
+                        if (double.TryParse(strValue, out double numValue))
+                        {
+                            // Успешно распарсили - применяем форматирование к числу
+                            FormattedValue = string.Format($"{{0:{StringFormat}}}", numValue);
+                        }
+                        else
+                        {
+                            // Не число - показываем как есть (например, "Успех", "Брак")
+                            FormattedValue = strValue;
+                        }
+                    }
+                    else
+                    {
+                        // Value уже числовой тип - применяем форматирование напрямую
+                        FormattedValue = string.Format($"{{0:{StringFormat}}}", Value);
+                    }
                 }
                 else
                 {
