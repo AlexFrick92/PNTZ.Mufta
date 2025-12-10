@@ -11,12 +11,12 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessDataViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    
+
+
     <!-- ========================================
          РЕСУРСЫ
          ======================================== -->
-    
+
     <UserControl.Resources>
 
         <!-- ========================================
@@ -24,11 +24,15 @@
         ======================================== -->
 
         <converter:ResultTotalToStringConverter x:Key="ResultTotalToStringConverter"/>
+        <converter:NullToVisibilityConverter x:Key="NullToVisConverter"/>
+        <converter:JointModeToVisibilityConverter x:Key="JointModeToVisConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
 
         <!-- ========================================
         СТИЛИ
         ======================================== -->
-        
+
         <!--Заголовок-->
         <Style x:Key="ParamHeaderLabel" TargetType="Label">
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -50,8 +54,11 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
-    
+
+
+    <!-- ========================================
+    СТЭК ПАРАМЕТРОВ
+    ======================================== -->
     <StackPanel Orientation="Vertical" Grid.IsSharedSizeScope="True">
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_CurrentReadings}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
@@ -62,26 +69,49 @@
         <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_TurnsPerMinute_Label}" Value="{Binding ActualPoint.TurnsPerMinute}" StringFormat="N0" State="Normal"/>
         <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_ElapsedTime_Label}" Value="{Binding SecondsFromBeginJointing}" StringFormat="N0" State="Normal"/>
 
-        <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_Result}"/>
-        <Border Style="{StaticResource HeaderUnderStroke}"/>
+        <!--Данные рецепта и результа отображаем только если загружен рецепт-->
+        <StackPanel Orientation="Vertical" Visibility="{Binding LoadedRecipe, Converter={StaticResource NullToVisConverter}}">
+            <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_Result}"/>
+            <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Evaluation_Label}" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}}" StringFormat="" State="{Binding ResultTotalState}"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTorque_Label}" Value="{Binding JointResult.FinalTorque}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalLength_Label}" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTurns_Label}" Value="{Binding JointResult.FinalTurns}" StringFormat="N2" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MVSLength_Label}" Value="{Binding JointResult.MVS_Len}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MakeupLength_Label}" Value="{Binding JointResult.FinalMakeupLength_mm}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Evaluation_Label}" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}}" 
+                                      StringFormat="" State="{Binding ResultTotalState}" />
 
-        <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_RecipeData}"/>
-        <Border Style="{StaticResource HeaderUnderStroke}"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTorque_Label}" Value="{Binding JointResult.FinalTorque}" StringFormat="N0" State="Normal"/>
 
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_OptimalTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Max}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Min}" StringFormat="N1" State="Normal"/>
+            <!--Итог буртик отображаем только в режиме с буртиком-->
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalShoulderTorque_Label}" Value="{Binding JointResult.FinalShoulderTorque}" StringFormat="N0" State="Normal"
+                                      Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
 
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalLength_Label}" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MakeupLength_Label}" Value="{Binding JointResult.FinalMakeupLength_mm}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MVSLength_Label}" Value="{Binding JointResult.MVS_Len_mm}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTurns_Label}" Value="{Binding JointResult.FinalTurns}" StringFormat="N2" State="Normal"/>
+            
+            <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_RecipeData}"/>
+            <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_OptimalTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N1" State="Normal"/>
+            <Label/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Max}" StringFormat="N1" State="Normal"
+                                          Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Min}" StringFormat="N1" State="Normal"
+                                          Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
+            <ctrl:ParameterDisplayControl Label="Сброс длины" Value="{Binding LoadedRecipe.MU_Len_Dump}" StringFormat="N1" State="Normal"
+                                          Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
+
+            <ctrl:ParameterDisplayControl Label="Макс. буртик" Value="{Binding LoadedRecipe.MU_TqShoulder_Max}" StringFormat="N0" State="Normal"
+                          Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
+            <ctrl:ParameterDisplayControl Label="Макс. буртик" Value="{Binding LoadedRecipe.MU_TqShoulder_Min}" StringFormat="N0" State="Normal"
+                          Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
+
+
+        </StackPanel>
+        <Label Style="{StaticResource ParamHeaderLabel}" Foreground="DarkRed" HorizontalAlignment="Center" Margin="10"
+               Content="Загрузите рецепт!" Visibility="{Binding LoadedRecipe, Converter={StaticResource NullToVisConverter}, ConverterParameter=invert}"/>
     </StackPanel>
-    
+
 </UserControl>

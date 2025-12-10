@@ -235,6 +235,7 @@
     <Compile Include="View\Control\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converter\JointModeToVisibilityConverter.cs" />
     <Compile Include="View\Converter\NullToVisibilityConverter.cs" />
     <Compile Include="View\Converter\ResultTotalToStringConverter.cs" />
     <Compile Include="View\EnumHelper.cs" />

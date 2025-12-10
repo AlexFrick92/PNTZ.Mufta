@@ -25,6 +25,7 @@
     <!-- Результат свинчивания -->
     <sys:String x:Key="JointProcess_Evaluation_Label">Оценка</sys:String>
     <sys:String x:Key="JointProcess_FinalTorque_Label">Итог. момент, Нм</sys:String>
+    <sys:String x:Key="JointProcess_FinalShoulderTorque_Label">Итог. буртик, Нм</sys:String>
     <sys:String x:Key="JointProcess_FinalLength_Label">Итог. глубина, мм</sys:String>
     <sys:String x:Key="JointProcess_FinalTurns_Label">Итог. обороты</sys:String>
     <sys:String x:Key="JointProcess_MVSLength_Label">Глубина преднав., мм</sys:String>

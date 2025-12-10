@@ -27,7 +27,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         public JointRecipe LoadedRecipe
         {
             get { return _loadedRecipe; }
-            set { _loadedRecipe = value; OnPropertyChanged(nameof(LoadedRecipe)); }
+            set 
+            { 
+                _loadedRecipe = value; 
+                OnPropertyChanged(nameof(LoadedRecipe)); 
+                OnPropertyChanged(nameof(IsLengthMode));
+                OnPropertyChanged(nameof(IsShoulderMode));
+            }
         }
         //Результат
         private JointResult _jointResult;
@@ -50,6 +56,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             get { return _resultTotalState; }
             set { _resultTotalState = value; OnPropertyChanged(nameof(ResultTotalState)); }
         }
+        public bool IsLengthMode => LoadedRecipe != null && (LoadedRecipe.JointMode == JointMode.Length || LoadedRecipe.JointMode == JointMode.TorqueLength);
+        public bool IsShoulderMode => LoadedRecipe != null && LoadedRecipe.JointMode == JointMode.TorqueShoulder;
+
         //Таймер времени свинчивания
         private DispatcherTimer _timer;
         private DateTime _jointingStartTime;        

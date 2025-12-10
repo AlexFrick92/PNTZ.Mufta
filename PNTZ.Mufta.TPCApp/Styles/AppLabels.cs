@@ -41,6 +41,8 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
         /// <summary>Лейбл параметра "Итог. момент, Нм" (результат свинчивания)</summary>
         public static string JointProcess_FinalTorque_Label => GetString("JointProcess_FinalTorque_Label");
+        /// <summary>Лейбл параметра "Итог. момент буртика, Нм" (результат свинчивания)</summary>
+        public static string JointProcess_FinalShoulderTorque_Label => GetString("JointProcess_FinalShoulderTorque_Label");
 
         /// <summary>Лейбл параметра "Итог. глубина, мм" (результат свинчивания)</summary>
         public static string JointProcess_FinalLength_Label => GetString("JointProcess_FinalLength_Label");
