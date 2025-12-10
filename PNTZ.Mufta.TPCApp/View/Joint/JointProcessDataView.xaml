@@ -5,10 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint" 
-             d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessDataViewModel}"
+             d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessChartViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    
+    <UserControl.Resources>
+        
+        <!--Линия под заголовком-->
+        <Style x:Key="HeaderUnderStroke" TargetType="Border">
+            <Setter Property="BorderThickness" Value="0,1,0,0"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+    </UserControl.Resources>
+    
+    
+    <StackPanel Orientation="Vertical">
+        <Label Content="📈 Текущие показания"/>
+        <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+
+    </StackPanel>
 </UserControl>

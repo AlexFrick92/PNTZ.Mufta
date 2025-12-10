@@ -279,6 +279,12 @@ DpConnect uses event-driven patterns. DpWorkers subscribe to `IDpValue<T>.ValueU
 
 ## Common Tasks
 
+**IMPORTANT**: When creating new files (XAML, C#, config, etc.), always add them to the corresponding `.csproj` file:
+- XAML files: Add as `<Page>` with `<Generator>MSBuild:Compile</Generator>`
+- C# code-behind: Add as `<Compile>` with `<DependentUpon>` pointing to XAML
+- Other C# files: Add as `<Compile>`
+- Config/MD files: Add as `<None>` or `<Content>`
+
 ### Adding a New DpWorker
 1. Create class implementing `IDpWorker` interface
 2. Define `IDpValue<T>` properties for PLC data points
