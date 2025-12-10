@@ -91,10 +91,10 @@
             <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_RecipeData}"/>
             <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_OptimalTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N1" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N1" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N1" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_OptimalTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N0" State="Normal"/>
             <Label/>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Max}" StringFormat="N1" State="Normal"
                                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
