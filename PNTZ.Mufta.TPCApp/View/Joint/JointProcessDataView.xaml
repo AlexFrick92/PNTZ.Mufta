@@ -7,6 +7,7 @@
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint"
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              xmlns:converter="clr-namespace:PNTZ.Mufta.TPCApp.View.Converter"
+             xmlns:domain="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
              d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessDataViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -37,6 +38,16 @@
             <Setter Property="BorderThickness" Value="0,1,0,0"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <!--Видимость в зависимости от выбранного режима-->
+        <Style TargetType="Label" x:Key="ShoulderModeLabelVisibility">
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static domain:JointMode.TorqueShoulder}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     
