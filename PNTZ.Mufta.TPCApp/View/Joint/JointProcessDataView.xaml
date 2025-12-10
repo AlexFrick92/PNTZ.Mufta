@@ -45,31 +45,31 @@
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_CurrentReadings}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <ctrl:ParameterDisplayControl Label="Момент, Нм" Value="{Binding ActualPoint.Torque}" StringFormat="N0" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Длина, мм" Value="{Binding ActualPoint.Length_mm}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Обороты" Value="{Binding ActualPoint.Turns}" StringFormat="N2" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Обороты/Мин" Value="{Binding ActualPoint.TurnsPerMinute}" StringFormat="N0" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Отсчёт, сек" Value="{Binding SecondsFromBeginJointing}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Torque_Label}" Value="{Binding ActualPoint.Torque}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Length_Label}" Value="{Binding ActualPoint.Length_mm}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Turns_Label}" Value="{Binding ActualPoint.Turns}" StringFormat="N2" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_TurnsPerMinute_Label}" Value="{Binding ActualPoint.TurnsPerMinute}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_ElapsedTime_Label}" Value="{Binding SecondsFromBeginJointing}" StringFormat="N0" State="Normal"/>
 
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_Result}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <ctrl:ParameterDisplayControl Label="Оценка" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}}" StringFormat="" State="{Binding ResultTotalState}"/>
-        <ctrl:ParameterDisplayControl Label="Итог. момент, Нм" Value="{Binding JointResult.FinalTorque}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Итог. глубина, мм" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Итог. обороты" Value="{Binding JointResult.FinalTurns}" StringFormat="N2" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Глубина преднав., мм" Value="{Binding JointResult.MVS_Len}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Глубина силов., мм" Value="{Binding JointResult.FinalMakeupLength_mm}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Evaluation_Label}" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}}" StringFormat="" State="{Binding ResultTotalState}"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTorque_Label}" Value="{Binding JointResult.FinalTorque}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalLength_Label}" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTurns_Label}" Value="{Binding JointResult.FinalTurns}" StringFormat="N2" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MVSLength_Label}" Value="{Binding JointResult.MVS_Len}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MakeupLength_Label}" Value="{Binding JointResult.FinalMakeupLength_mm}" StringFormat="N1" State="Normal"/>
 
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_RecipeData}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <ctrl:ParameterDisplayControl Label="Опт. момент, Нм" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Макс. момент, Нм" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Мин. момент, Нм" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Момент сброса, Нм" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Макс. глубина, мм" Value="{Binding LoadedRecipe.MU_Len_Max}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="Мин. глубина, мм" Value="{Binding LoadedRecipe.MU_Len_Min}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_OptimalTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Max}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Min}" StringFormat="N1" State="Normal"/>
 
     </StackPanel>
     

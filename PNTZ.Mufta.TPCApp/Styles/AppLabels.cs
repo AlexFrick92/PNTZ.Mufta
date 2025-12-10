@@ -21,6 +21,57 @@ namespace PNTZ.Mufta.TPCApp.Styles
         /// <summary>Заголовок секции "Данные рецепта"</summary>
         public static string JointProcess_RecipeData => GetString("JointProcess_RecipeData");
 
+        /// <summary>Лейбл параметра "Момент, Нм" (текущие показания)</summary>
+        public static string JointProcess_Torque_Label => GetString("JointProcess_Torque_Label");
+
+        /// <summary>Лейбл параметра "Длина, мм" (текущие показания)</summary>
+        public static string JointProcess_Length_Label => GetString("JointProcess_Length_Label");
+
+        /// <summary>Лейбл параметра "Обороты" (текущие показания)</summary>
+        public static string JointProcess_Turns_Label => GetString("JointProcess_Turns_Label");
+
+        /// <summary>Лейбл параметра "Обороты/Мин" (текущие показания)</summary>
+        public static string JointProcess_TurnsPerMinute_Label => GetString("JointProcess_TurnsPerMinute_Label");
+
+        /// <summary>Лейбл параметра "Отсчёт, сек" (текущие показания)</summary>
+        public static string JointProcess_ElapsedTime_Label => GetString("JointProcess_ElapsedTime_Label");
+
+        /// <summary>Лейбл параметра "Оценка" (результат свинчивания)</summary>
+        public static string JointProcess_Evaluation_Label => GetString("JointProcess_Evaluation_Label");
+
+        /// <summary>Лейбл параметра "Итог. момент, Нм" (результат свинчивания)</summary>
+        public static string JointProcess_FinalTorque_Label => GetString("JointProcess_FinalTorque_Label");
+
+        /// <summary>Лейбл параметра "Итог. глубина, мм" (результат свинчивания)</summary>
+        public static string JointProcess_FinalLength_Label => GetString("JointProcess_FinalLength_Label");
+
+        /// <summary>Лейбл параметра "Итог. обороты" (результат свинчивания)</summary>
+        public static string JointProcess_FinalTurns_Label => GetString("JointProcess_FinalTurns_Label");
+
+        /// <summary>Лейбл параметра "Глубина преднав., мм" (результат свинчивания)</summary>
+        public static string JointProcess_MVSLength_Label => GetString("JointProcess_MVSLength_Label");
+
+        /// <summary>Лейбл параметра "Глубина силов., мм" (результат свинчивания)</summary>
+        public static string JointProcess_MakeupLength_Label => GetString("JointProcess_MakeupLength_Label");
+
+        /// <summary>Лейбл параметра "Опт. момент, Нм" (данные рецепта)</summary>
+        public static string JointProcess_OptimalTorque_Label => GetString("JointProcess_OptimalTorque_Label");
+
+        /// <summary>Лейбл параметра "Макс. момент, Нм" (данные рецепта)</summary>
+        public static string JointProcess_MaxTorque_Label => GetString("JointProcess_MaxTorque_Label");
+
+        /// <summary>Лейбл параметра "Мин. момент, Нм" (данные рецепта)</summary>
+        public static string JointProcess_MinTorque_Label => GetString("JointProcess_MinTorque_Label");
+
+        /// <summary>Лейбл параметра "Момент сброса, Нм" (данные рецепта)</summary>
+        public static string JointProcess_DumpTorque_Label => GetString("JointProcess_DumpTorque_Label");
+
+        /// <summary>Лейбл параметра "Макс. глубина, мм" (данные рецепта)</summary>
+        public static string JointProcess_MaxLength_Label => GetString("JointProcess_MaxLength_Label");
+
+        /// <summary>Лейбл параметра "Мин. глубина, мм" (данные рецепта)</summary>
+        public static string JointProcess_MinLength_Label => GetString("JointProcess_MinLength_Label");
+
         /// <summary>Оценка результата "Годная"</summary>
         public static string JointProcessResult_Good => GetString("JointProcessResult_Good");
 
