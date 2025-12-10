@@ -15,6 +15,10 @@
     <sys:String x:Key="JointProcess_Result">📋 Результат</sys:String>
     <sys:String x:Key="JointProcess_RecipeData">📐 Данные рецепта</sys:String>
 
+    <!-- Оценки результата -->
+    <sys:String x:Key="JointProcessResult_Good">Годная</sys:String>
+    <sys:String x:Key="JointProcessResult_Bad">Брак</sys:String>
+
 
     <!-- ========================================== -->
     <!-- Окно рецепта (Recipe)                     -->

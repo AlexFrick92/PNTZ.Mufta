@@ -21,6 +21,12 @@ namespace PNTZ.Mufta.TPCApp.Styles
         /// <summary>Заголовок секции "Данные рецепта"</summary>
         public static string JointProcess_RecipeData => GetString("JointProcess_RecipeData");
 
+        /// <summary>Оценка результата "Годная"</summary>
+        public static string JointProcessResult_Good => GetString("JointProcessResult_Good");
+
+        /// <summary>Оценка результата "Брак"</summary>
+        public static string JointProcessResult_Bad => GetString("JointProcessResult_Bad");
+
 
         // ==========================================
         // Окно рецепта (Recipe)

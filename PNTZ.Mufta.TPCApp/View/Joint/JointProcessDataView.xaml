@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
-             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint" 
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint"
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
+             xmlns:converter="clr-namespace:PNTZ.Mufta.TPCApp.View.Converter"
              d:DataContext="{d:DesignInstance Type=viewmodel:JointProcessDataViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -16,7 +17,13 @@
          ======================================== -->
     
     <UserControl.Resources>
-        
+
+        <!-- ========================================
+        КОНВЕРТЕРЫ
+        ======================================== -->
+
+        <converter:ResultTotalToStringConverter x:Key="ResultTotalToStringConverter"/>
+
         <!-- ========================================
         СТИЛИ
         ======================================== -->
@@ -47,8 +54,22 @@
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_Result}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
+        <ctrl:ParameterDisplayControl Label="Оценка" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}}" StringFormat="" State="{Binding ResultTotalState}"/>
+        <ctrl:ParameterDisplayControl Label="Итог. момент, Нм" Value="{Binding JointResult.FinalTorque}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Итог. глубина, мм" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Итог. обороты" Value="{Binding JointResult.FinalTurns}" StringFormat="N2" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Глубина преднав., мм" Value="{Binding JointResult.MVS_Len}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Глубина силов., мм" Value="{Binding JointResult.FinalMakeupLength_mm}" StringFormat="N1" State="Normal"/>
+
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_RecipeData}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+        <ctrl:ParameterDisplayControl Label="Опт. момент, Нм" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Макс. момент, Нм" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Мин. момент, Нм" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Момент сброса, Нм" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Макс. глубина, мм" Value="{Binding LoadedRecipe.MU_Len_Max}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="Мин. глубина, мм" Value="{Binding LoadedRecipe.MU_Len_Min}" StringFormat="N1" State="Normal"/>
 
     </StackPanel>
     

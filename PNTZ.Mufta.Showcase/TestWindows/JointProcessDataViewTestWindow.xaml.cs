@@ -100,7 +100,18 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
             _simulationTimer.Stop();
             IsSimulationRunning = false;
-            _viewModel.FinishJointing(new JointResult(new JointRecipe()));
+
+            var result = new JointResult(new JointRecipe());
+            if(_viewModel.ActualPoint.Torque < 5000)
+            {
+                result.ResultTotal = 2; // Плохой результат
+            }
+            else
+            {
+                result.ResultTotal = 1; // Хороший результат
+            }
+
+            _viewModel.FinishJointing(result);
         }
 
         private void SimulationTimer_Tick(object sender, EventArgs e)
@@ -195,6 +206,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private void BtnStopSimulation_Click(object sender, RoutedEventArgs e)
         {
             StopSimulation();
+        }
+
+        private void BtnLoadRecipe_Click(object sender, RoutedEventArgs e)
+        {
+            var recipe = new JointRecipe();
+            _viewModel.UpdateRecipe(recipe);
+            UpdateStatus("Рецепт загружен с дефолтными параметрами.");
         }
     }
 }

@@ -16,6 +16,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public float FinalTorque { get; set; }
         public float FinalLength { get; set; }
         public float FinalLength_mm => FinalLength * 1000;
+        public float FinalMakeupLength_mm => (FinalLength - MVS_Len) * 1000;
         public float FinalJVal { get; set; }
         public float FinalTurns { get; set; }
         public float FinalShoulderTorque { get; set; }

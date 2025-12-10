@@ -32,6 +32,16 @@
                           Margin="0,0,15,10"
                           Padding="10">
                         <StackPanel Orientation="Horizontal">
+                            <Button x:Name="BtnLoadRecipe"
+                                Content="Загрузить рецепт"
+                                Click="BtnLoadRecipe_Click"
+                                Width="160"
+                                Margin="0,0,10,0"
+                                Padding="8,5"
+                                Background="#3498DB"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
                             <Label Content="Интервал обновления:"
                                VerticalAlignment="Center"
                                FontSize="13"/>
