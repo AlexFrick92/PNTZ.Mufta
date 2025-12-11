@@ -73,6 +73,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TestWindows\JointViewTestWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -92,6 +96,9 @@
     </Compile>
     <Compile Include="TestWindows\JointProcessDataViewTestWindow.xaml.cs">
       <DependentUpon>JointProcessDataViewTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestWindows\JointViewTestWindow.xaml.cs">
+      <DependentUpon>JointViewTestWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
