@@ -124,46 +124,43 @@ namespace PNTZ.Mufta.Showcase.Data
         {
             try
             {
-                do
+                _timestamp = 0;
+
+                // Phase 0: Труба появилась (SetMvsData)
+                await SimulatePipeAppear(cancellationToken);
+                Debug.WriteLine("Pipe appeared.");
+
+                // Phase 1: Pre-makeup - изменение длины от 0 до 750 мм
+                await SimulatePreMakeup(cancellationToken);
+                Debug.WriteLine("Pre-makeup phase completed.");
+
+                // Phase 2: Начало записи (RecordingBegun)
+                await SimulateRecordingBegun(cancellationToken);
+                Debug.WriteLine("Recording begun.");
+
+                // Phase 3: Makeup - силовое свинчивание
+                await SimulateMakeup(cancellationToken);
+                Debug.WriteLine("Makeup phase completed.");
+
+                // Phase 4: Запись завершена (RecordingFinished)
+                await SimulateRecordingFinished(cancellationToken);
+                Debug.WriteLine("Recording finished.");
+
+
+                // Phase 5: Свинчивание завершено (JointFinished) через 2 секунды
+                await Task.Delay(2000, cancellationToken);
+                Debug.WriteLine("Joint finished."); 
+
+
+                _currentResult.EvaluationVerdict = new EvaluationVerdict
                 {
-                    _timestamp = 0;
+                    TorqueOk = true,
+                    LentghOk = true,
+                    ShoulderOk = true
+                };
+                _currentResult.ResultTotal = 1; // Годная
+                JointFinished?.Invoke(this, _currentResult);
 
-                    // Phase 0: Труба появилась (SetMvsData)
-                    await SimulatePipeAppear(cancellationToken);
-                    Debug.WriteLine("Pipe appeared.");
-
-                    // Phase 1: Pre-makeup - изменение длины от 0 до 750 мм
-                    await SimulatePreMakeup(cancellationToken);
-                    Debug.WriteLine("Pre-makeup phase completed.");
-
-                    // Phase 2: Начало записи (RecordingBegun)
-                    await SimulateRecordingBegun(cancellationToken);
-                    Debug.WriteLine("Recording begun.");
-
-                    // Phase 3: Makeup - силовое свинчивание
-                    await SimulateMakeup(cancellationToken);
-                    Debug.WriteLine("Makeup phase completed.");
-
-                    // Phase 4: Запись завершена (RecordingFinished)
-                    await SimulateRecordingFinished(cancellationToken);
-                    Debug.WriteLine("Recording finished.");
-
-
-                    // Phase 5: Свинчивание завершено (JointFinished) через 2 секунды
-                    await Task.Delay(2000, cancellationToken);
-                    Debug.WriteLine("Joint finished."); 
-
-
-                    _currentResult.EvaluationVerdict = new EvaluationVerdict
-                    {
-                        TorqueOk = true,
-                        LentghOk = true,
-                        ShoulderOk = true
-                    };
-                    _currentResult.ResultTotal = 1; // Годная
-                    JointFinished?.Invoke(this, _currentResult);
-
-                } while (!cancellationToken.IsCancellationRequested);
             }            
             catch (OperationCanceledException)
             {

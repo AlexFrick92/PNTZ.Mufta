@@ -315,7 +315,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         public void SetMvsData(JointResult result)
         {
             TorqueLengthChart.XMin = result.MVS_Len_mm;
-            //TqTnLenPoints.Clear();
+            TqTnLenPoints.Clear();
         }
 
         /// <summary>
