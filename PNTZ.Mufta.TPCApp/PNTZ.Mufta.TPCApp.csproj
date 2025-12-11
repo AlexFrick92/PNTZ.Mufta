@@ -206,6 +206,7 @@
     <Compile Include="ViewModel\JointProcessViewModel.cs" />
     <Compile Include="ViewModel\Joint\JointProcessChartViewModel.cs" />
     <Compile Include="ViewModel\Joint\JointProcessDataViewModel.cs" />
+    <Compile Include="ViewModel\Joint\JointViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NewRecipeViewModel.cs" />
