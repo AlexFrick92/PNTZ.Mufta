@@ -1,0 +1,66 @@
+# Бинарные файлы
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# Build артефакты
+.vs/
+packages/
+
+# Логи
+*.log
+Logs/
+
+# Большие данные
+Repository/*.db
+Repository/*.db-journal
+
+# Внешние библиотеки (у нас есть описание в CLAUDE.md)
+Toolbox/
+DpConnect/
+Tools/
+
+# Временные файлы
+*.tmp
+*.cache
+*.bak
+*~
+
+# NuGet
+packages/
+*.nupkg
+
+# Visual Studio специфичные
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# DevExpress специфичные (большие файлы лицензий)
+*.DevExpress.*.licenses
+
+# Тестовые результаты
+TestResults/
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NCrunch (если используете)
+_NCrunch_*
+*.ncrunch*
+
+# Документация сгенерированная
+[Dd]oc[Hh]elp/
+
+# Backup файлы БД
+Repository/*.db-shm
+Repository/*.db-wal
+
+# Игнорировать конкретные большие XML конфиги, если нужно
+# DpConnect/DpConfig.xml.backup
