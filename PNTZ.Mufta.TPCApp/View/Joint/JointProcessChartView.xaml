@@ -13,15 +13,16 @@
 
     <Grid hlp:GridHelper.ShowBorders="True"
             hlp:GridHelper.BorderBrush="LightGray"
-            hlp:GridHelper.BorderThickness="1">
+            hlp:GridHelper.BorderThickness="1"
+            hlp:GridHelper.ShowOutline="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="400"/>
-            <RowDefinition Height="400"/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!-- Момент/обороты -->
