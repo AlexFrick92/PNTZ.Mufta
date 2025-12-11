@@ -3,6 +3,7 @@ using PNTZ.Mufta.TPCApp.Domain;
 using Promatis.Core.Logging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +24,25 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _jointProcessWorker = jointProcessWorker ?? throw new ArgumentNullException(nameof(jointProcessWorker));
             _recipeLoader = recipeLoader ?? throw new ArgumentNullException(nameof(_recipeLoader));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));            
+            
 
             //Подписываемся на события загрузчика рецептов
             _recipeLoader.RecipeLoaded += OnRecipeLoaded;
             _recipeLoader.RecipeLoadFailed += OnRecipeLoadFailed;
-            
+
+            //Подписываемся на события процесса навёртки
+            //Обновление показаний датчиков
+            _jointProcessWorker.NewTqTnLenPoint += (s, p) => JointProcessChartViewModel.TqTnLenPoints.Add(p);
+            _jointProcessWorker.NewTqTnLenPoint += (s, p) => JointProcessDataViewModel.ActualPoint = p;
+            //Появление трубы на позиции
+            _jointProcessWorker.PipeAppear += (s, r) => JointProcessChartViewModel.SetMvsData(r);            
+            //Свинчивание начато
+            _jointProcessWorker.RecordingBegun += (s, e) => JointProcessDataViewModel.BeginNewJointing();
+            //Свинчивание завершено
+            _jointProcessWorker.RecordingFinished += (s, r) => JointProcessDataViewModel.FinishJointing(r);
+            //Труба прошла оценку. Процесс завершен
+            _jointProcessWorker.JointFinished += (s, r) => JointProcessChartViewModel.FinishJointing(r);
+            _jointProcessWorker.JointFinished += (s, r) => JointProcessDataViewModel.FinishJointing(r);
         }
         /// <summary>
         /// Графики
@@ -36,7 +51,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <summary>
         /// Панель данных слева
         /// </summary>
-        public JointProcessDataViewModel JointProcessDataViewModel { get; set; } = new JointProcessDataViewModel();
+        public JointProcessDataViewModel JointProcessDataViewModel { get; set; } = new JointProcessDataViewModel();        
         //Приватные поля
         private IJointProcessWorker _jointProcessWorker;
         private IRecipeLoader _recipeLoader;
@@ -63,6 +78,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private void OnRecipeLoadFailed(object sender, JointRecipe recipe)
         {
             _logger?.Error($"Ошибка загрузки рецепта");
-        }
+        }        
     }
 }

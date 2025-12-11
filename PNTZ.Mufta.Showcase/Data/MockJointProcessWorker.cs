@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using PNTZ.Mufta.TPCApp.Domain;
@@ -19,11 +20,16 @@ namespace PNTZ.Mufta.Showcase.Data
         private const int PRE_MAKEUP_DURATION_MS = 5000; // 5 секунд
         private const float MAKEUP_LENGTH_MAX = 0.200f; // 200 мм силовой навёртки
         private const int MAKEUP_DURATION_MS = 8000; // 8 секунд
-        private const float MAX_TORQUE = 8000f; // Максимальный момент
-        private const int UPDATE_INTERVAL_MS = 50; // Интервал обновления точек (50 мс = 20 Hz)
+        private const float MAX_TORQUE = 8000f; // Максимальный момент по умолчанию
+
+        /// <summary>
+        /// Интервал обновления точек в миллисекундах (настраивается извне)
+        /// </summary>
+        public int UpdateIntervalMs { get; set; } = 50; // По умолчанию 50 мс = 20 Hz
 
         // Текущие значения симуляции
-        private JointResult _currentResult;
+        private JointResult _currentResult;     
+        private JointRecipe _currentRecipe;
         private int _timestamp;
 
         #region События IJointProcessWorker
@@ -56,7 +62,24 @@ namespace PNTZ.Mufta.Showcase.Data
 
         public void SetActualRecipe(JointRecipe recipe)
         {
-            // В тестовой реализации сохраняем рецепт для будущего использования
+            _currentRecipe = recipe;
+        }
+
+        public void Initialize()
+        {
+            Task.Run(() =>
+            {
+                var point = new TqTnLenPoint
+                {
+                    Length = 0f,
+                    Torque = 0f,
+                    Turns = 0f,
+                    TurnsPerMinute = 0f,
+                    TimeStamp = _timestamp
+                };
+
+                NewTqTnLenPoint?.Invoke(this, point);
+            });
         }
 
         #endregion
@@ -105,31 +128,51 @@ namespace PNTZ.Mufta.Showcase.Data
                 {
                     _timestamp = 0;
 
-                    // Phase 0: Труба появилась (PipeAppear)
+                    // Phase 0: Труба появилась (SetMvsData)
                     await SimulatePipeAppear(cancellationToken);
+                    Debug.WriteLine("Pipe appeared.");
 
                     // Phase 1: Pre-makeup - изменение длины от 0 до 750 мм
                     await SimulatePreMakeup(cancellationToken);
+                    Debug.WriteLine("Pre-makeup phase completed.");
 
                     // Phase 2: Начало записи (RecordingBegun)
                     await SimulateRecordingBegun(cancellationToken);
+                    Debug.WriteLine("Recording begun.");
 
                     // Phase 3: Makeup - силовое свинчивание
                     await SimulateMakeup(cancellationToken);
+                    Debug.WriteLine("Makeup phase completed.");
 
                     // Phase 4: Запись завершена (RecordingFinished)
                     await SimulateRecordingFinished(cancellationToken);
+                    Debug.WriteLine("Recording finished.");
+
 
                     // Phase 5: Свинчивание завершено (JointFinished) через 2 секунды
                     await Task.Delay(2000, cancellationToken);
+                    Debug.WriteLine("Joint finished."); 
+
+
+                    _currentResult.EvaluationVerdict = new EvaluationVerdict
+                    {
+                        TorqueOk = true,
+                        LentghOk = true,
+                        ShoulderOk = true
+                    };
+                    _currentResult.ResultTotal = 1; // Годная
                     JointFinished?.Invoke(this, _currentResult);
 
-                } while (CyclicallyListen && !cancellationToken.IsCancellationRequested);
-            }
+                } while (!cancellationToken.IsCancellationRequested);
+            }            
             catch (OperationCanceledException)
             {
                 // Симуляция остановлена
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in simulation: {ex.Message}");
+            }   
             finally
             {
                 _isRunning = false;
@@ -138,12 +181,11 @@ namespace PNTZ.Mufta.Showcase.Data
 
         private async Task SimulatePipeAppear(CancellationToken cancellationToken)
         {
-            // Создаём тестовый JointResult с минимальными данными
-            var recipe = CreateTestRecipe();
-            _currentResult = new JointResult(recipe)
+            // Создаём тестовый JointResult с минимальными данными            
+            _currentResult = new JointResult(_currentRecipe)
             {
                 StartTimeStamp = DateTime.Now,
-                EvaluationVerdict = new EvaluationVerdict()
+                MVS_Len = 85f
             };
 
             PipeAppear?.Invoke(this, _currentResult);
@@ -173,9 +215,9 @@ namespace PNTZ.Mufta.Showcase.Data
 
                 NewTqTnLenPoint?.Invoke(this, point);
 
-                await Task.Delay(UPDATE_INTERVAL_MS, cancellationToken);
-                elapsedMs += UPDATE_INTERVAL_MS;
-                _timestamp += UPDATE_INTERVAL_MS;
+                await Task.Delay(UpdateIntervalMs, cancellationToken);
+                elapsedMs += UpdateIntervalMs;
+                _timestamp += UpdateIntervalMs;
             }
 
             // Сброс длины в 0
@@ -198,19 +240,24 @@ namespace PNTZ.Mufta.Showcase.Data
             float baseTurns = 0f;
             float baseTorque = 0f;
 
+            // Получаем пределы из рецепта или используем значения по умолчанию
+            float targetLength = _currentRecipe?.MU_Len_Dump ?? MAKEUP_LENGTH_MAX;
+            float targetTorque = _currentRecipe?.MU_Tq_Dump ?? MAX_TORQUE;
+            float targetTurns = 10f;
+
             while (elapsedMs < MAKEUP_DURATION_MS && !cancellationToken.IsCancellationRequested)
             {
                 float progress = (float)elapsedMs / MAKEUP_DURATION_MS;
 
                 // Линейный рост длины
-                baseLength = MAKEUP_LENGTH_MAX * progress;
+                baseLength = targetLength * progress;
 
-                // Линейный рост оборотов (допустим, 10 оборотов за процесс)
-                baseTurns = 10f * progress;
+                // Линейный рост оборотов
+                baseTurns = targetTurns * progress;
 
                 // Линейный рост момента с шумом
-                baseTorque = MAX_TORQUE * progress;
-                float noise = (float)(_random.NextDouble() - 0.5) * MAX_TORQUE * 0.05f; // ±5% шум
+                baseTorque = targetTorque * progress;
+                float noise = (float)(_random.NextDouble() - 0.5) * targetTorque * 0.05f; // ±5% шум
                 float torque = Math.Max(0, baseTorque + noise);
 
                 // Обороты в минуту (допустим, ~20 RPM)
@@ -228,9 +275,9 @@ namespace PNTZ.Mufta.Showcase.Data
                 _currentResult.Series.Add(point);
                 NewTqTnLenPoint?.Invoke(this, point);
 
-                await Task.Delay(UPDATE_INTERVAL_MS, cancellationToken);
-                elapsedMs += UPDATE_INTERVAL_MS;
-                _timestamp += UPDATE_INTERVAL_MS;
+                await Task.Delay(UpdateIntervalMs, cancellationToken);
+                elapsedMs += UpdateIntervalMs;
+                _timestamp += UpdateIntervalMs;
             }
 
             // Момент падает до 0 (очень быстро)
@@ -249,8 +296,8 @@ namespace PNTZ.Mufta.Showcase.Data
                 _currentResult.Series.Add(point);
                 NewTqTnLenPoint?.Invoke(this, point);
 
-                await Task.Delay(50, cancellationToken);
-                _timestamp += 50;
+                await Task.Delay(UpdateIntervalMs, cancellationToken);
+                _timestamp += UpdateIntervalMs;
             }
 
             // Финальные значения
@@ -268,21 +315,7 @@ namespace PNTZ.Mufta.Showcase.Data
 
             // Опционально можно вызвать AwaitForEvaluation
             AwaitForEvaluation?.Invoke(this, _currentResult);
-        }
-
-        private JointRecipe CreateTestRecipe()
-        {
-            // Создаём минимальный тестовый рецепт
-            // Пользователь заполнит данные сам позже
-            return new JointRecipe
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test Recipe",
-                JointMode = JointMode.Torque,
-                SelectedThreadType = ThreadType.RIGHT,
-                PIPE_TYPE = "Test Pipe"
-            };
-        }
+        }        
 
         #endregion
     }

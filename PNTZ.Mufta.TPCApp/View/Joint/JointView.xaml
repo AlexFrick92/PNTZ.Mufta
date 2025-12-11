@@ -13,7 +13,7 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <Grid hlp:GridHelper.ShowBorders="True"
             hlp:GridHelper.BorderBrush="LightGray"
             hlp:GridHelper.BorderThickness="1">
@@ -22,11 +22,35 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ContentControl Grid.Column="0" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0"     
+            BorderThickness="0"
+            Background="#F3F3F3">
+            <Label Content="ПАРАМЕТРЫ"
+                FontSize="18"                         
+                Margin="10"                                            
+                BorderThickness="0"/>
+        </Border>
+        
+        <ContentControl Grid.Column="0" Grid.Row="1" Margin="5">
             <vj:JointProcessDataView DataContext="{Binding JointProcessDataViewModel}"/>
         </ContentControl>
 
-        <ContentControl Grid.Column="1">
+
+        <Border Grid.Column="1"     
+            BorderThickness="0"
+            Background="#F3F3F3">
+            <Label Content="ГРАФИКИ"
+                FontSize="18"                         
+                Margin="10"                                            
+                BorderThickness="0"/>   
+        </Border>
+
+        <ContentControl Grid.Column="1" Grid.Row="1">
             <vj:JointProcessChartView DataContext="{Binding JointProcessChartViewModel}"/>
         </ContentControl>
     </Grid>

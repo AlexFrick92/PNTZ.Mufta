@@ -75,6 +75,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             };
         }
         public JointRecipe Recipe { get; set; }
+        public JointResult Result { get; set; }
         public void StartSimulation()
         {
             if (IsSimulationRunning)
@@ -91,6 +92,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _lengthIncreasing = true;
             _turnsIncreasing = true;
             _currentTimeStamp = 0;
+
+            Result = new JointResult(Recipe);
             _viewModel.BeginNewJointing();
         }
 
@@ -101,20 +104,19 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
             _simulationTimer.Stop();
             IsSimulationRunning = false;
-
-            var result = new JointResult(Recipe);
+            
             if(_viewModel.ActualPoint.Torque < 5000)
             {
-                result.ResultTotal = 2; // Плохой результат
-                result.EvaluationVerdict = new EvaluationVerdict() { LentghOk = true, ShoulderOk = true, TorqueOk = false };
+                Result.ResultTotal = 2; // Плохой результат
+                Result.EvaluationVerdict = new EvaluationVerdict() { LentghOk = true, ShoulderOk = true, TorqueOk = false };
             }
             else
             {
-                result.ResultTotal = 1; // Хороший результат
-                result.EvaluationVerdict = new EvaluationVerdict() { LentghOk = true, ShoulderOk = true, TorqueOk = true};
+                Result.ResultTotal = 1; // Хороший результат
+                Result.EvaluationVerdict = new EvaluationVerdict() { LentghOk = true, ShoulderOk = true, TorqueOk = true};
             }
 
-            _viewModel.FinishJointing(result);
+            _viewModel.FinishJointing(Result);
         }
 
         private void SimulationTimer_Tick(object sender, EventArgs e)

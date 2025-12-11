@@ -312,9 +312,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// Настроить графики при появлении трубы
         /// </summary>
         /// <param name="result"></param>
-        public void UpdatePipeAppear(JointResult result)
+        public void SetMvsData(JointResult result)
         {
             TorqueLengthChart.XMin = result.MVS_Len_mm;
+            //TqTnLenPoints.Clear();
         }
 
         /// <summary>
@@ -403,7 +404,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             }
         }
 
-        public void UpdateJointFinished(JointResult result)
+        public void FinishJointing(JointResult result)
         {
             if(result.ResultTotal == 1)
                 FitChartsToData();
@@ -447,7 +448,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 TqTnLenPoints.Min(p => p.Torque),
                 TqTnLenPoints.Max(p => p.Torque),
                 AppSettings.ChartMargin,
-                adjustXMin: false, // Сохраняем XMin установленный в UpdatePipeAppear
+                adjustXMin: false, // Сохраняем XMin установленный в SetMvsData
                 adjustYMin: true);
 
             // График: Момент/время

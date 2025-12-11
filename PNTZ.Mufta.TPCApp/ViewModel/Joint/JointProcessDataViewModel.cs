@@ -102,7 +102,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             ResultTotalState = ParameterState.Normal;
             ResultTorqueState = ParameterState.Normal;
             ResultLengthState = ParameterState.Normal;
-            ResultShoulderState = ParameterState.Normal;
+            ResultShoulderState = ParameterState.Normal;            
         }
         public void FinishJointing(JointResult jointResult)
         {

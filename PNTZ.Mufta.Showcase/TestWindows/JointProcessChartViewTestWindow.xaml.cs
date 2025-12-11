@@ -132,8 +132,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 StartTimeStamp = DateTime.Now
             };
 
-            // Вызываем метод UpdatePipeAppear у ViewModel
-            _viewModel.UpdatePipeAppear(_currentJointResult);
+            // Вызываем метод SetMvsData у ViewModel
+            _viewModel.SetMvsData(_currentJointResult);
 
             StatusText.Text = $"Труба появилась на позиции: {mvsLenMm:F1} мм (MVS_Len = {_currentJointResult.MVS_Len:F4} м)";
         }
@@ -175,7 +175,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             {
                 _currentJointResult.ResultTotal = 2;
                 _currentJointResult.FinishTimeStamp = DateTime.Now;
-                _viewModel.UpdateJointFinished(_currentJointResult);
+                _viewModel.FinishJointing(_currentJointResult);
 
             }
 
@@ -210,7 +210,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 // Подгоняем границы графиков под финальные данные
                 _currentJointResult.FinishTimeStamp = DateTime.Now;
                 _currentJointResult.ResultTotal = 1;
-                _viewModel.UpdateJointFinished(_currentJointResult);
+                _viewModel.FinishJointing(_currentJointResult);
 
                 StatusText.Text = $"Симуляция завершена ({_viewModel.TqTnLenPoints.Count} точек)";
                 return;
