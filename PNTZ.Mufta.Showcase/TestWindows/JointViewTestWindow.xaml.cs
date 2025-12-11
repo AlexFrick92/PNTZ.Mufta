@@ -4,6 +4,8 @@ using System.Windows.Threading;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.ViewModel.Joint;
 using PNTZ.Mufta.Showcase.Helper;
+using PNTZ.Mufta.Showcase.Data;
+using Promatis.Core.Logging;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -13,6 +15,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class JointViewTestWindow : Window
     {
         private JointViewModel _viewModel;
+        private MockRecipeLoader _mockRecipeLoader;
+        private MockJointProcessWorker _mockJointProcessWorker;
 
         public JointViewTestWindow()
         {
@@ -29,8 +33,26 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void InitializeViewModel()
         {
-            _viewModel = new JointViewModel();
+            _mockRecipeLoader = new MockRecipeLoader();
+            _mockJointProcessWorker = new MockJointProcessWorker();
+            _mockRecipeLoader.RecipeLoaded += OnMockRecipeLoaded;
+
+            _viewModel = new JointViewModel(_mockJointProcessWorker, _mockRecipeLoader, new ConsoleLogger());
             JointView.DataContext = _viewModel;
+        }
+
+        /// <summary>
+        /// Обработчик успешной загрузки рецепта из мока (для обновления статуса и Recipe)
+        /// </summary>
+        private void OnMockRecipeLoaded(object sender, JointRecipe recipe)
+        {
+            // Обновляем Recipe для использования в StopSimulation
+            Recipe = recipe;
+            // Обновляем статус в UI (нужно вызвать в UI потоке)
+            Dispatcher.Invoke(() =>
+            {
+                UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+            });
         }
 
         public int UpdateInterval { get; set; }
@@ -228,34 +250,26 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void BtnLoadRecipeLength_Click(object sender, RoutedEventArgs e)
         {
-            Recipe = RecipeHelper.CreateTestRecipeLength();
-            _viewModel.JointProcessDataViewModel.UpdateRecipe(Recipe);
-            _viewModel.JointProcessChartViewModel.UpdateRecipe(Recipe);
-            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
+            UpdateStatus("Загрузка рецепта Length...");
+            _mockRecipeLoader.LoadRecipeLength();
         }
 
         private void BtnLoadRecipeTorque_Click(object sender, RoutedEventArgs e)
         {
-            Recipe = RecipeHelper.CreateTestRecipeTorque();
-            _viewModel.JointProcessDataViewModel.UpdateRecipe(Recipe);
-            _viewModel.JointProcessChartViewModel.UpdateRecipe(Recipe);
-            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
+            UpdateStatus("Загрузка рецепта Torque...");
+            _mockRecipeLoader.LoadRecipeTorque();
         }
 
         private void BtnLoadRecipeTorqueLength_Click(object sender, RoutedEventArgs e)
         {
-            Recipe = RecipeHelper.CreateTestRecipeTorqueLength();
-            _viewModel.JointProcessDataViewModel.UpdateRecipe(Recipe);
-            _viewModel.JointProcessChartViewModel.UpdateRecipe(Recipe);
-            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
+            UpdateStatus("Загрузка рецепта Torque+Length...");
+            _mockRecipeLoader.LoadRecipeTorqueLength();
         }
 
         private void BtnLoadRecipeTorqueShoulder_Click(object sender, RoutedEventArgs e)
         {
-            Recipe = RecipeHelper.CreateTestRecipeTorqueShoulder();
-            _viewModel.JointProcessDataViewModel.UpdateRecipe(Recipe);
-            _viewModel.JointProcessChartViewModel.UpdateRecipe(Recipe);
-            UpdateStatus($"Рецепт загружен: {Recipe.Name} (Режим: {Recipe.JointMode})");
+            UpdateStatus("Загрузка рецепта Torque+Shoulder...");
+            _mockRecipeLoader.LoadRecipeTorqueShoulder();
         }
     }
 }

@@ -22,7 +22,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ContentControl Grid.Column="0">
+        <ContentControl Grid.Column="0" Margin="5">
             <vj:JointProcessDataView DataContext="{Binding JointProcessDataViewModel}"/>
         </ContentControl>
 
