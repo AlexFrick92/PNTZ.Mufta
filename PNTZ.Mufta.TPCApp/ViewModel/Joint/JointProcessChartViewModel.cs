@@ -4,6 +4,7 @@ using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using Promatis.Core.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -45,6 +46,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
 
         public ObservableCollection<TqTnLenPoint> TqTnLenPoints { get; private set; }
+        public List<TqTnLenPoint> TqTnLenPointsList { get; set; } =  new List<TqTnLenPoint>();
 
         /// <summary>
         /// Первичная настройка графиков
@@ -332,20 +334,22 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                         foreach (TqTnLenPoint point in e.NewItems)
                         {
                             UpdateChartBoundsIfNeeded(point);
+                            TqTnLenPointsList.Add(point);
                         }
                     }
                     // Обновляем данные для всех графиков
-                    TorqueTurnsChart.ChartData = TqTnLenPoints;
-                    TurnsPerMinuteTurnsChart.ChartData = TqTnLenPoints;
-                    TorqueLengthChart.ChartData = TqTnLenPoints;
-                    TorqueTimeChart.ChartData = TqTnLenPoints;
+                    TorqueTurnsChart.ChartData = TqTnLenPoints.ToList();
+                    TurnsPerMinuteTurnsChart.ChartData = TqTnLenPoints.ToList();
+                    TorqueLengthChart.ChartData = TqTnLenPoints.ToList();
+                    TorqueTimeChart.ChartData = TqTnLenPoints.ToList();
                     break;
                 case NotifyCollectionChangedAction.Reset:
+                    TqTnLenPointsList.Clear();
                     // Обновляем данные для всех графиков
-                    TorqueTurnsChart.ChartData = TqTnLenPoints;
-                    TurnsPerMinuteTurnsChart.ChartData = TqTnLenPoints;
-                    TorqueLengthChart.ChartData = TqTnLenPoints;
-                    TorqueTimeChart.ChartData = TqTnLenPoints;
+                    TorqueTurnsChart.ChartData = TqTnLenPoints.ToList();
+                    TurnsPerMinuteTurnsChart.ChartData = TqTnLenPoints.ToList();
+                    TorqueLengthChart.ChartData = TqTnLenPoints.ToList();
+                    TorqueTimeChart.ChartData = TqTnLenPoints.ToList();
                     break;
             }
         }

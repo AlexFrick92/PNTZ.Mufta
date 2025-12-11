@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using PNTZ.Mufta.Showcase.Helper;
@@ -24,6 +26,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private float _currentLength = 0;
         private float _currentTurns = 0;
         private TqTnLenPoint _lastPoint = null;
+
+        // Многопоточная симуляция
+        private TqTnLenPoint _latestPoint = null;
+        private object _pointLock = new object();
+        private CancellationTokenSource _simulationCts;
+        private Task _simulationTask;
 
         // Константы симуляции
         private const int SIMULATION_INTERVAL_MS = 10;
@@ -151,15 +159,20 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 return;
             }
 
-            // Инициализация параметров симуляции
-            _currentTimeStamp = 0;
-            _currentTorque = 0;
-            _currentLength = _currentJointResult?.MVS_Len_mm ?? 0; // Начинаем от позиции трубы
-            _currentTurns = 0;
-            _lastPoint = null;
+            // Создание CancellationTokenSource для управления фоновым потоком
+            _simulationCts = new CancellationTokenSource();
 
-            // Запуск таймера
-            _simulationTimer.Start();
+            // Очистка предыдущей точки
+            lock (_pointLock)
+            {
+                _latestPoint = null;
+            }
+
+            // Запуск фоновой генерации точек
+            _simulationTask = Task.Run(() => GenerateSimulationDataInBackground(_simulationCts.Token));
+
+            // Запуск таймера для обновления UI
+            //_simulationTimer.Start();
             StatusText.Text = "Симуляция запущена (15 секунд)";
         }
 
@@ -168,7 +181,27 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private void StopSimulation_Click(object sender, RoutedEventArgs e)
         {
+            // Остановка таймера UI
             _simulationTimer.Stop();
+
+            // Остановка фонового потока через CancellationToken
+            if (_simulationCts != null)
+            {
+                _simulationCts.Cancel();
+            }
+
+            // Ожидание завершения фоновой задачи
+            if (_simulationTask != null)
+            {
+                try
+                {
+                    _simulationTask.Wait(1000); // Ждем максимум 1 секунду
+                }
+                catch (AggregateException)
+                {
+                    // Игнорируем исключения отмены
+                }
+            }
 
             // Подгоняем границы графиков под финальные данные
             if (_currentJointResult != null)
@@ -176,8 +209,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 _currentJointResult.ResultTotal = 2;
                 _currentJointResult.FinishTimeStamp = DateTime.Now;
                 _viewModel.FinishJointing(_currentJointResult);
-
             }
+
+            // Очистка ресурсов
+            _simulationCts?.Dispose();
+            _simulationCts = null;
+            _simulationTask = null;
 
             StatusText.Text = $"Симуляция остановлена (точек: {_viewModel.TqTnLenPoints.Count})";
         }
@@ -187,68 +224,84 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private void ResetSimulation_Click(object sender, RoutedEventArgs e)
         {
+            // Остановка таймера UI
             _simulationTimer.Stop();
+
+            // Остановка фонового потока если он работает
+            if (_simulationCts != null)
+            {
+                _simulationCts.Cancel();
+            }
+
+            // Ожидание завершения фоновой задачи
+            if (_simulationTask != null)
+            {
+                try
+                {
+                    _simulationTask.Wait(1000);
+                }
+                catch (AggregateException)
+                {
+                    // Игнорируем исключения отмены
+                }
+            }
+
+            // Очистка ресурсов многопоточной симуляции
+            _simulationCts?.Dispose();
+            _simulationCts = null;
+            _simulationTask = null;
+
+            lock (_pointLock)
+            {
+                _latestPoint = null;
+            }
+
+            // Очистка данных
             _viewModel.TqTnLenPoints.Clear();
             _currentTimeStamp = 0;
             _currentTorque = 0;
             _currentLength = _currentJointResult?.MVS_Len_mm ?? 0;
             _currentTurns = 0;
             _lastPoint = null;
+
             StatusText.Text = "Графики сброшены";
         }
 
         /// <summary>
-        /// Обработчик тика таймера для генерации точек
+        /// Обработчик тика таймера для обновления UI из фонового потока
         /// </summary>
         private void SimulationTimer_Tick(object sender, EventArgs e)
         {
-            // Проверка окончания симуляции
-            if (_currentTimeStamp >= SIMULATION_DURATION_MS)
+            // Читаем последнюю сгенерированную точку из фонового потока
+            TqTnLenPoint pointToAdd = null;
+            lock (_pointLock)
+            {
+                pointToAdd = _latestPoint;
+                _latestPoint = null; // Очищаем, чтобы не добавлять дважды
+            }
+
+            // Если есть новая точка, добавляем в коллекцию
+            if (pointToAdd != null)
+            {
+                _viewModel.TqTnLenPoints.Add(pointToAdd);
+                StatusText.Text = $"Симуляция: {pointToAdd.TimeStamp}/{SIMULATION_DURATION_MS} мс ({_viewModel.TqTnLenPoints.Count} точек)";
+            }
+
+            // Проверка завершения фоновой задачи
+            if (_simulationTask != null && _simulationTask.IsCompleted)
             {
                 _simulationTimer.Stop();
 
                 // Подгоняем границы графиков под финальные данные
-                _currentJointResult.FinishTimeStamp = DateTime.Now;
-                _currentJointResult.ResultTotal = 1;
-                _viewModel.FinishJointing(_currentJointResult);
+                if (_currentJointResult != null)
+                {
+                    _currentJointResult.FinishTimeStamp = DateTime.Now;
+                    _currentJointResult.ResultTotal = 1;
+                    _viewModel.FinishJointing(_currentJointResult);
+                }
 
                 StatusText.Text = $"Симуляция завершена ({_viewModel.TqTnLenPoints.Count} точек)";
-                return;
             }
-
-            // Прогресс симуляции (0.0 - 1.0)
-            float progress = (float)_currentTimeStamp / SIMULATION_DURATION_MS;
-
-            // Генерация данных с линейным ростом и шумом
-            _currentTorque = GenerateTorqueValue(progress);
-            _currentLength = GenerateLengthValue(progress) / 1000;
-            _currentTurns = GenerateTurnsValue(progress);
-
-            // Создание новой точки
-            var newPoint = new TqTnLenPoint
-            {
-                TimeStamp = _currentTimeStamp,
-                Torque = _currentTorque,
-                Length = _currentLength,
-                Turns = _currentTurns,
-                TurnsPerMinute = 0
-            };
-
-            // Расчет TurnsPerMinute с вариацией
-            if (_lastPoint != null)
-            {
-                newPoint.TurnsPerMinute = GenerateRPMValue(progress);
-            }
-
-            // Добавление точки в коллекцию
-            _viewModel.TqTnLenPoints.Add(newPoint);
-            _lastPoint = newPoint;
-
-            // Инкремент времени
-            _currentTimeStamp += SIMULATION_INTERVAL_MS;
-
-            // Обновление статуса
-            StatusText.Text = $"Симуляция: {_currentTimeStamp}/{SIMULATION_DURATION_MS} мс ({_viewModel.TqTnLenPoints.Count} точек)";
         }
 
         /// <summary>
@@ -308,6 +361,65 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             float baseRPM = RPM_MAX * (0.7f + 0.3f * progress);
             float noise = (float)(_random.NextDouble() * 2 - 1) * (RPM_MAX * 0.1f); // ±10% шум
             return Math.Max(0, baseRPM + noise);
+        }
+
+        /// <summary>
+        /// Фоновая генерация точек симуляции в отдельном потоке
+        /// </summary>
+        private async Task GenerateSimulationDataInBackground(CancellationToken cancellationToken)
+        {
+            int currentTimeStamp = 0;
+            float currentTorque = 0;
+            float currentLength = _currentJointResult?.MVS_Len_mm ?? 0;
+            float currentTurns = 0;
+            TqTnLenPoint lastPoint = null;
+
+            try
+            {
+                while (currentTimeStamp < SIMULATION_DURATION_MS && !cancellationToken.IsCancellationRequested)
+                {
+                    // Прогресс симуляции (0.0 - 1.0)
+                    float progress = (float)currentTimeStamp / SIMULATION_DURATION_MS;
+
+                    // Генерация данных с линейным ростом и шумом
+                    currentTorque = GenerateTorqueValue(progress);
+                    currentLength = GenerateLengthValue(progress) / 1000;
+                    currentTurns = GenerateTurnsValue(progress);
+
+                    // Создание новой точки
+                    var newPoint = new TqTnLenPoint
+                    {
+                        TimeStamp = currentTimeStamp,
+                        Torque = currentTorque,
+                        Length = currentLength,
+                        Turns = currentTurns,
+                        TurnsPerMinute = 0
+                    };
+
+                    // Расчет TurnsPerMinute с вариацией
+                    if (lastPoint != null)
+                    {
+                        newPoint.TurnsPerMinute = GenerateRPMValue(progress);
+                    }
+
+                    // Сохраняем точку в поле (потокобезопасно)
+                    lock (_pointLock)
+                    {
+                        _latestPoint = newPoint;
+                    }
+
+                    lastPoint = newPoint;
+                    currentTimeStamp += SIMULATION_INTERVAL_MS;
+                    _viewModel.TqTnLenPoints.Add(lastPoint);
+
+                    // Ждем интервал симуляции
+                    await Task.Delay(SIMULATION_INTERVAL_MS, cancellationToken);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Нормальная остановка через CancellationToken
+            }
         }
 
         #endregion        

@@ -27,9 +27,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _recipeLoader = recipeLoader ?? throw new ArgumentNullException(nameof(_recipeLoader));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            // Инициализация таймера для обновления UI из фоновых потоков
-            InitializeUiUpdateTimer();
-
             //Подписываемся на события загрузчика рецептов
             _recipeLoader.RecipeLoaded += OnRecipeLoaded;
             _recipeLoader.RecipeLoadFailed += OnRecipeLoadFailed;
@@ -59,41 +56,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private IJointProcessWorker _jointProcessWorker;
         private IRecipeLoader _recipeLoader;
         private ILogger _logger;
-
-        // Буферизация точек для thread-safe добавления в UI-поток
-        private ConcurrentQueue<TqTnLenPoint> _pointsQueue = new ConcurrentQueue<TqTnLenPoint>();
-        private DispatcherTimer _uiUpdateTimer;
-        private volatile bool _isRecording = false; // Флаг активной записи точек
-        private TqTnLenPoint _lastPoint = null;
-
-        #region Инициализация и обработка фоновых событий
-
-        /// <summary>
-        /// Инициализация таймера для обновления UI из фонового потока
-        /// </summary>
-        private void InitializeUiUpdateTimer()
-        {
-            _uiUpdateTimer = new DispatcherTimer(DispatcherPriority.Normal)
-            {
-                Interval = TimeSpan.FromMilliseconds(30) // 30 мс = ~33 обновления в секунду
-            };
-            _uiUpdateTimer.Tick += UiUpdateTimer_Tick;
-            _uiUpdateTimer.Start();
-        }
-
         /// <summary>
         /// Обработчик новой точки данных из фонового потока
         /// </summary>
         private void OnNewTqTnLenPoint(object sender, TqTnLenPoint point)
         {
             JointProcessDataViewModel.ActualPoint = point;
-
-            // Складываем точку в очередь только если идёт запись
-            if (_isRecording)
-            {
-                _pointsQueue.Enqueue(point);
-                _lastPoint = point;
-            }
         }
 
         /// <summary>
@@ -101,14 +69,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// </summary>
         private void OnPipeAppear(object sender, JointResult result)
         {
-            // Маршалим в UI-поток
-            Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
-            {
-                // Очищаем очередь точек при появлении новой трубы
-                while (_pointsQueue.TryDequeue(out _)) { }
-
-                JointProcessChartViewModel.SetMvsData(result);
-            }));
+            JointProcessChartViewModel.SetMvsData(result);
         }
 
         /// <summary>
@@ -116,10 +77,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// </summary>
         private void OnRecordingBegun(object sender, EventArgs e)
         {
-            // Включаем запись точек
-            _isRecording = true;
-
+            _jointProcessWorker.NewTqTnLenPoint += AddPointToChart;
             JointProcessDataViewModel.BeginNewJointing();
+        }
+
+        private void AddPointToChart(object sender, TqTnLenPoint e)
+        {
+            JointProcessChartViewModel.TqTnLenPoints.Add(e);
         }
 
         /// <summary>
@@ -127,38 +91,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// </summary>
         private void OnRecordingFinished(object sender, JointResult result)
         {
-            // Останавливаем запись точек
-            _isRecording = false;
+            _jointProcessWorker.NewTqTnLenPoint -= AddPointToChart;
             JointProcessDataViewModel.FinishJointing(result);
-
         }
         private void OnJointFinished(object sender, JointResult r)
         {
             JointProcessChartViewModel.FinishJointing(r);
             JointProcessDataViewModel.FinishJointing(r);
         }
-
-        /// <summary>
-        /// Тик таймера - извлекаем точки из очереди и добавляем в UI
-        /// </summary>
-        private void UiUpdateTimer_Tick(object sender, EventArgs e)
-        {
-            if(_isRecording && _lastPoint != null)
-                JointProcessChartViewModel.TqTnLenPoints.Add(_lastPoint);
-            return;            
-
-            // Извлекаем все накопленные точки
-            while (_pointsQueue.TryDequeue(out var point))
-            {
-                // Обновляем график
-                JointProcessChartViewModel.TqTnLenPoints.Add(point);
-                // Обновляем текущие показания
-                JointProcessDataViewModel.ActualPoint = point;
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// Обработчик успешной загрузки рецепта
         /// </summary>
