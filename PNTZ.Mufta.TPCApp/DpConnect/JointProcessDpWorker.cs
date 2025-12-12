@@ -20,7 +20,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
     {
         public JointProcessDpWorker(ILogger logger)
         {
-            this.logger = logger;
+            this.logger = logger;            
         }
 
         ILogger logger;

@@ -10,6 +10,7 @@ using PNTZ.Mufta.TPCApp.View.Joint;
 using PNTZ.Mufta.TPCApp.View.MP;
 using PNTZ.Mufta.TPCApp.View.Recipe;
 using PNTZ.Mufta.TPCApp.View.Results;
+using PNTZ.Mufta.TPCApp.ViewModel.Joint;
 using Promatis.Core.Logging;
 
 using System;
@@ -34,7 +35,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public StatusBarViewModel StatusBarViewModel { get; set; }
 
         RecipeView RecipeView { get; set; }
-        JointProcessView jointView { get; set; }
+        JointView jointView { get; set; }
         MachineParamView MachineParamView { get; set; }
         JointResultsView ResultsView { get; set; }
         public ICommand NaviToRecipeViewCommand { get; private set; }
@@ -88,12 +89,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             MachineParamView = new MachineParamView();
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
-            jointView = new JointProcessView();
-            jointView.DataContext=  new JointProcessViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(),
+            jointView = new JointView();
+            jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(),
                         recViewModel as IRecipeLoader,
-                        logger,
-                        cli,
-                        repositoryContext
+                        logger                      
                         );
 
             ResultsView = new JointResultsView();

@@ -35,6 +35,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _jointProcessWorker.RecordingFinished += OnRecordingFinished;
             //Труба прошла оценку. Процесс завершен
             _jointProcessWorker.JointFinished += OnJointFinished;
+
+            _jointProcessWorker.CyclicallyListen = true;
         }
         /// <summary>
         /// Графики
