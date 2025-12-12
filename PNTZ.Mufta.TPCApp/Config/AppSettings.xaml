@@ -16,6 +16,9 @@
 
   Графики:
   - ChartMargin (тип: Double) - отступ для границ графиков (по умолчанию 0.05 = 5%)
+  - ChartUpdateInterval (тип: Int32) - интервал обновления графиков в мс (по умолчанию 25)
+  - DataUpdateInterval (тип: Int32) - интервал обновления данных в мс (по умолчанию 50)
+  - ChartBoundsUpdateFrequency (тип: Int32) - обновлять границы через N точек (по умолчанию 10)
 -->
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -26,5 +29,14 @@
 
     <!-- Пример: изменить отступ графиков на 10% -->
     <!-- <sys:Double x:Key="ChartMargin">0.10</sys:Double> -->
+
+    <!-- Пример: ускорить обновление графиков до 16 мс (~60 FPS) -->
+    <!-- <sys:Int32 x:Key="ChartUpdateInterval">16</sys:Int32> -->
+
+    <!-- Пример: замедлить обновление данных до 100 мс -->
+    <!-- <sys:Int32 x:Key="DataUpdateInterval">100</sys:Int32> -->
+
+    <!-- Пример: обновлять границы графиков чаще (через каждые 5 точек) -->
+    <!-- <sys:Int32 x:Key="ChartBoundsUpdateFrequency">5</sys:Int32> -->
 
 </ResourceDictionary>

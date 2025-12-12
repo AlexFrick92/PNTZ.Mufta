@@ -16,6 +16,15 @@ namespace PNTZ.Mufta.TPCApp.Styles
         /// <summary>ChartMargin - отступ для границ графиков (по умолчанию 0.05 = 5%)</summary>
         public static double ChartMargin => GetDouble("ChartMargin");
 
+        /// <summary>ChartUpdateInterval - интервал обновления графиков в миллисекундах (по умолчанию 25)</summary>
+        public static int ChartUpdateInterval => GetInt32("ChartUpdateInterval");
+
+        /// <summary>DataUpdateInterval - интервал обновления данных в миллисекундах (по умолчанию 50)</summary>
+        public static int DataUpdateInterval => GetInt32("DataUpdateInterval");
+
+        /// <summary>ChartBoundsUpdateFrequency - частота обновления границ графиков через N точек (по умолчанию 10)</summary>
+        public static int ChartBoundsUpdateFrequency => GetInt32("ChartBoundsUpdateFrequency");
+
 
         // ==========================================
         // Вспомогательные методы

@@ -3,6 +3,7 @@ using System.Windows.Threading;
 
 using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.View.Control;
 
 
@@ -13,9 +14,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     /// </summary>
     public class JointProcessDataViewModel : BaseViewModel
     {
-        // Интервал обновления отображаемых данных в миллисекундах
-        private const int ACTUAL_POINT_UPDATE_INTERVAL = 50;
-
         private JointRecipe _loadedRecipe;
         private JointResult _jointResult;
         //Время в секундах с начала процесса стыковки
@@ -205,9 +203,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         {
             _actualPointUpdateTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(ACTUAL_POINT_UPDATE_INTERVAL)
+                Interval = TimeSpan.FromMilliseconds(AppSettings.DataUpdateInterval)
             };
-            _actualPointUpdateTimer.Tick += (s, e) => OnPropertyChanged(nameof(ActualPoint));            
+            _actualPointUpdateTimer.Tick += (s, e) => OnPropertyChanged(nameof(ActualPoint));
         }
     }
 }

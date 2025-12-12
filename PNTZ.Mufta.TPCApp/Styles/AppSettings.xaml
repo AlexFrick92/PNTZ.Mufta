@@ -13,4 +13,13 @@
     <!-- Отступ для границ графиков (10% = 0.05) -->
     <sys:Double x:Key="ChartMargin">0.05</sys:Double>
 
+    <!-- Интервал обновления графиков в миллисекундах -->
+    <sys:Int32 x:Key="ChartUpdateInterval">25</sys:Int32>
+
+    <!-- Интервал обновления данных в миллисекундах -->
+    <sys:Int32 x:Key="DataUpdateInterval">75</sys:Int32>
+
+    <!-- Частота обновления границ графиков (через каждые N точек) -->
+    <sys:Int32 x:Key="ChartBoundsUpdateFrequency">10</sys:Int32>
+
 </ResourceDictionary>

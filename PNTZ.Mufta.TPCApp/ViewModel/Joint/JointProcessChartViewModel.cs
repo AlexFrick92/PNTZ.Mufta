@@ -21,11 +21,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     /// Управляет 4 графиками процесса муфтонавёртки.
     /// </summary>
     public class JointProcessChartViewModel : BaseViewModel
-    {
-        // Интервал обновления точек в миллисекундах
-        private const int POINT_UPDATE_INTERVAL = 25;
-        // Обновлять границы графиков через каждые N точек
-        private const int BOUNDS_UPDATE_FREQUENCY = 10; 
+    { 
         /// <summary>
         /// График: Момент/обороты
         /// </summary>
@@ -48,11 +44,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
         public JointProcessChartViewModel()
         {            
-            //TqTnLenPoints.CollectionChanged += OnTqTnLenPointsChanged;
+            //_tqTnLenPoints.CollectionChanged += OnTqTnLenPointsChanged;
             InitializeCharts();
             InitializeUpdateTimer();
         }
-        private ObservableCollection<TqTnLenPoint> TqTnLenPoints = new ObservableCollection<TqTnLenPoint>();
+        private ObservableCollection<TqTnLenPoint> _tqTnLenPoints = new ObservableCollection<TqTnLenPoint>();
         private DispatcherTimer _pointUpdateTimer = new DispatcherTimer(DispatcherPriority.Background);
         private int _pointCounter = 0; // Счетчик для throttling обновления границ графиков
 
@@ -67,9 +63,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         public void ClearCharts()
         {
             if (Application.Current.Dispatcher.CheckAccess())
-                TqTnLenPoints.Clear();
+                _tqTnLenPoints.Clear();
             else
-                Application.Current.Dispatcher.Invoke(() => TqTnLenPoints.Clear());
+                Application.Current.Dispatcher.Invoke(() => _tqTnLenPoints.Clear());
 
             while (TqTnLenPointsQueue.TryDequeue(out var point)) { }
             _pointCounter = 0;
@@ -92,7 +88,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
         public void RecordingStop()
         {
-            _pointUpdateTimer.Stop();            
+            _pointUpdateTimer.Stop();
+            UpdateChartBoundsIfNeeded(_tqTnLenPoints.Last());
         }
         /// <summary>
         /// Свинчивание завершено
@@ -161,10 +158,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 AppColors.ChartTorqueTime_Line as SolidColorBrush ?? Brushes.Purple,
                 2.0));
 
-            TorqueTurnsChart.ChartData = TqTnLenPoints;
-            TurnsPerMinuteTurnsChart.ChartData = TqTnLenPoints;
-            TorqueLengthChart.ChartData = TqTnLenPoints;
-            TorqueTimeChart.ChartData = TqTnLenPoints;
+            TorqueTurnsChart.ChartData = _tqTnLenPoints;
+            TurnsPerMinuteTurnsChart.ChartData = _tqTnLenPoints;
+            TorqueLengthChart.ChartData = _tqTnLenPoints;
+            TorqueTimeChart.ChartData = _tqTnLenPoints;
             // Уведомляем View о готовности всех графиков
             OnPropertyChanged(nameof(TorqueTurnsChart));
             OnPropertyChanged(nameof(TurnsPerMinuteTurnsChart));
@@ -175,7 +172,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
         private void InitializeUpdateTimer()
         {
-            _pointUpdateTimer.Interval = TimeSpan.FromMilliseconds(POINT_UPDATE_INTERVAL);
+            _pointUpdateTimer.Interval = TimeSpan.FromMilliseconds(AppSettings.ChartUpdateInterval);
             _pointUpdateTimer.Tick += (s, e) =>
             {
                 TqTnLenPoint latestPoint = null;
@@ -183,15 +180,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 while (TqTnLenPointsQueue.TryDequeue(out var point))
                 {
                     latestPoint = point;
-                    TqTnLenPoints.Add(point);
+                    _tqTnLenPoints.Add(point);
                     pointsAdded++;
                 }
 
                 if (latestPoint != null)
                 {
                     _pointCounter += pointsAdded;
-                    // Обновляем границы только через каждые BOUNDS_UPDATE_FREQUENCY точек
-                    if (_pointCounter >= BOUNDS_UPDATE_FREQUENCY)
+                    // Обновляем границы только через каждые N точек (из настроек)
+                    if (_pointCounter >= AppSettings.ChartBoundsUpdateFrequency)
                     {
                         UpdateChartBoundsIfNeeded(latestPoint);
                         _pointCounter = 0;
@@ -435,16 +432,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         // Подгоняет границы всех графиков под финальные данные с небольшим отступом
         private void FitChartsToData()
         {
-            if (TqTnLenPoints == null || TqTnLenPoints.Count == 0)
+            if (_tqTnLenPoints == null || _tqTnLenPoints.Count == 0)
                 return;
 
             // График: Момент/обороты
             FitChartBounds(
                 TorqueTurnsChart,
-                TqTnLenPoints.Min(p => p.Turns),
-                TqTnLenPoints.Max(p => p.Turns),
-                TqTnLenPoints.Min(p => p.Torque),
-                TqTnLenPoints.Max(p => p.Torque),
+                _tqTnLenPoints.Min(p => p.Turns),
+                _tqTnLenPoints.Max(p => p.Turns),
+                _tqTnLenPoints.Min(p => p.Torque),
+                _tqTnLenPoints.Max(p => p.Torque),
                 AppSettings.ChartMargin,
                 adjustXMin: true,
                 adjustYMin: true);
@@ -452,10 +449,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             // График: (Обороты/Мин)/обороты
             FitChartBounds(
                 TurnsPerMinuteTurnsChart,
-                TqTnLenPoints.Min(p => p.Turns),
-                TqTnLenPoints.Max(p => p.Turns),
-                TqTnLenPoints.Min(p => p.TurnsPerMinute),
-                TqTnLenPoints.Max(p => p.TurnsPerMinute),
+                _tqTnLenPoints.Min(p => p.Turns),
+                _tqTnLenPoints.Max(p => p.Turns),
+                _tqTnLenPoints.Min(p => p.TurnsPerMinute),
+                _tqTnLenPoints.Max(p => p.TurnsPerMinute),
                 AppSettings.ChartMargin,
                 adjustXMin: true,
                 adjustYMin: true);
@@ -463,10 +460,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             // График: Момент/длина (XMin сохраняем текущее значение)
             FitChartBounds(
                 TorqueLengthChart,
-                TqTnLenPoints.Min(p => p.Length_mm),
-                TqTnLenPoints.Max(p => p.Length_mm),
-                TqTnLenPoints.Min(p => p.Torque),
-                TqTnLenPoints.Max(p => p.Torque),
+                _tqTnLenPoints.Min(p => p.Length_mm),
+                _tqTnLenPoints.Max(p => p.Length_mm),
+                _tqTnLenPoints.Min(p => p.Torque),
+                _tqTnLenPoints.Max(p => p.Torque),
                 AppSettings.ChartMargin,
                 adjustXMin: false, // Сохраняем XMin установленный в PipeAppear
                 adjustYMin: true);
@@ -474,10 +471,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             // График: Момент/время
             FitChartBounds(
                 TorqueTimeChart,
-                TqTnLenPoints.Min(p => p.TimeStamp),
-                TqTnLenPoints.Max(p => p.TimeStamp),
-                TqTnLenPoints.Min(p => p.Torque),
-                TqTnLenPoints.Max(p => p.Torque),
+                _tqTnLenPoints.Min(p => p.TimeStamp),
+                _tqTnLenPoints.Max(p => p.TimeStamp),
+                _tqTnLenPoints.Min(p => p.Torque),
+                _tqTnLenPoints.Max(p => p.Torque),
                 AppSettings.ChartMargin,
                 adjustXMin: true,
                 adjustYMin: true);
