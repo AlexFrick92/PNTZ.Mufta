@@ -45,6 +45,7 @@
   Окно процесса: Заголовки секций:
   - JointView_SectionHeader_Foreground      - цвет текста заголовка секции
   - JointView_SectionHeader_Background      - фон заголовка секции
+  - JointView_GridBorder                    - цвет сетки разделителей
 -->
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -65,5 +66,8 @@
     <!-- Пример: изменить цвет заголовков секций -->
     <!-- <SolidColorBrush x:Key="JointView_SectionHeader_Foreground" Color="DarkBlue"/> -->
     <!-- <SolidColorBrush x:Key="JointView_SectionHeader_Background" Color="#E8E8E8"/> -->
+
+    <!-- Пример: изменить цвет сетки разделителей -->
+    <!-- <SolidColorBrush x:Key="JointView_GridBorder" Color="DarkGray"/> -->
 
 </ResourceDictionary>

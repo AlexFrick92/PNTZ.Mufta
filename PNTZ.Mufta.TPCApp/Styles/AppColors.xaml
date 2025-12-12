@@ -126,4 +126,7 @@
     <SolidColorBrush x:Key="JointView_SectionHeader_Foreground" Color="Gray"/>
     <SolidColorBrush x:Key="JointView_SectionHeader_Background" Color="#F3F3F3"/>
 
+    <!-- Сетка разделителей -->
+    <SolidColorBrush x:Key="JointView_GridBorder" Color="LightGray"/>
+
 </ResourceDictionary>

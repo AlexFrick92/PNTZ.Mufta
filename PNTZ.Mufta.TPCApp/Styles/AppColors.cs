@@ -177,6 +177,9 @@ namespace PNTZ.Mufta.TPCApp.Styles
         /// <summary>JointView_SectionHeader_Background - фон заголовка секции (ПАРАМЕТРЫ, ГРАФИКИ)</summary>
         public static Brush JointView_SectionHeader_Background => Get("JointView_SectionHeader_Background");
 
+        /// <summary>JointView_GridBorder - цвет сетки разделителей</summary>
+        public static Brush JointView_GridBorder => Get("JointView_GridBorder");
+
 
         // ==========================================
         // Вспомогательный метод
