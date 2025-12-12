@@ -100,4 +100,13 @@
     <FontWeight x:Key="ParameterDisplay_Value_FontWeight">Normal</FontWeight>
     <FontFamily x:Key="ParameterDisplay_Value_FontFamily">Segoe UI</FontFamily>
 
+    <!-- ========================================== -->
+    <!-- Окно процесса: Заголовки секций           -->
+    <!-- ========================================== -->
+
+    <!-- Заголовок секции (ПАРАМЕТРЫ, ГРАФИКИ) -->
+    <sys:Double x:Key="JointView_SectionHeader_FontSize">18</sys:Double>
+    <FontWeight x:Key="JointView_SectionHeader_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="JointView_SectionHeader_FontFamily">Segoe UI</FontFamily>
+
 </ResourceDictionary>

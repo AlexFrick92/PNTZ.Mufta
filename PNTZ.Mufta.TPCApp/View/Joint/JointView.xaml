@@ -27,14 +27,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Column="0"     
+        <Border Grid.Column="0"
             BorderThickness="0"
-            Background="#F3F3F3">
+            Background="{StaticResource JointView_SectionHeader_Background}">
             <Label Content="ПАРАМЕТРЫ"
-                   Foreground="Gray"
-                FontSize="18"                         
-                Margin="10"                                            
-                BorderThickness="0"/>
+                   Foreground="{StaticResource JointView_SectionHeader_Foreground}"
+                   FontSize="{StaticResource JointView_SectionHeader_FontSize}"
+                   FontWeight="{StaticResource JointView_SectionHeader_FontWeight}"
+                   FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
+                   Margin="10"
+                   BorderThickness="0"/>
         </Border>
         
         <ContentControl Grid.Column="0" Grid.Row="1" Margin="5">
@@ -42,14 +44,16 @@
         </ContentControl>
 
 
-        <Border Grid.Column="1"     
+        <Border Grid.Column="1"
             BorderThickness="0"
-            Background="#F3F3F3">
+            Background="{StaticResource JointView_SectionHeader_Background}">
             <Label Content="ГРАФИКИ"
-                   Foreground="Gray"
-                FontSize="18"                         
-                Margin="10"                                            
-                BorderThickness="0"/>   
+                   Foreground="{StaticResource JointView_SectionHeader_Foreground}"
+                   FontSize="{StaticResource JointView_SectionHeader_FontSize}"
+                   FontWeight="{StaticResource JointView_SectionHeader_FontWeight}"
+                   FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
+                   Margin="10"
+                   BorderThickness="0"/>
         </Border>
 
         <ContentControl Grid.Column="1" Grid.Row="1">

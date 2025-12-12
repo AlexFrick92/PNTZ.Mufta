@@ -45,6 +45,9 @@
   - ParameterDisplay_Label_FontSize, ParameterDisplay_Label_FontWeight, ParameterDisplay_Label_FontFamily
   - ParameterDisplay_Value_FontSize, ParameterDisplay_Value_FontWeight, ParameterDisplay_Value_FontFamily
 
+  Окно процесса: Заголовки секций:
+  - JointView_SectionHeader_FontSize, JointView_SectionHeader_FontWeight, JointView_SectionHeader_FontFamily
+
   Доступные значения FontWeight:
   - Thin, ExtraLight, Light, Normal, Medium, SemiBold, Bold, ExtraBold, Black
 -->
@@ -63,5 +66,11 @@
 
     <!-- Пример: сделать метки параметров жирными -->
     <!-- <FontWeight x:Key="ParameterDisplay_Label_FontWeight">Bold</FontWeight> -->
+
+    <!-- Пример: увеличить размер шрифта заголовков секций -->
+    <!-- <sys:Double x:Key="JointView_SectionHeader_FontSize">20</sys:Double> -->
+
+    <!-- Пример: сделать заголовки секций полужирными -->
+    <!-- <FontWeight x:Key="JointView_SectionHeader_FontWeight">SemiBold</FontWeight> -->
 
 </ResourceDictionary>

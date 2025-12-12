@@ -118,4 +118,12 @@
     <SolidColorBrush x:Key="ParameterDisplay_Value_Foreground" Color="Black"/>
     <SolidColorBrush x:Key="ParameterDisplay_Value_Background" Color="Transparent"/>
 
+    <!-- ========================================== -->
+    <!-- Окно процесса: Заголовки секций           -->
+    <!-- ========================================== -->
+
+    <!-- Заголовок секции (ПАРАМЕТРЫ, ГРАФИКИ) -->
+    <SolidColorBrush x:Key="JointView_SectionHeader_Foreground" Color="Gray"/>
+    <SolidColorBrush x:Key="JointView_SectionHeader_Background" Color="#F3F3F3"/>
+
 </ResourceDictionary>

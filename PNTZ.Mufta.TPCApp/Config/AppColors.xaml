@@ -41,6 +41,10 @@
   - ParameterGood_Background                - фон при состоянии Good
   - ParameterBad_Foreground                 - цвет текста при состоянии Bad
   - ParameterBad_Background                 - фон при состоянии Bad
+
+  Окно процесса: Заголовки секций:
+  - JointView_SectionHeader_Foreground      - цвет текста заголовка секции
+  - JointView_SectionHeader_Background      - фон заголовка секции
 -->
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -57,5 +61,9 @@
     <!-- Пример: изменить цвета состояний Good/Bad -->
     <!-- <SolidColorBrush x:Key="ParameterGood_Background" Color="LightGreen"/> -->
     <!-- <SolidColorBrush x:Key="ParameterBad_Foreground" Color="Red"/> -->
+
+    <!-- Пример: изменить цвет заголовков секций -->
+    <!-- <SolidColorBrush x:Key="JointView_SectionHeader_Foreground" Color="DarkBlue"/> -->
+    <!-- <SolidColorBrush x:Key="JointView_SectionHeader_Background" Color="#E8E8E8"/> -->
 
 </ResourceDictionary>

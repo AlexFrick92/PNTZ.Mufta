@@ -174,6 +174,20 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Окно процесса: Заголовки секций
+        // ==========================================
+
+        /// <summary>JointView_SectionHeader - заголовок секции (размер шрифта)</summary>
+        public static double JointView_SectionHeader_FontSize => GetDouble("JointView_SectionHeader_FontSize");
+
+        /// <summary>JointView_SectionHeader - заголовок секции (толщина шрифта)</summary>
+        public static FontWeight JointView_SectionHeader_FontWeight => GetFontWeight("JointView_SectionHeader_FontWeight");
+
+        /// <summary>JointView_SectionHeader - заголовок секции (семейство шрифта)</summary>
+        public static FontFamily JointView_SectionHeader_FontFamily => GetFontFamily("JointView_SectionHeader_FontFamily");
+
+
+        // ==========================================
         // Вспомогательные методы
         // ==========================================
 

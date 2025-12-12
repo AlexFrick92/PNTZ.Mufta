@@ -168,6 +168,17 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Окно процесса: Заголовки секций
+        // ==========================================
+
+        /// <summary>JointView_SectionHeader_Foreground - цвет текста заголовка секции (ПАРАМЕТРЫ, ГРАФИКИ)</summary>
+        public static Brush JointView_SectionHeader_Foreground => Get("JointView_SectionHeader_Foreground");
+
+        /// <summary>JointView_SectionHeader_Background - фон заголовка секции (ПАРАМЕТРЫ, ГРАФИКИ)</summary>
+        public static Brush JointView_SectionHeader_Background => Get("JointView_SectionHeader_Background");
+
+
+        // ==========================================
         // Вспомогательный метод
         // ==========================================
 
