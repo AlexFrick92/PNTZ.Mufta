@@ -11,10 +11,7 @@
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1000">
 
-    <Grid hlp:GridHelper.ShowBorders="True"
-            hlp:GridHelper.BorderBrush="LightGray"
-            hlp:GridHelper.BorderThickness="1"
-            hlp:GridHelper.ShowOutline="False">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>

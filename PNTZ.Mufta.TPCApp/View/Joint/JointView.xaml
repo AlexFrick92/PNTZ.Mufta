@@ -31,7 +31,7 @@
             BorderThickness="0"
             Background="#F3F3F3">
             <Label Content="ПАРАМЕТРЫ"
-                   Foreground="DarkGray"
+                   Foreground="Gray"
                 FontSize="18"                         
                 Margin="10"                                            
                 BorderThickness="0"/>
@@ -46,7 +46,7 @@
             BorderThickness="0"
             Background="#F3F3F3">
             <Label Content="ГРАФИКИ"
-                   Foreground="DarkGray"
+                   Foreground="Gray"
                 FontSize="18"                         
                 Margin="10"                                            
                 BorderThickness="0"/>   

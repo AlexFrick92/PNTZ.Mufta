@@ -23,7 +23,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     public class JointProcessChartViewModel : BaseViewModel
     {
         // Интервал обновления точек в миллисекундах
-        private const int POINT_UPDATE_INTERVAL = 20; 
+        private const int POINT_UPDATE_INTERVAL = 25; 
         /// <summary>
         /// График: Момент/обороты
         /// </summary>
@@ -50,9 +50,56 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             InitializeCharts();
             InitializeUpdateTimer();
         }
-        public ConcurrentQueue<TqTnLenPoint> TqTnLenPointsQueue { get; private set; } = new ConcurrentQueue<TqTnLenPoint>();
         private ObservableCollection<TqTnLenPoint> TqTnLenPoints = new ObservableCollection<TqTnLenPoint>();
-        private DispatcherTimer _pointUpdateTimer = new DispatcherTimer();
+        private DispatcherTimer _pointUpdateTimer = new DispatcherTimer(DispatcherPriority.Background);
+
+        #region публичные свойства и методы
+        /// <summary>
+        /// Очередь добавления точек из фонового потока
+        /// </summary>
+        public ConcurrentQueue<TqTnLenPoint> TqTnLenPointsQueue { get; private set; } = new ConcurrentQueue<TqTnLenPoint>();        
+        /// <summary>
+        /// Очистить графики
+        /// </summary>
+        public void ClearCharts()
+        {
+            if (Application.Current.Dispatcher.CheckAccess())
+                TqTnLenPoints.Clear();
+            else
+                Application.Current.Dispatcher.Invoke(() => TqTnLenPoints.Clear());
+            
+            while (TqTnLenPointsQueue.TryDequeue(out var point)) { }            
+        }
+        /// <summary>
+        /// Настроить графики при появлении трубы
+        /// </summary>
+        /// <param name="result"></param>
+        public void PipeAppear(JointResult result)
+        {
+            TorqueLengthChart.XMin = result.MVS_Len_mm;
+            ClearCharts();
+        }
+        /// <summary>
+        /// Запуск записи графиков
+        /// </summary>
+        public void RecordingBegin()
+        {                        
+            _pointUpdateTimer.Start();            
+        }
+        public void RecordingStop()
+        {
+            _pointUpdateTimer.Stop();            
+        }
+        /// <summary>
+        /// Свинчивание завершено
+        /// </summary>
+        /// <param name="result"></param>
+        public void FinishJointing(JointResult result)
+        {
+            if (result.ResultTotal == 1)
+                FitChartsToData();
+            _pointUpdateTimer.Stop();
+        }
         /// <summary>
         /// Первичная настройка графиков
         /// </summary>
@@ -120,60 +167,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             OnPropertyChanged(nameof(TorqueLengthChart));
             OnPropertyChanged(nameof(TorqueTimeChart));
         }
+        #endregion
 
-        public void ClearCharts()
-        {
-            if (Application.Current.Dispatcher.CheckAccess())
-            {
-                TqTnLenPoints.Clear();
-            }
-            else
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    TqTnLenPoints.Clear();
-                });
-            }
-
-            while (TqTnLenPointsQueue.TryDequeue(out var point))
-            {
-            }
-        }
-        /// <summary>
-        /// Настроить графики при появлении трубы
-        /// </summary>
-        /// <param name="result"></param>
-        public void PipeAppear(JointResult result)
-        {
-            TorqueLengthChart.XMin = result.MVS_Len_mm;
-            ClearCharts();
-        }
-        /// <summary>
-        /// Запуск записи графиков
-        /// </summary>
-        public void RecordingBegin()
-        {                        
-            _pointUpdateTimer.Start();
-            Debug.WriteLine("RecordingBegin - Chart Timer Started");
-        }
-        public void RecordingStop()
-        {
-            _pointUpdateTimer.Stop();
-            Debug.WriteLine("RecordingStop - Chart Timer Stopped");
-        }
-        /// <summary>
-        /// Свинчивание завершено
-        /// </summary>
-        /// <param name="result"></param>
-        public void FinishJointing(JointResult result)
-        {
-            if (result.ResultTotal == 1)
-                FitChartsToData();
-            _pointUpdateTimer.Stop();
-        }        
         private void InitializeUpdateTimer()
-        {               
-            _pointUpdateTimer.Interval = TimeSpan.FromMilliseconds(POINT_UPDATE_INTERVAL);
+        {
+            _pointUpdateTimer.Interval = TimeSpan.FromMilliseconds(POINT_UPDATE_INTERVAL);            
             _pointUpdateTimer.Tick += (s, e) =>
             {
                 TqTnLenPoint latestPoint = null;
@@ -184,35 +182,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 }
                 if(latestPoint != null)
                     UpdateChartBoundsIfNeeded(latestPoint);
-            };            
+            };
         }
-        /// <summary>
-        /// Проверяет, не выходит ли новая точка за границы графиков,
-        /// и расширяет границы при необходимости с запасом
-        /// </summary>
-        /// <param name="point">Новая точка данных</param>
+        // Проверяет, не выходит ли новая точка за границы графиков,
+        // и расширяет границы при необходимости с запасом
         private void UpdateChartBoundsIfNeeded(TqTnLenPoint point)
         {
             // График: Момент/обороты
             ExpandBoundsIfNeeded(TorqueTurnsChart, point.Turns, point.Torque, AppSettings.ChartMargin);
-
             // График: (Обороты/Мин)/обороты
             ExpandBoundsIfNeeded(TurnsPerMinuteTurnsChart, point.Turns, point.TurnsPerMinute, AppSettings.ChartMargin);
-
             // График: Момент/длина
             ExpandBoundsIfNeeded(TorqueLengthChart, point.Length_mm, point.Torque, AppSettings.ChartMargin);
-
             // График: Момент/время
             ExpandBoundsIfNeeded(TorqueTimeChart, point.TimeStamp, point.Torque, AppSettings.ChartMargin);
         }
 
-        /// <summary>
-        /// Расширяет границы графика если значения выходят за пределы
-        /// </summary>
-        /// <param name="chart">График</param>
-        /// <param name="xValue">Значение по оси X</param>
-        /// <param name="yValue">Значение по оси Y</param>
-        /// <param name="margin">Коэффициент запаса при расширении (например, 0.1 для 10%)</param>
+        // Расширяет границы графика если значения выходят за пределы
         private void ExpandBoundsIfNeeded(ChartViewModel chart, double xValue, double yValue, double margin)
         {
             // Проверка и расширение оси X
@@ -431,7 +417,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         #endregion
 
         #region Настройка графиков по данным точки
-        /// Подгоняет границы всех графиков под финальные данные с небольшим отступом
+        // Подгоняет границы всех графиков под финальные данные с небольшим отступом
         private void FitChartsToData()
         {
             if (TqTnLenPoints == null || TqTnLenPoints.Count == 0)

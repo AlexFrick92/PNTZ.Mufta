@@ -1,12 +1,10 @@
-﻿using Desktop.MVVM;
+﻿using System;
+using System.Windows.Threading;
+
+using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.View.Control;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Threading;
+
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 {
@@ -15,15 +13,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     /// </summary>
     public class JointProcessDataViewModel : BaseViewModel
     {
-        //Текущие показания датчиков
-        private TqTnLenPoint _actualPoint;
-        public TqTnLenPoint ActualPoint
-        {
-            get { return _actualPoint; }
-            set { _actualPoint = value; OnPropertyChanged(nameof(ActualPoint)); }
-        }
-        //Загруженный рецепт
+        // Интервал обновления отображаемых данных в миллисекундах
+        private const int ACTUAL_POINT_UPDATE_INTERVAL = 50;
+
         private JointRecipe _loadedRecipe;
+        private JointResult _jointResult;
+        //Время в секундах с начала процесса стыковки
+        private int _secondsFromBeginJointing;
+        //Статус оценки результата
+        private ParameterState _resultTotalState;
+        private ParameterState _resultTorqueState;
+        private ParameterState _resultLengthState;
+        private ParameterState _resultShoulderState;
+        //Таймер времени свинчивания
+        private DispatcherTimer _timer;
+        private DateTime _jointingStartTime;
+        //Таймер обновления ActualPoint (throttling)
+        private DispatcherTimer _actualPointUpdateTimer;
+
+        #region MVVM свойства для UI       
+        /// <summary>
+        /// Загруженный рецепт
+        /// </summary>
         public JointRecipe LoadedRecipe
         {
             get { return _loadedRecipe; }
@@ -35,61 +46,95 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 OnPropertyChanged(nameof(IsShoulderMode));
             }
         }
-        //Результат
-        private JointResult _jointResult;
+        /// <summary>
+        /// Результат стыковки
+        /// </summary>
         public JointResult JointResult
         {
             get { return _jointResult; }
             set { _jointResult = value; OnPropertyChanged(nameof(JointResult)); }
         }
-        //Время в секундах с начала процесса стыковки
-        private int _secondsFromBeginJointing;
+        /// <summary>
+        /// Количество секунд с начала стыковки
+        /// </summary>
         public int SecondsFromBeginJointing
         {
             get { return _secondsFromBeginJointing; }
             set { _secondsFromBeginJointing = value; OnPropertyChanged(nameof(SecondsFromBeginJointing)); }
         }
-        //Статус оценки результата
-        private ParameterState _resultTotalState;
+        /// <summary>
+        /// Статус общей оценки результата
+        /// </summary>
         public ParameterState ResultTotalState
         {
             get { return _resultTotalState; }
             set { _resultTotalState = value; OnPropertyChanged(nameof(ResultTotalState)); }
         }
-
-        private ParameterState _resultTorqueState;
+        /// <summary>
+        /// Статус момент - если превышен/не достигнут порог
+        /// </summary>
         public ParameterState ResultTorqueState
         {
             get { return _resultTorqueState; }
             set { _resultTorqueState = value; OnPropertyChanged(nameof(ResultTorqueState)); }
         }
-
-        private ParameterState _resultLengthState;
+        /// <summary>
+        /// Статус длины - если превышен/не достигнут порог
+        /// </summary>
         public ParameterState ResultLengthState
         {
             get { return _resultLengthState; }
             set { _resultLengthState = value; OnPropertyChanged(nameof(ResultLengthState)); }
         }
-
-        private ParameterState _resultShoulderState;
+        /// <summary>
+        /// Статус плеча - если превышен/не достигнут порог
+        /// </summary>
         public ParameterState ResultShoulderState
         {
             get { return _resultShoulderState; }
             set { _resultShoulderState = value; OnPropertyChanged(nameof(ResultShoulderState)); }
         }
-
+        /// <summary>
+        /// Выбранный режим "по длине" - для отображения соответствующих параметров
+        /// </summary>
         public bool IsLengthMode => LoadedRecipe != null && (LoadedRecipe.JointMode == JointMode.Length || LoadedRecipe.JointMode == JointMode.TorqueLength);
+        /// <summary>
+        /// Выбранный режим "по плечу" - для отображения соответствующих параметров
+        /// </summary>
         public bool IsShoulderMode => LoadedRecipe != null && LoadedRecipe.JointMode == JointMode.TorqueShoulder;
 
-        //Таймер времени свинчивания
-        private DispatcherTimer _timer;
-        private DateTime _jointingStartTime;        
+        #endregion
+
+        public JointProcessDataViewModel()
+        {
+            InitializeActualPointTimer();
+            _actualPointUpdateTimer.Start();
+        }
+
+        #region Публичные свойтва и методы
+
+        /// <summary>
+        /// Показания датчиков
+        /// </summary>
+        public TqTnLenPoint ActualPoint { get; set; }        
+        /// <summary>
+        /// Задать новый рецепт
+        /// </summary>
+        /// <param name="jointRecipe"></param>
         public void UpdateRecipe(JointRecipe jointRecipe)
         {
             LoadedRecipe = jointRecipe;
         }
+        public void PipeAppear()
+        {
+            ResetResultsState();
+        }
+        /// <summary>
+        /// Начать новое свинчивание
+        /// </summary>
         public void BeginNewJointing()
         {
+            ResetResultsState();
             _timer = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromSeconds(1)
@@ -98,11 +143,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _jointingStartTime = DateTime.Now;
             SecondsFromBeginJointing = 0;
             _timer.Start();
-            JointResult = null;
-            ResultTotalState = ParameterState.Normal;
-            ResultTorqueState = ParameterState.Normal;
-            ResultLengthState = ParameterState.Normal;
-            ResultShoulderState = ParameterState.Normal;            
         }
         public void FinishJointing(JointResult jointResult)
         {
@@ -147,9 +187,27 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 ResultShoulderState = ParameterState.Normal;
             }
         }
+        #endregion
+        private void ResetResultsState()
+        {
+            JointResult = null;
+            ResultTotalState = ParameterState.Normal;
+            ResultTorqueState = ParameterState.Normal;
+            ResultLengthState = ParameterState.Normal;
+            ResultShoulderState = ParameterState.Normal;
+        }
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             SecondsFromBeginJointing = (int)(DateTime.Now - _jointingStartTime).TotalSeconds;
+        }
+
+        private void InitializeActualPointTimer()
+        {
+            _actualPointUpdateTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(ACTUAL_POINT_UPDATE_INTERVAL)
+            };
+            _actualPointUpdateTimer.Tick += (s, e) => OnPropertyChanged(nameof(ActualPoint));            
         }
     }
 }

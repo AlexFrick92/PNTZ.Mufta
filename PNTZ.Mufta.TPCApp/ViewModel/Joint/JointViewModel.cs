@@ -57,6 +57,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private void OnPipeAppear(object sender, JointResult result)
         {
             JointProcessChartViewModel.PipeAppear(result);
+            JointProcessDataViewModel.PipeAppear();
         }
         /// Обработчик начала записи из фонового потока
         private void OnRecordingBegun(object sender, EventArgs e)
