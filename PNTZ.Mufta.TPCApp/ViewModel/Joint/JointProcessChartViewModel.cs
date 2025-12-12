@@ -51,6 +51,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private ObservableCollection<TqTnLenPoint> _tqTnLenPoints = new ObservableCollection<TqTnLenPoint>();
         private DispatcherTimer _pointUpdateTimer = new DispatcherTimer(DispatcherPriority.Background);
         private int _pointCounter = 0; // Счетчик для throttling обновления границ графиков
+        private ConstantLineViewModel _shoulderPointYLine;
+        private ConstantLineViewModel _shoulderPointXLine;
+        private JointRecipe _actualRecipe;
 
         #region публичные свойства и методы
         /// <summary>
@@ -69,6 +72,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
             while (TqTnLenPointsQueue.TryDequeue(out var point)) { }
             _pointCounter = 0;
+
+            if (_shoulderPointXLine != null)
+            {
+                TorqueTurnsChart.XConstantLines.Remove(_shoulderPointXLine);
+                _shoulderPointXLine = null; 
+            }
+            if (_shoulderPointYLine != null)
+            {
+                TorqueTurnsChart.YConstantLines.Remove(_shoulderPointYLine);
+                _shoulderPointYLine = null;
+            }
         }
         /// <summary>
         /// Настроить графики при появлении трубы
@@ -91,6 +105,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _pointUpdateTimer.Stop();
             UpdateChartBoundsIfNeeded(_tqTnLenPoints.Last());
         }
+        public void AutoEvaluationResult(JointResult result)
+        {
+            if(_actualRecipe.JointMode == JointMode.TorqueShoulder)
+            {
+                _shoulderPointXLine = new ConstantLineViewModel(result.FinalShoulderTurns, "Буртик", AppColors.ChartShoulderMin_Line, AppColors.ChartShoulderMin_Label, "F0")
+                {
+                    FontSize = AppFonts.ChartShoulderMin_FontSize,
+                    FontWeight = AppFonts.ChartShoulderMin_FontWeight,
+                    FontFamily = AppFonts.ChartShoulderMin_FontFamily
+                };
+                _shoulderPointYLine = new ConstantLineViewModel(result.FinalShoulderTorque, "Буртик", AppColors.ChartShoulderMax_Line, AppColors.ChartShoulderMax_Label, "F0")
+                {
+                    FontSize = AppFonts.ChartShoulderMax_FontSize,
+                    FontWeight = AppFonts.ChartShoulderMax_FontWeight,
+                    FontFamily = AppFonts.ChartShoulderMax_FontFamily
+                };
+                
+                TorqueTurnsChart.XConstantLines.Add(_shoulderPointXLine);
+                TorqueTurnsChart.YConstantLines.Add(_shoulderPointYLine);
+            }
+        }
+
         /// <summary>
         /// Свинчивание завершено
         /// </summary>
@@ -245,6 +281,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <param name="recipe"></param>
         public void UpdateRecipe(JointRecipe recipe)
         {
+            _actualRecipe = recipe;
             UpdateRanges(recipe);
             UpdateConstantLines(recipe);
             UpdateStrips(recipe);
@@ -333,7 +370,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 FontSize = AppFonts.ChartShoulderMax_FontSize,
                 FontWeight = AppFonts.ChartShoulderMax_FontWeight,
                 FontFamily = AppFonts.ChartShoulderMax_FontFamily
-            };
+            };            
 
             TorqueTurnsChart.YConstantLines.Clear();
             TorqueTurnsChart.XConstantLines.Clear();
