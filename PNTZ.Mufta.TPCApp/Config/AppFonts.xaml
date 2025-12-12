@@ -41,6 +41,10 @@
   - ChartAxisX_FontSize, ChartAxisX_FontWeight, ChartAxisX_FontFamily
   - ChartAxisY_FontSize, ChartAxisY_FontWeight, ChartAxisY_FontFamily
 
+  Контрол отображения параметра:
+  - ParameterDisplay_Label_FontSize, ParameterDisplay_Label_FontWeight, ParameterDisplay_Label_FontFamily
+  - ParameterDisplay_Value_FontSize, ParameterDisplay_Value_FontWeight, ParameterDisplay_Value_FontFamily
+
   Доступные значения FontWeight:
   - Thin, ExtraLight, Light, Normal, Medium, SemiBold, Bold, ExtraBold, Black
 -->
@@ -53,5 +57,11 @@
 
     <!-- Пример: увеличить размер шрифта для минимальной границы -->
     <!-- <sys:Double x:Key="ChartLimitMin_FontSize">14</sys:Double> -->
+
+    <!-- Пример: увеличить размер шрифта значений параметров -->
+    <!-- <sys:Double x:Key="ParameterDisplay_Value_FontSize">16</sys:Double> -->
+
+    <!-- Пример: сделать метки параметров жирными -->
+    <!-- <FontWeight x:Key="ParameterDisplay_Label_FontWeight">Bold</FontWeight> -->
 
 </ResourceDictionary>

@@ -43,7 +43,7 @@
         <!--Линия под заголовком-->
         <Style x:Key="HeaderUnderStroke" TargetType="Border">
             <Setter Property="BorderThickness" Value="0,1,0,0"/>
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource JointProcess_ParamHeader_Foreground}"/>
             <Setter Property="Margin" Value="0,0,0,5"/>
         </Style>
 

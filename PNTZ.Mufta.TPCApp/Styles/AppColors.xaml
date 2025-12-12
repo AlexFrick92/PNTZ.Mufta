@@ -107,4 +107,15 @@
     <!-- Заголовок параметра -->
     <SolidColorBrush x:Key="JointProcess_ParamHeader_Foreground" Color="Black"/>
 
+    <!-- ========================================== -->
+    <!-- Контрол отображения параметра             -->
+    <!-- ========================================== -->
+
+    <!-- Метка параметра (Label) -->
+    <SolidColorBrush x:Key="ParameterDisplay_Label_Foreground" Color="Black"/>
+
+    <!-- Значение параметра (TextBox) - базовый цвет -->
+    <SolidColorBrush x:Key="ParameterDisplay_Value_Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="ParameterDisplay_Value_Background" Color="Transparent"/>
+
 </ResourceDictionary>

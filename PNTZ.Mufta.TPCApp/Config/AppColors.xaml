@@ -32,6 +32,15 @@
 
   Заголовки осей:
   - ChartAxisX_Foreground, ChartAxisY_Foreground
+
+  Контрол отображения параметра:
+  - ParameterDisplay_Label_Foreground       - цвет текста метки
+  - ParameterDisplay_Value_Foreground       - цвет текста значения (базовый)
+  - ParameterDisplay_Value_Background       - фон значения (базовый)
+  - ParameterGood_Foreground                - цвет текста при состоянии Good
+  - ParameterGood_Background                - фон при состоянии Good
+  - ParameterBad_Foreground                 - цвет текста при состоянии Bad
+  - ParameterBad_Background                 - фон при состоянии Bad
 -->
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -41,5 +50,12 @@
 
     <!-- Пример: изменить цвет минимальной границы -->
     <!-- <SolidColorBrush x:Key="ChartLimitMin" Color="Yellow"/> -->
+
+    <!-- Пример: изменить цвет метки параметра на синий -->
+    <!-- <SolidColorBrush x:Key="ParameterDisplay_Label_Foreground" Color="Blue"/> -->
+
+    <!-- Пример: изменить цвета состояний Good/Bad -->
+    <!-- <SolidColorBrush x:Key="ParameterGood_Background" Color="LightGreen"/> -->
+    <!-- <SolidColorBrush x:Key="ParameterBad_Foreground" Color="Red"/> -->
 
 </ResourceDictionary>

@@ -154,6 +154,20 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Контрол отображения параметра
+        // ==========================================
+
+        /// <summary>ParameterDisplay_Label_Foreground - цвет текста метки параметра</summary>
+        public static Brush ParameterDisplay_Label_Foreground => Get("ParameterDisplay_Label_Foreground");
+
+        /// <summary>ParameterDisplay_Value_Foreground - цвет текста значения параметра (базовый)</summary>
+        public static Brush ParameterDisplay_Value_Foreground => Get("ParameterDisplay_Value_Foreground");
+
+        /// <summary>ParameterDisplay_Value_Background - фон значения параметра (базовый)</summary>
+        public static Brush ParameterDisplay_Value_Background => Get("ParameterDisplay_Value_Background");
+
+
+        // ==========================================
         // Вспомогательный метод
         // ==========================================
 

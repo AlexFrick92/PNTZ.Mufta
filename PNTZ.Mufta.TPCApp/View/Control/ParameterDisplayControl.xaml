@@ -11,15 +11,22 @@
     <UserControl.Resources>
         <Style x:Key="ParamLabelStyle" TargetType="Label">
             <Setter Property="Margin" Value="10,0,0,5"/>
+            <Setter Property="FontSize" Value="{StaticResource ParameterDisplay_Label_FontSize}"/>
+            <Setter Property="FontWeight" Value="{StaticResource ParameterDisplay_Label_FontWeight}"/>
+            <Setter Property="FontFamily" Value="{StaticResource ParameterDisplay_Label_FontFamily}"/>
+            <Setter Property="Foreground" Value="{StaticResource ParameterDisplay_Label_Foreground}"/>
         </Style>
 
         <Style x:Key="OutputTextBoxStyle" TargetType="TextBox">
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10,0,10,5"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="{StaticResource ParameterDisplay_Value_FontSize}"/>
+            <Setter Property="FontWeight" Value="{StaticResource ParameterDisplay_Value_FontWeight}"/>
+            <Setter Property="FontFamily" Value="{StaticResource ParameterDisplay_Value_FontFamily}"/>
             <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="{StaticResource ParameterDisplay_Value_Foreground}"/>
+            <Setter Property="Background" Value="{StaticResource ParameterDisplay_Value_Background}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding State, ElementName=root}" Value="Good">
                     <Setter Property="Foreground" Value="{StaticResource ParameterGood_Foreground}"/>

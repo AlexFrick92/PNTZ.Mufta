@@ -86,4 +86,18 @@
     <FontWeight x:Key="JointProcess_ParamHeader_FontWeight">SemiBold</FontWeight>
     <FontFamily x:Key="JointProcess_ParamHeader_FontFamily">Segoe UI</FontFamily>
 
+    <!-- ========================================== -->
+    <!-- Контрол отображения параметра             -->
+    <!-- ========================================== -->
+
+    <!-- Метка параметра (Label) -->
+    <sys:Double x:Key="ParameterDisplay_Label_FontSize">14</sys:Double>
+    <FontWeight x:Key="ParameterDisplay_Label_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ParameterDisplay_Label_FontFamily">Segoe UI</FontFamily>
+
+    <!-- Значение параметра (TextBox) -->
+    <sys:Double x:Key="ParameterDisplay_Value_FontSize">14</sys:Double>
+    <FontWeight x:Key="ParameterDisplay_Value_FontWeight">Normal</FontWeight>
+    <FontFamily x:Key="ParameterDisplay_Value_FontFamily">Segoe UI</FontFamily>
+
 </ResourceDictionary>

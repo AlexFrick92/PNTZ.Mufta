@@ -150,6 +150,30 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
 
         // ==========================================
+        // Контрол отображения параметра
+        // ==========================================
+
+        /// <summary>ParameterDisplay_Label - метка параметра (размер шрифта)</summary>
+        public static double ParameterDisplay_Label_FontSize => GetDouble("ParameterDisplay_Label_FontSize");
+
+        /// <summary>ParameterDisplay_Label - метка параметра (толщина шрифта)</summary>
+        public static FontWeight ParameterDisplay_Label_FontWeight => GetFontWeight("ParameterDisplay_Label_FontWeight");
+
+        /// <summary>ParameterDisplay_Label - метка параметра (семейство шрифта)</summary>
+        public static FontFamily ParameterDisplay_Label_FontFamily => GetFontFamily("ParameterDisplay_Label_FontFamily");
+
+
+        /// <summary>ParameterDisplay_Value - значение параметра (размер шрифта)</summary>
+        public static double ParameterDisplay_Value_FontSize => GetDouble("ParameterDisplay_Value_FontSize");
+
+        /// <summary>ParameterDisplay_Value - значение параметра (толщина шрифта)</summary>
+        public static FontWeight ParameterDisplay_Value_FontWeight => GetFontWeight("ParameterDisplay_Value_FontWeight");
+
+        /// <summary>ParameterDisplay_Value - значение параметра (семейство шрифта)</summary>
+        public static FontFamily ParameterDisplay_Value_FontFamily => GetFontFamily("ParameterDisplay_Value_FontFamily");
+
+
+        // ==========================================
         // Вспомогательные методы
         // ==========================================
 
