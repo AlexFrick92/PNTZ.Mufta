@@ -7,13 +7,17 @@
         WindowStartupLocation="CenterScreen">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="350"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!-- Заголовок -->
-        <Border Grid.Row="0"
+        <Border Grid.Row="0" Grid.Column="0"
                 Background="#F8F9FA"
                 BorderBrush="#DEE2E6"
                 BorderThickness="0,0,0,1"
@@ -127,12 +131,77 @@
         </Border>
 
         <!-- Контрол для тестирования -->
-        <Border Grid.Row="1"
+        <Border Grid.Row="1" Grid.Column="0"
                 BorderBrush="#DEE2E6"
                 BorderThickness="1,0,1,1"
                 Margin="15"
                 Background="White">
             <joint:JointView x:Name="JointView"/>
+        </Border>
+
+        <!-- Панель с реальными данными справа -->
+        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                Background="#F8F9FA"
+                BorderBrush="#DEE2E6"
+                BorderThickness="1,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок панели -->
+                <StackPanel Grid.Row="0" Margin="15,15,15,10">
+                    <TextBlock Text="Реальные данные из БД"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#2C3E50"
+                               Margin="0,0,0,10"/>
+                    <Button x:Name="BtnLoadDatabase"
+                            Content="Загрузить базу данных"
+                            Click="BtnLoadDatabase_Click"
+                            Padding="10,8"
+                            Background="#3498DB"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Margin="0,0,0,10"/>
+                    <TextBlock x:Name="DatabaseStatusText"
+                               Text="База не загружена"
+                               FontSize="11"
+                               Foreground="#7F8C8D"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Список результатов -->
+                <ListBox x:Name="ResultsListBox"
+                         Grid.Row="1"
+                         Margin="15,0,15,15"
+                         BorderBrush="#BDC3C7"
+                         BorderThickness="1"
+                         SelectionChanged="ResultsListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <TextBlock Text="{Binding Name}"
+                                           FontWeight="Bold"
+                                           FontSize="13"
+                                           Foreground="#2C3E50"/>
+                                <TextBlock FontSize="11" Foreground="#7F8C8D">
+                                    <Run Text="Дата: "/>
+                                    <Run Text="{Binding FinishTimeStamp, StringFormat='dd.MM.yyyy HH:mm:ss'}"/>
+                                </TextBlock>
+                                <TextBlock FontSize="11" Foreground="#7F8C8D">
+                                    <Run Text="Момент: "/>
+                                    <Run Text="{Binding FinalTorque, StringFormat='{}{0:F1} Nm'}"/>
+                                    <Run Text=" | Длина: "/>
+                                    <Run Text="{Binding FinalLength, StringFormat='{}{0:F3} м'}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
         </Border>
     </Grid>
 </Window>
