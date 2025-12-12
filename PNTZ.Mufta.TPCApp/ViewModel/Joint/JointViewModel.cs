@@ -1,15 +1,8 @@
-﻿using Desktop.MVVM;
+﻿using System;
+
+using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
 using Promatis.Core.Logging;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using Toolkit.IO;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 {
@@ -43,7 +36,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             //Труба прошла оценку. Процесс завершен
             _jointProcessWorker.JointFinished += OnJointFinished;
         }
-
         /// <summary>
         /// Графики
         /// </summary>
@@ -56,52 +48,40 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private IJointProcessWorker _jointProcessWorker;
         private IRecipeLoader _recipeLoader;
         private ILogger _logger;
-        /// <summary>
         /// Обработчик новой точки данных из фонового потока
-        /// </summary>
         private void OnNewTqTnLenPoint(object sender, TqTnLenPoint point)
         {
             JointProcessDataViewModel.ActualPoint = point;
         }
-
-        /// <summary>
         /// Обработчик появления трубы из фонового потока
-        /// </summary>
         private void OnPipeAppear(object sender, JointResult result)
         {
-            JointProcessChartViewModel.SetMvsData(result);
+            JointProcessChartViewModel.PipeAppear(result);
         }
-
-        /// <summary>
         /// Обработчик начала записи из фонового потока
-        /// </summary>
         private void OnRecordingBegun(object sender, EventArgs e)
         {
             _jointProcessWorker.NewTqTnLenPoint += AddPointToChart;
             JointProcessDataViewModel.BeginNewJointing();
+            JointProcessChartViewModel.RecordingBegin();
         }
-
         private void AddPointToChart(object sender, TqTnLenPoint e)
         {
-            JointProcessChartViewModel.TqTnLenPoints.Add(e);
+            JointProcessChartViewModel.TqTnLenPointsQueue.Enqueue(e);
         }
-
-        /// <summary>
         /// Обработчик завершения записи из фонового потока
-        /// </summary>
         private void OnRecordingFinished(object sender, JointResult result)
         {
             _jointProcessWorker.NewTqTnLenPoint -= AddPointToChart;
             JointProcessDataViewModel.FinishJointing(result);
+            JointProcessChartViewModel.RecordingStop();
         }
         private void OnJointFinished(object sender, JointResult r)
         {
             JointProcessChartViewModel.FinishJointing(r);
             JointProcessDataViewModel.FinishJointing(r);
         }
-        /// <summary>
         /// Обработчик успешной загрузки рецепта
-        /// </summary>
         private void OnRecipeLoaded(object sender, JointRecipe recipe)
         {
             if (recipe == null)
@@ -113,10 +93,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
             _logger?.Info($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
         }
-
-        /// <summary>
         /// Обработчик ошибки загрузки рецепта
-        /// </summary>
         private void OnRecipeLoadFailed(object sender, JointRecipe recipe)
         {
             _logger?.Error($"Ошибка загрузки рецепта");

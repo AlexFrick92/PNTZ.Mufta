@@ -126,7 +126,7 @@ namespace PNTZ.Mufta.Showcase.Data
             {
                 _timestamp = 0;
 
-                // Phase 0: Труба появилась (SetMvsData)
+                // Phase 0: Труба появилась (PipeAppear)
                 await SimulatePipeAppear(cancellationToken);
                 Debug.WriteLine("Pipe appeared.");
 

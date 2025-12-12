@@ -19,7 +19,6 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private JointResult _currentJointResult;
 
         // Симуляция данных
-        private DispatcherTimer _simulationTimer;
         private Random _random = new Random();
         private int _currentTimeStamp = 0;
         private float _currentTorque = 0;
@@ -44,11 +43,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private const float TURNS_OVERSHOOT = 1.3f;    // Превышение оборотов на 30%
         private const float RPM_MAX = 40f;             // Максимальные обороты в минуту
 
+        private int _pointCount = 0;
+
         public JointProcessChartViewTestWindow()
         {
             InitializeComponent();
             InitializeViewModel();
-            InitializeSimulationTimer();
         }
 
         /// <summary>
@@ -58,16 +58,6 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             _viewModel = new JointProcessChartViewModel();
             JointChartView.DataContext = _viewModel;
-        }
-
-        /// <summary>
-        /// Инициализация таймера для симуляции
-        /// </summary>
-        private void InitializeSimulationTimer()
-        {
-            _simulationTimer = new DispatcherTimer();
-            _simulationTimer.Interval = TimeSpan.FromMilliseconds(SIMULATION_INTERVAL_MS);
-            _simulationTimer.Tick += SimulationTimer_Tick;
         }
 
         /// <summary>
@@ -140,8 +130,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 StartTimeStamp = DateTime.Now
             };
 
-            // Вызываем метод SetMvsData у ViewModel
-            _viewModel.SetMvsData(_currentJointResult);
+            // Вызываем метод PipeAppear у ViewModel
+            _viewModel.PipeAppear(_currentJointResult);
 
             StatusText.Text = $"Труба появилась на позиции: {mvsLenMm:F1} мм (MVS_Len = {_currentJointResult.MVS_Len:F4} м)";
         }
@@ -167,7 +157,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             {
                 _latestPoint = null;
             }
-
+            _viewModel.RecordingBegin();
             // Запуск фоновой генерации точек
             _simulationTask = Task.Run(() => GenerateSimulationDataInBackground(_simulationCts.Token));
 
@@ -181,9 +171,6 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private void StopSimulation_Click(object sender, RoutedEventArgs e)
         {
-            // Остановка таймера UI
-            _simulationTimer.Stop();
-
             // Остановка фонового потока через CancellationToken
             if (_simulationCts != null)
             {
@@ -216,7 +203,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _simulationCts = null;
             _simulationTask = null;
 
-            StatusText.Text = $"Симуляция остановлена (точек: {_viewModel.TqTnLenPoints.Count})";
+            StatusText.Text = $"Симуляция остановлена (точек: {_pointCount})";
         }
 
         /// <summary>
@@ -224,9 +211,6 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private void ResetSimulation_Click(object sender, RoutedEventArgs e)
         {
-            // Остановка таймера UI
-            _simulationTimer.Stop();
-
             // Остановка фонового потока если он работает
             if (_simulationCts != null)
             {
@@ -257,7 +241,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             }
 
             // Очистка данных
-            _viewModel.TqTnLenPoints.Clear();
+            _viewModel.ClearCharts();
+            _pointCount = 0;
             _currentTimeStamp = 0;
             _currentTorque = 0;
             _currentLength = _currentJointResult?.MVS_Len_mm ?? 0;
@@ -265,44 +250,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _lastPoint = null;
 
             StatusText.Text = "Графики сброшены";
-        }
-
-        /// <summary>
-        /// Обработчик тика таймера для обновления UI из фонового потока
-        /// </summary>
-        private void SimulationTimer_Tick(object sender, EventArgs e)
-        {
-            // Читаем последнюю сгенерированную точку из фонового потока
-            TqTnLenPoint pointToAdd = null;
-            lock (_pointLock)
-            {
-                pointToAdd = _latestPoint;
-                _latestPoint = null; // Очищаем, чтобы не добавлять дважды
-            }
-
-            // Если есть новая точка, добавляем в коллекцию
-            if (pointToAdd != null)
-            {
-                _viewModel.TqTnLenPoints.Add(pointToAdd);
-                StatusText.Text = $"Симуляция: {pointToAdd.TimeStamp}/{SIMULATION_DURATION_MS} мс ({_viewModel.TqTnLenPoints.Count} точек)";
-            }
-
-            // Проверка завершения фоновой задачи
-            if (_simulationTask != null && _simulationTask.IsCompleted)
-            {
-                _simulationTimer.Stop();
-
-                // Подгоняем границы графиков под финальные данные
-                if (_currentJointResult != null)
-                {
-                    _currentJointResult.FinishTimeStamp = DateTime.Now;
-                    _currentJointResult.ResultTotal = 1;
-                    _viewModel.FinishJointing(_currentJointResult);
-                }
-
-                StatusText.Text = $"Симуляция завершена ({_viewModel.TqTnLenPoints.Count} точек)";
-            }
-        }
+        }       
 
         /// <summary>
         /// Генерация значения момента с линейным ростом и шумом.
@@ -410,7 +358,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
                     lastPoint = newPoint;
                     currentTimeStamp += SIMULATION_INTERVAL_MS;
-                    _viewModel.TqTnLenPoints.Add(lastPoint);
+                    _viewModel.TqTnLenPointsQueue.Enqueue(lastPoint);
+                    _pointCount++;
 
                     // Ждем интервал симуляции
                     await Task.Delay(SIMULATION_INTERVAL_MS, cancellationToken);
