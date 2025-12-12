@@ -6,17 +6,14 @@
              
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
              xmlns:vj="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
-             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint"
-             xmlns:hlp="clr-namespace:PNTZ.Mufta.TPCApp.View.ControlHelper"
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint"             
              
              d:DataContext="{d:DesignInstance Type=viewmodel:JointViewModel}"
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <Grid hlp:GridHelper.ShowBorders="True"
-            hlp:GridHelper.BorderBrush="{StaticResource JointView_GridBorder}"
-            hlp:GridHelper.BorderThickness="1">
+    
+    <Grid>
         <Grid.ColumnDefinitions >
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
@@ -29,7 +26,8 @@
         </Grid.RowDefinitions>
 
         <Border Grid.Column="0"
-            BorderThickness="0"
+            BorderThickness="0,0,1,1"
+            BorderBrush="{StaticResource JointView_GridBorder}"
             Background="{StaticResource JointView_SectionHeader_Background}">
             <Label Content="ПАРАМЕТРЫ"
                    Foreground="{StaticResource JointView_SectionHeader_Foreground}"
@@ -40,11 +38,13 @@
                    BorderThickness="0"/>
         </Border>
 
-        <vj:JointProcessDataView Grid.Column="0" Grid.Row="1" Margin="5" DataContext="{Binding JointProcessDataViewModel}"/>
-
+        <Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,0" BorderBrush="{StaticResource JointView_GridBorder}">
+            <vj:JointProcessDataView Margin="5" DataContext="{Binding JointProcessDataViewModel}"/>
+        </Border>
 
         <Border Grid.Column="1"
-            BorderThickness="0"
+            BorderThickness="0,0,1,1"
+            BorderBrush="{StaticResource JointView_GridBorder}"
             Background="{StaticResource JointView_SectionHeader_Background}">
             <Label Content="ГРАФИКИ"
                    Foreground="{StaticResource JointView_SectionHeader_Foreground}"
@@ -56,51 +56,52 @@
         </Border>
 
 
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
+        <Border Grid.Column="1" Grid.Row="1" BorderThickness="0,0,0,0" BorderBrush="{StaticResource JointView_GridBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-            <vj:JointProcessChartView DataContext="{Binding JointProcessChartViewModel}"/>
+                <vj:JointProcessChartView DataContext="{Binding JointProcessChartViewModel}"/>
 
-            <!-- Оценка соединения -->
-            <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="#cecece">
-                <Border.Style>
-                    <!--Видимость при запросе результата-->
-                    <Style TargetType="Border">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding EvaluationVisible}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="10"/>
-                    </Grid.RowDefinitions>
+                <!-- Оценка соединения -->
+                <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource JointView_GridBorder}">
+                    <Border.Style>
+                        <!--Видимость при запросе результата-->
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding EvaluationVisible}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                             HorizontalAlignment="Center">Требуется оценка результата</Label>
 
-                    <Button Grid.Row ="1" Grid.Column="0"
+                        <Button Grid.Row ="1" Grid.Column="0"
                             HorizontalAlignment="Right"
                             Width="150"
                             Margin="5"
                             Background="Green"
                             Foreground="White"
                             Content="ГОДНОЕ"
-                            Command="{Binding SetGoodResultCommand}"/>          
+                            Command="{Binding SetGoodResultCommand}"/>
 
-                    <Button Grid.Row ="1" Grid.Column="1"
+                        <Button Grid.Row ="1" Grid.Column="1"
                             HorizontalAlignment="Left"
                             Width="150"
                             Margin="5"
@@ -108,12 +109,12 @@
                             Foreground="White"
                             Content="БРАК"
                             Command="{Binding SetBadResultCommand}"/>
-                </Grid>
-            </Border>
+                    </Grid>
+                </Border>
 
-        </Grid>
+            </Grid>
 
-
+        </Border>
 
 
     </Grid>
