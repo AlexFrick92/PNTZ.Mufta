@@ -23,7 +23,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     public class JointProcessChartViewModel : BaseViewModel
     {
         // Интервал обновления точек в миллисекундах
-        private const int POINT_UPDATE_INTERVAL = 25; 
+        private const int POINT_UPDATE_INTERVAL = 25;
+        // Обновлять границы графиков через каждые N точек
+        private const int BOUNDS_UPDATE_FREQUENCY = 10; 
         /// <summary>
         /// График: Момент/обороты
         /// </summary>
@@ -52,6 +54,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
         private ObservableCollection<TqTnLenPoint> TqTnLenPoints = new ObservableCollection<TqTnLenPoint>();
         private DispatcherTimer _pointUpdateTimer = new DispatcherTimer(DispatcherPriority.Background);
+        private int _pointCounter = 0; // Счетчик для throttling обновления границ графиков
 
         #region публичные свойства и методы
         /// <summary>
@@ -67,8 +70,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 TqTnLenPoints.Clear();
             else
                 Application.Current.Dispatcher.Invoke(() => TqTnLenPoints.Clear());
-            
-            while (TqTnLenPointsQueue.TryDequeue(out var point)) { }            
+
+            while (TqTnLenPointsQueue.TryDequeue(out var point)) { }
+            _pointCounter = 0;
         }
         /// <summary>
         /// Настроить графики при появлении трубы
@@ -171,17 +175,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
         private void InitializeUpdateTimer()
         {
-            _pointUpdateTimer.Interval = TimeSpan.FromMilliseconds(POINT_UPDATE_INTERVAL);            
+            _pointUpdateTimer.Interval = TimeSpan.FromMilliseconds(POINT_UPDATE_INTERVAL);
             _pointUpdateTimer.Tick += (s, e) =>
             {
                 TqTnLenPoint latestPoint = null;
+                int pointsAdded = 0;
                 while (TqTnLenPointsQueue.TryDequeue(out var point))
                 {
                     latestPoint = point;
                     TqTnLenPoints.Add(point);
+                    pointsAdded++;
                 }
-                if(latestPoint != null)
-                    UpdateChartBoundsIfNeeded(latestPoint);
+
+                if (latestPoint != null)
+                {
+                    _pointCounter += pointsAdded;
+                    // Обновляем границы только через каждые BOUNDS_UPDATE_FREQUENCY точек
+                    if (_pointCounter >= BOUNDS_UPDATE_FREQUENCY)
+                    {
+                        UpdateChartBoundsIfNeeded(latestPoint);
+                        _pointCounter = 0;
+                    }
+                }
             };
         }
         // Проверяет, не выходит ли новая точка за границы графиков,
