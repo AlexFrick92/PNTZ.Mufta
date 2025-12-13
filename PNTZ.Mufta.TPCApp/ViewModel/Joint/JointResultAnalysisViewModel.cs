@@ -68,7 +68,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 AppColors.ChartTorqueTurns_Line as SolidColorBrush ?? Brushes.Blue,
                 2.0);
 
-            // 2. Сглаженный момент
+            // 2. Сглаженный момент (из AnalysisDataPoint.SmoothedTorque, не от детектора)
             var smoothedTorqueSeries = new ChartSeriesViewModel(
                 "SmoothedTorque",
                 "Момент (сглаженный)",
@@ -134,12 +134,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         #region Shoulder Detection
 
         private int _windowSize = 30;
+        private int _derivativeWindowSize = 15;
         private double _sigmaMultiplier = 10.0;
         private double _searchStartRatio = 0.7;
         private ShoulderDetectionResult _lastDetectionResult;
 
+        // Свойства видимости элементов визуализации
+        private bool _showDerivative = true;
+        private bool _showSmoothedTorque = true;
+        private bool _showSigmaLines = true;
+        private bool _showThreshold = true;
+        private bool _showBaseline = true;
+
         /// <summary>
-        /// Размер окна для сглаживания производной
+        /// Размер окна для сглаживания момента
         /// </summary>
         public int WindowSize
         {
@@ -148,6 +156,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             {
                 _windowSize = value;
                 OnPropertyChanged(nameof(WindowSize));
+            }
+        }
+
+        /// <summary>
+        /// Размер окна для сглаживания производной
+        /// </summary>
+        public int DerivativeWindowSize
+        {
+            get => _derivativeWindowSize;
+            set
+            {
+                _derivativeWindowSize = value;
+                OnPropertyChanged(nameof(DerivativeWindowSize));
             }
         }
 
@@ -179,6 +200,76 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
 
         /// <summary>
+        /// Отображать производную на графике
+        /// </summary>
+        public bool ShowDerivative
+        {
+            get => _showDerivative;
+            set
+            {
+                _showDerivative = value;
+                OnPropertyChanged(nameof(ShowDerivative));
+                UpdateVisualizationVisibility();
+            }
+        }
+
+        /// <summary>
+        /// Отображать сглаженный момент на графике
+        /// </summary>
+        public bool ShowSmoothedTorque
+        {
+            get => _showSmoothedTorque;
+            set
+            {
+                _showSmoothedTorque = value;
+                OnPropertyChanged(nameof(ShowSmoothedTorque));
+                UpdateVisualizationVisibility();
+            }
+        }
+
+        /// <summary>
+        /// Отображать линии сигм на графике
+        /// </summary>
+        public bool ShowSigmaLines
+        {
+            get => _showSigmaLines;
+            set
+            {
+                _showSigmaLines = value;
+                OnPropertyChanged(nameof(ShowSigmaLines));
+                UpdateVisualizationVisibility();
+            }
+        }
+
+        /// <summary>
+        /// Отображать линию порога (threshold) на графике
+        /// </summary>
+        public bool ShowThreshold
+        {
+            get => _showThreshold;
+            set
+            {
+                _showThreshold = value;
+                OnPropertyChanged(nameof(ShowThreshold));
+                UpdateVisualizationVisibility();
+            }
+        }
+
+        /// <summary>
+        /// Отображать базовую линию (baseline) на графике
+        /// </summary>
+        public bool ShowBaseline
+        {
+            get => _showBaseline;
+            set
+            {
+                _showBaseline = value;
+                OnPropertyChanged(nameof(ShowBaseline));
+                UpdateVisualizationVisibility();
+            }
+        }
+
+        /// <summary>
         /// Запуск детектора точки контакта с заплечником
         /// </summary>
         public void RunShoulderDetection()
@@ -193,6 +284,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             var detector = new ShoulderPointDetector(_currentResult.Series)
             {
                 WindowSize = WindowSize,
+                DerivativeWindowSize = DerivativeWindowSize,
                 SigmaMultiplier = SigmaMultiplier,
                 SearchStartRatio = SearchStartRatio
             };
@@ -220,20 +312,53 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             if (result == null)
                 return;
 
-            // 1. Добавить серию нормализованной производной
-            AddNormalizedDerivativeSeries(result);
+            // 1. Добавить серию сглаженного момента
+            if (ShowSmoothedTorque)
+            {
+                AddSmoothedTorqueSeries(result);
+            }
 
-            // 2. Добавить Strip для области поиска заплечника
+            // 2. Добавить серию нормализованной производной
+            if (ShowDerivative)
+            {
+                AddNormalizedDerivativeSeries(result);
+            }
+
+            // 3. Добавить Strip для области поиска заплечника
             AddSearchAreaStrip(result);
 
-            // 3. Добавить константные линии для baseline и порогов
+            // 4. Добавить константные линии для baseline и порогов
             AddBaselineAndThresholdLines(result);
 
-            // 4. Добавить маркер найденной точки заплечника
+            // 5. Добавить маркер найденной точки заплечника
             if (result.ShoulderPointIndex.HasValue)
             {
                 AddShoulderPointMarker(result.ShoulderPointIndex.Value);
             }
+        }
+
+        /// <summary>
+        /// Добавление серии сглаженного момента на график
+        /// </summary>
+        private void AddSmoothedTorqueSeries(ShoulderDetectionResult result)
+        {
+            if (result.SmoothedTorque == null || result.SmoothedTorque.Count == 0)
+                return;
+
+            // Заполнить сглаженный момент в данных
+            for (int i = 0; i < result.SmoothedTorque.Count && i < _analysisData.Count; i++)
+            {
+                _analysisData[i].SmoothedTorqueFromDetector = (float)result.SmoothedTorque[i];
+            }
+
+            // Добавить серию на график
+            var smoothedTorqueSeries = new ChartSeriesViewModel(
+                "SmoothedTorqueFromDetector",
+                "Момент (сглаженный)",
+                Brushes.Green, // Зелёный для сглаженного момента
+                2.5);
+
+            AnalysisChart.Series.Add(smoothedTorqueSeries);
         }
 
         /// <summary>
@@ -300,15 +425,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 minTorque,
                 maxTorque);
 
-            // Baseline
-            AnalysisChart.YConstantLines.Add(new ConstantLineViewModel
+            // Baseline (только если ShowBaseline = true)
+            if (ShowBaseline)
             {
-                Value = normalizedBaseline,
-                Label = "Baseline",
-                Color = Brushes.DarkGreen, // Тёмно-синий для базовой линии
-                Thickness = 2.0,
-                LineStyle = LineStyle.Dash
-            });
+                AnalysisChart.YConstantLines.Add(new ConstantLineViewModel
+                {
+                    Value = normalizedBaseline,
+                    Label = "Baseline",
+                    Color = Brushes.DarkGreen, // Тёмно-зелёный для базовой линии
+                    Thickness = 2.0,
+                    LineStyle = LineStyle.Dash
+                });
+            }
 
             // Линии для каждой сигмы до порога
             int sigmaCount = (int)Math.Ceiling(SigmaMultiplier);
@@ -322,17 +450,24 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                     minTorque,
                     maxTorque);
 
-                var color = i < sigmaCount ? Brushes.DarkGray : Brushes.Blue; // Голубой для σ, ярко-красный для порога
-                var label = i < sigmaCount ? $"+{i}σ" : $"Threshold (+{SigmaMultiplier:F1}σ)";
+                bool isThreshold = i == sigmaCount;
+                var color = isThreshold ? Brushes.Blue : Brushes.DarkGray; // Голубой для порога, серый для σ
+                var label = isThreshold ? $"Threshold (+{SigmaMultiplier:F1}σ)" : $"+{i}σ";
 
-                AnalysisChart.YConstantLines.Add(new ConstantLineViewModel
+                // Проверяем флаги видимости
+                bool shouldShow = isThreshold ? ShowThreshold : ShowSigmaLines;
+
+                if (shouldShow)
                 {
-                    Value = normalizedSigma,
-                    Label = label,
-                    Color = color,
-                    Thickness = i == sigmaCount ? 1.5 : 1.0,
-                    LineStyle = i == sigmaCount ? LineStyle.Solid : LineStyle.Dot
-                });
+                    AnalysisChart.YConstantLines.Add(new ConstantLineViewModel
+                    {
+                        Value = normalizedSigma,
+                        Label = label,
+                        Color = color,
+                        Thickness = isThreshold ? 1.5 : 1.0,
+                        LineStyle = isThreshold ? LineStyle.Solid : LineStyle.Dot
+                    });
+                }
             }
         }
 
@@ -368,16 +503,37 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 AnalysisChart.Series.Remove(derivativeSeries);
             }
 
-            // Очистить производную в данных
+            // Удалить серию сглаженного момента
+            var smoothedTorqueSeries = AnalysisChart.Series.FirstOrDefault(s => s.ValueMember == "SmoothedTorqueFromDetector");
+            if (smoothedTorqueSeries != null)
+            {
+                AnalysisChart.Series.Remove(smoothedTorqueSeries);
+            }
+
+            // Очистить производную и сглаженный момент в данных
             foreach (var point in _analysisData)
             {
                 point.TorqueDerivative = 0f;
+                point.SmoothedTorqueFromDetector = 0f;
             }
 
             // Очистить константные линии (но НЕ XStrips - зона поиска управляется отдельно)
             AnalysisChart.XConstantLines.Clear();
             AnalysisChart.YConstantLines.Clear();
             AnalysisChart.YStrips.Clear();
+        }
+
+        /// <summary>
+        /// Обновление видимости элементов визуализации при изменении чекбоксов
+        /// </summary>
+        private void UpdateVisualizationVisibility()
+        {
+            if (_lastDetectionResult == null)
+                return;
+
+            // Повторно визуализировать с учетом новых настроек
+            ClearDetectionVisualization();
+            VisualizeDetectionResults(_lastDetectionResult);
         }
 
         /// <summary>

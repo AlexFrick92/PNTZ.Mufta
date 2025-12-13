@@ -20,6 +20,11 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public float TorqueDerivative { get; set; }
 
         /// <summary>
+        /// Сглаженный момент из детектора заплечника
+        /// </summary>
+        public float SmoothedTorqueFromDetector { get; set; }
+
+        /// <summary>
         /// Создает AnalysisDataPoint на основе базовой точки TqTnLenPoint
         /// </summary>
         public static AnalysisDataPoint FromTqTnLenPoint(TqTnLenPoint point)

@@ -64,10 +64,16 @@ namespace PNTZ.Mufta.TPCApp.Domain
         /// </summary>
         public double DerivativeMax { get; set; }
 
+        /// <summary>
+        /// Сглаженные значения момента (MovingAverage с окном WindowSize).
+        /// </summary>
+        public List<double> SmoothedTorque { get; set; }
+
         public ShoulderDetectionResult()
         {
             SmoothedDerivatives = new List<double>();
             WindowCenters = new List<int>();
+            SmoothedTorque = new List<double>();
         }
     }
 }

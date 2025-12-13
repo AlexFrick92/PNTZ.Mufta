@@ -115,6 +115,22 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
 
         /// <summary>
+        /// Обработчик изменения чекбоксов видимости элементов визуализации
+        /// </summary>
+        private void ChkVisibility_Changed(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel == null)
+                return;
+
+            // Обновляем флаги видимости в ViewModel
+            _viewModel.ShowSmoothedTorque = ChkShowSmoothedTorque?.IsChecked ?? true;
+            _viewModel.ShowDerivative = ChkShowDerivative?.IsChecked ?? true;
+            _viewModel.ShowSigmaLines = ChkShowSigmaLines?.IsChecked ?? true;
+            _viewModel.ShowThreshold = ChkShowThreshold?.IsChecked ?? true;
+            _viewModel.ShowBaseline = ChkShowBaseline?.IsChecked ?? true;
+        }
+
+        /// <summary>
         /// Обработчик кнопки "Выполнить расчёт" детектора заплечника
         /// </summary>
         private void BtnRunDetection_Click(object sender, RoutedEventArgs e)
@@ -137,6 +153,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                     return;
                 }
 
+                if (!int.TryParse(TxtDerivativeWindowSize.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int derivativeWindowSize) || derivativeWindowSize <= 0)
+                {
+                    DetectionResultText.Text = "⚠ Неверное значение DerivativeWindowSize";
+                    UpdateStatus("Ошибка: некорректный DerivativeWindowSize");
+                    return;
+                }
+
                 if (!double.TryParse(TxtSigmaMultiplier.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double sigmaMultiplier) || sigmaMultiplier <= 0)
                 {
                     DetectionResultText.Text = "⚠ Неверное значение SigmaMultiplier";
@@ -148,6 +171,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
                 // Передаём параметры в ViewModel
                 _viewModel.WindowSize = windowSize;
+                _viewModel.DerivativeWindowSize = derivativeWindowSize;
                 _viewModel.SigmaMultiplier = sigmaMultiplier;
                 _viewModel.SearchStartRatio = searchStartRatio;
 

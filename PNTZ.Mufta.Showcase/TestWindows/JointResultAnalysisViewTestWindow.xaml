@@ -43,11 +43,20 @@
                           Padding="10">
                     <StackPanel>
                         <!-- WindowSize -->
-                        <TextBlock Text="Размер окна (WindowSize):"
+                        <TextBlock Text="Размер окна момента (WindowSize):"
                                    FontSize="11"
                                    Margin="0,0,0,3"/>
                         <TextBox x:Name="TxtWindowSize"
                                  Text="30"
+                                 Padding="5"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- DerivativeWindowSize -->
+                        <TextBlock Text="Размер окна производной (DerivativeWindowSize):"
+                                   FontSize="11"
+                                   Margin="0,0,0,3"/>
+                        <TextBox x:Name="TxtDerivativeWindowSize"
+                                 Text="15"
                                  Padding="5"
                                  Margin="0,0,0,10"/>
 
@@ -89,7 +98,53 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"
-                                Margin="0,5,0,8"/>
+                                Margin="0,5,0,10"/>
+
+                        <!-- Чекбоксы отображения -->
+                        <TextBlock Text="Отображение:"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,5"/>
+
+                        <CheckBox x:Name="ChkShowSmoothedTorque"
+                                  Content="Сглаженный момент"
+                                  IsChecked="True"
+                                  Margin="0,0,0,3"
+                                  FontSize="11"
+                                  Checked="ChkVisibility_Changed"
+                                  Unchecked="ChkVisibility_Changed"/>
+
+                        <CheckBox x:Name="ChkShowDerivative"
+                                  Content="Производная"
+                                  IsChecked="True"
+                                  Margin="0,0,0,3"
+                                  FontSize="11"
+                                  Checked="ChkVisibility_Changed"
+                                  Unchecked="ChkVisibility_Changed"/>
+
+                        <CheckBox x:Name="ChkShowSigmaLines"
+                                  Content="Линии сигм (+1σ, +2σ...)"
+                                  IsChecked="True"
+                                  Margin="0,0,0,3"
+                                  FontSize="11"
+                                  Checked="ChkVisibility_Changed"
+                                  Unchecked="ChkVisibility_Changed"/>
+
+                        <CheckBox x:Name="ChkShowThreshold"
+                                  Content="Линия порога (Threshold)"
+                                  IsChecked="True"
+                                  Margin="0,0,0,3"
+                                  FontSize="11"
+                                  Checked="ChkVisibility_Changed"
+                                  Unchecked="ChkVisibility_Changed"/>
+
+                        <CheckBox x:Name="ChkShowBaseline"
+                                  Content="Базовая линия (Baseline)"
+                                  IsChecked="True"
+                                  Margin="0,0,0,10"
+                                  FontSize="11"
+                                  Checked="ChkVisibility_Changed"
+                                  Unchecked="ChkVisibility_Changed"/>
 
                         <!-- Результат -->
                         <TextBlock x:Name="DetectionResultText"

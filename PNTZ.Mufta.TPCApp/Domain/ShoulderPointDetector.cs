@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PNTZ.Mufta.TPCApp.Toolbox.Smoothing;
 
 namespace PNTZ.Mufta.TPCApp.Domain
 {
@@ -15,9 +16,14 @@ namespace PNTZ.Mufta.TPCApp.Domain
         private List<TqTnLenPoint> _series;
 
         /// <summary>
-        /// Размер окна для сглаживания (борьба с шумом)
+        /// Размер окна для сглаживания момента (борьба с шумом)
         /// </summary>
         public int WindowSize { get; set; } = 30;
+
+        /// <summary>
+        /// Размер окна для сглаживания производной
+        /// </summary>
+        public int DerivativeWindowSize { get; set; } = 15;
 
         /// <summary>
         /// Множитель сигма для определения порога (чувствительность детектора)
@@ -47,7 +53,8 @@ namespace PNTZ.Mufta.TPCApp.Domain
             Console.WriteLine("=== Universal Shoulder Detection ===");
             Console.WriteLine($"Total points: {_series.Count}");
             Console.WriteLine($"Parameters:");
-            Console.WriteLine($"  WindowSize (smoothing): {WindowSize}");
+            Console.WriteLine($"  WindowSize (torque smoothing): {WindowSize}");
+            Console.WriteLine($"  DerivativeWindowSize (derivative smoothing): {DerivativeWindowSize}");
             Console.WriteLine($"  SigmaMultiplier (sensitivity): {SigmaMultiplier}");
             Console.WriteLine($"  SearchStartRatio: {SearchStartRatio}");
             Console.WriteLine();
@@ -68,9 +75,14 @@ namespace PNTZ.Mufta.TPCApp.Domain
             Console.WriteLine("Analyzing up to maximum, excluding unloading phase");
             Console.WriteLine();
 
-            // Фаза 2: Вычислить скользящее среднее производной
-            Console.WriteLine($"Calculating moving average derivatives (window={WindowSize} points)...");
-            var (avgDerivatives, windowCenters) = CalculateMovingAverageDerivatives(analyzeEnd);
+            // Фаза 1.5: Вычислить сглаженный момент (ПЕРЕД расчётом производной!)
+            Console.WriteLine($"Smoothing torque signal (window={WindowSize} points)...");
+            var smoothedTorque = CalculateSmoothedTorque();
+            result.SmoothedTorque = smoothedTorque;
+
+            // Фаза 2: Вычислить производную от СГЛАЖЕННОГО момента
+            Console.WriteLine($"Calculating derivatives from smoothed torque...");
+            var (avgDerivatives, windowCenters) = CalculateMovingAverageDerivatives(analyzeEnd, smoothedTorque);
 
             if (avgDerivatives.Count == 0)
             {
@@ -85,7 +97,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
             result.DerivativeMin = avgDerivatives.Min();
             result.DerivativeMax = avgDerivatives.Max();
 
-            Console.WriteLine($"Calculated {avgDerivatives.Count} windows");
+            Console.WriteLine($"Calculated {avgDerivatives.Count} derivative windows");
             Console.WriteLine();
 
             // Фаза 3: Определить базовую линию свободного навертывания
@@ -207,38 +219,39 @@ namespace PNTZ.Mufta.TPCApp.Domain
             return maxIndex;
         }
 
-        private (List<double> derivatives, List<int> centers) CalculateMovingAverageDerivatives(int analyzeEnd)
+        private (List<double> derivatives, List<int> centers) CalculateMovingAverageDerivatives(int analyzeEnd, List<double> smoothedTorque)
         {
-            var avgDerivatives = new List<double>();
-            var windowCenters = new List<int>();
+            var rawDerivatives = new List<double>();
+            var derivativeIndices = new List<int>();
 
-            int halfWindow = WindowSize / 2;
-
-            for (int i = WindowSize; i < analyzeEnd - WindowSize; i += Step)
+            // Шаг 1: Вычислить "сырую" производную в каждой точке
+            // Используем центральную разностную схему для более точного результата
+            for (int i = 1; i < analyzeEnd - 1; i += Step)
             {
-                double sum = 0;
-                int count = 0;
+                // Центральная производная: (f(i+1) - f(i-1)) / (x(i+1) - x(i-1))
+                double dTurns = _series[i + 1].Turns - _series[i - 1].Turns;
 
-                for (int j = i - halfWindow; j < i + halfWindow - 1; j++)
+                if (dTurns > 0)
                 {
-                    double dt = _series[j + 1].TimeStamp - _series[j].TimeStamp;
+                    double dTorque = smoothedTorque[i + 1] - smoothedTorque[i - 1];
+                    double derivative = dTorque / dTurns; // Nm/оборот
 
-                    if (dt > 0)
-                    {
-                        double dTorque = _series[j + 1].Torque - _series[j].Torque;
-                        sum += dTorque / dt;
-                        count++;
-                    }
-                }
-
-                if (count > 0)
-                {
-                    avgDerivatives.Add(sum / count);
-                    windowCenters.Add(i);
+                    rawDerivatives.Add(derivative);
+                    derivativeIndices.Add(i);
                 }
             }
 
-            return (avgDerivatives, windowCenters);
+            // Шаг 2: Сгладить производную через MovingAverage
+            var smoothedDerivatives = new List<double>();
+            var smoother = new MovingAverage(DerivativeWindowSize);
+
+            foreach (var deriv in rawDerivatives)
+            {
+                double smoothed = smoother.SmoothValue(deriv);
+                smoothedDerivatives.Add(smoothed);
+            }
+
+            return (smoothedDerivatives, derivativeIndices);
         }
 
         private (double average, double stdDev) CalculateBaseline(List<double> avgDerivatives)
@@ -258,6 +271,27 @@ namespace PNTZ.Mufta.TPCApp.Domain
             double baselineStd = Math.Sqrt(variance / freeThreadingDerivatives.Count);
 
             return (baselineAvg, baselineStd);
+        }
+
+        /// <summary>
+        /// Вычисляет сглаженные значения момента с использованием MovingAverage
+        /// </summary>
+        private List<double> CalculateSmoothedTorque()
+        {
+            var smoothedValues = new List<double>();
+
+            if (_series == null || _series.Count == 0)
+                return smoothedValues;
+
+            var smoother = new MovingAverage(WindowSize);
+
+            foreach (var point in _series)
+            {
+                double smoothed = smoother.SmoothValue(point.Torque);
+                smoothedValues.Add(smoothed);
+            }
+
+            return smoothedValues;
         }
     }
 }
