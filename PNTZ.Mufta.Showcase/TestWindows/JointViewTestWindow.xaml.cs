@@ -210,7 +210,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         /// <summary>
         /// Обработчик выбора записи из списка результатов
-        /// </summary>
+        /// </summary> 
         private void ResultsListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (ResultsListBox.SelectedItem is JointResultTable selectedTable)

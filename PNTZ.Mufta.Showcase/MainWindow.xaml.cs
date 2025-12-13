@@ -57,6 +57,14 @@ namespace PNTZ.Mufta.Showcase
 
                 new ControlInfo
                 {
+                    Name = "JointResultAnalysisView",
+                    Category = "Графики",
+                    Description = "Компонент для анализа результатов свинчивания. Отображает оригинальный момент и сглаженный момент на графике Момент/Обороты.",
+                    WindowType = typeof(JointResultAnalysisViewTestWindow)
+                },
+
+                new ControlInfo
+                {
                     Name = "JointProcessDataView",
                     Category = "Данные",
                     Description = "Компонент для отображения текущих показаний процесса навёртки муфты.",

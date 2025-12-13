@@ -167,6 +167,7 @@
     <Compile Include="Domain\ShoulderPointDetector.cs" />
     <Compile Include="Domain\ThreadType.cs" />
     <Compile Include="Domain\TqTnLenPoint.cs" />
+    <Compile Include="Domain\AnalysisDataPoint.cs" />
     <Compile Include="DpConnect\HeartbeatCheck.cs" />
     <Compile Include="DpConnect\JointProcessDpWorker.cs" />
     <Compile Include="DpConnect\MachineParamFromPlc.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="ViewModel\JointResultViewModel.cs" />
     <Compile Include="ViewModel\JointProcessViewModel.cs" />
     <Compile Include="ViewModel\Joint\JointProcessChartViewModel.cs" />
+    <Compile Include="ViewModel\Joint\JointResultAnalysisViewModel.cs" />
     <Compile Include="ViewModel\Joint\JointProcessDataViewModel.cs" />
     <Compile Include="ViewModel\Joint\JointViewModel.cs" />
     <Compile Include="ViewModel\MachinParamViewModel.cs" />
@@ -243,6 +245,9 @@
     <Compile Include="View\Formatter\SecondsIntegerLabelFormatter.cs" />
     <Compile Include="View\Joint\JointProcessChartView.xaml.cs">
       <DependentUpon>JointProcessChartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Joint\JointResultAnalysisView.xaml.cs">
+      <DependentUpon>JointResultAnalysisView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Joint\JointProcessDataView.xaml.cs">
       <DependentUpon>JointProcessDataView.xaml</DependentUpon>
@@ -349,6 +354,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Joint\JointProcessChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Joint\JointResultAnalysisView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
