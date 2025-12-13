@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="PNTZ.Mufta.TPCApp.View.Control.ChartView"
+﻿
+    <UserControl x:Class="PNTZ.Mufta.TPCApp.View.Control.ChartView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -72,7 +73,7 @@
             <DataTemplate x:Key="ConstantLineTemplate">
                 <dxc:ConstantLine Value="{Binding Value}" Brush="{Binding LineColor}">
                     <dxc:ConstantLine.LineStyle>
-                        <dxc:LineStyle Thickness="1"/>
+                        <dxc:LineStyle Thickness="{Binding Thickness}"/>
                     </dxc:ConstantLine.LineStyle>
                     <dxc:ConstantLine.Title>
                         <dxc:ConstantLineTitle>

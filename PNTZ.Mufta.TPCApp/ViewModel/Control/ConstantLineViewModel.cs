@@ -17,6 +17,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
         private double _fontSize;
         private FontWeight _fontWeight;
         private FontFamily _fontFamily;
+        private double _thickness;
+        private LineStyle _lineStyle;
 
         /// <summary>
         /// Значение, на котором будет отображаться линия
@@ -126,6 +128,46 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             }
         }
 
+        /// <summary>
+        /// Толщина линии
+        /// </summary>
+        public double Thickness
+        {
+            get => _thickness;
+            set
+            {
+                _thickness = value;
+                OnPropertyChanged(nameof(Thickness));
+            }
+        }
+
+        /// <summary>
+        /// Стиль линии (Solid, Dash, Dot)
+        /// </summary>
+        public LineStyle LineStyle
+        {
+            get => _lineStyle;
+            set
+            {
+                _lineStyle = value;
+                OnPropertyChanged(nameof(LineStyle));
+            }
+        }
+
+        /// <summary>
+        /// Короткое имя для LineColor (alias для совместимости)
+        /// </summary>
+        public Brush Color
+        {
+            get => _lineColor;
+            set
+            {
+                _lineColor = value;
+                OnPropertyChanged(nameof(Color));
+                OnPropertyChanged(nameof(LineColor));
+            }
+        }
+
         public ConstantLineViewModel()
         {
             _lineColor = Brushes.DarkRed;
@@ -135,6 +177,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             _fontSize = 12.0;
             _fontWeight = FontWeights.Normal;
             _fontFamily = new FontFamily("Segoe UI");
+            _thickness = 1.5;
+            _lineStyle = LineStyle.Solid;
         }
 
         public ConstantLineViewModel(double value, string label, Brush lineColor, Brush labelColor, string valueFormat = "F2")
@@ -147,6 +191,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Control
             _fontSize = 12.0;
             _fontWeight = FontWeights.Normal;
             _fontFamily = new FontFamily("Segoe UI");
+            _thickness = 1.5;
+            _lineStyle = LineStyle.Solid;
         }
     }
 }

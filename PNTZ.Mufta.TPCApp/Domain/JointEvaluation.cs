@@ -118,7 +118,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
         private bool EstimateShoulderTorque(JointResult result)
         {
             ShoulderPointDetector detector = new ShoulderPointDetector(result.Series);
-            int? shoulderIndex = detector.DetectShoulderPoint();
+            int? shoulderIndex = detector.DetectShoulderPoint().ShoulderPointIndex;
             if (shoulderIndex != null)
             {
                 float shoulderTorque = result.Series[shoulderIndex.Value].Torque;

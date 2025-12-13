@@ -40,8 +40,10 @@ namespace PNTZ.Mufta.TPCApp.Domain
             _series = series ?? throw new ArgumentNullException(nameof(series));
         }
 
-        public int? DetectShoulderPoint()
+        public ShoulderDetectionResult DetectShoulderPoint()
         {
+            var result = new ShoulderDetectionResult();
+
             Console.WriteLine("=== Universal Shoulder Detection ===");
             Console.WriteLine($"Total points: {_series.Count}");
             Console.WriteLine($"Parameters:");
@@ -53,12 +55,13 @@ namespace PNTZ.Mufta.TPCApp.Domain
             if (_series == null || _series.Count < WindowSize * 2)
             {
                 Console.WriteLine("ERROR: Not enough points for analysis");
-                return null;
+                return result;
             }
 
             // Фаза 1: Найти максимум момента и отсечь фазу разгрузки
             int maxIndex = FindMaxTorqueIndex();
             int analyzeEnd = maxIndex;
+            result.MaxTorqueIndex = maxIndex;
 
             float maxTorque = _series[maxIndex].Torque;
             Console.WriteLine($"Phase 4 (Unloading): Max torque {maxTorque:F1} Nm at index {maxIndex}");
@@ -72,14 +75,23 @@ namespace PNTZ.Mufta.TPCApp.Domain
             if (avgDerivatives.Count == 0)
             {
                 Console.WriteLine("ERROR: No derivatives calculated");
-                return null;
+                return result;
             }
+
+            result.SmoothedDerivatives = avgDerivatives;
+            result.WindowCenters = windowCenters;
+
+            // Вычислить min/max производной для нормализации
+            result.DerivativeMin = avgDerivatives.Min();
+            result.DerivativeMax = avgDerivatives.Max();
 
             Console.WriteLine($"Calculated {avgDerivatives.Count} windows");
             Console.WriteLine();
 
             // Фаза 3: Определить базовую линию свободного навертывания
             var (baselineAvg, baselineStd) = CalculateBaseline(avgDerivatives);
+            result.BaselineAverage = baselineAvg;
+            result.BaselineStdDev = baselineStd;
 
             int startIdx = (int)(avgDerivatives.Count * 0.2);
             int endIdx = (int)(avgDerivatives.Count * 0.7);
@@ -91,16 +103,23 @@ namespace PNTZ.Mufta.TPCApp.Domain
             Console.WriteLine();
 
             // Фаза 4: Найти точку заплечника с настраиваемым порогом
+            int searchStartIdx = (int)(avgDerivatives.Count * SearchStartRatio);
+            result.SearchStartIndex = searchStartIdx;
+
+            double threshold = baselineAvg + SigmaMultiplier * baselineStd;
+            result.Threshold = threshold;
+
             int? shoulderWindowIdx = FindShoulderWindowIndex(avgDerivatives, baselineAvg, baselineStd);
 
             if (shoulderWindowIdx == null)
             {
                 Console.WriteLine("ERROR: Shoulder point not found!");
-                return null;
+                return result;
             }
 
             // Вернуть индекс в исходном массиве точек
             int shoulderIndex = windowCenters[shoulderWindowIdx.Value];
+            result.ShoulderPointIndex = shoulderIndex;
 
             Console.WriteLine("=== SHOULDER POINT DETECTED ===");
             Console.WriteLine("Phase 3 (Shoulder Contact):");
@@ -114,7 +133,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
             Console.WriteLine($"  Ratio: {avgDerivatives[shoulderWindowIdx.Value] / baselineAvg:F2}x");
             Console.WriteLine();
 
-            return shoulderIndex;
+            return result;
         }
 
         private int? FindShoulderWindowIndex(List<double> avgDerivatives, double baselineAvg, double baselineStd)

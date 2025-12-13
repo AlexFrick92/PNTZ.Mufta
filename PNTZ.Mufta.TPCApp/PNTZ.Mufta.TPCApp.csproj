@@ -165,6 +165,7 @@
     <Compile Include="Domain\JointResult.cs" />
     <Compile Include="Domain\MachineParam.cs" />
     <Compile Include="Domain\ShoulderPointDetector.cs" />
+    <Compile Include="Domain\ShoulderDetectionResult.cs" />
     <Compile Include="Domain\ThreadType.cs" />
     <Compile Include="Domain\TqTnLenPoint.cs" />
     <Compile Include="Domain\AnalysisDataPoint.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="ViewModel\Control\ChartSeriesViewModel.cs" />
     <Compile Include="ViewModel\Control\ChartViewModel.cs" />
     <Compile Include="ViewModel\Control\ConstantLineViewModel.cs" />
+    <Compile Include="ViewModel\Control\LineStyle.cs" />
     <Compile Include="ViewModel\Control\StripViewModel.cs" />
     <Compile Include="ViewModel\JointRecipeViewModel.cs" />
     <Compile Include="ViewModel\JointResultViewModel.cs" />

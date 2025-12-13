@@ -23,6 +23,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -34,32 +35,96 @@
                            Foreground="#2C3E50"
                            Margin="0,0,0,15"/>
 
-                <!-- Кнопка загрузки БД -->
+
+                <!-- Детектор заплечника -->
                 <GroupBox Grid.Row="1"
-                          Header="База данных"
-                          Margin="0,0,0,15"
+                          Header="Детектор заплечника"
+                          Margin="0,15,0,0"
                           Padding="10">
                     <StackPanel>
-                        <Button x:Name="BtnLoadDatabase"
-                                Content="📂 Загрузить БД"
-                                Click="BtnLoadDatabase_Click"
+                        <!-- WindowSize -->
+                        <TextBlock Text="Размер окна (WindowSize):"
+                                   FontSize="11"
+                                   Margin="0,0,0,3"/>
+                        <TextBox x:Name="TxtWindowSize"
+                                 Text="30"
+                                 Padding="5"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- SigmaMultiplier -->
+                        <TextBlock Text="Множитель σ (SigmaMultiplier):"
+                                   FontSize="11"
+                                   Margin="0,0,0,3"/>
+                        <TextBox x:Name="TxtSigmaMultiplier"
+                                 Text="10.0"
+                                 Padding="5"
+                                 Margin="0,0,0,10"/>
+
+                        <!-- SearchStartRatio -->
+                        <TextBlock Text="Начало поиска (SearchStartRatio):"
+                                   FontSize="11"
+                                   Margin="0,0,0,3"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Slider x:Name="SliderSearchStartRatio"
+                                    Minimum="0.0"
+                                    Maximum="1.0"
+                                    Value="0.7"
+                                    Width="150"
+                                    TickFrequency="0.1"
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    ValueChanged="SliderSearchStartRatio_ValueChanged"/>
+                            <TextBlock Text="{Binding ElementName=SliderSearchStartRatio, Path=Value, StringFormat='{}{0:F1}'}"
+                                       FontWeight="Bold"
+                                       Margin="10,0,0,0"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Кнопка расчета -->
+                        <Button x:Name="BtnRunDetection"
+                                Content="⚙ Выполнить расчёт"
+                                Click="BtnRunDetection_Click"
                                 Padding="10,8"
-                                Background="#3498DB"
+                                Background="#E67E22"
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"
-                                Margin="0,0,0,8"/>
+                                Margin="0,5,0,8"/>
 
-                        <TextBlock x:Name="DatabaseStatusText"
-                                   Text="База данных не загружена"
+                        <!-- Результат -->
+                        <TextBlock x:Name="DetectionResultText"
+                                   Text="Расчёт не выполнен"
                                    FontSize="11"
                                    Foreground="#7F8C8D"
                                    TextWrapping="Wrap"/>
                     </StackPanel>
                 </GroupBox>
 
-                <!-- Список результатов -->
+                <!-- Кнопка загрузки БД -->
                 <GroupBox Grid.Row="2"
+          Header="База данных"
+          Margin="0,0,0,15"
+          Padding="10">
+                    <StackPanel>
+                        <Button x:Name="BtnLoadDatabase"
+                Content="📂 Загрузить БД"
+                Click="BtnLoadDatabase_Click"
+                Padding="10,8"
+                Background="#3498DB"
+                Foreground="White"
+                BorderThickness="0"
+                Cursor="Hand"
+                Margin="0,0,0,8"/>
+
+                        <TextBlock x:Name="DatabaseStatusText"
+                   Text="База данных не загружена"
+                   FontSize="11"
+                   Foreground="#7F8C8D"
+                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                </GroupBox>
+                <!-- Список результатов -->
+                <GroupBox Grid.Row="3"
                           Header="Результаты свинчивания"
                           Padding="5">
                     <ListBox x:Name="ResultsListBox"
