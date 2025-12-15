@@ -36,6 +36,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             {
                 _currentResult = value;
                 OnPropertyChanged(nameof(CurrentResult));
+
+                // Очистить результаты предыдущего расчёта
+                ClearDetectionVisualization();
+                _lastDetectionResult = null;
+                DetectionResultText = "Расчёт не выполнен";
+
                 UpdateAnalysisData();
                 UpdateSearchAreaVisualization();
             }
