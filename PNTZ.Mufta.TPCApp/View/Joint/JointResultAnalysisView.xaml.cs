@@ -52,30 +52,7 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
                     DetectionResultText.Text = "⚠ Результат не загружен";
                     return;
                 }              
-
-                if (!int.TryParse(TxtDerivativeWindowSize.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int derivativeWindowSize) || derivativeWindowSize <= 0)
-                {
-                    DetectionResultText.Text = "⚠ Неверное значение DerivativeWindowSize";
-                    return;
-                }
-
-                if (!double.TryParse(TxtSigmaMultiplier.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double sigmaMultiplier) || sigmaMultiplier <= 0)
-                {
-                    DetectionResultText.Text = "⚠ Неверное значение SigmaMultiplier";
-                    return;
-                }
-
-                if (!double.TryParse(TxtStartWindow.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double searchStartRatio) 
-                    || searchStartRatio <= 0 || searchStartRatio > 1)
-                {
-                    DetectionResultText.Text = "⚠ Неверное значение окна поиска";
-                    return;
-                }                
-
-                // Передаём параметры в ViewModel
-                ViewModel.DerivativeWindowSize = derivativeWindowSize;
-                ViewModel.SigmaMultiplier = sigmaMultiplier;
-                ViewModel.SearchStartRatio = searchStartRatio;
+               
 
                 DetectionResultText.Text = "⏳ Выполняется расчёт...";
 
