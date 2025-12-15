@@ -66,49 +66,49 @@
         <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_CurrentReadings}"/>
         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Torque_Label}" Value="{Binding ActualPoint.Torque}" StringFormat="N0" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Length_Label}" Value="{Binding ActualPoint.Length_mm}" StringFormat="N1" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Turns_Label}" Value="{Binding ActualPoint.Turns}" StringFormat="N2" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_TurnsPerMinute_Label}" Value="{Binding ActualPoint.TurnsPerMinute}" StringFormat="N0" State="Normal"/>
-        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_ElapsedTime_Label}" Value="{Binding SecondsFromBeginJointing}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Torque_Label}" Value="{Binding ActualPoint.Torque, Mode=OneWay}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Length_Label}" Value="{Binding ActualPoint.Length_mm, Mode=OneWay}" StringFormat="N1" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Turns_Label}" Value="{Binding ActualPoint.Turns, Mode=OneWay}" StringFormat="N2" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_TurnsPerMinute_Label}" Value="{Binding ActualPoint.TurnsPerMinute, Mode=OneWay}" StringFormat="N0" State="Normal"/>
+        <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_ElapsedTime_Label}" Value="{Binding SecondsFromBeginJointing, Mode=OneWay}" StringFormat="N0" State="Normal"/>
 
         <!--Данные рецепта и результа отображаем только если загружен рецепт-->
         <StackPanel Orientation="Vertical" Visibility="{Binding LoadedRecipe, Converter={StaticResource NullToVisConverter}}">
             <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_Result}"/>
             <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Evaluation_Label}" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}}" 
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_Evaluation_Label}" Value="{Binding JointResult.ResultTotal, Converter={StaticResource ResultTotalToStringConverter}, Mode=OneWay}"
                                       StringFormat="" State="{Binding ResultTotalState}" />
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTorque_Label}" Value="{Binding JointResult.FinalTorque}" StringFormat="N0" State="{Binding ResultTorqueState}"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTorque_Label}" Value="{Binding JointResult.FinalTorque, Mode=OneWay}" StringFormat="N0" State="{Binding ResultTorqueState}"/>
 
             <!--Итог буртик отображаем только в режиме с буртиком-->
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalShoulderTorque_Label}" Value="{Binding JointResult.FinalShoulderTorque}" StringFormat="N0" State="{Binding ResultShoulderState}"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalShoulderTorque_Label}" Value="{Binding JointResult.FinalShoulderTorque, Mode=OneWay}" StringFormat="N0" State="{Binding ResultShoulderState}"
                                       Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalLength_Label}" Value="{Binding JointResult.FinalLength}" StringFormat="N1" State="{Binding ResultLengthState}"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MakeupLength_Label}" Value="{Binding JointResult.FinalMakeupLength_mm}" StringFormat="N1" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MVSLength_Label}" Value="{Binding JointResult.MVS_Len_mm}" StringFormat="N1" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTurns_Label}" Value="{Binding JointResult.FinalTurns}" StringFormat="N2" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalLength_Label}" Value="{Binding JointResult.FinalLength, Mode=OneWay}" StringFormat="N1" State="{Binding ResultLengthState}"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MakeupLength_Label}" Value="{Binding JointResult.FinalMakeupLength_mm, Mode=OneWay}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MVSLength_Label}" Value="{Binding JointResult.MVS_Len_mm, Mode=OneWay}" StringFormat="N1" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalTurns_Label}" Value="{Binding JointResult.FinalTurns, Mode=OneWay}" StringFormat="N2" State="Normal"/>
             
             <Label Style="{StaticResource ParamHeaderLabel}" Content="{StaticResource JointProcess_RecipeData}"/>
             <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_OptimalTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Opt}" StringFormat="N0" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Max}" StringFormat="N0" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Min}" StringFormat="N0" State="Normal"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Dump}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_OptimalTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Opt, Mode=OneWay}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Max, Mode=OneWay}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Min, Mode=OneWay}" StringFormat="N0" State="Normal"/>
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpTorque_Label}" Value="{Binding LoadedRecipe.MU_Tq_Dump, Mode=OneWay}" StringFormat="N0" State="Normal"/>
             <Label/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Max}" StringFormat="N1" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Max, Mode=OneWay}" StringFormat="N1" State="Normal"
                                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Min}" StringFormat="N1" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Min, Mode=OneWay}" StringFormat="N1" State="Normal"
                                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Dump}" StringFormat="N1" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpLength_Label}" Value="{Binding LoadedRecipe.MU_Len_Dump, Mode=OneWay}" StringFormat="N1" State="Normal"
                                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
 
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxShoulderTorque_Label}" Value="{Binding LoadedRecipe.MU_TqShoulder_Max}" StringFormat="N0" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxShoulderTorque_Label}" Value="{Binding LoadedRecipe.MU_TqShoulder_Max, Mode=OneWay}" StringFormat="N0" State="Normal"
                           Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
-            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinShoulderTorque_Label}" Value="{Binding LoadedRecipe.MU_TqShoulder_Min}" StringFormat="N0" State="Normal"
+            <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinShoulderTorque_Label}" Value="{Binding LoadedRecipe.MU_TqShoulder_Min, Mode=OneWay}" StringFormat="N0" State="Normal"
                           Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
 
 
