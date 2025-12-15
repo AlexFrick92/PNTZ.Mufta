@@ -8,11 +8,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Левая панель: управление и список результатов -->
+        <!-- Левая панель: загрузка БД и список результатов -->
         <Border Grid.Column="0"
                 Background="#F8F9FA"
                 BorderBrush="#DEE2E6"
@@ -23,163 +23,43 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!-- Заголовок -->
                 <TextBlock Grid.Row="0"
-                           Text="Анализ результатов свинчивания"
+                           Text="Тестирование анализа"
                            FontSize="18"
                            FontWeight="Bold"
                            Foreground="#2C3E50"
                            Margin="0,0,0,15"/>
 
-
-                <!-- Детектор заплечника -->
+                <!-- Кнопка загрузки БД -->
                 <GroupBox Grid.Row="1"
-                          Header="Детектор заплечника"
-                          Margin="0,15,0,0"
+                          Header="База данных"
+                          Margin="0,0,0,15"
                           Padding="10">
                     <StackPanel>
-                        <!-- WindowSize -->
-                        <TextBlock Text="Размер окна момента (WindowSize):"
-                                   FontSize="11"
-                                   Margin="0,0,0,3"/>
-                        <TextBox x:Name="TxtWindowSize"
-                                 Text="30"
-                                 Padding="5"
-                                 Margin="0,0,0,10"/>
-
-                        <!-- DerivativeWindowSize -->
-                        <TextBlock Text="Размер окна производной (DerivativeWindowSize):"
-                                   FontSize="11"
-                                   Margin="0,0,0,3"/>
-                        <TextBox x:Name="TxtDerivativeWindowSize"
-                                 Text="15"
-                                 Padding="5"
-                                 Margin="0,0,0,10"/>
-
-                        <!-- SigmaMultiplier -->
-                        <TextBlock Text="Множитель σ (SigmaMultiplier):"
-                                   FontSize="11"
-                                   Margin="0,0,0,3"/>
-                        <TextBox x:Name="TxtSigmaMultiplier"
-                                 Text="10.0"
-                                 Padding="5"
-                                 Margin="0,0,0,10"/>
-
-                        <!-- SearchStartRatio -->
-                        <TextBlock Text="Начало поиска (SearchStartRatio):"
-                                   FontSize="11"
-                                   Margin="0,0,0,3"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <Slider x:Name="SliderSearchStartRatio"
-                                    Minimum="0.0"
-                                    Maximum="1.0"
-                                    Value="0.7"
-                                    Width="150"
-                                    TickFrequency="0.1"
-                                    IsSnapToTickEnabled="True"
-                                    VerticalAlignment="Center"
-                                    ValueChanged="SliderSearchStartRatio_ValueChanged"/>
-                            <TextBlock Text="{Binding ElementName=SliderSearchStartRatio, Path=Value, StringFormat='{}{0:F1}'}"
-                                       FontWeight="Bold"
-                                       Margin="10,0,0,0"
-                                       VerticalAlignment="Center"/>
-                        </StackPanel>
-
-                        <!-- Кнопка расчета -->
-                        <Button x:Name="BtnRunDetection"
-                                Content="⚙ Выполнить расчёт"
-                                Click="BtnRunDetection_Click"
+                        <Button x:Name="BtnLoadDatabase"
+                                Content="📂 Загрузить БД"
+                                Click="BtnLoadDatabase_Click"
                                 Padding="10,8"
-                                Background="#E67E22"
+                                Background="#3498DB"
                                 Foreground="White"
                                 BorderThickness="0"
                                 Cursor="Hand"
-                                Margin="0,5,0,10"/>
+                                Margin="0,0,0,8"/>
 
-                        <!-- Чекбоксы отображения -->
-                        <TextBlock Text="Отображение:"
-                                   FontSize="11"
-                                   FontWeight="Bold"
-                                   Margin="0,0,0,5"/>
-
-                        <CheckBox x:Name="ChkShowSmoothedTorque"
-                                  Content="Сглаженный момент"
-                                  IsChecked="True"
-                                  Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
-
-                        <CheckBox x:Name="ChkShowDerivative"
-                                  Content="Производная"
-                                  IsChecked="True"
-                                  Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
-
-                        <CheckBox x:Name="ChkShowSigmaLines"
-                                  Content="Линии сигм (+1σ, +2σ...)"
-                                  IsChecked="True"
-                                  Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
-
-                        <CheckBox x:Name="ChkShowThreshold"
-                                  Content="Линия порога (Threshold)"
-                                  IsChecked="True"
-                                  Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
-
-                        <CheckBox x:Name="ChkShowBaseline"
-                                  Content="Базовая линия (Baseline)"
-                                  IsChecked="True"
-                                  Margin="0,0,0,10"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
-
-                        <!-- Результат -->
-                        <TextBlock x:Name="DetectionResultText"
-                                   Text="Расчёт не выполнен"
+                        <TextBlock x:Name="DatabaseStatusText"
+                                   Text="База данных не загружена"
                                    FontSize="11"
                                    Foreground="#7F8C8D"
                                    TextWrapping="Wrap"/>
                     </StackPanel>
                 </GroupBox>
 
-                <!-- Кнопка загрузки БД -->
-                <GroupBox Grid.Row="2"
-          Header="База данных"
-          Margin="0,0,0,15"
-          Padding="10">
-                    <StackPanel>
-                        <Button x:Name="BtnLoadDatabase"
-                Content="📂 Загрузить БД"
-                Click="BtnLoadDatabase_Click"
-                Padding="10,8"
-                Background="#3498DB"
-                Foreground="White"
-                BorderThickness="0"
-                Cursor="Hand"
-                Margin="0,0,0,8"/>
-
-                        <TextBlock x:Name="DatabaseStatusText"
-                   Text="База данных не загружена"
-                   FontSize="11"
-                   Foreground="#7F8C8D"
-                   TextWrapping="Wrap"/>
-                    </StackPanel>
-                </GroupBox>
                 <!-- Список результатов -->
-                <GroupBox Grid.Row="3"
+                <GroupBox Grid.Row="2"
                           Header="Результаты свинчивания"
                           Padding="5">
                     <ListBox x:Name="ResultsListBox"

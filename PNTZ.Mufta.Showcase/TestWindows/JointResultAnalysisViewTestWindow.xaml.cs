@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Windows;
 using Microsoft.Win32;
 using PNTZ.Mufta.TPCApp.Domain;
@@ -93,120 +92,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                     // Передаем результат в ViewModel контрола
                     _viewModel.CurrentResult = realResult;
 
-                    UpdateStatus($"Загружены данные: {realResult.Recipe.Name}, {realResult.Series.Count} точек");
+                    UpdateStatus($"Результат загружен: {realResult.Recipe.Name}, {realResult.Series.Count} точек");
                 }
                 catch (Exception ex)
                 {
                     UpdateStatus($"Ошибка загрузки данных: {ex.Message}");
                 }
-            }
-        }
-
-        /// <summary>
-        /// Обработчик изменения слайдера SearchStartRatio
-        /// </summary>
-        private void SliderSearchStartRatio_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            // Обновляем параметр в ViewModel, что автоматически обновит визуализацию зоны
-            if (_viewModel != null)
-            {
-                _viewModel.SearchStartRatio = e.NewValue;
-            }
-        }
-
-        /// <summary>
-        /// Обработчик изменения чекбоксов видимости элементов визуализации
-        /// </summary>
-        private void ChkVisibility_Changed(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel == null)
-                return;
-
-            // Обновляем флаги видимости в ViewModel
-            _viewModel.ShowSmoothedTorque = ChkShowSmoothedTorque?.IsChecked ?? true;
-            _viewModel.ShowDerivative = ChkShowDerivative?.IsChecked ?? true;
-            _viewModel.ShowSigmaLines = ChkShowSigmaLines?.IsChecked ?? true;
-            _viewModel.ShowThreshold = ChkShowThreshold?.IsChecked ?? true;
-            _viewModel.ShowBaseline = ChkShowBaseline?.IsChecked ?? true;
-        }
-
-        /// <summary>
-        /// Обработчик кнопки "Выполнить расчёт" детектора заплечника
-        /// </summary>
-        private void BtnRunDetection_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // Проверяем, что результат загружен
-                if (_viewModel.CurrentResult == null)
-                {
-                    DetectionResultText.Text = "⚠ Сначала выберите результат из списка";
-                    UpdateStatus("Ошибка: результат не выбран");
-                    return;
-                }
-
-                // Читаем параметры из UI
-                if (!int.TryParse(TxtWindowSize.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int windowSize) || windowSize <= 0)
-                {
-                    DetectionResultText.Text = "⚠ Неверное значение WindowSize";
-                    UpdateStatus("Ошибка: некорректный WindowSize");
-                    return;
-                }
-
-                if (!int.TryParse(TxtDerivativeWindowSize.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int derivativeWindowSize) || derivativeWindowSize <= 0)
-                {
-                    DetectionResultText.Text = "⚠ Неверное значение DerivativeWindowSize";
-                    UpdateStatus("Ошибка: некорректный DerivativeWindowSize");
-                    return;
-                }
-
-                if (!double.TryParse(TxtSigmaMultiplier.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double sigmaMultiplier) || sigmaMultiplier <= 0)
-                {
-                    DetectionResultText.Text = "⚠ Неверное значение SigmaMultiplier";
-                    UpdateStatus("Ошибка: некорректный SigmaMultiplier");
-                    return;
-                }
-
-                double searchStartRatio = SliderSearchStartRatio.Value;
-
-                // Передаём параметры в ViewModel
-                _viewModel.WindowSize = windowSize;
-                _viewModel.DerivativeWindowSize = derivativeWindowSize;
-                _viewModel.SigmaMultiplier = sigmaMultiplier;
-                _viewModel.SearchStartRatio = searchStartRatio;
-
-                UpdateStatus("Выполняется расчёт детектора заплечника...");
-                DetectionResultText.Text = "⏳ Выполняется расчёт...";
-
-                // Запускаем детектор
-                _viewModel.RunShoulderDetection();
-
-                // Получаем результат из последнего расчёта
-                var result = _viewModel.GetLastDetectionResult();
-
-                if (result?.ShoulderPointIndex.HasValue == true)
-                {
-                    int index = result.ShoulderPointIndex.Value;
-                    var point = _viewModel.CurrentResult.Series[index];
-
-                    DetectionResultText.Text = $"✓ Точка найдена!\n" +
-                        $"Индекс: {index}\n" +
-                        $"Момент: {point.Torque:F1} Nm\n" +
-                        $"Обороты: {point.Turns:F3}\n" +
-                        $"Время: {point.TimeStamp / 1000.0:F2} сек";
-
-                    UpdateStatus($"Детектор завершён: точка найдена на индексе {index}");
-                }
-                else
-                {
-                    DetectionResultText.Text = "✗ Точка заплечника не найдена";
-                    UpdateStatus("Детектор завершён: точка не найдена");
-                }
-            }
-            catch (Exception ex)
-            {
-                DetectionResultText.Text = $"⚠ Ошибка: {ex.Message}";
-                UpdateStatus($"Ошибка расчёта: {ex.Message}");
             }
         }
     }
