@@ -35,7 +35,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                                                
+
                 <!-- Заголовок -->
                 <TextBlock Grid.Row="0"
                            Text="Детектор заплечника"
@@ -62,21 +62,27 @@
                                 Value="{Binding DerivativeWindowSize, ValidatesOnExceptions=True}"
                                 StringFormat="F0"
                                 IsReadOnly="False"
-                                InputType="Integer"/>
+                                InputType="Integer"
+                                MinValue="1"
+                                MaxValue="100"/>
 
                         <!-- SigmaMultiplier -->
                         <ctrl:ParameterDisplayControl Label="Множитель σ"
                                 Value="{Binding SigmaMultiplier, ValidatesOnExceptions=True}"
                                 StringFormat="F1"
                                 IsReadOnly="False"
-                                InputType="Float"/>
+                                InputType="Float"
+                                MinValue="1"
+                                MaxValue="50"/>
 
-                        <!-- SearchStartRatio -->
-                        <ctrl:ParameterDisplayControl Label="Начало поиска"
-                                Value="{Binding SearchStartRatio, ValidatesOnExceptions=True}"
-                                StringFormat="F2"
+                        <!-- SearchStartPercent -->
+                        <ctrl:ParameterDisplayControl Label="Начало поиска (%)"
+                                Value="{Binding SearchStartPercent, ValidatesOnExceptions=True}"
+                                StringFormat="F0"
                                 IsReadOnly="False"
-                                InputType="Float"/>
+                                InputType="Float"
+                                MinValue="0"
+                                MaxValue="100"/>
 
                         <!-- Кнопка расчета -->
                         <Button x:Name="BtnRunDetection"

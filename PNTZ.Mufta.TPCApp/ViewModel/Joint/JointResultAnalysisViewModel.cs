@@ -212,6 +212,21 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
 
         /// <summary>
+        /// С какого места начинать искать заплечник (в процентах, 0 - 100)
+        /// </summary>
+        public double SearchStartPercent
+        {
+            get => _searchStartRatio * 100.0;
+            set
+            {
+                _searchStartRatio = value / 100.0;
+                OnPropertyChanged(nameof(SearchStartPercent));
+                OnPropertyChanged(nameof(SearchStartRatio));
+                UpdateSearchAreaVisualization();
+            }
+        }
+
+        /// <summary>
         /// Отображать производную на графике
         /// </summary>
         public bool ShowDerivative
