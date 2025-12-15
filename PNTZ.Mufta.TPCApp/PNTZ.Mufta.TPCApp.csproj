@@ -243,6 +243,7 @@
     <Compile Include="View\Converter\JointModeToVisibilityConverter.cs" />
     <Compile Include="View\Converter\NullToVisibilityConverter.cs" />
     <Compile Include="View\Converter\ResultTotalToStringConverter.cs" />
+    <Compile Include="View\EnumEqualityConverter.cs" />
     <Compile Include="View\EnumHelper.cs" />
     <Compile Include="View\EnumToCollectionConverter.cs" />
     <Compile Include="View\Formatter\SecondsIntegerLabelFormatter.cs" />

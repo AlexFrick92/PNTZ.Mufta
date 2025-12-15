@@ -1,37 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Markup;
 
-namespace PNTZ.Mufta.TPCApp.View.Recipe
+namespace PNTZ.Mufta.TPCApp.View
 {
-    /// <summary>
-    /// Interaction logic for EditRecipeView.xaml
-    /// </summary>
-    public partial class EditRecipeView : UserControl
-    {
-        public EditRecipeView()
-        {
-            InitializeComponent();
-        }
-    }
-
     public class EnumEqualityConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (values.Length == 2 && values[0] != null && values[1] != null)
             {
+
                 return values[0].Equals(values[1]);
             }
             return false;

@@ -7,8 +7,9 @@
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
-             xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View" 
-             
+             xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
+             xmlns:domain="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
+
             d:DataContext="{d:DesignInstance Type=viewmodel:EditRecipeViewModel}"
              
              mc:Ignorable="d" 
@@ -42,26 +43,452 @@
         ======================================== -->
 
         <view:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
-        
+        <view:EnumEqualityConverter x:Key="EnumEqualityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
+        <!-- ========================================
+        СТИЛИ ДЛЯ КНОПОК РЕЖИМА
+        ======================================== -->
+
+        <Style x:Key="BorderSeparatorStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#cecece"/>
+            <Setter Property="BorderThickness" Value="1,0,0,0"/>
+            <Setter Property="Margin" Value="2,2,2,2"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SelectModeButtonColored">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Command" Value="{Binding SetModeCommand}"/>
+            <Setter Property="Height" Value="75"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+
+            <Style.Triggers>
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource EnumEqualityConverter}">
+                            <Binding Path="Tag" RelativeSource="{RelativeSource Self}" />
+                            <Binding Path="EditingRecipe.JointMode" />
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+                    <DataTrigger.Setters>
+                        <Setter Property="Background" Value="LightGray" />
+                    </DataTrigger.Setters>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Label" x:Key="SelectModeButtonLabel">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="DimGray"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
 
     </UserControl.Resources>
 
     <Grid Grid.IsSharedSizeScope="True">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="10">
 
-        <StackPanel Orientation="Vertical">
-            <Label Style="{StaticResource ParamHeaderLabel}" Content="⚙️ Общие параметры"/>
-            <Border Style="{StaticResource HeaderUnderStroke}"/>
+                <!-- ========================================
+                ОБЩИЕ ПАРАМЕТРЫ
+                ======================================== -->
+                <Label Style="{StaticResource ParamHeaderLabel}" Content="⚙️ Общие параметры"/>
+                <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-            <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
-                    Value="{Binding EditingRecipe.HEAD_OPEN_PULSES}"
-                    StringFormat="F2"
-                    IsReadOnly="False"
-                    InputType="Float"
-                    MaxValue="100"
-                    MinValue="1"/>
+                <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
+                        Value="{Binding EditingRecipe.HEAD_OPEN_PULSES}"
+                        StringFormat="F2"
+                        IsReadOnly="False"
+                        InputType="Float"
+                        MinValue="0.01"
+                        MaxValue="10"/>
 
-        </StackPanel>
+                <ctrl:ParameterDisplayControl Label="Обороты развинчивание"
+                        Value="{Binding EditingRecipe.TURNS_BREAK}"
+                        StringFormat="F2"
+                        IsReadOnly="False"
+                        InputType="Float"
+                        MinValue="0.01"
+                        MaxValue="10"/>
 
+                <ctrl:ParameterDisplayControl Label="Шаг резьбы, m/n"
+                        Value="{Binding EditingRecipe.Thread_step}"
+                        StringFormat="F2"
+                        IsReadOnly="False"
+                        InputType="Float"
+                        MinValue="0.1"
+                        MaxValue="10"/>
+
+                <ctrl:ParameterDisplayControl Label="Программа SPS"
+                        Value="{Binding EditingRecipe.PLC_PROGR_NUM}"
+                        StringFormat=""
+                        IsReadOnly="False"
+                        InputType="Integer"
+                        MinValue="0"
+                        MaxValue="999"/>
+
+                <!-- ========================================
+                ДАННЫЕ МУФТЫ
+                ======================================== -->
+                <Label Style="{StaticResource ParamHeaderLabel}" Content="🔩 Данные муфты" Margin="0,20,0,0"/>
+                <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+                <ctrl:ParameterDisplayControl Label="Мин. длина"
+                        Value="{Binding EditingRecipe.Box_Len_Min}"
+                        StringFormat="F1"
+                        IsReadOnly="False"
+                        InputType="Float"
+                        MinValue="50"
+                        MaxValue="500"/>
+
+                <ctrl:ParameterDisplayControl Label="Макс. длина"
+                        Value="{Binding EditingRecipe.Box_Len_Max}"
+                        StringFormat="F1"
+                        IsReadOnly="False"
+                        InputType="Float"
+                        MinValue="50"
+                        MaxValue="500"/>
+
+                <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                        Value="{Binding EditingRecipe.Box_Moni_Time}"
+                        StringFormat=""
+                        IsReadOnly="False"
+                        InputType="Integer"
+                        MinValue="5"
+                        MaxValue="100"/>
+
+                <!-- ========================================
+                ПРЕДНАВЁРТКА
+                ======================================== -->
+                <Label Style="{StaticResource ParamHeaderLabel}" Content="🔧 Преднавёртка" Margin="0,20,0,0"/>
+                <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+                <ctrl:ParameterDisplayControl Label="Мин. длина"
+                        Value="{Binding EditingRecipe.Pre_Len_Min}"
+                        StringFormat="F1"
+                        IsReadOnly="False"
+                        InputType="Float"
+                        MinValue="5"
+                        MaxValue="500"/>
+
+                <ctrl:ParameterDisplayControl Label="Макс. длина"
+                        Value="{Binding EditingRecipe.Pre_Len_Max}"
+                        StringFormat="F1"
+                        IsReadOnly="False"
+                        InputType="Float"
+                        MinValue="5"
+                        MaxValue="500"/>
+
+                <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                        Value="{Binding EditingRecipe.Pre_Moni_Time}"
+                        StringFormat=""
+                        IsReadOnly="False"
+                        InputType="Integer"
+                        MinValue="5"
+                        MaxValue="100"/>
+
+                <!-- ========================================
+                ВЫБОР РЕЖИМА СВИНЧИВАНИЯ
+                ======================================== -->
+                <Label Style="{StaticResource ParamHeaderLabel}" Content="🛠️ Режим свинчивания" Margin="0,20,0,0"/>
+                <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+                <WrapPanel Orientation="Horizontal" Margin="0,10,0,10">
+                    <Button Tag="{x:Static domain:JointMode.Torque}" Style="{StaticResource SelectModeButtonColored}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorque.png"/>
+                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ"/>
+                        </Grid>
+                    </Button>
+
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                    <Button Tag="{x:Static domain:JointMode.TorqueShoulder}" Style="{StaticResource SelectModeButtonColored}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueShoulder.png"/>
+                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ и ВЫСТУП"/>
+                        </Grid>
+                    </Button>
+
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                    <Button Tag="{x:Static domain:JointMode.Length}" Style="{StaticResource SelectModeButtonColored}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeLength.png"/>
+                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="ДЛИНА"/>
+                        </Grid>
+                    </Button>
+
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                    <Button Tag="{x:Static domain:JointMode.TorqueLength}" Style="{StaticResource SelectModeButtonColored}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueLength.png"/>
+                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ и ДЛИНА"/>
+                        </Grid>
+                    </Button>
+
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                    <Button Tag="{x:Static domain:JointMode.Jval}" Style="{StaticResource SelectModeButtonColored}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeJValue.png"/>
+                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="ЗНАЧЕНИЕ J"/>
+                        </Grid>
+                    </Button>
+
+                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
+
+                    <Button Tag="{x:Static domain:JointMode.TorqueJVal}" Style="{StaticResource SelectModeButtonColored}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueJValue.png"/>
+                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ и J"/>
+                        </Grid>
+                    </Button>
+                </WrapPanel>
+
+                <!-- ========================================
+                ПАРАМЕТРЫ КОНТРОЛЯ СВИНЧИВАНИЯ
+                ======================================== -->
+                <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                    <!-- Динамические заголовки в зависимости от режима -->
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="💪 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА"
+                           Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="💪 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ВЫСТУПА"
+                           Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="📐 Параметры контроля свинчивания: КОНТРОЛЬ ДЛИНЫ"
+                           Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="📐 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ДЛИНЫ"
+                           Visibility="{Binding IsTorqueLengthMode, Converter={StaticResource BoolToVis}}"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="📏 Параметры контроля свинчивания: КОНТРОЛЬ ЗНАЧЕНИЯ J"
+                           Visibility="{Binding IsJvalMode, Converter={StaticResource BoolToVis}}"/>
+                    <Label Style="{StaticResource ParamHeaderLabel}" Content="📏 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ЗНАЧЕНИЯ J"
+                           Visibility="{Binding IsTorqueJvalMode, Converter={StaticResource BoolToVis}}"/>
+
+                    <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+                    <!-- Общие параметры момента (для всех режимов) -->
+                    <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
+                            Value="{Binding EditingRecipe.MU_Tq_Ref}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="0"
+                            MaxValue="30000"/>
+
+                    <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
+                            Value="{Binding EditingRecipe.MU_Tq_Save}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="0"
+                            MaxValue="30000"/>
+
+                    <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                            Value="{Binding EditingRecipe.MU_Moni_Time}"
+                            StringFormat=""
+                            IsReadOnly="False"
+                            InputType="Integer"
+                            MinValue="5"
+                            MaxValue="100"/>
+
+                    <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
+                            Value="{Binding EditingRecipe.MU_Tq_Dump}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="30000"/>
+
+                    <!-- Оптимальный момент (для Torque, TorqueShoulder, Length, TorqueLength) -->
+                    <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
+                            Value="{Binding EditingRecipe.MU_Tq_Opt}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="30000"
+                            Visibility="{Binding ShowTorqueOptimal, Converter={StaticResource BoolToVis}}"/>
+
+                    <!-- Мин/Макс момента (для Torque, TorqueShoulder, TorqueLength, TorqueJVal) -->
+                    <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
+                            Value="{Binding EditingRecipe.MU_Tq_Min}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="30000"
+                            Visibility="{Binding ShowTorqueMinMax, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
+                            Value="{Binding EditingRecipe.MU_Tq_Max}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="30000"
+                            Visibility="{Binding ShowTorqueMinMax, Converter={StaticResource BoolToVis}}"/>
+
+                    <!-- Уменьшение скорости по моменту (для Torque, TorqueShoulder) -->
+                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
+                            Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="0"
+                            MaxValue="30000"
+                            Visibility="{Binding ShowTorqueSpeedReduction, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
+                            Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="0"
+                            MaxValue="30000"
+                            Visibility="{Binding ShowTorqueSpeedReduction, Converter={StaticResource BoolToVis}}"/>
+
+                    <!-- Параметры плеча (только для TorqueShoulder) -->
+                    <ctrl:ParameterDisplayControl Label="Минимальный момент на плече, Нм"
+                            Value="{Binding EditingRecipe.MU_TqShoulder_Min}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="30000"
+                            Visibility="{Binding ShowShoulderParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Максимальный момент на плече, Нм"
+                            Value="{Binding EditingRecipe.MU_TqShoulder_Max}"
+                            StringFormat="N0"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="30000"
+                            Visibility="{Binding ShowShoulderParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <!-- Параметры длины (для Length, TorqueLength) -->
+                    <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
+                            Value="{Binding EditingRecipe.MU_Len_Dump}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
+                            Value="{Binding EditingRecipe.MU_Len_Speed_1}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
+                            Value="{Binding EditingRecipe.MU_Len_Speed_2}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Мин. глубина, мм"
+                            Value="{Binding EditingRecipe.MU_Len_Min}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Макс. глубина, мм"
+                            Value="{Binding EditingRecipe.MU_Len_Max}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <!-- Параметры J (для Jval, TorqueJVal) -->
+                    <ctrl:ParameterDisplayControl Label="Мин. значение J, мм"
+                            Value="{Binding EditingRecipe.MU_JVal_Min}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Макс. значение J, мм"
+                            Value="{Binding EditingRecipe.MU_JVal_Max}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Значение J сброса, мм"
+                            Value="{Binding EditingRecipe.MU_JVal_Dump}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 при значении J, мм"
+                            Value="{Binding EditingRecipe.MU_JVal_Speed_1}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
+
+                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 при значении J, мм"
+                            Value="{Binding EditingRecipe.MU_JVal_Speed_2}"
+                            StringFormat="F1"
+                            IsReadOnly="False"
+                            InputType="Float"
+                            MinValue="1"
+                            MaxValue="200"
+                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

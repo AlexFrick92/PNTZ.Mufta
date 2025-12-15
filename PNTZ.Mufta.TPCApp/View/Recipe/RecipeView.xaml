@@ -26,7 +26,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <view:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
-            <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
+            <view:EnumEqualityConverter x:Key="EnumEqualityConverter" />
 
             <!-- Поля ввода-->
             <Style x:Key="InputField" TargetType="TextBox">
