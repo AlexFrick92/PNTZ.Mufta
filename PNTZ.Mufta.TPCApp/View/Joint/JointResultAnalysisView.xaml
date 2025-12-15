@@ -79,21 +79,10 @@
                         <TextBlock Text="Начало поиска (SearchStartRatio):"
                                    FontSize="11"
                                    Margin="0,0,0,3"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <Slider x:Name="SliderSearchStartRatio"
-                                    Minimum="0.0"
-                                    Maximum="1.0"
-                                    Value="0.7"
-                                    Width="150"
-                                    TickFrequency="0.1"
-                                    IsSnapToTickEnabled="True"
-                                    VerticalAlignment="Center"
-                                    ValueChanged="SliderSearchStartRatio_ValueChanged"/>
-                            <TextBlock Text="{Binding ElementName=SliderSearchStartRatio, Path=Value, StringFormat='{}{0:F1}'}"
-                                       FontWeight="Bold"
-                                       Margin="10,0,0,0"
-                                       VerticalAlignment="Center"/>
-                        </StackPanel>
+                        <TextBox x:Name="TxtStartWindow"
+                                  Text="0.7"
+                                  Padding="5"
+                                  Margin="0,0,0,10"/>
 
                         <!-- Кнопка расчета -->
                         <Button x:Name="BtnRunDetection"

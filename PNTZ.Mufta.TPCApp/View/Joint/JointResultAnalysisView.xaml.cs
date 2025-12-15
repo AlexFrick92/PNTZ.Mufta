@@ -17,19 +17,6 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
         {
             InitializeComponent();
         }
-
-        /// <summary>
-        /// Обработчик изменения слайдера SearchStartRatio
-        /// </summary>
-        private void SliderSearchStartRatio_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            // Обновляем параметр в ViewModel, что автоматически обновит визуализацию зоны
-            if (ViewModel != null)
-            {
-                ViewModel.SearchStartRatio = e.NewValue;
-            }
-        }
-
         /// <summary>
         /// Обработчик изменения чекбоксов видимости элементов визуализации
         /// </summary>
@@ -85,7 +72,12 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
                     return;
                 }
 
-                double searchStartRatio = SliderSearchStartRatio.Value;
+                if (!double.TryParse(TxtStartWindow.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double searchStartRatio) 
+                    || searchStartRatio <= 0 || searchStartRatio > 1)
+                {
+                    DetectionResultText.Text = "⚠ Неверное значение окна поиска";
+                    return;
+                }                
 
                 // Передаём параметры в ViewModel
                 ViewModel.WindowSize = windowSize;
