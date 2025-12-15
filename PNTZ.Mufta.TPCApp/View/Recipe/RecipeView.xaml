@@ -25,6 +25,9 @@
                 <ResourceDictionary Source="/View/Styles/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <view:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
+            <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
+
             <!-- Поля ввода-->
             <Style x:Key="InputField" TargetType="TextBox">
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -348,14 +351,14 @@
                 <Label Grid.Row="4" Grid.Column="0"
                             Style="{StaticResource InputFieldLabel}" Content="Тип резьбы"/>
                 <ComboBox Grid.Row="4" Grid.Column="1"
-                            ItemsSource="{Binding Path=EditRecipe.SelectedThreadType, Converter={view:EnumToCollectionConverter}, Mode=OneWay}" 
+                            ItemsSource="{Binding Path=EditRecipe.SelectedThreadType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneWay}" 
                             SelectedValuePath="Value"
                             DisplayMemberPath="Description"
                             SelectedValue="{Binding Path=EditRecipe.SelectedThreadType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Width="80"                                   
                           
-                          HorizontalAlignment="Left"                                                                             
-                          HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Left"                                                                             
+                            HorizontalContentAlignment="Center"
                           />
 
                 <Label Grid.Row="5" Grid.Column="0" 
@@ -432,7 +435,7 @@
             <!--********************* ВЫБОР РЕЖИМА **********************************************-->
             <Grid Grid.Row="2" Width="950" HorizontalAlignment="Left">
                 <Grid.Resources>
-                    <local:EnumEqualityConverter x:Key="EnumEqualityConverter" />
+
 
                     <Style x:Key="BorderSeparatorStyle" TargetType="Border">
                         <Setter Property="BorderBrush" Value="#cecece"/>

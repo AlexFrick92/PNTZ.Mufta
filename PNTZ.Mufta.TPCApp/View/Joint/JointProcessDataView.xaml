@@ -46,16 +46,6 @@
             <Setter Property="BorderBrush" Value="{DynamicResource JointProcess_ParamHeader_Foreground}"/>
             <Setter Property="Margin" Value="0,0,0,5"/>
         </Style>
-
-        <!--Видимость в зависимости от выбранного режима-->
-        <Style TargetType="Label" x:Key="ShoulderModeLabelVisibility">
-            <Setter Property="Visibility" Value="Hidden"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding EditRecipe.JointMode}" Value="{x:Static domain:JointMode.TorqueShoulder}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
 
 

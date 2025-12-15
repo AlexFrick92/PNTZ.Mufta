@@ -3,15 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"
+             xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
+             xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View" 
+             
+            d:DataContext="{d:DesignInstance Type=viewmodel:EditRecipeViewModel}"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Content="Редактирование рецепта"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               FontSize="24"
-               FontWeight="Bold"/>
+
+    <!-- ========================================
+     РЕСУРСЫ
+     ======================================== -->
+
+    <UserControl.Resources>
+        <!-- ========================================
+        СТИЛИ
+        ======================================== -->
+
+        <!--Заголовок-->
+        <Style x:Key="ParamHeaderLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="{DynamicResource JointProcess_ParamHeader_FontSize}"/>
+            <Setter Property="FontWeight" Value="{DynamicResource JointProcess_ParamHeader_FontWeight}"/>
+            <Setter Property="FontFamily" Value="{DynamicResource JointProcess_ParamHeader_FontFamily}"/>
+            <Setter Property="Foreground" Value="{DynamicResource JointProcess_ParamHeader_Foreground}"/>
+        </Style>
+        <!--Линия под заголовком-->
+        <Style x:Key="HeaderUnderStroke" TargetType="Border">
+            <Setter Property="BorderThickness" Value="0,1,0,0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource JointProcess_ParamHeader_Foreground}"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <!-- ========================================
+        КОНВЕРТЕРЫ
+        ======================================== -->
+
+        <view:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
+        
+
+
+    </UserControl.Resources>
+
+    <Grid Grid.IsSharedSizeScope="True">
+
+        <StackPanel Orientation="Vertical">
+            <Label Style="{StaticResource ParamHeaderLabel}" Content="⚙️ Общие параметры"/>
+            <Border Style="{StaticResource HeaderUnderStroke}"/>
+
+            <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
+                    Value="{Binding EditingRecipe.HEAD_OPEN_PULSES}"
+                    StringFormat="F2"
+                    IsReadOnly="False"
+                    InputType="Float"
+                    MaxValue="100"
+                    MinValue="1"/>
+
+        </StackPanel>
 
     </Grid>
 </UserControl>
