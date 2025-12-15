@@ -49,13 +49,11 @@
                               VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <!-- WindowSize -->
-                        <TextBlock Text="Размер окна момента (WindowSize):"
-                                   FontSize="11"
-                                   Margin="0,0,0,3"/>
-                        <TextBox x:Name="TxtWindowSize"
-                                 Text="30"
-                                 Padding="5"
-                                 Margin="0,0,0,10"/>
+                        <ctrl:ParameterDisplayControl Label="Окно сглаживания момента"
+                                Value="{Binding WindowSize, ValidatesOnExceptions=True}"
+                                StringFormat="F0"
+                                IsReadOnly="False"
+                                InputType="Integer"/>
 
                         <!-- DerivativeWindowSize -->
                         <TextBlock Text="Размер окна производной (DerivativeWindowSize):"

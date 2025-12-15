@@ -4,6 +4,7 @@ using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
 
@@ -155,6 +156,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             set
             {
                 _windowSize = value;
+                Debug.WriteLine($"WindowSize set {value}");
                 OnPropertyChanged(nameof(WindowSize));
             }
         }
@@ -279,6 +281,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
 
             // Очистить предыдущую визуализацию
             ClearDetectionVisualization();
+
+            Debug.WriteLine($"WindowSize : {WindowSize}");
 
             // Создать детектор с текущими параметрами
             var detector = new ShoulderPointDetector(_currentResult.Series)

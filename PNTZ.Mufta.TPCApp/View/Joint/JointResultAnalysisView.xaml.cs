@@ -51,14 +51,7 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
                 {
                     DetectionResultText.Text = "⚠ Результат не загружен";
                     return;
-                }
-
-                // Читаем параметры из UI
-                if (!int.TryParse(TxtWindowSize.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int windowSize) || windowSize <= 0)
-                {
-                    DetectionResultText.Text = "⚠ Неверное значение WindowSize";
-                    return;
-                }
+                }              
 
                 if (!int.TryParse(TxtDerivativeWindowSize.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int derivativeWindowSize) || derivativeWindowSize <= 0)
                 {
@@ -80,7 +73,6 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
                 }                
 
                 // Передаём параметры в ViewModel
-                ViewModel.WindowSize = windowSize;
                 ViewModel.DerivativeWindowSize = derivativeWindowSize;
                 ViewModel.SigmaMultiplier = sigmaMultiplier;
                 ViewModel.SearchStartRatio = searchStartRatio;

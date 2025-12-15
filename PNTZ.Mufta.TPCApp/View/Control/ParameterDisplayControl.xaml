@@ -52,6 +52,8 @@
 
         <TextBox Grid.Column="1"
                  Style="{StaticResource OutputTextBoxStyle}"
-                 Text="{Binding FormattedValue, ElementName=root}"/>
+                 Text="{Binding FormattedValue, ElementName=root, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 IsReadOnly="{Binding IsReadOnly, ElementName=root}"
+                 PreviewTextInput="ValidateInput"/>
     </Grid>
 </UserControl>
