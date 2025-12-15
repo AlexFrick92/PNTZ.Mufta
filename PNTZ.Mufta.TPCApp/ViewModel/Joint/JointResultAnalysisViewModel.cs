@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
@@ -18,6 +19,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     {
         private JointResult _currentResult;
         private ObservableCollection<AnalysisDataPoint> _analysisData;
+        private string _detectionResultText;
 
         /// <summary>
         /// График: Момент/обороты с двумя линиями (оригинальный и сглаженный)
@@ -42,7 +44,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         public JointResultAnalysisViewModel()
         {
             _analysisData = new ObservableCollection<AnalysisDataPoint>();
+            _detectionResultText = "Расчёт не выполнен";
             InitializeChart();
+            Calculate = new RelayCommand(RunShoulderDetection);
         }
 
         /// <summary>
@@ -272,32 +276,74 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
 
         /// <summary>
+        /// Текст результата детектора заплечника
+        /// </summary>
+        public string DetectionResultText
+        {
+            get => _detectionResultText;
+            set
+            {
+                _detectionResultText = value;
+                OnPropertyChanged(nameof(DetectionResultText));
+            }
+        }
+
+        /// <summary>
         /// Запуск детектора точки контакта с заплечником
         /// </summary>
-        public void RunShoulderDetection()
+        public void RunShoulderDetection(object arg)
         {
-            if (_currentResult?.Series == null || _currentResult.Series.Count == 0)
-                return;
-
-            // Очистить предыдущую визуализацию
-            ClearDetectionVisualization();
-
-            Debug.WriteLine($"WindowSize : {WindowSize}");
-
-            // Создать детектор с текущими параметрами
-            var detector = new ShoulderPointDetector(_currentResult.Series)
+            try
             {
-                WindowSize = WindowSize,
-                DerivativeWindowSize = DerivativeWindowSize,
-                SigmaMultiplier = SigmaMultiplier,
-                SearchStartRatio = SearchStartRatio
-            };
+                if (_currentResult?.Series == null || _currentResult.Series.Count == 0)
+                {
+                    DetectionResultText = "⚠ Результат не загружен";
+                    return;
+                }
 
-            // Запустить анализ
-            _lastDetectionResult = detector.DetectShoulderPoint();
+                DetectionResultText = "⏳ Выполняется расчёт...";
 
-            // Визуализировать результаты
-            VisualizeDetectionResults(_lastDetectionResult);
+                // Очистить предыдущую визуализацию
+                ClearDetectionVisualization();
+
+                Debug.WriteLine($"WindowSize : {WindowSize}");
+
+                // Создать детектор с текущими параметрами
+                var detector = new ShoulderPointDetector(_currentResult.Series)
+                {
+                    WindowSize = WindowSize,
+                    DerivativeWindowSize = DerivativeWindowSize,
+                    SigmaMultiplier = SigmaMultiplier,
+                    SearchStartRatio = SearchStartRatio
+                };
+
+                // Запустить анализ
+                _lastDetectionResult = detector.DetectShoulderPoint();
+
+                // Визуализировать результаты
+                VisualizeDetectionResults(_lastDetectionResult);
+
+                // Сформировать текст результата
+                if (_lastDetectionResult?.ShoulderPointIndex.HasValue == true)
+                {
+                    int index = _lastDetectionResult.ShoulderPointIndex.Value;
+                    var point = _currentResult.Series[index];
+
+                    DetectionResultText = $"✓ Точка найдена!\n" +
+                        $"Индекс: {index}\n" +
+                        $"Момент: {point.Torque:F1} Nm\n" +
+                        $"Обороты: {point.Turns:F3}\n" +
+                        $"Время: {point.TimeStamp / 1000.0:F2} сек";
+                }
+                else
+                {
+                    DetectionResultText = "✗ Точка заплечника не найдена";
+                }
+            }
+            catch (Exception ex)
+            {
+                DetectionResultText = $"⚠ Ошибка: {ex.Message}";
+            }
         }
 
         /// <summary>
@@ -596,5 +642,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _currentResult = null;
             OnPropertyChanged(nameof(CurrentResult));
         }
+        public ICommand Calculate { get; private set; }
     }
 }

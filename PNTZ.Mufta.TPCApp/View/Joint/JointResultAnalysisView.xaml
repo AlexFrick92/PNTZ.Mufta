@@ -79,7 +79,7 @@
                         <!-- Кнопка расчета -->
                         <Button x:Name="BtnRunDetection"
                                 Content="⚙ Выполнить расчёт"
-                                Click="BtnRunDetection_Click"
+                                Command="{Binding Calculate}"
                                 Padding="10,8"
                                 Background="#E67E22"
                                 Foreground="White"
@@ -125,7 +125,7 @@
                                 CornerRadius="3"
                                 Padding="8">
                             <TextBlock x:Name="DetectionResultText"
-                                       Text="Расчёт не выполнен"
+                                       Text="{Binding DetectionResultText}"
                                        FontSize="11"
                                        Foreground="#2C3E50"
                                        TextWrapping="Wrap"/>
