@@ -53,7 +53,9 @@
                                 Value="{Binding WindowSize, ValidatesOnExceptions=True}"
                                 StringFormat="F0"
                                 IsReadOnly="False"
-                                InputType="Integer"/>
+                                InputType="Integer"
+                                MaxValue="100"
+                                MinValue="1"/>
 
                         <!-- DerivativeWindowSize -->
                         <ctrl:ParameterDisplayControl Label="Размер окна производной"

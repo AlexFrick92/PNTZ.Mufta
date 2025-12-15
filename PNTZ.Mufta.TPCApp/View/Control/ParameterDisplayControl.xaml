@@ -36,6 +36,11 @@
                     <Setter Property="Foreground" Value="{StaticResource ParameterBad_Foreground}"/>
                     <Setter Property="Background" Value="{StaticResource ParameterBad_Background}"/>
                 </DataTrigger>
+                <!-- ValidationError имеет приоритет над State -->
+                <DataTrigger Binding="{Binding IsValidationError, ElementName=root}" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource ParameterBad_Foreground}"/>
+                    <Setter Property="Background" Value="{StaticResource ParameterBad_Background}"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -45,15 +50,37 @@
             <ColumnDefinition SharedSizeGroup="ParamLabel"/>
             <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <Label Grid.Column="0"
+        <Label Grid.Row="0" Grid.Column="0"
                Style="{StaticResource ParamLabelStyle}"
                Content="{Binding Label, ElementName=root}"/>
 
-        <TextBox Grid.Column="1"
+        <TextBox Grid.Row="0" Grid.Column="1"
                  Style="{StaticResource OutputTextBoxStyle}"
-                 Text="{Binding FormattedValue, ElementName=root, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding FormattedValue, ElementName=root, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                  IsReadOnly="{Binding IsReadOnly, ElementName=root}"
                  PreviewTextInput="ValidateInput"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                   Text="{Binding ValidationErrorMessage, ElementName=root}"
+                   Foreground="Red"
+                   FontSize="10"
+                   Margin="10,-5,10,5"
+                   TextWrapping="Wrap">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsValidationError, ElementName=root}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </UserControl>

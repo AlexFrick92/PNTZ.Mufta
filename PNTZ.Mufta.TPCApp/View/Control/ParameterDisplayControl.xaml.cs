@@ -32,6 +32,7 @@ namespace PNTZ.Mufta.TPCApp.View.Control
     public partial class ParameterDisplayControl : UserControl
     {
         private bool _isUpdating = false; // Защита от циклических обновлений
+        private object _lastValidValue = null; // Последнее валидное значение для отката
 
         public ParameterDisplayControl()
         {
@@ -125,6 +126,62 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             set { SetValue(InputTypeProperty, value); }
         }
 
+        // MinValue - минимальное значение/длина (для Integer/Float - числовое, для Text - длина строки)
+        public static readonly DependencyProperty MinValueProperty =
+            DependencyProperty.Register(
+                nameof(MinValue),
+                typeof(object),
+                typeof(ParameterDisplayControl),
+                new PropertyMetadata(null));
+
+        public object MinValue
+        {
+            get { return GetValue(MinValueProperty); }
+            set { SetValue(MinValueProperty, value); }
+        }
+
+        // MaxValue - максимальное значение/длина (для Integer/Float - числовое, для Text - длина строки)
+        public static readonly DependencyProperty MaxValueProperty =
+            DependencyProperty.Register(
+                nameof(MaxValue),
+                typeof(object),
+                typeof(ParameterDisplayControl),
+                new PropertyMetadata(null));
+
+        public object MaxValue
+        {
+            get { return GetValue(MaxValueProperty); }
+            set { SetValue(MaxValueProperty, value); }
+        }
+
+        // IsValidationError - флаг ошибки валидации (приоритет над State)
+        public static readonly DependencyProperty IsValidationErrorProperty =
+            DependencyProperty.Register(
+                nameof(IsValidationError),
+                typeof(bool),
+                typeof(ParameterDisplayControl),
+                new PropertyMetadata(false));
+
+        public bool IsValidationError
+        {
+            get { return (bool)GetValue(IsValidationErrorProperty); }
+            set { SetValue(IsValidationErrorProperty, value); }
+        }
+
+        // ValidationErrorMessage - текст сообщения об ошибке валидации
+        public static readonly DependencyProperty ValidationErrorMessageProperty =
+            DependencyProperty.Register(
+                nameof(ValidationErrorMessage),
+                typeof(string),
+                typeof(ParameterDisplayControl),
+                new PropertyMetadata(string.Empty));
+
+        public string ValidationErrorMessage
+        {
+            get { return (string)GetValue(ValidationErrorMessageProperty); }
+            set { SetValue(ValidationErrorMessageProperty, value); }
+        }
+
         // FormattedValue - форматированное значение для отображения
         public static readonly DependencyProperty FormattedValueProperty =
             DependencyProperty.Register(
@@ -177,6 +234,11 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             try
             {
                 _isUpdating = true;
+
+                // Сохраняем текущее значение как валидное (при программном обновлении)
+                _lastValidValue = Value;
+                IsValidationError = false; // Сбрасываем флаг ошибки при программном обновлении
+                ValidationErrorMessage = string.Empty; // Очищаем сообщение об ошибке
 
                 if (!string.IsNullOrEmpty(StringFormat))
                 {
@@ -260,6 +322,9 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             {
                 _isUpdating = true;
 
+                object newValue = null;
+                bool parseSuccess = false;
+
                 // Парсим в зависимости от InputType
                 switch (InputType)
                 {
@@ -267,7 +332,8 @@ namespace PNTZ.Mufta.TPCApp.View.Control
                         // Парсим как int
                         if (int.TryParse(formattedText, out int intValue))
                         {
-                            Value = intValue;
+                            newValue = intValue;
+                            parseSuccess = true;
                         }
                         break;
 
@@ -275,25 +341,228 @@ namespace PNTZ.Mufta.TPCApp.View.Control
                         // Парсим как double
                         if (double.TryParse(formattedText, out double doubleValue))
                         {
-                            Value = doubleValue;
+                            newValue = doubleValue;
+                            parseSuccess = true;
                         }
                         break;
 
                     case InputType.Text:
                     default:
                         // Сохраняем как строку
-                        Value = formattedText;
+                        newValue = formattedText;
+                        parseSuccess = true;
                         break;
+                }
+
+                // Проверяем диапазон и обновляем Value только если значение валидно
+                if (parseSuccess && IsValueInRange(newValue))
+                {
+                    _lastValidValue = newValue; // Сохраняем последнее валидное значение
+                    Value = newValue;
+                    IsValidationError = false; // Сбрасываем флаг ошибки
+                    ValidationErrorMessage = string.Empty; // Очищаем сообщение об ошибке
+                }
+                else
+                {
+                    // Значение невалидно - устанавливаем флаг ошибки
+                    IsValidationError = true;
+                    ValidationErrorMessage = GenerateValidationErrorMessage();
+
+                    if (_lastValidValue != null)
+                    {
+                        // Откатываемся к последнему валидному значению
+                        Value = _lastValidValue;
+                    }
                 }
             }
             catch
             {
-                // В случае ошибки парсинга оставляем Value без изменений
+                // В случае ошибки парсинга устанавливаем флаг ошибки и откатываемся
+                IsValidationError = true;
+                ValidationErrorMessage = "Некорректный формат ввода";
+                if (_lastValidValue != null)
+                {
+                    Value = _lastValidValue;
+                }
             }
             finally
             {
                 _isUpdating = false;
             }
+        }
+
+        // Проверка значения на попадание в диапазон Min/Max
+        private bool IsValueInRange(object value)
+        {
+            if (value == null) return true;
+
+            switch (InputType)
+            {
+                case InputType.Integer:
+                    return IsIntegerInRange(value);
+
+                case InputType.Float:
+                    return IsFloatInRange(value);
+
+                case InputType.Text:
+                    return IsTextLengthInRange(value);
+
+                default:
+                    return true;
+            }
+        }
+
+        private bool IsIntegerInRange(object value)
+        {
+            if (!(value is int intValue)) return true;
+
+            // Проверка минимума
+            if (MinValue != null)
+            {
+                int? minInt = ParseAsInt(MinValue);
+                if (minInt.HasValue && intValue < minInt.Value) return false;
+            }
+
+            // Проверка максимума
+            if (MaxValue != null)
+            {
+                int? maxInt = ParseAsInt(MaxValue);
+                if (maxInt.HasValue && intValue > maxInt.Value) return false;
+            }
+
+            return true;
+        }
+
+        private int? ParseAsInt(object obj)
+        {
+            if (obj == null) return null;
+            if (obj is int i) return i;
+            if (obj is string str && int.TryParse(str, out int parsed)) return parsed;
+            if (obj is double d) return (int)d;
+            return null;
+        }
+
+        private bool IsFloatInRange(object value)
+        {
+            double doubleValue;
+            if (value is double d)
+                doubleValue = d;
+            else if (value is float f)
+                doubleValue = f;
+            else if (value is int i)
+                doubleValue = i;
+            else
+                return true;
+
+            // Проверка минимума
+            if (MinValue != null)
+            {
+                double? minDouble = ParseAsDouble(MinValue);
+                if (minDouble.HasValue && doubleValue < minDouble.Value) return false;
+            }
+
+            // Проверка максимума
+            if (MaxValue != null)
+            {
+                double? maxDouble = ParseAsDouble(MaxValue);
+                if (maxDouble.HasValue && doubleValue > maxDouble.Value) return false;
+            }
+
+            return true;
+        }
+
+        private double? ParseAsDouble(object obj)
+        {
+            if (obj == null) return null;
+            if (obj is double d) return d;
+            if (obj is float f) return f;
+            if (obj is int i) return i;
+            if (obj is string str && double.TryParse(str, out double parsed)) return parsed;
+            return null;
+        }
+
+        private bool IsTextLengthInRange(object value)
+        {
+            if (!(value is string strValue)) return true;
+
+            int length = strValue.Length;
+
+            // Проверка минимальной длины
+            if (MinValue != null)
+            {
+                int? minLength = ParseAsInt(MinValue);
+                if (minLength.HasValue && length < minLength.Value) return false;
+            }
+
+            // Проверка максимальной длины
+            if (MaxValue != null)
+            {
+                int? maxLength = ParseAsInt(MaxValue);
+                if (maxLength.HasValue && length > maxLength.Value) return false;
+            }
+
+            return true;
+        }
+
+        // Генерация текста сообщения об ошибке валидации
+        private string GenerateValidationErrorMessage()
+        {
+            switch (InputType)
+            {
+                case InputType.Integer:
+                case InputType.Float:
+                    return GenerateNumericRangeMessage();
+
+                case InputType.Text:
+                    return GenerateTextLengthMessage();
+
+                default:
+                    return "Некорректное значение";
+            }
+        }
+
+        private string GenerateNumericRangeMessage()
+        {
+            int? minInt = ParseAsInt(MinValue);
+            int? maxInt = ParseAsInt(MaxValue);
+            double? minDouble = ParseAsDouble(MinValue);
+            double? maxDouble = ParseAsDouble(MaxValue);
+
+            if (InputType == InputType.Integer)
+            {
+                if (minInt.HasValue && maxInt.HasValue)
+                    return $"Значение должно быть от {minInt.Value} до {maxInt.Value}";
+                else if (minInt.HasValue)
+                    return $"Значение должно быть не менее {minInt.Value}";
+                else if (maxInt.HasValue)
+                    return $"Значение должно быть не более {maxInt.Value}";
+            }
+            else // Float
+            {
+                if (minDouble.HasValue && maxDouble.HasValue)
+                    return $"Значение должно быть от {minDouble.Value} до {maxDouble.Value}";
+                else if (minDouble.HasValue)
+                    return $"Значение должно быть не менее {minDouble.Value}";
+                else if (maxDouble.HasValue)
+                    return $"Значение должно быть не более {maxDouble.Value}";
+            }
+
+            return "Некорректное значение";
+        }
+
+        private string GenerateTextLengthMessage()
+        {
+            int? minLength = ParseAsInt(MinValue);
+            int? maxLength = ParseAsInt(MaxValue);
+
+            if (minLength.HasValue && maxLength.HasValue)
+                return $"Длина должна быть от {minLength.Value} до {maxLength.Value} символов";
+            else if (minLength.HasValue)
+                return $"Длина должна быть не менее {minLength.Value} символов";
+            else if (maxLength.HasValue)
+                return $"Длина должна быть не более {maxLength.Value} символов";
+
+            return "Некорректная длина строки";
         }
     }
 }
