@@ -1,6 +1,8 @@
 using System;
 using System.Windows;
 using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
+using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.Showcase.Helper;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -30,6 +32,34 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private void UpdateStatus(string message)
         {
             StatusText.Text = $"{DateTime.Now:HH:mm:ss} - {message}";
+        }
+
+        private void BtnLoadRecipeLength_Click(object sender, RoutedEventArgs e)
+        {
+            var recipe = RecipeHelper.CreateTestRecipeLength();
+            _viewModel.SetEditingRecipe(recipe);
+            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+        }
+
+        private void BtnLoadRecipeTorque_Click(object sender, RoutedEventArgs e)
+        {
+            var recipe = RecipeHelper.CreateTestRecipeTorque();
+            _viewModel.SetEditingRecipe(recipe);
+            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+        }
+
+        private void BtnLoadRecipeTorqueLength_Click(object sender, RoutedEventArgs e)
+        {
+            var recipe = RecipeHelper.CreateTestRecipeTorqueLength();
+            _viewModel.SetEditingRecipe(recipe);
+            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+        }
+
+        private void BtnLoadRecipeTorqueShoulder_Click(object sender, RoutedEventArgs e)
+        {
+            var recipe = RecipeHelper.CreateTestRecipeTorqueShoulder();
+            _viewModel.SetEditingRecipe(recipe);
+            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
         }
     }
 }
