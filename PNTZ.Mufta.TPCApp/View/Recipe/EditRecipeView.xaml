@@ -247,32 +247,6 @@
                             <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ и ДЛИНА"/>
                         </Grid>
                     </Button>
-
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
-
-                    <Button Tag="{x:Static domain:JointMode.Jval}" Style="{StaticResource SelectModeButtonColored}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeJValue.png"/>
-                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="ЗНАЧЕНИЕ J"/>
-                        </Grid>
-                    </Button>
-
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
-
-                    <Button Tag="{x:Static domain:JointMode.TorqueJVal}" Style="{StaticResource SelectModeButtonColored}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueJValue.png"/>
-                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ и J"/>
-                        </Grid>
-                    </Button>
                 </WrapPanel>
 
                 <!-- ========================================
@@ -288,11 +262,6 @@
                            Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"/>
                     <Label Style="{StaticResource ParamHeaderLabel}" Content="📐 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ДЛИНЫ"
                            Visibility="{Binding IsTorqueLengthMode, Converter={StaticResource BoolToVis}}"/>
-                    <Label Style="{StaticResource ParamHeaderLabel}" Content="📏 Параметры контроля свинчивания: КОНТРОЛЬ ЗНАЧЕНИЯ J"
-                           Visibility="{Binding IsJvalMode, Converter={StaticResource BoolToVis}}"/>
-                    <Label Style="{StaticResource ParamHeaderLabel}" Content="📏 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ЗНАЧЕНИЯ J"
-                           Visibility="{Binding IsTorqueJvalMode, Converter={StaticResource BoolToVis}}"/>
-
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
 
                     <!-- Общие параметры момента (для всех режимов) -->
@@ -441,51 +410,6 @@
                             MaxValue="200"
                             Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
 
-                    <!-- Параметры J (для Jval, TorqueJVal) -->
-                    <ctrl:ParameterDisplayControl Label="Мин. значение J, мм"
-                            Value="{Binding EditingRecipe.MU_JVal_Min}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
-
-                    <ctrl:ParameterDisplayControl Label="Макс. значение J, мм"
-                            Value="{Binding EditingRecipe.MU_JVal_Max}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
-
-                    <ctrl:ParameterDisplayControl Label="Значение J сброса, мм"
-                            Value="{Binding EditingRecipe.MU_JVal_Dump}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
-
-                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 при значении J, мм"
-                            Value="{Binding EditingRecipe.MU_JVal_Speed_1}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
-
-                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 при значении J, мм"
-                            Value="{Binding EditingRecipe.MU_JVal_Speed_2}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowJvalParams, Converter={StaticResource BoolToVis}}"/>
                 </StackPanel>
 
             </StackPanel>

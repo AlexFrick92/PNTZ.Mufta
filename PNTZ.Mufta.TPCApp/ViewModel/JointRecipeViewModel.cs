@@ -53,6 +53,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             set
             {
                 recipe.JointMode = value;
+                OnPropertyChanged(nameof(JointMode));
                 OnPropertyChanged(nameof(SelectedMode));
             }
         }
