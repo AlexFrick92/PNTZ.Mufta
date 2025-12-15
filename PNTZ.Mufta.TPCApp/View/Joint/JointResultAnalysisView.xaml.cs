@@ -17,21 +17,6 @@ namespace PNTZ.Mufta.TPCApp.View.Joint
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// Обработчик изменения чекбоксов видимости элементов визуализации
-        /// </summary>
-        private void ChkVisibility_Changed(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel == null)
-                return;
-
-            // Обновляем флаги видимости в ViewModel
-            ViewModel.ShowSmoothedTorque = ChkShowSmoothedTorque?.IsChecked ?? true;
-            ViewModel.ShowDerivative = ChkShowDerivative?.IsChecked ?? true;
-            ViewModel.ShowSigmaLines = ChkShowSigmaLines?.IsChecked ?? true;
-            ViewModel.ShowThreshold = ChkShowThreshold?.IsChecked ?? true;
-            ViewModel.ShowBaseline = ChkShowBaseline?.IsChecked ?? true;
-        }
 
         /// <summary>
         /// Обработчик кнопки "Выполнить расчёт" детектора заплечника

@@ -93,45 +93,30 @@
                                    FontWeight="Bold"
                                    Margin="0,0,0,5"/>
 
-                        <CheckBox x:Name="ChkShowSmoothedTorque"
-                                  Content="Сглаженный момент"
-                                  IsChecked="True"
+                        <CheckBox Content="Сглаженный момент"
+                                  IsChecked="{Binding ShowSmoothedTorque, Mode=TwoWay}"
                                   Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
+                                  FontSize="11"/>
 
-                        <CheckBox x:Name="ChkShowDerivative"
-                                  Content="Производная"
-                                  IsChecked="True"
+                        <CheckBox Content="Производная"
+                                  IsChecked="{Binding ShowDerivative, Mode=TwoWay}"
                                   Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
+                                  FontSize="11"/>
 
-                        <CheckBox x:Name="ChkShowSigmaLines"
-                                  Content="Линии сигм (+1σ, +2σ...)"
-                                  IsChecked="True"
+                        <CheckBox Content="Линии сигм (+1σ, +2σ...)"
+                                  IsChecked="{Binding ShowSigmaLines, Mode=TwoWay}"
                                   Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
+                                  FontSize="11"/>
 
-                        <CheckBox x:Name="ChkShowThreshold"
-                                  Content="Линия порога (Threshold)"
-                                  IsChecked="True"
+                        <CheckBox Content="Линия порога (Threshold)"
+                                  IsChecked="{Binding ShowThreshold, Mode=TwoWay}"
                                   Margin="0,0,0,3"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
+                                  FontSize="11"/>
 
-                        <CheckBox x:Name="ChkShowBaseline"
-                                  Content="Базовая линия (Baseline)"
-                                  IsChecked="True"
+                        <CheckBox Content="Базовая линия (Baseline)"
+                                  IsChecked="{Binding ShowBaseline, Mode=TwoWay}"
                                   Margin="0,0,0,10"
-                                  FontSize="11"
-                                  Checked="ChkVisibility_Changed"
-                                  Unchecked="ChkVisibility_Changed"/>
+                                  FontSize="11"/>
 
                         <!-- Результат -->
                         <Border Background="#E8F4F8"
