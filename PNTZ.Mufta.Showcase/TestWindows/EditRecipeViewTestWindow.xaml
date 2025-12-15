@@ -11,8 +11,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!-- Заголовок -->
+        
+    <!-- Заголовок -->
         <Border Grid.Row="0"
                 Background="#F8F9FA"
                 BorderBrush="#DEE2E6"

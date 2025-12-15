@@ -94,102 +94,111 @@
             <StackPanel Orientation="Vertical" Margin="10">
 
                 <!-- ========================================
-                ОБЩИЕ ПАРАМЕТРЫ
+                ОБЩИЕ ПАРАМЕТРЫ + ДАННЫЕ МУФТЫ + ПРЕДНАВЁРТКА (2 колонки)
                 ======================================== -->
-                <Label Style="{StaticResource ParamHeaderLabel}" Content="⚙️ Общие параметры"/>
-                <Border Style="{StaticResource HeaderUnderStroke}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
-                        Value="{Binding EditingRecipe.HEAD_OPEN_PULSES}"
-                        StringFormat="F2"
-                        IsReadOnly="False"
-                        InputType="Float"
-                        MinValue="0.01"
-                        MaxValue="10"/>
+                    <!-- ЛЕВАЯ КОЛОНКА: Общие параметры -->
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="⚙️ Общие параметры"/>
+                        <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-                <ctrl:ParameterDisplayControl Label="Обороты развинчивание"
-                        Value="{Binding EditingRecipe.TURNS_BREAK}"
-                        StringFormat="F2"
-                        IsReadOnly="False"
-                        InputType="Float"
-                        MinValue="0.01"
-                        MaxValue="10"/>
+                        <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
+                                Value="{Binding EditingRecipe.HEAD_OPEN_PULSES}"
+                                StringFormat="F2"
+                                IsReadOnly="False"
+                                InputType="Float"
+                                MinValue="0.01"
+                                MaxValue="10"/>
 
-                <ctrl:ParameterDisplayControl Label="Шаг резьбы, m/n"
-                        Value="{Binding EditingRecipe.Thread_step}"
-                        StringFormat="F2"
-                        IsReadOnly="False"
-                        InputType="Float"
-                        MinValue="0.1"
-                        MaxValue="10"/>
+                        <ctrl:ParameterDisplayControl Label="Обороты развинчивание"
+                                Value="{Binding EditingRecipe.TURNS_BREAK}"
+                                StringFormat="F2"
+                                IsReadOnly="False"
+                                InputType="Float"
+                                MinValue="0.01"
+                                MaxValue="10"/>
 
-                <ctrl:ParameterDisplayControl Label="Программа SPS"
-                        Value="{Binding EditingRecipe.PLC_PROGR_NUM}"
-                        StringFormat=""
-                        IsReadOnly="False"
-                        InputType="Integer"
-                        MinValue="0"
-                        MaxValue="999"/>
+                        <ctrl:ParameterDisplayControl Label="Шаг резьбы, m/n"
+                                Value="{Binding EditingRecipe.Thread_step}"
+                                StringFormat="F2"
+                                IsReadOnly="False"
+                                InputType="Float"
+                                MinValue="0.1"
+                                MaxValue="10"/>
 
-                <!-- ========================================
-                ДАННЫЕ МУФТЫ
-                ======================================== -->
-                <Label Style="{StaticResource ParamHeaderLabel}" Content="🔩 Данные муфты" Margin="0,20,0,0"/>
-                <Border Style="{StaticResource HeaderUnderStroke}"/>
+                        <ctrl:ParameterDisplayControl Label="Программа SPS"
+                                Value="{Binding EditingRecipe.PLC_PROGR_NUM}"
+                                StringFormat=""
+                                IsReadOnly="False"
+                                InputType="Integer"
+                                MinValue="0"
+                                MaxValue="999"/>
+                    </StackPanel>
 
-                <ctrl:ParameterDisplayControl Label="Мин. длина"
-                        Value="{Binding EditingRecipe.Box_Len_Min}"
-                        StringFormat="F1"
-                        IsReadOnly="False"
-                        InputType="Float"
-                        MinValue="50"
-                        MaxValue="500"/>
+                    <!-- ПРАВАЯ КОЛОНКА: Данные муфты + Преднавёртка -->
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                        <!-- ДАННЫЕ МУФТЫ -->
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="🔩 Данные муфты"/>
+                        <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-                <ctrl:ParameterDisplayControl Label="Макс. длина"
-                        Value="{Binding EditingRecipe.Box_Len_Max}"
-                        StringFormat="F1"
-                        IsReadOnly="False"
-                        InputType="Float"
-                        MinValue="50"
-                        MaxValue="500"/>
+                        <ctrl:ParameterDisplayControl Label="Мин. длина"
+                                Value="{Binding EditingRecipe.Box_Len_Min}"
+                                StringFormat="F1"
+                                IsReadOnly="False"
+                                InputType="Float"
+                                MinValue="50"
+                                MaxValue="500"/>
 
-                <ctrl:ParameterDisplayControl Label="Время наблюдения"
-                        Value="{Binding EditingRecipe.Box_Moni_Time}"
-                        StringFormat=""
-                        IsReadOnly="False"
-                        InputType="Integer"
-                        MinValue="5"
-                        MaxValue="100"/>
+                        <ctrl:ParameterDisplayControl Label="Макс. длина"
+                                Value="{Binding EditingRecipe.Box_Len_Max}"
+                                StringFormat="F1"
+                                IsReadOnly="False"
+                                InputType="Float"
+                                MinValue="50"
+                                MaxValue="500"/>
 
-                <!-- ========================================
-                ПРЕДНАВЁРТКА
-                ======================================== -->
-                <Label Style="{StaticResource ParamHeaderLabel}" Content="🔧 Преднавёртка" Margin="0,20,0,0"/>
-                <Border Style="{StaticResource HeaderUnderStroke}"/>
+                        <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                                Value="{Binding EditingRecipe.Box_Moni_Time}"
+                                StringFormat=""
+                                IsReadOnly="False"
+                                InputType="Integer"
+                                MinValue="5"
+                                MaxValue="100"/>
 
-                <ctrl:ParameterDisplayControl Label="Мин. длина"
-                        Value="{Binding EditingRecipe.Pre_Len_Min}"
-                        StringFormat="F1"
-                        IsReadOnly="False"
-                        InputType="Float"
-                        MinValue="5"
-                        MaxValue="500"/>
+                        <!-- ПРЕДНАВЁРТКА -->
+                        <Label Style="{StaticResource ParamHeaderLabel}" Content="🔧 Преднавёртка" Margin="0,20,0,0"/>
+                        <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-                <ctrl:ParameterDisplayControl Label="Макс. длина"
-                        Value="{Binding EditingRecipe.Pre_Len_Max}"
-                        StringFormat="F1"
-                        IsReadOnly="False"
-                        InputType="Float"
-                        MinValue="5"
-                        MaxValue="500"/>
+                        <ctrl:ParameterDisplayControl Label="Мин. длина"
+                                Value="{Binding EditingRecipe.Pre_Len_Min}"
+                                StringFormat="F1"
+                                IsReadOnly="False"
+                                InputType="Float"
+                                MinValue="5"
+                                MaxValue="500"/>
 
-                <ctrl:ParameterDisplayControl Label="Время наблюдения"
-                        Value="{Binding EditingRecipe.Pre_Moni_Time}"
-                        StringFormat=""
-                        IsReadOnly="False"
-                        InputType="Integer"
-                        MinValue="5"
-                        MaxValue="100"/>
+                        <ctrl:ParameterDisplayControl Label="Макс. длина"
+                                Value="{Binding EditingRecipe.Pre_Len_Max}"
+                                StringFormat="F1"
+                                IsReadOnly="False"
+                                InputType="Float"
+                                MinValue="5"
+                                MaxValue="500"/>
+
+                        <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                                Value="{Binding EditingRecipe.Pre_Moni_Time}"
+                                StringFormat=""
+                                IsReadOnly="False"
+                                InputType="Integer"
+                                MinValue="5"
+                                MaxValue="100"/>
+                    </StackPanel>
+                </Grid>
 
                 <!-- ========================================
                 ВЫБОР РЕЖИМА СВИНЧИВАНИЯ
@@ -264,151 +273,397 @@
                            Visibility="{Binding IsTorqueLengthMode, Converter={StaticResource BoolToVis}}"/>
                     <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-                    <!-- Общие параметры момента (для всех режимов) -->
-                    <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
-                            Value="{Binding EditingRecipe.MU_Tq_Ref}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="0"
-                            MaxValue="30000"/>
+                    <!-- РЕЖИМЫ: МОМЕНТ И МОМЕНТ+ВЫСТУП (2 колонки) -->
+                    <Grid Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
-                            Value="{Binding EditingRecipe.MU_Tq_Save}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="0"
-                            MaxValue="30000"/>
+                        <!-- ЛЕВАЯ КОЛОНКА: Параметры момента -->
+                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                            <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Ref}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
 
-                    <ctrl:ParameterDisplayControl Label="Время наблюдения"
-                            Value="{Binding EditingRecipe.MU_Moni_Time}"
-                            StringFormat=""
-                            IsReadOnly="False"
-                            InputType="Integer"
-                            MinValue="5"
-                            MaxValue="100"/>
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Save}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
 
-                    <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
-                            Value="{Binding EditingRecipe.MU_Tq_Dump}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="30000"/>
+                            <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                                    Value="{Binding EditingRecipe.MU_Moni_Time}"
+                                    StringFormat=""
+                                    IsReadOnly="False"
+                                    InputType="Integer"
+                                    MinValue="5"
+                                    MaxValue="100"/>
 
-                    <!-- Оптимальный момент (для Torque, TorqueShoulder, Length, TorqueLength) -->
-                    <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
-                            Value="{Binding EditingRecipe.MU_Tq_Opt}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="30000"
-                            Visibility="{Binding ShowTorqueOptimal, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Dump}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
 
-                    <!-- Мин/Макс момента (для Torque, TorqueShoulder, TorqueLength, TorqueJVal) -->
-                    <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
-                            Value="{Binding EditingRecipe.MU_Tq_Min}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="30000"
-                            Visibility="{Binding ShowTorqueMinMax, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Opt}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
 
-                    <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
-                            Value="{Binding EditingRecipe.MU_Tq_Max}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="30000"
-                            Visibility="{Binding ShowTorqueMinMax, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Min}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
 
-                    <!-- Уменьшение скорости по моменту (для Torque, TorqueShoulder) -->
-                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
-                            Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="0"
-                            MaxValue="30000"
-                            Visibility="{Binding ShowTorqueSpeedReduction, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Max}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+                        </StackPanel>
 
-                    <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
-                            Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="0"
-                            MaxValue="30000"
-                            Visibility="{Binding ShowTorqueSpeedReduction, Converter={StaticResource BoolToVis}}"/>
+                        <!-- ПРАВАЯ КОЛОНКА: Уменьшение скорости -->
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                            <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
+                                    Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
 
-                    <!-- Параметры плеча (только для TorqueShoulder) -->
-                    <ctrl:ParameterDisplayControl Label="Минимальный момент на плече, Нм"
-                            Value="{Binding EditingRecipe.MU_TqShoulder_Min}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="30000"
-                            Visibility="{Binding ShowShoulderParams, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
+                                    Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
+                        </StackPanel>
+                    </Grid>
 
-                    <ctrl:ParameterDisplayControl Label="Максимальный момент на плече, Нм"
-                            Value="{Binding EditingRecipe.MU_TqShoulder_Max}"
-                            StringFormat="N0"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="30000"
-                            Visibility="{Binding ShowShoulderParams, Converter={StaticResource BoolToVis}}"/>
+                    <!-- РЕЖИМ: МОМЕНТ+ВЫСТУП (2 колонки) -->
+                    <Grid Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <!-- Параметры длины (для Length, TorqueLength) -->
-                    <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
-                            Value="{Binding EditingRecipe.MU_Len_Dump}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+                        <!-- ЛЕВАЯ КОЛОНКА: Параметры момента -->
+                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                            <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Ref}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
 
-                    <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
-                            Value="{Binding EditingRecipe.MU_Len_Speed_1}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Save}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
 
-                    <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
-                            Value="{Binding EditingRecipe.MU_Len_Speed_2}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                                    Value="{Binding EditingRecipe.MU_Moni_Time}"
+                                    StringFormat=""
+                                    IsReadOnly="False"
+                                    InputType="Integer"
+                                    MinValue="5"
+                                    MaxValue="100"/>
 
-                    <ctrl:ParameterDisplayControl Label="Мин. глубина, мм"
-                            Value="{Binding EditingRecipe.MU_Len_Min}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Dump}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
 
-                    <ctrl:ParameterDisplayControl Label="Макс. глубина, мм"
-                            Value="{Binding EditingRecipe.MU_Len_Max}"
-                            StringFormat="F1"
-                            IsReadOnly="False"
-                            InputType="Float"
-                            MinValue="1"
-                            MaxValue="200"
-                            Visibility="{Binding ShowLengthParams, Converter={StaticResource BoolToVis}}"/>
+                            <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Opt}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Min}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Max}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+                        </StackPanel>
+
+                        <!-- ПРАВАЯ КОЛОНКА: Уменьшение скорости + Параметры плеча -->
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                            <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
+                                    Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
+                                    Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Минимальный момент на плече, Нм"
+                                    Value="{Binding EditingRecipe.MU_TqShoulder_Min}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Максимальный момент на плече, Нм"
+                                    Value="{Binding EditingRecipe.MU_TqShoulder_Max}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- РЕЖИМЫ: ДЛИНА И МОМЕНТ+ДЛИНА (2 колонки) -->
+                    <Grid Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- ЛЕВАЯ КОЛОНКА: Параметры момента -->
+                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                            <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Ref}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Save}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                                    Value="{Binding EditingRecipe.MU_Moni_Time}"
+                                    StringFormat=""
+                                    IsReadOnly="False"
+                                    InputType="Integer"
+                                    MinValue="5"
+                                    MaxValue="100"/>
+
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Dump}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Opt}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+                        </StackPanel>
+
+                        <!-- ПРАВАЯ КОЛОНКА: Параметры длины -->
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                            <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Dump}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Speed_1}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Speed_2}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Мин. глубина, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Min}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Макс. глубина, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Max}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- РЕЖИМ: МОМЕНТ+ДЛИНА (2 колонки) -->
+                    <Grid Visibility="{Binding IsTorqueLengthMode, Converter={StaticResource BoolToVis}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- ЛЕВАЯ КОЛОНКА: Параметры момента -->
+                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                            <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Ref}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Save}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="0"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Время наблюдения"
+                                    Value="{Binding EditingRecipe.MU_Moni_Time}"
+                                    StringFormat=""
+                                    IsReadOnly="False"
+                                    InputType="Integer"
+                                    MinValue="5"
+                                    MaxValue="100"/>
+
+                            <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Dump}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Opt}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Min}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+
+                            <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
+                                    Value="{Binding EditingRecipe.MU_Tq_Max}"
+                                    StringFormat="N0"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="30000"/>
+                        </StackPanel>
+
+                        <!-- ПРАВАЯ КОЛОНКА: Параметры длины -->
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                            <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Dump}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Speed_1}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Speed_2}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Мин. глубина, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Min}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+
+                            <ctrl:ParameterDisplayControl Label="Макс. глубина, мм"
+                                    Value="{Binding EditingRecipe.MU_Len_Max}"
+                                    StringFormat="F1"
+                                    IsReadOnly="False"
+                                    InputType="Float"
+                                    MinValue="1"
+                                    MaxValue="200"/>
+                        </StackPanel>
+                    </Grid>
 
                 </StackPanel>
 
