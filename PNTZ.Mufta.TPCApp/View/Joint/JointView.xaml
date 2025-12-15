@@ -12,18 +12,31 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+
+    <!-- ========================================
+         ВЬЮШКА ПРОЦЕССА СВИНЧИВАНИЯ         
+         ======================================== -->
     
     <Grid>
         <Grid.ColumnDefinitions >
+            <!--Текущие данные, результат и рецепт-->
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
+            <!-- Графики и оценка -->
+            <ColumnDefinition/> 
         </Grid.ColumnDefinitions>
 
+
         <Grid.RowDefinitions>
+            <!--Шапка с заголовками-->
             <RowDefinition Height="auto"/>
+            <!--Основные данные-->
             <RowDefinition/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
+        <!-- ========================================
+         ШАПКА С ЗАГОЛОВКАМИ       
+         ======================================== -->
 
         <Border Grid.Column="0"
             BorderThickness="0,0,1,1"
@@ -36,10 +49,6 @@
                    FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
                    Margin="10"
                    BorderThickness="0"/>
-        </Border>
-
-        <Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,0" BorderBrush="{StaticResource JointView_GridBorder}">
-            <vj:JointProcessDataView Margin="5" DataContext="{Binding JointProcessDataViewModel}"/>
         </Border>
 
         <Border Grid.Column="1"
@@ -56,13 +65,29 @@
         </Border>
 
 
+        <!-- ========================================
+         ТЕКУЩИЕ ПОКАЗАНИЯ, ДАННЫЕ РЕЦЕПТА И РЕЗУЛЬТАТ     
+         ======================================== -->
+
+        <Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,0" BorderBrush="{StaticResource JointView_GridBorder}">
+            <vj:JointProcessDataView Margin="5" DataContext="{Binding JointProcessDataViewModel}"/>
+        </Border>
+
+
+        <!-- ========================================
+         ГРАФИКИ + контрол оценки
+         ======================================== -->
+
         <Border Grid.Column="1" Grid.Row="1" BorderThickness="0,0,0,0" BorderBrush="{StaticResource JointView_GridBorder}">
             <Grid>
                 <Grid.RowDefinitions>
+                    <!-- Графики -->
                     <RowDefinition/>
+                    <!-- Оценка соединения -->
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
+                <!-- ГРАФИКИ -->
                 <vj:JointProcessChartView DataContext="{Binding JointProcessChartViewModel}"/>
 
                 <!-- Оценка соединения -->
@@ -78,37 +103,41 @@
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
+                    
                     <Grid >
                         <Grid.ColumnDefinitions>
+                            <!-- Кнопка БРАК -->
                             <ColumnDefinition/>
+                            <!-- Кнопка годная -->
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <!-- Заголовок -->
                             <RowDefinition Height="auto"/>
+                            <!-- Кнопки -->
                             <RowDefinition Height="40"/>
-                            <RowDefinition Height="10"/>
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                             HorizontalAlignment="Center">Требуется оценка результата</Label>
 
                         <Button Grid.Row ="1" Grid.Column="0"
-                            HorizontalAlignment="Right"
-                            Width="150"
-                            Margin="5"
-                            Background="Green"
-                            Foreground="White"
-                            Content="ГОДНОЕ"
-                            Command="{Binding SetGoodResultCommand}"/>
+                                HorizontalAlignment="Right"
+                                Width="150"
+                                Margin="5"
+                                Background="Green"
+                                Foreground="White"
+                                Content="ГОДНОЕ"
+                                Command="{Binding SetGoodResultCommand}"/>
 
                         <Button Grid.Row ="1" Grid.Column="1"
-                            HorizontalAlignment="Left"
-                            Width="150"
-                            Margin="5"
-                            Background="Red"
-                            Foreground="White"
-                            Content="БРАК"
-                            Command="{Binding SetBadResultCommand}"/>
+                                HorizontalAlignment="Left"
+                                Width="150"
+                                Margin="5"
+                                Background="Red"
+                                Foreground="White"
+                                Content="БРАК"
+                                Command="{Binding SetBadResultCommand}"/>
                     </Grid>
                 </Border>
 
