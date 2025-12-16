@@ -99,13 +99,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         }
 
         private bool _isTorqueLengthMode;
-        public bool IsTorqueLengthMode
+        public bool IsTorqueOrTorqueLengthMode
         {
             get => _isTorqueLengthMode;
             set
             {
                 _isTorqueLengthMode = value;
-                OnPropertyChanged(nameof(IsTorqueLengthMode));
+                OnPropertyChanged(nameof(IsTorqueOrTorqueLengthMode));
             }
         }
 
@@ -133,94 +133,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         #endregion
 
-        #region Флаги групп параметров
-
-        /// <summary>
-        /// Показывать оптимальный момент (для Torque, TorqueShoulder, Length, TorqueLength)
-        /// </summary>
-        private bool _showTorqueOptimal;
-        public bool ShowTorqueOptimal
-        {
-            get => _showTorqueOptimal;
-            set
-            {
-                _showTorqueOptimal = value;
-                OnPropertyChanged(nameof(ShowTorqueOptimal));
-            }
-        }
-
-        /// <summary>
-        /// Показывать уменьшение скорости по моменту (для Torque, TorqueShoulder)
-        /// </summary>
-        private bool _showTorqueSpeedReduction;
-        public bool ShowTorqueSpeedReduction
-        {
-            get => _showTorqueSpeedReduction;
-            set
-            {
-                _showTorqueSpeedReduction = value;
-                OnPropertyChanged(nameof(ShowTorqueSpeedReduction));
-            }
-        }
-
-        /// <summary>
-        /// Показывать мин/макс момента (для Torque, TorqueShoulder, TorqueLength, TorqueJVal)
-        /// </summary>
-        private bool _showTorqueMinMax;
-        public bool ShowTorqueMinMax
-        {
-            get => _showTorqueMinMax;
-            set
-            {
-                _showTorqueMinMax = value;
-                OnPropertyChanged(nameof(ShowTorqueMinMax));
-            }
-        }
-
-        /// <summary>
-        /// Показывать параметры плеча (только для TorqueShoulder)
-        /// </summary>
-        private bool _showShoulderParams;
-        public bool ShowShoulderParams
-        {
-            get => _showShoulderParams;
-            set
-            {
-                _showShoulderParams = value;
-                OnPropertyChanged(nameof(ShowShoulderParams));
-            }
-        }
-
-        /// <summary>
-        /// Показывать параметры длины (для Length, TorqueLength)
-        /// </summary>
-        private bool _showLengthParams;
-        public bool ShowLengthParams
-        {
-            get => _showLengthParams;
-            set
-            {
-                _showLengthParams = value;
-                OnPropertyChanged(nameof(ShowLengthParams));
-            }
-        }
-
-        /// <summary>
-        /// Показывать параметры J (для Jval, TorqueJVal)
-        /// </summary>
-        private bool _showJvalParams;
-        public bool ShowJvalParams
-        {
-            get => _showJvalParams;
-            set
-            {
-                _showJvalParams = value;
-                OnPropertyChanged(nameof(ShowJvalParams));
-            }
-        }
-
-        #endregion
-
         private void OnEditingRecipePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(JointRecipe.JointMode))
@@ -233,20 +145,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             if (EditingRecipe == null) return;
 
-            IsTorqueMode = EditingRecipe.JointMode == JointMode.Torque;
+            IsTorqueMode = EditingRecipe.JointMode == JointMode.Torque || EditingRecipe.JointMode == JointMode.TorqueShoulder;
             IsShoulderMode = EditingRecipe.JointMode == JointMode.TorqueShoulder;
-            IsLengthMode = EditingRecipe.JointMode == JointMode.Length;
-            IsTorqueLengthMode = EditingRecipe.JointMode == JointMode.TorqueLength;
-            IsJvalMode = EditingRecipe.JointMode == JointMode.Jval;
-            IsTorqueJvalMode = EditingRecipe.JointMode == JointMode.TorqueJVal;
-
-            // Обновление флагов групп параметров
-            ShowTorqueOptimal = IsTorqueMode || IsShoulderMode || IsLengthMode || IsTorqueLengthMode;
-            ShowTorqueSpeedReduction = IsTorqueMode || IsShoulderMode;
-            ShowTorqueMinMax = IsTorqueMode || IsShoulderMode || IsTorqueLengthMode || IsTorqueJvalMode;
-            ShowShoulderParams = IsShoulderMode;
-            ShowLengthParams = IsLengthMode || IsTorqueLengthMode;
-            ShowJvalParams = IsJvalMode || IsTorqueJvalMode;
+            IsLengthMode = EditingRecipe.JointMode == JointMode.Length || EditingRecipe.JointMode == JointMode.TorqueLength;
+            IsTorqueOrTorqueLengthMode = IsTorqueMode || IsShoulderMode || EditingRecipe.JointMode == JointMode.TorqueLength;          
         }
     }
 }
