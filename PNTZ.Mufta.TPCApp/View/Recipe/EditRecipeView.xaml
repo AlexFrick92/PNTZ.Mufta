@@ -148,13 +148,24 @@
                                 MaxValue="999"/>
 
                         <Grid>
+                            <Grid.Resources>
+                                <Style x:Key="ParamLabelStyle" TargetType="Label">
+                                    <Setter Property="Margin" Value="10,0,0,0"/>
+                                    <Setter Property="FontSize" Value="{StaticResource ParameterDisplay_Label_FontSize}"/>
+                                    <Setter Property="FontWeight" Value="{StaticResource ParameterDisplay_Label_FontWeight}"/>
+                                    <Setter Property="FontFamily" Value="{StaticResource ParameterDisplay_Label_FontFamily}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource ParameterDisplay_Label_Foreground}"/>
+                                </Style>
+                            </Grid.Resources>
+                            
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>
                             </Grid.ColumnDefinitions>
                             
                             <Label Grid.Column="0"
-                                        Style="{StaticResource InputFieldLabel}" Content="Тип резьбы"/>
+                                        Style="{StaticResource ParamLabelStyle}" Content="Тип резьбы"/>
+                            
                             <ComboBox Grid.Column="1"
                                     ItemsSource="{Binding Path=EditingRecipe.SelectedThreadType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneWay}" 
                                     SelectedValuePath="Value"
