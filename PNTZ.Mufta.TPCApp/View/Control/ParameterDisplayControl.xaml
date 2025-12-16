@@ -63,7 +63,9 @@
                  Style="{StaticResource OutputTextBoxStyle}"
                  Text="{Binding FormattedValue, ElementName=root, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                  IsReadOnly="{Binding IsReadOnly, ElementName=root}"
-                 PreviewTextInput="ValidateInput"/>
+                 PreviewTextInput="ValidateInput"
+                 GotFocus="OnTextBoxGotFocus"
+                 PreviewMouseLeftButtonDown="OnTextBoxPreviewMouseLeftButtonDown"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                    Text="{Binding ValidationErrorMessage, ElementName=root}"

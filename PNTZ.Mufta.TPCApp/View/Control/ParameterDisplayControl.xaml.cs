@@ -308,6 +308,28 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             }
         }
 
+        // Обработчик получения фокуса - выделяем весь текст
+        private void OnTextBoxGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                textBox.SelectAll();
+            }
+        }
+
+        // Обработчик клика мышкой - выделяем текст при первом клике
+        private void OnTextBoxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                if (!textBox.IsKeyboardFocusWithin)
+                {
+                    textBox.Focus();
+                    e.Handled = true;
+                }
+            }
+        }
+
         private bool IsValidFloatInput(string text)
         {
             // Разрешаем: цифры, точку, запятую, минус
