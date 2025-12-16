@@ -146,7 +146,7 @@
                         </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Программа SPS"
-                                Value="{Binding EditingRecipe.PLC_PROGR_NUM}"
+                                Value="{Binding EditingRecipe.PLC_PROG_NR}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:IntegerValueType MinValue="0" MaxValue="999"/>

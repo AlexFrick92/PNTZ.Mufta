@@ -2,7 +2,6 @@
 using PNTZ.Mufta.TPCApp.Domain;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 {
     public class EditRecipeViewModel : BaseViewModel
     {
-        private JointRecipeViewModel _editingRecipe;
+        private JointRecipe _editingRecipe;
 
         public EditRecipeViewModel()
         {
@@ -22,21 +21,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Рецепт, который редактируется
         /// </summary>
-        public JointRecipeViewModel EditingRecipe
+        public JointRecipe EditingRecipe
         {
             get => _editingRecipe;
             private set
             {
-                if (_editingRecipe != null)
-                {
-                    _editingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;                    
-                }
-
                 _editingRecipe = value;
 
                 if (_editingRecipe != null)
                 {
-                    _editingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
                     UpdateModeFlags();
                 }
 
@@ -46,7 +39,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         public void SetEditingRecipe(JointRecipe recipe)
         {
-            EditingRecipe = new JointRecipeViewModel(recipe) ?? throw new ArgumentNullException(nameof(recipe));
+            EditingRecipe = recipe ?? throw new ArgumentNullException(nameof(recipe));
         }
 
         #region Команды
@@ -58,6 +51,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             if (parameter is JointMode mode && EditingRecipe != null)
             {
                 EditingRecipe.JointMode = mode;
+                OnPropertyChanged(nameof(EditingRecipe));
+                UpdateModeFlags();
             }
         }
 
@@ -150,14 +145,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         }
 
         #endregion
-
-        private void OnEditingRecipePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(JointRecipe.JointMode))
-            {
-                UpdateModeFlags();
-            }
-        }
 
         private void UpdateModeFlags()
         {
