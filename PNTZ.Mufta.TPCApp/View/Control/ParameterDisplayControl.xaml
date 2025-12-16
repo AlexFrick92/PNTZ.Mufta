@@ -69,6 +69,7 @@
                  PreviewTextInput="ValidateInput"
                  GotFocus="OnTextBoxGotFocus"
                  LostFocus="OnTextBoxLostFocus"
+                 VerticalContentAlignment="Bottom"
                  PreviewMouseLeftButtonDown="OnTextBoxPreviewMouseLeftButtonDown"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
