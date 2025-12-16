@@ -215,6 +215,8 @@ namespace PNTZ.Mufta.TPCApp.View.Control
                 {
                     IsValidationError = false;
                     ValidationErrorMessage = string.Empty;
+                    _lastValidValue = Value; // Обновляем последнее валидное значение
+
                 }
             }), System.Windows.Threading.DispatcherPriority.Normal);
         }
@@ -426,7 +428,7 @@ namespace PNTZ.Mufta.TPCApp.View.Control
                 // Проверяем диапазон и обновляем Value только если значение валидно
                 if (parseSuccess && IsValueInRange(newValue))
                 {
-                    _lastValidValue = newValue; // Сохраняем последнее валидное значение
+                    //_lastValidValue = newValue; // Сохраняем последнее валидное значение
                     Value = newValue;
                     IsValidationError = false; // Сбрасываем флаг ошибки
                     ValidationErrorMessage = string.Empty; // Очищаем сообщение об ошибке
@@ -436,23 +438,13 @@ namespace PNTZ.Mufta.TPCApp.View.Control
                     // Значение невалидно - устанавливаем флаг ошибки
                     IsValidationError = true;
                     ValidationErrorMessage = GenerateValidationErrorMessage();
-
-                    if (_lastValidValue != null)
-                    {
-                        // Откатываемся к последнему валидному значению
-                        Value = _lastValidValue;
-                    }
                 }
             }
             catch
             {
-                // В случае ошибки парсинга устанавливаем флаг ошибки и откатываемся
+                // В случае ошибки парсинга устанавливаем флаг ошибки
                 IsValidationError = true;
                 ValidationErrorMessage = "Некорректный формат ввода";
-                if (_lastValidValue != null)
-                {
-                    Value = _lastValidValue;
-                }
             }
             finally
             {
