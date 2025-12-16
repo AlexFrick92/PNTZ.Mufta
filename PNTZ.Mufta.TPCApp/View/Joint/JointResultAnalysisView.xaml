@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Joint"
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
+             xmlns:vt="clr-namespace:PNTZ.Mufta.TPCApp.View.Control.ValueTypes"
              xmlns:vmJoint="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Joint"
              d:DataContext="{d:DesignInstance Type=vmJoint:JointResultAnalysisViewModel}"
              mc:Ignorable="d"
@@ -51,38 +52,38 @@
                         <!-- WindowSize -->
                         <ctrl:ParameterDisplayControl Label="Окно сглаживания момента"
                                 Value="{Binding WindowSize, ValidatesOnExceptions=True}"
-                                StringFormat="F0"
-                                IsReadOnly="False"
-                                InputType="Integer"
-                                MaxValue="100"
-                                MinValue="1"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:IntegerValueType MinValue="1" MaxValue="100"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <!-- DerivativeWindowSize -->
                         <ctrl:ParameterDisplayControl Label="Размер окна производной"
                                 Value="{Binding DerivativeWindowSize, ValidatesOnExceptions=True}"
-                                StringFormat="F0"
-                                IsReadOnly="False"
-                                InputType="Integer"
-                                MinValue="1"
-                                MaxValue="100"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:IntegerValueType MinValue="1" MaxValue="100"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <!-- SigmaMultiplier -->
                         <ctrl:ParameterDisplayControl Label="Множитель σ"
                                 Value="{Binding SigmaMultiplier, ValidatesOnExceptions=True}"
-                                StringFormat="F1"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="1"
-                                MaxValue="50"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="50"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <!-- SearchStartPercent -->
                         <ctrl:ParameterDisplayControl Label="Начало поиска (%)"
                                 Value="{Binding SearchStartPercent, ValidatesOnExceptions=True}"
-                                StringFormat="F0"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="0"
-                                MaxValue="100"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F0" MinValue="0" MaxValue="100"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <!-- Кнопка расчета -->
                         <Button x:Name="BtnRunDetection"

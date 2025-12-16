@@ -1,6 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,16 +16,6 @@ namespace PNTZ.Mufta.TPCApp.View.Control
         Bad      // красный
     }
 
-    /// <summary>
-    /// Тип валидации ввода (УСТАРЕЛ - используйте ValueType)
-    /// </summary>
-    [Obsolete("Используйте ValueType вместо InputType")]
-    public enum InputType
-    {
-        Text,      // без валидации
-        Float,     // числа с точкой/запятой
-        Integer    // только целые числа
-    }
 
     /// <summary>
     /// Контрол для отображения параметра: Label + значение с цветовой индикацией состояния
@@ -152,71 +140,6 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             get { return (string)GetValue(FormattedValueProperty); }
             set { SetValue(FormattedValueProperty, value); }
         }
-
-        #region Obsolete properties для backward compatibility
-
-        [Obsolete("Используйте ValueType вместо StringFormat")]
-        public static readonly DependencyProperty StringFormatProperty =
-            DependencyProperty.Register(
-                nameof(StringFormat),
-                typeof(string),
-                typeof(ParameterDisplayControl),
-                new PropertyMetadata(string.Empty, OnLegacyPropertyChanged));
-
-        [Obsolete("Используйте ValueType вместо StringFormat")]
-        public string StringFormat
-        {
-            get { return (string)GetValue(StringFormatProperty); }
-            set { SetValue(StringFormatProperty, value); }
-        }
-
-        [Obsolete("Используйте ValueType вместо InputType")]
-        public static readonly DependencyProperty InputTypeProperty =
-            DependencyProperty.Register(
-                nameof(InputType),
-                typeof(InputType),
-                typeof(ParameterDisplayControl),
-                new PropertyMetadata(InputType.Text, OnLegacyPropertyChanged));
-
-        [Obsolete("Используйте ValueType вместо InputType")]
-        public InputType InputType
-        {
-            get { return (InputType)GetValue(InputTypeProperty); }
-            set { SetValue(InputTypeProperty, value); }
-        }
-
-        [Obsolete("Используйте ValueType вместо MinValue")]
-        public static readonly DependencyProperty MinValueProperty =
-            DependencyProperty.Register(
-                nameof(MinValue),
-                typeof(object),
-                typeof(ParameterDisplayControl),
-                new PropertyMetadata(null, OnLegacyPropertyChanged));
-
-        [Obsolete("Используйте ValueType вместо MinValue")]
-        public object MinValue
-        {
-            get { return GetValue(MinValueProperty); }
-            set { SetValue(MinValueProperty, value); }
-        }
-
-        [Obsolete("Используйте ValueType вместо MaxValue")]
-        public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.Register(
-                nameof(MaxValue),
-                typeof(object),
-                typeof(ParameterDisplayControl),
-                new PropertyMetadata(null, OnLegacyPropertyChanged));
-
-        [Obsolete("Используйте ValueType вместо MaxValue")]
-        public object MaxValue
-        {
-            get { return GetValue(MaxValueProperty); }
-            set { SetValue(MaxValueProperty, value); }
-        }
-
-        #endregion
-
         #endregion
 
         public ParameterDisplayControl()
@@ -250,58 +173,6 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             {
                 control.UpdateFormattedValue();
             }
-        }
-
-        // Callback при изменении legacy свойств - создаём ValueType автоматически
-        private static void OnLegacyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ParameterDisplayControl control && control.ValueType == null)
-            {
-                control.CreateValueTypeFromLegacyProperties();
-            }
-        }
-
-        // Создание ValueType из старых свойств (backward compatibility)
-        private void CreateValueTypeFromLegacyProperties()
-        {
-            if (ValueType != null)
-                return; // Уже есть ValueType, не трогаем
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            switch (InputType)
-            {
-                case InputType.Float:
-                    var floatType = new FloatValueType
-                    {
-                        StringFormat = !string.IsNullOrEmpty(StringFormat) ? StringFormat : "F2"
-                    };
-                    if (MinValue != null && double.TryParse(MinValue.ToString(), out double minFloat))
-                        floatType.MinValue = minFloat;
-                    if (MaxValue != null && double.TryParse(MaxValue.ToString(), out double maxFloat))
-                        floatType.MaxValue = maxFloat;
-                    ValueType = floatType;
-                    break;
-
-                case InputType.Integer:
-                    var intType = new IntegerValueType();
-                    if (MinValue != null && int.TryParse(MinValue.ToString(), out int minInt))
-                        intType.MinValue = minInt;
-                    if (MaxValue != null && int.TryParse(MaxValue.ToString(), out int maxInt))
-                        intType.MaxValue = maxInt;
-                    ValueType = intType;
-                    break;
-
-                case InputType.Text:
-                default:
-                    var textType = new TextValueType();
-                    if (MinValue != null && int.TryParse(MinValue.ToString(), out int minLength))
-                        textType.MinLength = minLength;
-                    if (MaxValue != null && int.TryParse(MaxValue.ToString(), out int maxLength))
-                        textType.MaxLength = maxLength;
-                    ValueType = textType;
-                    break;
-            }
-#pragma warning restore CS0618
         }
 
         // Callback при изменении FormattedValue - парсим обратно в Value
