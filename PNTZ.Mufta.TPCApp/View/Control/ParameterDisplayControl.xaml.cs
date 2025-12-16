@@ -20,7 +20,7 @@ namespace PNTZ.Mufta.TPCApp.View.Control
     /// <summary>
     /// Контрол для отображения параметра: Label + значение с цветовой индикацией состояния
     /// </summary>
-    public partial class ParameterDisplayControl : UserControl
+    public partial class ParameterDisplayControl : UserControl, IValidatable
     {
         private bool _isUpdating = false; // Защита от циклических обновлений
         private Type _targetType = null; // Тип целевого свойства для правильной конвертации

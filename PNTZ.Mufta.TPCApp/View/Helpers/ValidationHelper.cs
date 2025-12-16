@@ -9,7 +9,7 @@ using PNTZ.Mufta.TPCApp.View.Control;
 namespace PNTZ.Mufta.TPCApp.View.Helpers
 {
     /// <summary>
-    /// Attached property helper для отслеживания ошибок валидации во вложенных ParameterDisplayControl
+    /// Attached property helper для отслеживания ошибок валидации во вложенных контролах, реализующих IValidatable
     /// </summary>
     public static class ValidationHelper
     {
@@ -97,8 +97,8 @@ namespace PNTZ.Mufta.TPCApp.View.Helpers
 
         private static void SubscribeToValidationChanges(DependencyObject root)
         {
-            // Находим все ParameterDisplayControl в визуальном дереве
-            var controls = FindVisualChildren<ParameterDisplayControl>(root).ToList();
+            // Находим все контролы, реализующие IValidatable в визуальном дереве
+            var validatableControls = FindValidatableControls(root).ToList();
 
             if (!_subscriptions.ContainsKey(root))
             {
@@ -106,11 +106,13 @@ namespace PNTZ.Mufta.TPCApp.View.Helpers
             }
 
             // Подписываемся на изменения IsValidationError для каждого контрола
-            foreach (var control in controls)
+            foreach (var control in validatableControls)
             {
-                var descriptor = DependencyPropertyDescriptor.FromProperty(
-                    ParameterDisplayControl.IsValidationErrorProperty,
-                    typeof(ParameterDisplayControl));
+                // Ищем DependencyProperty IsValidationError через имя
+                var descriptor = DependencyPropertyDescriptor.FromName(
+                    "IsValidationError",
+                    control.GetType(),
+                    control.GetType());
 
                 if (descriptor != null)
                 {
@@ -124,9 +126,9 @@ namespace PNTZ.Mufta.TPCApp.View.Helpers
         {
             if (_subscriptions.ContainsKey(root))
             {
-                var controls = FindVisualChildren<ParameterDisplayControl>(root).ToList();
+                var validatableControls = FindValidatableControls(root).ToList();
 
-                foreach (var control in controls)
+                foreach (var control in validatableControls)
                 {
                     foreach (var descriptor in _subscriptions[root])
                     {
@@ -146,16 +148,16 @@ namespace PNTZ.Mufta.TPCApp.View.Helpers
         private static void UpdateValidationState(DependencyObject root)
         {
             // Проверяем, есть ли хотя бы один контрол с ошибкой валидации
-            var controls = FindVisualChildren<ParameterDisplayControl>(root);
-            bool hasErrors = controls.Any(c => c.IsValidationError);
+            var validatableControls = FindValidatableControls(root);
+            bool hasErrors = validatableControls.Any(c => c.IsValidationError);
 
             SetHasValidationErrors(root, hasErrors);
         }
 
         /// <summary>
-        /// Рекурсивный поиск всех дочерних элементов заданного типа в визуальном дереве
+        /// Рекурсивный поиск всех контролов, реализующих IValidatable, в визуальном дереве
         /// </summary>
-        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        private static IEnumerable<IValidatable> FindValidatableControls(DependencyObject parent)
         {
             if (parent == null)
                 yield break;
@@ -165,13 +167,14 @@ namespace PNTZ.Mufta.TPCApp.View.Helpers
             {
                 DependencyObject child = VisualTreeHelper.GetChild(parent, i);
 
-                if (child is T typedChild)
+                // Проверяем, реализует ли контрол IValidatable
+                if (child is IValidatable validatable)
                 {
-                    yield return typedChild;
+                    yield return validatable;
                 }
 
                 // Рекурсивно проверяем дочерние элементы
-                foreach (T descendant in FindVisualChildren<T>(child))
+                foreach (IValidatable descendant in FindValidatableControls(child))
                 {
                     yield return descendant;
                 }

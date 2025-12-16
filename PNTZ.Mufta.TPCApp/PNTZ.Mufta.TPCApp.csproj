@@ -228,6 +228,7 @@
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Control\ConstantLineModel.cs" />
+    <Compile Include="View\Control\IValidatable.cs" />
     <Compile Include="View\Control\NaviButton.xaml.cs">
       <DependentUpon>NaviButton.xaml</DependentUpon>
     </Compile>
