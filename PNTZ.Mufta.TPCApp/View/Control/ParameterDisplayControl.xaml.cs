@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,11 +36,7 @@ namespace PNTZ.Mufta.TPCApp.View.Control
         private object _lastValidValue = null; // Последнее валидное значение для отката
         private Type _targetType = null; // Тип целевого свойства для правильной конвертации
 
-        public ParameterDisplayControl()
-        {
-            InitializeComponent();
-        }
-
+        #region Dep-properties
         // Label - название параметра
         public static readonly DependencyProperty LabelProperty =
             DependencyProperty.Register(
@@ -196,7 +193,32 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             get { return (string)GetValue(FormattedValueProperty); }
             set { SetValue(FormattedValueProperty, value); }
         }
+        #endregion
 
+        public ParameterDisplayControl()
+        {
+            InitializeComponent();
+            Validation.AddErrorHandler(this, OnValidationError);
+        }
+        private void OnValidationError(object sender, ValidationErrorEventArgs e)
+        {
+            // Обрабатываем через Dispatcher, чтобы UI обновился корректно
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (e.Action == ValidationErrorEventAction.Added)
+                {
+                    IsValidationError = true;
+                    ValidationErrorMessage = e.Error.ErrorContent?.ToString() ?? "Ошибка присвоения значения";
+
+                }
+                else
+                {
+                    IsValidationError = false;
+                    ValidationErrorMessage = string.Empty;
+                }
+            }), System.Windows.Threading.DispatcherPriority.Normal);
+        }
+       
         // Callback при изменении FormattedValue - парсим обратно в Value
         private static void OnFormattedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

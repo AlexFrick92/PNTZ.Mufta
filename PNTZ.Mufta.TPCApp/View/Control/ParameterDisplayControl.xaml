@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
              mc:Ignorable="d"
              x:Name="root"
-             d:DesignHeight="30" d:DesignWidth="200">
+             d:DesignHeight="30" d:DesignWidth="200"
+             Validation.ErrorTemplate="{x:Null}">
 
     <UserControl.Resources>
         <Style x:Key="ParamLabelStyle" TargetType="Label">
@@ -27,6 +28,7 @@
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="Foreground" Value="{StaticResource ParameterDisplay_Value_Foreground}"/>
             <Setter Property="Background" Value="{StaticResource ParameterDisplay_Value_Background}"/>
+
             <Style.Triggers>
                 <DataTrigger Binding="{Binding State, ElementName=root}" Value="Good">
                     <Setter Property="Foreground" Value="{StaticResource ParameterGood_Foreground}"/>
@@ -46,6 +48,7 @@
     </UserControl.Resources>
 
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="ParamLabel"/>
             <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>

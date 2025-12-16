@@ -12,7 +12,18 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public string Name { get; set; }
 
         // Общие данные
-        public float HEAD_OPEN_PULSES { get; set; }
+        private float _head_close_pulses;
+        public float HEAD_OPEN_PULSES 
+        { 
+            get => _head_close_pulses; 
+            set
+            {
+                if(value == 2)
+                    throw new ArgumentException("HEAD_OPEN_PULSES не может быть равен 2");
+                else
+                    _head_close_pulses = value;
+            }
+        } 
         public float TURNS_BREAK { get; set; }
         public ushort PLC_PROG_NR { get; set; }
         public ushort LOG_NO { get; set; }

@@ -116,7 +116,9 @@
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
                         <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
-                                Value="{Binding EditingRecipe.HEAD_OPEN_PULSES}"
+                                Value="{Binding EditingRecipe.HEAD_OPEN_PULSES, 
+                                                ValidatesOnExceptions=True,
+                                                NotifyOnValidationError=True}"
                                 StringFormat="F2"
                                 IsReadOnly="False"
                                 InputType="Float"
