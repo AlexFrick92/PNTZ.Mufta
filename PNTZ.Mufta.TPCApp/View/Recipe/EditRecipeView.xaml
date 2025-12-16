@@ -38,6 +38,13 @@
             <Setter Property="BorderBrush" Value="{DynamicResource JointProcess_ParamHeader_Foreground}"/>
             <Setter Property="Margin" Value="0,0,0,5"/>
         </Style>
+        <!--Стиль заголовка-->
+        <Style x:Key="InputFieldLabel" TargetType="Label">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="MinWidth" Value="180"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
 
         <!-- ========================================
         КОНВЕРТЕРЫ
@@ -139,6 +146,24 @@
                                 InputType="Integer"
                                 MinValue="0"
                                 MaxValue="999"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Grid.Column="0"
+                                        Style="{StaticResource InputFieldLabel}" Content="Тип резьбы"/>
+                            <ComboBox Grid.Column="1"
+                                    ItemsSource="{Binding Path=EditingRecipe.SelectedThreadType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneWay}" 
+                                    SelectedValuePath="Value"
+                                    DisplayMemberPath="Description"
+                                    SelectedValue="{Binding Path=EditingRecipe.SelectedThreadType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"           
+                                    HorizontalAlignment="Stretch"                                                                             
+                                    HorizontalContentAlignment="Center"/>
+                        </Grid>
+                        
                     </StackPanel>
 
                     <!-- ПРАВАЯ КОЛОНКА: Данные муфты + Преднавёртка -->
