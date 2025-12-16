@@ -65,6 +65,7 @@
                  IsReadOnly="{Binding IsReadOnly, ElementName=root}"
                  PreviewTextInput="ValidateInput"
                  GotFocus="OnTextBoxGotFocus"
+                 LostFocus="OnTextBoxLostFocus"
                  PreviewMouseLeftButtonDown="OnTextBoxPreviewMouseLeftButtonDown"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"

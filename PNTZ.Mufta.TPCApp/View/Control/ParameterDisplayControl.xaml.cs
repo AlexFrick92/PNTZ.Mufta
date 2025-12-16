@@ -330,6 +330,24 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             }
         }
 
+        // Обработчик потери фокуса - применяем форматирование к введенному значению
+        private void OnTextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                // Принудительно обновляем биндинг, чтобы значение из TextBox.Text попало в FormattedValue
+                var bindingExpression = textBox.GetBindingExpression(TextBox.TextProperty);
+                bindingExpression?.UpdateSource();
+
+                // После завершения ввода принудительно обновляем форматирование
+                // если не было ошибки валидации
+                if (!IsValidationError)
+                {
+                    UpdateFormattedValue();
+                }
+            }
+        }
+
         private bool IsValidFloatInput(string text)
         {
             // Разрешаем: цифры, точку, запятую, минус
