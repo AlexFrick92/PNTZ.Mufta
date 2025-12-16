@@ -133,6 +133,24 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         #endregion
 
+        #region Validation
+
+        private bool _hasValidationErrors;
+        /// <summary>
+        /// Флаг наличия ошибок валидации в форме
+        /// </summary>
+        public bool HasValidationErrors
+        {
+            get => _hasValidationErrors;
+            set
+            {
+                _hasValidationErrors = value;
+                OnPropertyChanged(nameof(HasValidationErrors));
+            }
+        }
+
+        #endregion
+
         private void OnEditingRecipePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(JointRecipe.JointMode))
