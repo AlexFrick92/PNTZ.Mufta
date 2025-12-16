@@ -33,6 +33,7 @@ namespace PNTZ.Mufta.TPCApp.View.Control
     {
         private bool _isUpdating = false; // Защита от циклических обновлений
         private object _lastValidValue = null; // Последнее валидное значение для отката
+        private Type _targetType = null; // Тип целевого свойства для правильной конвертации
 
         public ParameterDisplayControl()
         {
@@ -235,6 +236,12 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             {
                 _isUpdating = true;
 
+                // Запоминаем тип целевого свойства при первой инициализации
+                if (_targetType == null && Value != null)
+                {
+                    _targetType = Value.GetType();
+                }
+
                 // Сохраняем текущее значение как валидное (при программном обновлении)
                 _lastValidValue = Value;
                 IsValidationError = false; // Сбрасываем флаг ошибки при программном обновлении
@@ -329,19 +336,19 @@ namespace PNTZ.Mufta.TPCApp.View.Control
                 switch (InputType)
                 {
                     case InputType.Integer:
-                        // Парсим как int
+                        // Парсим как int и конвертируем в правильный тип
                         if (int.TryParse(formattedText, out int intValue))
                         {
-                            newValue = intValue;
+                            newValue = ConvertToTargetType(intValue);
                             parseSuccess = true;
                         }
                         break;
 
                     case InputType.Float:
-                        // Парсим как double
+                        // Парсим как double и конвертируем в правильный тип
                         if (double.TryParse(formattedText, out double doubleValue))
                         {
-                            newValue = doubleValue;
+                            newValue = ConvertToTargetType(doubleValue);
                             parseSuccess = true;
                         }
                         break;
@@ -563,6 +570,51 @@ namespace PNTZ.Mufta.TPCApp.View.Control
                 return $"Длина должна быть не более {maxLength.Value} символов";
 
             return "Некорректная длина строки";
+        }
+
+        // Конвертирует значение в тип целевого свойства
+        private object ConvertToTargetType(object value)
+        {
+            if (value == null || _targetType == null)
+                return value;
+
+            try
+            {
+                // Если типы совпадают - возвращаем как есть
+                if (value.GetType() == _targetType)
+                    return value;
+
+                // Конвертируем в целевой тип
+                if (_targetType == typeof(ushort))
+                    return Convert.ToUInt16(value);
+                else if (_targetType == typeof(short))
+                    return Convert.ToInt16(value);
+                else if (_targetType == typeof(uint))
+                    return Convert.ToUInt32(value);
+                else if (_targetType == typeof(int))
+                    return Convert.ToInt32(value);
+                else if (_targetType == typeof(ulong))
+                    return Convert.ToUInt64(value);
+                else if (_targetType == typeof(long))
+                    return Convert.ToInt64(value);
+                else if (_targetType == typeof(byte))
+                    return Convert.ToByte(value);
+                else if (_targetType == typeof(sbyte))
+                    return Convert.ToSByte(value);
+                else if (_targetType == typeof(float))
+                    return Convert.ToSingle(value);
+                else if (_targetType == typeof(double))
+                    return Convert.ToDouble(value);
+                else if (_targetType == typeof(decimal))
+                    return Convert.ToDecimal(value);
+                else
+                    return Convert.ChangeType(value, _targetType);
+            }
+            catch
+            {
+                // Если конвертация не удалась, возвращаем исходное значение
+                return value;
+            }
         }
     }
 }
