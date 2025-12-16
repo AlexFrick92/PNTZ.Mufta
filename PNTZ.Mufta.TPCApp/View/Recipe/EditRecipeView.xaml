@@ -1,19 +1,20 @@
 ﻿<UserControl x:Class="PNTZ.Mufta.TPCApp.View.Recipe.EditRecipeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+
              xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"
              xmlns:ctrl="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
+             xmlns:vt="clr-namespace:PNTZ.Mufta.TPCApp.View.Control.ValueTypes"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
              xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
              xmlns:domain="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
              xmlns:joint="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
 
             d:DataContext="{d:DesignInstance Type=viewmodel:EditRecipeViewModel}"
-             
-             mc:Ignorable="d" 
+
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- ========================================
@@ -116,38 +117,38 @@
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
                         <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
-                                Value="{Binding EditingRecipe.HEAD_OPEN_PULSES, 
+                                Value="{Binding EditingRecipe.HEAD_OPEN_PULSES,
                                                 ValidatesOnExceptions=True,
                                                 NotifyOnValidationError=True}"
-                                StringFormat="F2"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="0.01"
-                                MaxValue="10"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F2" MinValue="0.01" MaxValue="10"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Обороты развинчивание"
                                 Value="{Binding EditingRecipe.TURNS_BREAK}"
-                                StringFormat="F2"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="0.01"
-                                MaxValue="10"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F2" MinValue="0.01" MaxValue="10"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Шаг резьбы, m/n"
                                 Value="{Binding EditingRecipe.Thread_step}"
-                                StringFormat="F2"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="0.1"
-                                MaxValue="10"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F2" MinValue="0.1" MaxValue="10"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Программа SPS"
                                 Value="{Binding EditingRecipe.PLC_PROGR_NUM}"
-                                StringFormat=""
-                                IsReadOnly="False"
-                                InputType="Integer"
-                                MinValue="0"
-                                MaxValue="999"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:IntegerValueType MinValue="0" MaxValue="999"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <Grid>
                             <Grid.Resources>
@@ -187,27 +188,27 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. длина"
                                 Value="{Binding EditingRecipe.Box_Len_Min}"
-                                StringFormat="F1"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="50"
-                                MaxValue="500"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="50" MaxValue="500"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Макс. длина"
                                 Value="{Binding EditingRecipe.Box_Len_Max}"
-                                StringFormat="F1"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="50"
-                                MaxValue="500"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="50" MaxValue="500"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Время наблюдения"
                                 Value="{Binding EditingRecipe.Box_Moni_Time}"
-                                StringFormat=""
-                                IsReadOnly="False"
-                                InputType="Integer"
-                                MinValue="5"
-                                MaxValue="100"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:IntegerValueType MinValue="5" MaxValue="100"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <!-- ПРЕДНАВЁРТКА -->
                         <Label Style="{StaticResource ParamHeaderLabel}" Content="🔧 Преднавёртка" Margin="0,20,0,0"/>
@@ -215,27 +216,27 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. длина"
                                 Value="{Binding EditingRecipe.Pre_Len_Min}"
-                                StringFormat="F1"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="5"
-                                MaxValue="500"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="5" MaxValue="500"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Макс. длина"
                                 Value="{Binding EditingRecipe.Pre_Len_Max}"
-                                StringFormat="F1"
-                                IsReadOnly="False"
-                                InputType="Float"
-                                MinValue="5"
-                                MaxValue="500"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="5" MaxValue="500"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Время наблюдения"
                                 Value="{Binding EditingRecipe.Pre_Moni_Time}"
-                                StringFormat=""
-                                IsReadOnly="False"
-                                InputType="Integer"
-                                MinValue="5"
-                                MaxValue="100"/>
+                                IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:IntegerValueType MinValue="5" MaxValue="100"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
                     </StackPanel>
                 </Grid>
 
@@ -340,147 +341,147 @@
 
                         <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Dump}"
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="30000"/>
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Opt}"
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="30000"/>
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Min}"
                                     Visibility="{Binding IsTorqueOrTorqueLengthMode, Converter={StaticResource BoolToVis}}"
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="30000"/>
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Max}"
-                                    Visibility="{Binding IsTorqueOrTorqueLengthMode, Converter={StaticResource BoolToVis}}"                                                      
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="30000"/>
+                                    Visibility="{Binding IsTorqueOrTorqueLengthMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <Label/>
 
                         <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
-                                    Value="{Binding EditingRecipe.MU_Tq_Ref}"                                    
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="0"
-                                    MaxValue="30000"/>
+                                    Value="{Binding EditingRecipe.MU_Tq_Ref}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Save}"
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="0"
-                                    MaxValue="30000"/>
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Время наблюдения"
                                     Value="{Binding EditingRecipe.MU_Moni_Time}"
-                                    StringFormat=""
-                                    IsReadOnly="False"
-                                    InputType="Integer"
-                                    MinValue="5"
-                                    MaxValue="100"/>
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:IntegerValueType MinValue="5" MaxValue="100"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
                     </StackPanel>
 
                     <!-- ПРАВАЯ КОЛОНКА: Уменьшение скорости -->
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
                         <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
-                                    Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}"  
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="0"
-                                    MaxValue="30000"/>
+                                    Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
-                                    Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}"  
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="0"
-                                    MaxValue="30000"/>
+                                    Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Минимальный момент на плече, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Min}"
                                     Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="30000"/>
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Максимальный момент на плече, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Max}"
                                     Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"
-                                    StringFormat="N0"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="30000"/>
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Dump}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"     
-                                    StringFormat="F1"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="200"/>
+                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_1}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"   
-                                    StringFormat="F1"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="200"/>
+                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_2}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"                     
-                                    StringFormat="F1"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="200"/>
+                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Мин. глубина, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Min}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"                                                         
-                                    StringFormat="F1"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="200"/>
+                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
 
                         <ctrl:ParameterDisplayControl Label="Макс. глубина, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Max}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"                     
-                                    StringFormat="F1"
-                                    IsReadOnly="False"
-                                    InputType="Float"
-                                    MinValue="1"
-                                    MaxValue="200"/>
+                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
+                                    IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.ValueType>
+                                <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
+                            </ctrl:ParameterDisplayControl.ValueType>
+                        </ctrl:ParameterDisplayControl>
                     </StackPanel>
                 </Grid>
 

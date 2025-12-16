@@ -234,6 +234,10 @@
     <Compile Include="View\Control\ParameterDisplayControl.xaml.cs">
       <DependentUpon>ParameterDisplayControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Control\ValueTypes\ValueTypeBase.cs" />
+    <Compile Include="View\Control\ValueTypes\FloatValueType.cs" />
+    <Compile Include="View\Control\ValueTypes\IntegerValueType.cs" />
+    <Compile Include="View\Control\ValueTypes\TextValueType.cs" />
     <Compile Include="View\Control\RealtimeChartView.xaml.cs">
       <DependentUpon>RealtimeChartView.xaml</DependentUpon>
     </Compile>
