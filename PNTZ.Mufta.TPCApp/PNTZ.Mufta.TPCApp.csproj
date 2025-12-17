@@ -217,6 +217,7 @@
     <Compile Include="ViewModel\NewRecipeViewModel.cs" />
     <Compile Include="ViewModel\RecipeViewModel.cs" />
     <Compile Include="ViewModel\Recipe\EditRecipeViewModel.cs" />
+    <Compile Include="ViewModel\Recipe\RecipesListViewModel.cs" />
     <Compile Include="ViewModel\Recipe\RecipesViewModel.cs" />
     <Compile Include="ViewModel\RemoveRecipeViewModel.cs" />
     <Compile Include="ViewModel\ResultsViewModel.cs" />
@@ -278,6 +279,9 @@
     </Compile>
     <Compile Include="View\Recipe\EditRecipeView.xaml.cs">
       <DependentUpon>EditRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\RecipesListView.xaml.cs">
+      <DependentUpon>RecipesListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Recipe\RecipesView.xaml.cs">
       <DependentUpon>RecipesView.xaml</DependentUpon>
@@ -400,6 +404,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Recipe\EditRecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Recipe\RecipesListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

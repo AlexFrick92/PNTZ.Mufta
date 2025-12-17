@@ -99,6 +99,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TestWindows\RecipesListViewTestWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -135,6 +139,9 @@
     </Compile>
     <Compile Include="TestWindows\RecipesViewTestWindow.xaml.cs">
       <DependentUpon>RecipesViewTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestWindows\RecipesListViewTestWindow.xaml.cs">
+      <DependentUpon>RecipesListViewTestWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="PNTZ.Mufta.TPCApp.View.Recipe.RecipesListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"
+                        
+             d:DataContext="{d:DesignInstance Type=viewmodel:RecipesListViewModel}"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ListBox Grid.Row="1" ItemsSource="{Binding JointRecipes}" SelectedItem="{Binding SelectedRecipe}"
+         BorderThickness="0"
+         HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="2,2,2,4" Padding="0,0,0,4" BorderThickness="0,0,0,1" BorderBrush="{StaticResource JointView_GridBorder}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label                                                                                                                                             
+                                Content="{Binding Name}"
+                                FontSize="14"
+                                Background="Transparent"/>  
+
+                            <Label 
+                                Grid.Column="1"                                    
+                                Background="Transparent">
+
+                                <TextBlock Text="{Binding TimeStamp, StringFormat='{}{0:dd.MM.yyyy}'}" />
+                            </Label>
+
+                            <TextBlock                                    
+                                Grid.Column="0" Grid.ColumnSpan="2"
+                                Grid.Row="1"                                          
+                                Background="Transparent"                                    
+                                Text="{Binding SelectedMode}"                                    
+                                VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

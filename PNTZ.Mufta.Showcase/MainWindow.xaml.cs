@@ -95,6 +95,14 @@ namespace PNTZ.Mufta.Showcase
                     WindowType = typeof(RecipesViewTestWindow)
                 },
 
+                new ControlInfo
+                {
+                    Name = "RecipesListView",
+                    Category = "Рецепты",
+                    Description = "Компонент для отображения списка рецептов навёртки муфты.",
+                    WindowType = typeof(RecipesListViewTestWindow)
+                },
+
                 // Здесь будут добавляться другие контролы в будущем
                 // Пример:
                 // new ControlInfo
