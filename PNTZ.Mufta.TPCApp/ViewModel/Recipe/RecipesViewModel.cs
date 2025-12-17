@@ -13,6 +13,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Редактирование рецепта
         /// </summary>
         public EditRecipeViewModel EditRecipeViewModel { get; set; } = new EditRecipeViewModel();
+        /// <summary>
+        /// Список рецептов
+        /// </summary>
+        public RecipesListViewModel RecipesList { get; set; } = new RecipesListViewModel();
 
     }
 }

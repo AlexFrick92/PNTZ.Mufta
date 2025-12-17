@@ -67,10 +67,8 @@
          СПИСОК РЕЦЕПТОВ
          ======================================== -->
         <Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,0" BorderBrush="{StaticResource JointView_GridBorder}">
-            <ContentControl Grid.Row="1" Grid.Column="0" Width="300"/>
+            <local:RecipesListView Grid.Row="1" Grid.Column="0" Width="300" DataContext="{Binding RecipesList}"/>
         </Border>
-
-
 
         <!-- ========================================
          РЕДАКТИРОВАНИЕ РЕЦЕПТА
@@ -78,10 +76,6 @@
         <Border Grid.Column="1" Grid.Row="1" BorderThickness="0,0,0,0" BorderBrush="{StaticResource JointView_GridBorder}">
             <local:EditRecipeView Grid.Row="1" Grid.Column="1" DataContext="{Binding EditRecipeViewModel}"/>
         </Border>
-
-        
-        
-        
 
     </Grid>
 </UserControl>
