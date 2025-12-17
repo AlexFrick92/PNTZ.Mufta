@@ -25,6 +25,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             // Подписываемся на события редактирования рецепта
             EditRecipeViewModel.RecipeSaved += OnRecipeSaved;
             EditRecipeViewModel.RecipeCancelled += OnRecipeCancelled;
+            EditRecipeViewModel.RecipeDeleted += OnRecipeDeleted;
 
             RecipesList.LoadRecipeList(filtered);
         }
@@ -55,6 +56,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         private void OnRecipeCancelled(object sender, EventArgs e)
         {
             // Пока ничего не делаем
+        }
+
+        /// <summary>
+        /// Обработчик удаления рецепта
+        /// </summary>
+        private void OnRecipeDeleted(object sender, JointRecipe deletedRecipe)
+        {
+            // Удаляем рецепт из списка
+            RecipesList.RemoveRecipe(deletedRecipe);
         }
 
         /// <summary>

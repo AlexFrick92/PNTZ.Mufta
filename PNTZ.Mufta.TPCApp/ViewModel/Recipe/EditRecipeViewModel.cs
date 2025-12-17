@@ -23,6 +23,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             SaveRecipeCommand = new RelayCommand(SaveRecipe, CanSaveRecipe);
             CancelCommand = new RelayCommand(CancelChanges, CanCancelChanges);
             LoadRecipeCommand = new RelayCommand(LoadRecipe, CanLoadRecipe);
+            DeleteRecipeCommand = new RelayCommand(DeleteRecipe, CanDeleteRecipe);
         }
 
         /// <summary>
@@ -34,6 +35,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Событие отмены изменений
         /// </summary>
         public event EventHandler RecipeCancelled;
+
+        /// <summary>
+        /// Событие удаления рецепта
+        /// </summary>
+        public event EventHandler<JointRecipe> RecipeDeleted;
 
         /// <summary>
         /// Флаг наличия несохранённых изменений
@@ -193,6 +199,33 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             // TODO: Реализовать загрузку рецепта в PLC через RecipeDpWorker
             // Пока пустая команда
+        }
+
+        public ICommand DeleteRecipeCommand { get; }
+
+        private bool CanDeleteRecipe(object parameter)
+        {
+            // Можно удалить, если рецепт существует
+            return _originalRecipe != null;
+        }
+
+        private void DeleteRecipe(object parameter)
+        {
+            if (_originalRecipe == null)
+                return;
+
+            // Генерируем событие удаления с оригинальным рецептом
+            RecipeDeleted?.Invoke(this, _originalRecipe);
+
+            // Очищаем редактируемый рецепт
+            if (EditingRecipe != null)
+            {
+                EditingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
+            }
+
+            EditingRecipe = null;
+            _originalRecipe = null;
+            HasChanges = false;
         }
 
         #endregion
