@@ -9,6 +9,8 @@ using LinqToDB;
 using System.Data.SQLite;
 using System.Linq.Expressions;
 using Promatis.Core.Extensions;
+using System.IO;
+using System.Reflection;
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
@@ -16,7 +18,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
     {
         private RemoteRepository _remoteRepo;
         ILogger _logger;
-        string StoragePath = App.AppInstance.CurrentDirectory + "/Repository";
+        string StoragePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Repository";
         string recipesConnectionString;
         string resultsConnectionString;
         public LocalRepository(ILogger logger)
