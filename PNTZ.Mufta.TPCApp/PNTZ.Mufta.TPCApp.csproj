@@ -218,6 +218,7 @@
     <Compile Include="ViewModel\RecipeViewModel.cs" />
     <Compile Include="ViewModel\Recipe\EditRecipeViewModel.cs" />
     <Compile Include="ViewModel\Recipe\RecipeLoadedConverter.cs" />
+    <Compile Include="ViewModel\Recipe\JointModeToStringConverter.cs" />
     <Compile Include="ViewModel\Recipe\RecipesListViewModel.cs" />
     <Compile Include="ViewModel\Recipe\RecipesViewModel.cs" />
     <Compile Include="ViewModel\RemoveRecipeViewModel.cs" />

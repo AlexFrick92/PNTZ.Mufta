@@ -13,6 +13,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <viewmodel:RecipeLoadedConverter x:Key="RecipeLoadedConverter"/>
+        <viewmodel:JointModeToStringConverter x:Key="JointModeToStringConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -67,7 +68,7 @@
                                 Grid.Column="0" Grid.ColumnSpan="3"
                                 Grid.Row="1"
                                 Background="Transparent"
-                                Text="{Binding JointMode}"
+                                Text="{Binding JointMode, Converter={StaticResource JointModeToStringConverter}}"
                                 VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
