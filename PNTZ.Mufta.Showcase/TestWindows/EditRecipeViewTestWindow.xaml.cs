@@ -35,13 +35,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void OnRecipeSaved(object sender, JointRecipe recipe)
         {
-            // Сохраняем копию рецепта в словарь
-            var recipeKey = GetRecipeKey(recipe.JointMode);
-            _savedRecipes[recipeKey] = JointRecipeHelper.Clone(recipe);
-
-            UpdateStatus($"✅ Рецепт сохранён в память: {recipe.Name} (ID: {recipe.Id})");
+            // Рецепт уже обновлён в памяти (это оригинал из словаря)
+            UpdateStatus($"✅ Рецепт сохранён: {recipe.Name} (ID: {recipe.Id})");
             MessageBox.Show(
-                $"Рецепт успешно сохранён!\n\nНазвание: {recipe.Name}\nРежим: {recipe.JointMode}\n\nПри следующей загрузке будут использованы сохранённые данные.",
+                $"Рецепт успешно сохранён!\n\nНазвание: {recipe.Name}\nРежим: {recipe.JointMode}\n\nИзменения применены к оригинальному рецепту.",
                 "Сохранение рецепта",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -81,17 +78,20 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
             if (_savedRecipes.ContainsKey(recipeKey))
             {
-                // Загружаем сохранённую версию и создаём копию для редактирования
-                recipe = JointRecipeHelper.Clone(_savedRecipes[recipeKey]);
+                // Загружаем сохранённую версию (оригинал)
+                // EditRecipeViewModel создаст копию для редактирования
+                recipe = _savedRecipes[recipeKey];
                 UpdateStatus($"📂 Рецепт загружен из памяти: {recipe.Name} (Режим: {recipe.JointMode})");
             }
             else
             {
-                // Создаём новый тестовый рецепт
+                // Создаём новый тестовый рецепт и сохраняем в словарь
                 recipe = createDefaultRecipe();
+                _savedRecipes[recipeKey] = recipe;
                 UpdateStatus($"🆕 Создан новый рецепт: {recipe.Name} (Режим: {recipe.JointMode})");
             }
 
+            // Передаём оригинал в ViewModel, он сам создаст копию для редактирования
             _viewModel.SetEditingRecipe(recipe);
         }
 

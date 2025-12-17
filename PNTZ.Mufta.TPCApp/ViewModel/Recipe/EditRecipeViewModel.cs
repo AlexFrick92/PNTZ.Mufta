@@ -1,5 +1,6 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     public class EditRecipeViewModel : BaseViewModel
     {
         private JointRecipe _editingRecipe;
+        private JointRecipe _originalRecipe;
 
         public EditRecipeViewModel()
         {
@@ -25,7 +27,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         public event EventHandler<JointRecipe> RecipeSaved;
 
         /// <summary>
-        /// Рецепт, который редактируется
+        /// Рецепт, который редактируется (копия оригинала)
         /// </summary>
         public JointRecipe EditingRecipe
         {
@@ -43,9 +45,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             }
         }
 
+        /// <summary>
+        /// Устанавливает рецепт для редактирования
+        /// </summary>
+        /// <param name="recipe">Оригинальный рецепт</param>
         public void SetEditingRecipe(JointRecipe recipe)
         {
-            EditingRecipe = recipe ?? throw new ArgumentNullException(nameof(recipe));
+            if (recipe == null)
+                throw new ArgumentNullException(nameof(recipe));
+
+            // Сохраняем ссылку на оригинал
+            _originalRecipe = recipe;
+
+            // Создаём копию для редактирования
+            EditingRecipe = JointRecipeHelper.Clone(recipe);
         }
 
         #region Команды
@@ -66,12 +79,65 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         private bool CanSaveRecipe(object parameter)
         {
-            return !HasValidationErrors && EditingRecipe != null;
+            return !HasValidationErrors && EditingRecipe != null && _originalRecipe != null;
         }
 
         private void SaveRecipe(object parameter)
         {
-            RecipeSaved?.Invoke(this, EditingRecipe);
+            if (_originalRecipe == null)
+                return;
+
+            // Копируем данные из редактируемой копии обратно в оригинал
+            CopyRecipeData(EditingRecipe, _originalRecipe);
+
+            // Передаём обновлённый оригинал в событие
+            RecipeSaved?.Invoke(this, _originalRecipe);
+        }
+
+        /// <summary>
+        /// Копирует данные из source в target
+        /// </summary>
+        private void CopyRecipeData(JointRecipe source, JointRecipe target)
+        {
+            target.Name = source.Name;
+            target.JointMode = source.JointMode;
+            target.SelectedThreadType = source.SelectedThreadType;
+            target.Thread_step = source.Thread_step;
+            target.PLC_PROG_NR = source.PLC_PROG_NR;
+            target.HEAD_OPEN_PULSES = source.HEAD_OPEN_PULSES;
+            target.TURNS_BREAK = source.TURNS_BREAK;
+
+            // Данные муфты
+            target.Box_Len_Min = source.Box_Len_Min;
+            target.Box_Len_Max = source.Box_Len_Max;
+            target.Box_Moni_Time = source.Box_Moni_Time;
+
+            // Преднавёртка
+            target.Pre_Len_Min = source.Pre_Len_Min;
+            target.Pre_Len_Max = source.Pre_Len_Max;
+            target.Pre_Moni_Time = source.Pre_Moni_Time;
+
+            // Параметры момента
+            target.MU_Tq_Dump = source.MU_Tq_Dump;
+            target.MU_Tq_Opt = source.MU_Tq_Opt;
+            target.MU_Tq_Min = source.MU_Tq_Min;
+            target.MU_Tq_Max = source.MU_Tq_Max;
+            target.MU_Tq_Ref = source.MU_Tq_Ref;
+            target.MU_Tq_Save = source.MU_Tq_Save;
+            target.MU_Moni_Time = source.MU_Moni_Time;
+            target.MU_TqSpeedRed_1 = source.MU_TqSpeedRed_1;
+            target.MU_TqSpeedRed_2 = source.MU_TqSpeedRed_2;
+
+            // Параметры плеча
+            target.MU_TqShoulder_Min = source.MU_TqShoulder_Min;
+            target.MU_TqShoulder_Max = source.MU_TqShoulder_Max;
+
+            // Параметры длины
+            target.MU_Len_Dump = source.MU_Len_Dump;
+            target.MU_Len_Speed_1 = source.MU_Len_Speed_1;
+            target.MU_Len_Speed_2 = source.MU_Len_Speed_2;
+            target.MU_Len_Min = source.MU_Len_Min;
+            target.MU_Len_Max = source.MU_Len_Max;
         }
 
         #endregion
