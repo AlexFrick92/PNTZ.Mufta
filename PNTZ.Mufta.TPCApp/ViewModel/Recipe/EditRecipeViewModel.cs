@@ -3,6 +3,7 @@ using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Domain.Helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     {
         private JointRecipe _editingRecipe;
         private JointRecipe _originalRecipe;
+        private bool _hasChanges;
 
         public EditRecipeViewModel()
         {
@@ -31,6 +33,21 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Событие отмены изменений
         /// </summary>
         public event EventHandler RecipeCancelled;
+
+        /// <summary>
+        /// Флаг наличия несохранённых изменений
+        /// </summary>
+        public bool HasChanges
+        {
+            get => _hasChanges;
+            private set
+            {
+                _hasChanges = value;
+                OnPropertyChanged(nameof(HasChanges));
+                // Обновляем состояние команд
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            }
+        }
 
         /// <summary>
         /// Рецепт, который редактируется (копия оригинала)
@@ -60,11 +77,35 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             if (recipe == null)
                 throw new ArgumentNullException(nameof(recipe));
 
+            // Отписываемся от старого рецепта
+            if (EditingRecipe != null)
+            {
+                EditingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
+            }
+
             // Сохраняем ссылку на оригинал
             _originalRecipe = recipe;
 
             // Создаём копию для редактирования
             EditingRecipe = JointRecipeHelper.Clone(recipe);
+
+            // Подписываемся на изменения копии
+            if (EditingRecipe != null)
+            {
+                EditingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
+            }
+
+            // Сбрасываем флаг изменений
+            HasChanges = false;
+        }
+
+        /// <summary>
+        /// Обработчик изменений свойств редактируемого рецепта
+        /// </summary>
+        private void OnEditingRecipePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Проверяем, действительно ли есть изменения
+            HasChanges = !JointRecipeHelper.AreEqual(_originalRecipe, EditingRecipe);
         }
 
         #region Команды
@@ -95,6 +136,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Копируем данные из редактируемой копии обратно в оригинал
             CopyRecipeData(EditingRecipe, _originalRecipe);
+
+            // Сбрасываем флаг изменений
+            HasChanges = false;
 
             // Передаём обновлённый оригинал в событие
             RecipeSaved?.Invoke(this, _originalRecipe);
@@ -150,7 +194,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         private bool CanCancelChanges(object parameter)
         {
-            return _originalRecipe != null && EditingRecipe != null;
+            return _originalRecipe != null && EditingRecipe != null && HasChanges;
         }
 
         private void CancelChanges(object parameter)
@@ -158,8 +202,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             if (_originalRecipe == null)
                 return;
 
+            // Отписываемся от старой копии
+            if (EditingRecipe != null)
+            {
+                EditingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
+            }
+
             // Создаём новую копию из оригинала, отбрасывая все изменения
             EditingRecipe = JointRecipeHelper.Clone(_originalRecipe);
+
+            // Подписываемся на новую копию
+            if (EditingRecipe != null)
+            {
+                EditingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
+            }
+
+            // Сбрасываем флаг изменений
+            HasChanges = false;
 
             // Уведомляем об отмене
             RecipeCancelled?.Invoke(this, EventArgs.Empty);
