@@ -40,11 +40,11 @@
                                 <TextBlock Text="{Binding TimeStamp, StringFormat='{}{0:dd.MM.yyyy}'}" />
                             </Label>
 
-                            <TextBlock                                    
+                            <TextBlock
                                 Grid.Column="0" Grid.ColumnSpan="2"
-                                Grid.Row="1"                                          
-                                Background="Transparent"                                    
-                                Text="{Binding SelectedMode}"                                    
+                                Grid.Row="1"
+                                Background="Transparent"
+                                Text="{Binding JointMode}"
                                 VerticalAlignment="Center"/>
                         </Grid>
                     </Border>

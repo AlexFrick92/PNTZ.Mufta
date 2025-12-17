@@ -14,21 +14,36 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     /// </summary>
     public class RecipesListViewModel : BaseViewModel
     {
+        private JointRecipe _selectedRecipe;
+
         /// <summary>
         /// Список рецептов
         /// </summary>
-        public ObservableCollection<JointRecipeViewModel> JointRecipes { get; private set; } = new ObservableCollection<JointRecipeViewModel>();
+        public ObservableCollection<JointRecipe> JointRecipes { get; private set; } = new ObservableCollection<JointRecipe>();
+
+        /// <summary>
+        /// Выбранный рецепт
+        /// </summary>
+        public JointRecipe SelectedRecipe
+        {
+            get => _selectedRecipe;
+            set
+            {
+                if (_selectedRecipe != value)
+                {
+                    _selectedRecipe = value;
+                    OnPropertyChanged(nameof(SelectedRecipe));
+                }
+            }
+        }
 
         public void LoadRecipeList(IEnumerable<JointRecipe> recipes)
         {
             JointRecipes.Clear();
             foreach (var recipe in recipes)
             {
-                JointRecipes.Add(new JointRecipeViewModel(recipe));
+                JointRecipes.Add(recipe);
             }
         }
-        
-        public JointRecipe SelectedRecipe { get; set; }
-        
     }
 }

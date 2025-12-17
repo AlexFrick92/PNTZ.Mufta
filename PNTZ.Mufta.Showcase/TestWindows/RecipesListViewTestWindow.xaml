@@ -25,6 +25,36 @@
                            Foreground="#2C3E50"
                            Margin="0,0,0,10"/>
 
+                <!-- Кнопка загрузки рецептов -->
+                <Button x:Name="LoadRecipesButton"
+                        Content="Загрузить тестовые рецепты"
+                        Click="LoadRecipesButton_Click"
+                        Padding="10,5"
+                        Margin="0,0,0,10"
+                        Background="#3498DB"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"/>
+
+                <!-- Выбранный рецепт -->
+                <Border Background="#E8F4F8"
+                        BorderBrush="#3498DB"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Padding="8"
+                        Margin="0,0,0,5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Выбранный рецепт: "
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   Foreground="#2C3E50"/>
+                        <TextBlock x:Name="SelectedRecipeNameText"
+                                   Text="не выбран"
+                                   FontSize="12"
+                                   Foreground="#3498DB"/>
+                    </StackPanel>
+                </Border>
+
                 <!-- Статус -->
                 <Border Background="#D5F4E6"
                         BorderBrush="#27AE60"
