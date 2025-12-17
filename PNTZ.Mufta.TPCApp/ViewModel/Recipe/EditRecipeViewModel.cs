@@ -1,12 +1,14 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Domain.Helpers;
+using PNTZ.Mufta.TPCApp.View.Recipe;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
@@ -198,16 +200,28 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         public bool RecipeLoadingInProgress { get; private set; } = false;
         private async void LoadRecipe(object parameter)
         {
+            LoadingRecipeView loadingWindow = null;
+
             try
             {
                 RecipeLoadingInProgress = true;
                 OnPropertyChanged(nameof(RecipeLoadingInProgress));
+
+                // Создаём и показываем окно загрузки
+                var loadingViewModel = new LoadingRecipeViewModel(_originalRecipe?.Name ?? "");
+                loadingWindow = new LoadingRecipeView(loadingViewModel);
+                loadingWindow.Owner = Application.Current.MainWindow;
+                loadingWindow.Show();
+
                 await _loader.LoadRecipeAsync(_originalRecipe);
             }
             finally
             {
                 RecipeLoadingInProgress = false;
                 OnPropertyChanged(nameof(RecipeLoadingInProgress));
+
+                // Закрываем окно загрузки
+                loadingWindow?.Close();
             }
         }
 

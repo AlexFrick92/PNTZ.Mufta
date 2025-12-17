@@ -217,6 +217,7 @@
     <Compile Include="ViewModel\NewRecipeViewModel.cs" />
     <Compile Include="ViewModel\RecipeViewModel.cs" />
     <Compile Include="ViewModel\Recipe\EditRecipeViewModel.cs" />
+    <Compile Include="ViewModel\Recipe\LoadingRecipeViewModel.cs" />
     <Compile Include="ViewModel\Recipe\RecipeLoadedConverter.cs" />
     <Compile Include="ViewModel\Recipe\JointModeToStringConverter.cs" />
     <Compile Include="ViewModel\Recipe\RecipesListViewModel.cs" />
@@ -293,6 +294,9 @@
     </Compile>
     <Compile Include="View\Recipe\NewRecipeView.xaml.cs">
       <DependentUpon>NewRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\LoadingRecipeView.xaml.cs">
+      <DependentUpon>LoadingRecipeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Recipe\RemoveRecipeView.xaml.cs">
       <DependentUpon>RemoveRecipeView.xaml</DependentUpon>
@@ -422,6 +426,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Recipe\NewRecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Recipe\LoadingRecipeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
