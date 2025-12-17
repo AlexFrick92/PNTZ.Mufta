@@ -126,7 +126,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         private bool CanSaveRecipe(object parameter)
         {
-            return !HasValidationErrors && EditingRecipe != null && _originalRecipe != null;
+            return !HasValidationErrors && EditingRecipe != null && _originalRecipe != null && HasChanges;
         }
 
         private void SaveRecipe(object parameter)
@@ -135,7 +135,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 return;
 
             // Копируем данные из редактируемой копии обратно в оригинал
-            CopyRecipeData(EditingRecipe, _originalRecipe);
+            EditingRecipe.CopyRecipeDataTo(_originalRecipe);
 
             // Сбрасываем флаг изменений
             HasChanges = false;
@@ -144,51 +144,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             RecipeSaved?.Invoke(this, _originalRecipe);
         }
 
-        /// <summary>
-        /// Копирует данные из source в target
-        /// </summary>
-        private void CopyRecipeData(JointRecipe source, JointRecipe target)
-        {
-            target.Name = source.Name;
-            target.JointMode = source.JointMode;
-            target.SelectedThreadType = source.SelectedThreadType;
-            target.Thread_step = source.Thread_step;
-            target.PLC_PROG_NR = source.PLC_PROG_NR;
-            target.HEAD_OPEN_PULSES = source.HEAD_OPEN_PULSES;
-            target.TURNS_BREAK = source.TURNS_BREAK;
 
-            // Данные муфты
-            target.Box_Len_Min = source.Box_Len_Min;
-            target.Box_Len_Max = source.Box_Len_Max;
-            target.Box_Moni_Time = source.Box_Moni_Time;
-
-            // Преднавёртка
-            target.Pre_Len_Min = source.Pre_Len_Min;
-            target.Pre_Len_Max = source.Pre_Len_Max;
-            target.Pre_Moni_Time = source.Pre_Moni_Time;
-
-            // Параметры момента
-            target.MU_Tq_Dump = source.MU_Tq_Dump;
-            target.MU_Tq_Opt = source.MU_Tq_Opt;
-            target.MU_Tq_Min = source.MU_Tq_Min;
-            target.MU_Tq_Max = source.MU_Tq_Max;
-            target.MU_Tq_Ref = source.MU_Tq_Ref;
-            target.MU_Tq_Save = source.MU_Tq_Save;
-            target.MU_Moni_Time = source.MU_Moni_Time;
-            target.MU_TqSpeedRed_1 = source.MU_TqSpeedRed_1;
-            target.MU_TqSpeedRed_2 = source.MU_TqSpeedRed_2;
-
-            // Параметры плеча
-            target.MU_TqShoulder_Min = source.MU_TqShoulder_Min;
-            target.MU_TqShoulder_Max = source.MU_TqShoulder_Max;
-
-            // Параметры длины
-            target.MU_Len_Dump = source.MU_Len_Dump;
-            target.MU_Len_Speed_1 = source.MU_Len_Speed_1;
-            target.MU_Len_Speed_2 = source.MU_Len_Speed_2;
-            target.MU_Len_Min = source.MU_Len_Min;
-            target.MU_Len_Max = source.MU_Len_Max;
-        }
 
         public ICommand CancelCommand { get; }
 
