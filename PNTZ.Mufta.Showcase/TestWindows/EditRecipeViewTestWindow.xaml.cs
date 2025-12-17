@@ -4,6 +4,7 @@ using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Domain.Helpers;
 using PNTZ.Mufta.Showcase.Helper;
+using PNTZ.Mufta.Showcase.Data;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -28,7 +29,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void InitializeViewModel()
         {
-            _viewModel = new EditRecipeViewModel();
+            _viewModel = new EditRecipeViewModel(new MockRecipeLoader());
             _viewModel.RecipeSaved += OnRecipeSaved;
             _viewModel.RecipeCancelled += OnRecipeCancelled;
             EditRecipeView.DataContext = _viewModel;

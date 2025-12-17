@@ -16,9 +16,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         private JointRecipe _editingRecipe;
         private JointRecipe _originalRecipe;
         private bool _hasChanges;
+        private IRecipeLoader _loader;
 
-        public EditRecipeViewModel()
+        public EditRecipeViewModel(IRecipeLoader loader)
         {
+            _loader = loader;
+
             SetModeCommand = new RelayCommand(SetMode);
             SaveRecipeCommand = new RelayCommand(SaveRecipe, CanSaveRecipe);
             CancelCommand = new RelayCommand(CancelChanges, CanCancelChanges);
@@ -115,8 +118,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             HasChanges = !JointRecipeHelper.AreEqual(_originalRecipe, EditingRecipe);
         }
 
-        #region Команды
-
         public ICommand SetModeCommand { get; }
 
         private void SetMode(object parameter)
@@ -192,13 +193,22 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         private bool CanLoadRecipe(object parameter)
         {
             // Можно загрузить, если рецепт существует и нет ошибок валидации
-            return EditingRecipe != null && !HasValidationErrors;
+            return EditingRecipe != null && !HasValidationErrors && !HasChanges && _loader != null && !RecipeLoadingInProgress;
         }
-
-        private void LoadRecipe(object parameter)
+        public bool RecipeLoadingInProgress { get; private set; } = false;
+        private async void LoadRecipe(object parameter)
         {
-            // TODO: Реализовать загрузку рецепта в PLC через RecipeDpWorker
-            // Пока пустая команда
+            try
+            {
+                RecipeLoadingInProgress = true;
+                OnPropertyChanged(nameof(RecipeLoadingInProgress));
+                await _loader.LoadRecipeAsync(_originalRecipe);
+            }
+            finally
+            {
+                RecipeLoadingInProgress = false;
+                OnPropertyChanged(nameof(RecipeLoadingInProgress));
+            }
         }
 
         public ICommand DeleteRecipeCommand { get; }
@@ -228,9 +238,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             HasChanges = false;
         }
 
-        #endregion
-
-        #region Флаги режимов
 
         private bool _isTorqueMode;
         public bool IsTorqueMode
@@ -298,10 +305,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             }
         }
 
-        #endregion
-
-        #region Validation
-
         private bool _hasValidationErrors;
         /// <summary>
         /// Флаг наличия ошибок валидации в форме
@@ -317,8 +320,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();
             }
         }
-
-        #endregion
 
         private void UpdateModeFlags()
         {

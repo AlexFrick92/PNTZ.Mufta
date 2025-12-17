@@ -12,8 +12,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     public class RecipesViewModel : BaseViewModel
     {
         string nameFilter = string.Empty;
-        public RecipesViewModel(LocalRepository repository)
+        public RecipesViewModel(LocalRepository repository, IRecipeLoader loader)
         {
+            _loader = loader;
+            EditRecipeViewModel = new EditRecipeViewModel(_loader);
+
+            _loader.RecipeLoaded += (s, e) =>
+            {
+                RecipesList.LoadedRecipe = e;
+            };
+
             var filtered = repository.GetRecipes(r =>
                 string.IsNullOrEmpty(nameFilter)
                 || r.Name.Contains(nameFilter)
@@ -29,6 +37,17 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             RecipesList.LoadRecipeList(filtered);
         }
+
+        /// <summary>
+        /// Редактирование рецепта
+        /// </summary>
+        public EditRecipeViewModel EditRecipeViewModel { get; set; }
+        /// <summary>
+        /// Список рецептов
+        /// </summary>
+        public RecipesListViewModel RecipesList { get; set; } = new RecipesListViewModel();
+
+        private IRecipeLoader _loader;
 
         /// <summary>
         /// Обработчик выбора рецепта из списка
@@ -67,13 +86,5 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             RecipesList.RemoveRecipe(deletedRecipe);
         }
 
-        /// <summary>
-        /// Редактирование рецепта
-        /// </summary>
-        public EditRecipeViewModel EditRecipeViewModel { get; set; } = new EditRecipeViewModel();
-        /// <summary>
-        /// Список рецептов
-        /// </summary>
-        public RecipesListViewModel RecipesList { get; set; } = new RecipesListViewModel();
     }
 }

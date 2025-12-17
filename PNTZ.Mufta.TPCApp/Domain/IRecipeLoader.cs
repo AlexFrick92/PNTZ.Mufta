@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace PNTZ.Mufta.TPCApp.Domain
 {
@@ -8,5 +9,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
         event EventHandler<JointRecipe> RecipeLoaded;
         event EventHandler<JointRecipe> RecipeLoadFailed;
+
+        Task LoadRecipeAsync(JointRecipe recipe);
     }
 }

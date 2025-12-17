@@ -15,6 +15,16 @@ namespace PNTZ.Mufta.Showcase.Data
         public event EventHandler<JointRecipe> RecipeLoaded;
         public event EventHandler<JointRecipe> RecipeLoadFailed;
 
+        public async Task LoadRecipeAsync(JointRecipe recipe)
+        {
+            await Task.Run(async () =>
+            {
+                await Task.Delay(3000);
+                LoadedRecipe = recipe;
+                RecipeLoaded?.Invoke(this, recipe);
+            });
+        }
+
         /// <summary>
         /// Загрузить тестовый рецепт по длине
         /// </summary>

@@ -1,5 +1,6 @@
 using PNTZ.Mufta.TPCApp.Domain;
 using System;
+using System.Threading.Tasks;
 
 namespace PNTZ.Mufta.Showcase.Data
 {
@@ -27,6 +28,11 @@ namespace PNTZ.Mufta.Showcase.Data
 
             LoadedRecipe = recipe;
             RecipeLoaded?.Invoke(this, recipe);
+        }
+
+        public Task LoadRecipeAsync(JointRecipe recipe)
+        {
+            throw new NotImplementedException();
         }
     }
 }

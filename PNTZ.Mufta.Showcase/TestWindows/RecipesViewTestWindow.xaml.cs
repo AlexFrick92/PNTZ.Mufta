@@ -1,3 +1,4 @@
+using PNTZ.Mufta.Showcase.Data;
 using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
 using Promatis.Core.Logging;
 using System;
@@ -27,7 +28,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         }
         private void InitializeViewModel()
         {
-            _viewModel = new RecipesViewModel(new TPCApp.Repository.LocalRepository(new ConsoleLogger()));    
+            _viewModel = new RecipesViewModel(new TPCApp.Repository.LocalRepository(new ConsoleLogger()), new MockRecipeLoader());    
             RecipesView.DataContext = _viewModel;
         }
     }

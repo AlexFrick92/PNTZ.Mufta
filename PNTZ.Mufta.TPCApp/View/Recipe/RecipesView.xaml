@@ -81,35 +81,37 @@
                            Padding="0"
                            Margin="0,2,0,0"/>
                 </StackPanel>
-
                 <!-- Кнопки управления рецептом -->
-                <Button Grid.Column="2"
-                        Margin="5"
-                        Padding="10,5"
-                        Command="{Binding EditRecipeViewModel.SaveRecipeCommand}"
-                        Content="💾 Сохранить"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button  Margin="5"
+                             Padding="10,5"
+                             Command="{Binding EditRecipeViewModel.SaveRecipeCommand}"
+                             Content="💾 Сохранить"/>    
 
-                <Button Grid.Column="3"
-                        Margin="5"
-                        Padding="10,5"
-                        Command="{Binding EditRecipeViewModel.CancelCommand}"
-                        Content="❌ Отменить"/>
+                    <Button Margin="5"
+                             Padding="10,5"
+                             Command="{Binding EditRecipeViewModel.CancelCommand}"
+                             Content="❌ Отменить"/>
 
-                <Button Grid.Column="4"
-                        Margin="5"
-                        Padding="10,5"
-                        Command="{Binding EditRecipeViewModel.DeleteRecipeCommand}"
-                        Content="🗑️ Удалить"/>
+                    <Button Margin="5"
+                             Padding="10,5"
+                             Command="{Binding EditRecipeViewModel.DeleteRecipeCommand}"
+                             Content="🗑️ Удалить"/>
 
-                <Button Grid.Column="5"
-                        Margin="5"
-                        Padding="10,5"
-                        Command="{Binding EditRecipeViewModel.LoadRecipeCommand}"
-                        Content="🡇 Загрузить"/>
+                    <Border Width="0.5"
+                            Margin="10,5,10,5"
+                            Background="{StaticResource JointView_GridBorder}"/>
+
+                    <Button Margin="5"
+                             Padding="10,5"
+                             Command="{Binding EditRecipeViewModel.LoadRecipeCommand}"
+                             Content="🡇 Загрузить"/>
+
+                </StackPanel>
             </Grid>
         </Border>
 
-        
+
         <!-- ========================================
          СПИСОК РЕЦЕПТОВ
          ======================================== -->

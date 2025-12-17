@@ -219,5 +219,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             EditRecipe.JointMode = newMode;
             OnPropertyChanged(nameof(EditRecipe));            
         }
+
+        public Task LoadRecipeAsync(JointRecipe recipe)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
