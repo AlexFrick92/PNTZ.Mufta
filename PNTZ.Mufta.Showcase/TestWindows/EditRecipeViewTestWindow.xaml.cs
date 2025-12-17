@@ -18,12 +18,34 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             InitializeComponent();
             InitializeViewModel();
             UpdateStatus("Контрол загружен и готов к работе.");
+
+            // Подписываемся на событие закрытия окна для очистки
+            Closed += OnWindowClosed;
         }
 
         private void InitializeViewModel()
         {
             _viewModel = new EditRecipeViewModel();
+            _viewModel.RecipeSaved += OnRecipeSaved;
             EditRecipeView.DataContext = _viewModel;
+        }
+
+        private void OnRecipeSaved(object sender, JointRecipe recipe)
+        {
+            UpdateStatus($"✅ Рецепт сохранён: {recipe.Name} (ID: {recipe.Id})");
+            MessageBox.Show(
+                $"Рецепт успешно сохранён!\n\nНазвание: {recipe.Name}\nРежим: {recipe.JointMode}",
+                "Сохранение рецепта",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        private void OnWindowClosed(object sender, EventArgs e)
+        {
+            if (_viewModel != null)
+            {
+                _viewModel.RecipeSaved -= OnRecipeSaved;
+            }
         }
 
         /// <summary>

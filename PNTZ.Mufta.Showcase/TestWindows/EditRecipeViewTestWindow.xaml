@@ -72,6 +72,22 @@
                                     Cursor="Hand"/>
                         </StackPanel>
                     </GroupBox>
+
+                    <!-- Группа: Действия -->
+                    <GroupBox Header="Действия"
+                              Margin="0,0,15,10"
+                              Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="💾 Сохранить рецепт"
+                                    Command="{Binding ElementName=EditRecipeView, Path=DataContext.SaveRecipeCommand}"
+                                    Width="150"
+                                    Padding="8,5"
+                                    Background="#27AE60"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                    </GroupBox>
                 </WrapPanel>
 
                 <!-- Статус -->

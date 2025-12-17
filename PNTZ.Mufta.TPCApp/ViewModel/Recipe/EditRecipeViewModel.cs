@@ -16,7 +16,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         public EditRecipeViewModel()
         {
             SetModeCommand = new RelayCommand(SetMode);
+            SaveRecipeCommand = new RelayCommand(SaveRecipe, CanSaveRecipe);
         }
+
+        /// <summary>
+        /// Событие сохранения рецепта
+        /// </summary>
+        public event EventHandler<JointRecipe> RecipeSaved;
 
         /// <summary>
         /// Рецепт, который редактируется
@@ -54,6 +60,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 OnPropertyChanged(nameof(EditingRecipe));
                 UpdateModeFlags();
             }
+        }
+
+        public ICommand SaveRecipeCommand { get; }
+
+        private bool CanSaveRecipe(object parameter)
+        {
+            return !HasValidationErrors && EditingRecipe != null;
+        }
+
+        private void SaveRecipe(object parameter)
+        {
+            RecipeSaved?.Invoke(this, EditingRecipe);
         }
 
         #endregion
@@ -141,6 +159,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             {
                 _hasValidationErrors = value;
                 OnPropertyChanged(nameof(HasValidationErrors));
+                // Обновляем состояние команды сохранения
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
             }
         }
 
