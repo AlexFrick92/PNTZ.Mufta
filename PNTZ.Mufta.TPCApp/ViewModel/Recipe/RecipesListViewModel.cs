@@ -15,6 +15,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     public class RecipesListViewModel : BaseViewModel
     {
         private JointRecipe _selectedRecipe;
+        private JointRecipe _loadedRecipe;
 
         /// <summary>
         /// Событие изменения выбранного рецепта
@@ -39,6 +40,22 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                     _selectedRecipe = value;
                     OnPropertyChanged(nameof(SelectedRecipe));
                     SelectedRecipeChanged?.Invoke(this, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Загруженный рецепт (для визуального выделения)
+        /// </summary>
+        public JointRecipe LoadedRecipe
+        {
+            get => _loadedRecipe;
+            set
+            {
+                if (_loadedRecipe != value)
+                {
+                    _loadedRecipe = value;
+                    OnPropertyChanged(nameof(LoadedRecipe));
                 }
             }
         }
@@ -103,6 +120,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 // Рецепта нет в списке - добавляем в начало
                 JointRecipes.Insert(0, recipe);
             }
+
+            // Устанавливаем как загруженный рецепт
+            LoadedRecipe = recipe;
         }
     }
 }
