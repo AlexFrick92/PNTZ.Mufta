@@ -9,5 +9,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 {
     public class RecipesViewModel : BaseViewModel
     {
+        /// <summary>
+        /// Редактирование рецепта
+        /// </summary>
+        public EditRecipeViewModel EditRecipeViewModel { get; set; } = new EditRecipeViewModel();
+
     }
 }
