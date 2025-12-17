@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Domain.Helpers;
 using PNTZ.Mufta.Showcase.Helper;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
@@ -12,10 +13,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class EditRecipeViewTestWindow : Window
     {
         private EditRecipeViewModel _viewModel;
+        private System.Collections.Generic.Dictionary<string, JointRecipe> _savedRecipes;
 
         public EditRecipeViewTestWindow()
         {
             InitializeComponent();
+            _savedRecipes = new System.Collections.Generic.Dictionary<string, JointRecipe>();
             InitializeViewModel();
             UpdateStatus("Контрол загружен и готов к работе.");
 
@@ -32,9 +35,13 @@ namespace PNTZ.Mufta.Showcase.TestWindows
 
         private void OnRecipeSaved(object sender, JointRecipe recipe)
         {
-            UpdateStatus($"✅ Рецепт сохранён: {recipe.Name} (ID: {recipe.Id})");
+            // Сохраняем копию рецепта в словарь
+            var recipeKey = GetRecipeKey(recipe.JointMode);
+            _savedRecipes[recipeKey] = JointRecipeHelper.Clone(recipe);
+
+            UpdateStatus($"✅ Рецепт сохранён в память: {recipe.Name} (ID: {recipe.Id})");
             MessageBox.Show(
-                $"Рецепт успешно сохранён!\n\nНазвание: {recipe.Name}\nРежим: {recipe.JointMode}",
+                $"Рецепт успешно сохранён!\n\nНазвание: {recipe.Name}\nРежим: {recipe.JointMode}\n\nПри следующей загрузке будут использованы сохранённые данные.",
                 "Сохранение рецепта",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -56,32 +63,56 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             StatusText.Text = $"{DateTime.Now:HH:mm:ss} - {message}";
         }
 
+        /// <summary>
+        /// Генерирует ключ для хранения рецепта в словаре
+        /// </summary>
+        private string GetRecipeKey(JointMode mode)
+        {
+            return $"Test_{mode}";
+        }
+
+        /// <summary>
+        /// Загружает рецепт с проверкой сохранённых данных
+        /// </summary>
+        private void LoadRecipe(JointMode mode, Func<JointRecipe> createDefaultRecipe)
+        {
+            var recipeKey = GetRecipeKey(mode);
+            JointRecipe recipe;
+
+            if (_savedRecipes.ContainsKey(recipeKey))
+            {
+                // Загружаем сохранённую версию и создаём копию для редактирования
+                recipe = JointRecipeHelper.Clone(_savedRecipes[recipeKey]);
+                UpdateStatus($"📂 Рецепт загружен из памяти: {recipe.Name} (Режим: {recipe.JointMode})");
+            }
+            else
+            {
+                // Создаём новый тестовый рецепт
+                recipe = createDefaultRecipe();
+                UpdateStatus($"🆕 Создан новый рецепт: {recipe.Name} (Режим: {recipe.JointMode})");
+            }
+
+            _viewModel.SetEditingRecipe(recipe);
+        }
+
         private void BtnLoadRecipeLength_Click(object sender, RoutedEventArgs e)
         {
-            var recipe = RecipeHelper.CreateTestRecipeLength();
-            _viewModel.SetEditingRecipe(recipe);
-            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+            LoadRecipe(JointMode.Length, RecipeHelper.CreateTestRecipeLength);
         }
 
         private void BtnLoadRecipeTorque_Click(object sender, RoutedEventArgs e)
         {
-            var recipe = RecipeHelper.CreateTestRecipeTorque();
-            _viewModel.SetEditingRecipe(recipe);
-            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+            LoadRecipe(JointMode.Torque, RecipeHelper.CreateTestRecipeTorque);
         }
 
         private void BtnLoadRecipeTorqueLength_Click(object sender, RoutedEventArgs e)
         {
-            var recipe = RecipeHelper.CreateTestRecipeTorqueLength();
-            _viewModel.SetEditingRecipe(recipe);
-            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+            LoadRecipe(JointMode.TorqueLength, RecipeHelper.CreateTestRecipeTorqueLength);
         }
 
         private void BtnLoadRecipeTorqueShoulder_Click(object sender, RoutedEventArgs e)
         {
-            var recipe = RecipeHelper.CreateTestRecipeTorqueShoulder();
-            _viewModel.SetEditingRecipe(recipe);
-            UpdateStatus($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
+            LoadRecipe(JointMode.TorqueShoulder, RecipeHelper.CreateTestRecipeTorqueShoulder);
         }
     }
 }

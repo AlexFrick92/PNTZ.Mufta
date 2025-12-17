@@ -160,6 +160,7 @@
     <Compile Include="Domain\JointMode.cs" />
     <Compile Include="Domain\DomainObjectXmlConfigurator.cs" />
     <Compile Include="Domain\JointRecipe.cs" />
+    <Compile Include="Domain\Helpers\JointRecipeHelper.cs" />
     <Compile Include="Domain\ComparableValidationPropertyAttribute.cs" />
     <Compile Include="Domain\ComparableValueValidator.cs" />
     <Compile Include="Domain\JointResult.cs" />
