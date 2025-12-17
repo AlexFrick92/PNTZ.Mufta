@@ -52,14 +52,45 @@
         <Border Grid.Column="1"
                 BorderThickness="0,0,1,1"
                 BorderBrush="{StaticResource JointView_GridBorder}"
-                Background="{StaticResource JointView_SectionHeader_Background}">   
-            <Label Content="РЕДАКТИРОВАНИЕ РЕЦЕПТА"
-                   Foreground="{StaticResource JointView_SectionHeader_Foreground}"
-                   FontSize="{StaticResource JointView_SectionHeader_FontSize}"
-                   FontWeight="{StaticResource JointView_SectionHeader_FontWeight}"
-                   FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
-                   Margin="10"
-                   BorderThickness="0"/>
+                Background="{StaticResource JointView_SectionHeader_Background}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                       Content="РЕДАКТИРОВАНИЕ РЕЦЕПТА"
+                       Foreground="{StaticResource JointView_SectionHeader_Foreground}"
+                       FontSize="{StaticResource JointView_SectionHeader_FontSize}"
+                       FontWeight="{StaticResource JointView_SectionHeader_FontWeight}"
+                       FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
+                       Margin="10"
+                       BorderThickness="0"/>
+
+                <!-- Кнопки управления рецептом -->
+                <Button Grid.Column="2"
+                        Margin="5"
+                        Padding="10,5"
+                        Command="{Binding EditRecipeViewModel.SaveRecipeCommand}"
+                        Content="💾 Сохранить"/>
+
+                <Button Grid.Column="3"
+                        Margin="5"
+                        Padding="10,5"
+                        Command="{Binding EditRecipeViewModel.CancelCommand}"
+                        Content="❌ Отменить"/>
+
+                <Button Grid.Column="4"
+                        Margin="5"
+                        Padding="10,5"
+                        Command="{Binding EditRecipeViewModel.LoadRecipeCommand}"
+                        Content="🡇 Загрузить"/>
+            </Grid>
         </Border>
 
         

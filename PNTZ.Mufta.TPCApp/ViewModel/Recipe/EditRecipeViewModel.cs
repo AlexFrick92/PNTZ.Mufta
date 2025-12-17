@@ -22,6 +22,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             SetModeCommand = new RelayCommand(SetMode);
             SaveRecipeCommand = new RelayCommand(SaveRecipe, CanSaveRecipe);
             CancelCommand = new RelayCommand(CancelChanges, CanCancelChanges);
+            LoadRecipeCommand = new RelayCommand(LoadRecipe, CanLoadRecipe);
         }
 
         /// <summary>
@@ -178,6 +179,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Уведомляем об отмене
             RecipeCancelled?.Invoke(this, EventArgs.Empty);
+        }
+
+        public ICommand LoadRecipeCommand { get; }
+
+        private bool CanLoadRecipe(object parameter)
+        {
+            // Можно загрузить, если рецепт существует и нет ошибок валидации
+            return EditingRecipe != null && !HasValidationErrors;
+        }
+
+        private void LoadRecipe(object parameter)
+        {
+            // TODO: Реализовать загрузку рецепта в PLC через RecipeDpWorker
+            // Пока пустая команда
         }
 
         #endregion

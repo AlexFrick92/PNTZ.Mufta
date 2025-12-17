@@ -1,4 +1,5 @@
 ﻿using Desktop.MVVM;
+using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,44 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             var filtered = repository.GetRecipes(r =>
                 string.IsNullOrEmpty(nameFilter)
                 || r.Name.Contains(nameFilter)
-                || r.TimeStamp.ToString().Contains(nameFilter)).Select(r => r.ToJointRecipe());
+                || r.TimeStamp.ToString().Contains(nameFilter)).Select(r => r.ToJointRecipe()).OrderBy(r => r.TimeStamp);
 
-            RecipesList.SelectedRecipeChanged += (o, r) => EditRecipeViewModel.SetEditingRecipe(r);
-            
+            // Подписываемся на события списка рецептов
+            RecipesList.SelectedRecipeChanged += OnSelectedRecipeChanged;
+
+            // Подписываемся на события редактирования рецепта
+            EditRecipeViewModel.RecipeSaved += OnRecipeSaved;
+            EditRecipeViewModel.RecipeCancelled += OnRecipeCancelled;
+
             RecipesList.LoadRecipeList(filtered);
+        }
 
+        /// <summary>
+        /// Обработчик выбора рецепта из списка
+        /// </summary>
+        private void OnSelectedRecipeChanged(object sender, JointRecipe recipe)
+        {
+            if (recipe != null)
+            {
+                EditRecipeViewModel.SetEditingRecipe(recipe);
+            }
+        }
+
+        /// <summary>
+        /// Обработчик сохранения рецепта
+        /// </summary>
+        private void OnRecipeSaved(object sender, JointRecipe savedRecipe)
+        {
+            // Обновляем временную метку в списке
+            savedRecipe.TimeStamp = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Обработчик отмены изменений
+        /// </summary>
+        private void OnRecipeCancelled(object sender, EventArgs e)
+        {
+            // Пока ничего не делаем
         }
 
         /// <summary>
@@ -32,6 +65,5 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Список рецептов
         /// </summary>
         public RecipesListViewModel RecipesList { get; set; } = new RecipesListViewModel();
-
     }
 }
