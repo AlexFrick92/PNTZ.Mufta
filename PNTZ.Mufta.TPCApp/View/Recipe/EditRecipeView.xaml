@@ -9,6 +9,7 @@
              xmlns:vt="clr-namespace:PNTZ.Mufta.TPCApp.View.Control.ValueTypes"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
              xmlns:view="clr-namespace:PNTZ.Mufta.TPCApp.View"
+             xmlns:conv="clr-namespace:PNTZ.Mufta.TPCApp.View.Converter"
              xmlns:domain="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
              xmlns:joint="clr-namespace:PNTZ.Mufta.TPCApp.Domain"
              xmlns:helpers="clr-namespace:PNTZ.Mufta.TPCApp.View.Helpers"
@@ -55,6 +56,7 @@
         <view:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
         <view:EnumEqualityConverter x:Key="EnumEqualityConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <conv:NullToVisibilityConverter x:Key="NullToVisConverter"/>
 
         <!-- ========================================
         СТИЛИ ДЛЯ КНОПОК РЕЖИМА
@@ -103,7 +105,8 @@
           helpers:ValidationHelper.IsEnabled="True"
           helpers:ValidationHelper.HasValidationErrors="{Binding HasValidationErrors, Mode=TwoWay}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" Margin="10" Width="auto">
+            <StackPanel Orientation="Vertical" Margin="10" Width="auto"
+                        Visibility="{Binding EditingRecipe, Converter={StaticResource NullToVisConverter}}">
 
                 <!-- ========================================
                 ОБЩИЕ ПАРАМЕТРЫ + ДАННЫЕ МУФТЫ + ПРЕДНАВЁРТКА (2 колонки)
