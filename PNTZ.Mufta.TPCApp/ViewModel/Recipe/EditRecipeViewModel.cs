@@ -200,28 +200,38 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         public bool RecipeLoadingInProgress { get; private set; } = false;
         private async void LoadRecipe(object parameter)
         {
-            LoadingRecipeView loadingWindow = null;
-
             try
             {
                 RecipeLoadingInProgress = true;
                 OnPropertyChanged(nameof(RecipeLoadingInProgress));
 
-                // Создаём и показываем окно загрузки
+                // Создаём окно загрузки
                 var loadingViewModel = new LoadingRecipeViewModel(_originalRecipe?.Name ?? "");
-                loadingWindow = new LoadingRecipeView(loadingViewModel);
+                var loadingWindow = new LoadingRecipeView(loadingViewModel);
                 loadingWindow.Owner = Application.Current.MainWindow;
-                loadingWindow.Show();
 
-                await _loader.LoadRecipeAsync(_originalRecipe);
+                // Запускаем загрузку в фоне
+                var loadingTask = _loader.LoadRecipeAsync(_originalRecipe);
+
+                // Подписываемся на завершение загрузки - автоматически закрываем окно
+                _ = loadingTask.ContinueWith(t =>
+                {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        loadingWindow.Close();
+                    }));
+                });
+
+                // Показываем модальное окно (блокирует взаимодействие с главным окном)
+                loadingWindow.ShowDialog();
+
+                // После закрытия окна, ждём завершения задачи (если ещё не завершена)
+                await loadingTask;
             }
             finally
             {
                 RecipeLoadingInProgress = false;
                 OnPropertyChanged(nameof(RecipeLoadingInProgress));
-
-                // Закрываем окно загрузки
-                loadingWindow?.Close();
             }
         }
 
