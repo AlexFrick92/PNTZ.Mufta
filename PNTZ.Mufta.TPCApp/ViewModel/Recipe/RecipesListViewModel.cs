@@ -54,5 +54,29 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 JointRecipes.Add(recipe);
             }
         }
+
+        /// <summary>
+        /// Добавить рецепт в коллекцию
+        /// </summary>
+        /// <param name="recipe"></param>
+        public void AddRecipe(JointRecipe recipe)
+        {
+            if (recipe != null)
+            {
+                JointRecipes.Add(recipe);
+            }
+        }
+
+        /// <summary>
+        /// Удалить рецепт из коллекции
+        /// </summary>
+        /// <param name="recipe"></param>
+        public void RemoveRecipe(JointRecipe recipe)
+        {
+            if (recipe != null)
+            {
+                JointRecipes.Remove(recipe);
+            }
+        }
     }
 }

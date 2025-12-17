@@ -30,11 +30,34 @@
                         Content="Загрузить тестовые рецепты"
                         Click="LoadRecipesButton_Click"
                         Padding="10,5"
-                        Margin="0,0,0,10"
+                        Margin="0,0,0,5"
                         Background="#3498DB"
                         Foreground="White"
                         BorderThickness="0"
                         Cursor="Hand"/>
+
+                <!-- Кнопки добавления/удаления рецептов -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button x:Name="ToggleRecipeAButton"
+                            Content="Добавить рецепт А"
+                            Click="ToggleRecipeAButton_Click"
+                            Padding="10,5"
+                            Margin="0,0,5,0"
+                            Background="#27AE60"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"/>
+
+                    <Button x:Name="ToggleRecipeBButton"
+                            Content="Добавить рецепт Б"
+                            Click="ToggleRecipeBButton_Click"
+                            Padding="10,5"
+                            Margin="0,0,0,0"
+                            Background="#E67E22"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"/>
+                </StackPanel>
 
                 <!-- Выбранный рецепт -->
                 <Border Background="#E8F4F8"

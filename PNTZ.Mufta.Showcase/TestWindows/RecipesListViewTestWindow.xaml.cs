@@ -13,6 +13,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class RecipesListViewTestWindow : Window
     {
         private RecipesListViewModel _viewModel;
+        private JointRecipe _recipeA;
+        private JointRecipe _recipeB;
 
         public RecipesListViewTestWindow()
         {
@@ -91,6 +93,62 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private void UpdateStatus(string message)
         {
             StatusText.Text = $"{DateTime.Now:HH:mm:ss} - {message}";
+        }
+
+        /// <summary>
+        /// Обработчик кнопки добавления/удаления рецепта А
+        /// </summary>
+        private void ToggleRecipeAButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_recipeA == null || !_viewModel.JointRecipes.Contains(_recipeA))
+            {
+                // Создаём рецепт А на основе Length рецепта
+                _recipeA = RecipeHelper.CreateTestRecipeLength();
+                _recipeA.Name = "RECIPE_A";
+                _recipeA.PIPE_TYPE = "PIPE_TYPE_A";
+
+                _viewModel.AddRecipe(_recipeA);
+                ToggleRecipeAButton.Content = "Удалить рецепт А";
+                ToggleRecipeAButton.Background = new System.Windows.Media.SolidColorBrush(
+                    (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E74C3C"));
+                UpdateStatus($"Рецепт А добавлен. Всего рецептов: {_viewModel.JointRecipes.Count}");
+            }
+            else
+            {
+                _viewModel.RemoveRecipe(_recipeA);
+                ToggleRecipeAButton.Content = "Добавить рецепт А";
+                ToggleRecipeAButton.Background = new System.Windows.Media.SolidColorBrush(
+                    (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#27AE60"));
+                UpdateStatus($"Рецепт А удалён. Всего рецептов: {_viewModel.JointRecipes.Count}");
+            }
+        }
+
+        /// <summary>
+        /// Обработчик кнопки добавления/удаления рецепта Б
+        /// </summary>
+        private void ToggleRecipeBButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_recipeB == null || !_viewModel.JointRecipes.Contains(_recipeB))
+            {
+                // Создаём рецепт Б на основе Torque рецепта
+                _recipeB = RecipeHelper.CreateTestRecipeTorque();
+                _recipeB.Name = "RECIPE_B";
+                _recipeB.PIPE_TYPE = "PIPE_TYPE_B";
+
+                _viewModel.AddRecipe(_recipeB);
+                ToggleRecipeBButton.Content = "Удалить рецепт Б";
+                ToggleRecipeBButton.Background = new System.Windows.Media.SolidColorBrush(
+                    (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C0392B"));
+                UpdateStatus($"Рецепт Б добавлен. Всего рецептов: {_viewModel.JointRecipes.Count}");
+            }
+            else
+            {
+                _viewModel.RemoveRecipe(_recipeB);
+                ToggleRecipeBButton.Content = "Добавить рецепт Б";
+                ToggleRecipeBButton.Background = new System.Windows.Media.SolidColorBrush(
+                    (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E67E22"));
+                UpdateStatus($"Рецепт Б удалён. Всего рецептов: {_viewModel.JointRecipes.Count}");
+            }
         }
     }
 }
