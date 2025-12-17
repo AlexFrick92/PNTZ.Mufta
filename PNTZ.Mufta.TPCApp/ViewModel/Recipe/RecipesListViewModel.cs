@@ -78,5 +78,31 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 JointRecipes.Remove(recipe);
             }
         }
+
+        /// <summary>
+        /// Установить загруженный рецепт (переместить в начало списка или добавить)
+        /// </summary>
+        /// <param name="recipe"></param>
+        public void SetLoadedRecipe(JointRecipe recipe)
+        {
+            if (recipe == null)
+                return;
+
+            int index = JointRecipes.IndexOf(recipe);
+
+            if (index >= 0)
+            {
+                // Рецепт уже в списке - перемещаем на первую позицию
+                if (index != 0)
+                {
+                    JointRecipes.Move(index, 0);
+                }
+            }
+            else
+            {
+                // Рецепта нет в списке - добавляем в начало
+                JointRecipes.Insert(0, recipe);
+            }
+        }
     }
 }

@@ -150,5 +150,38 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 UpdateStatus($"Рецепт Б удалён. Всего рецептов: {_viewModel.JointRecipes.Count}");
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки загрузки рецепта А
+        /// </summary>
+        private void LoadRecipeAButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Создаём рецепт А, если его ещё нет
+            if (_recipeA == null)
+            {
+                _recipeA = RecipeHelper.CreateTestRecipeLength();
+                _recipeA.Name = "RECIPE_A";
+                _recipeA.PIPE_TYPE = "PIPE_TYPE_A";
+            }
+
+            bool wasInList = _viewModel.JointRecipes.Contains(_recipeA);
+
+            // Устанавливаем загруженный рецепт (поднимаем вверх или добавляем)
+            _viewModel.SetLoadedRecipe(_recipeA);
+
+            if (wasInList)
+            {
+                UpdateStatus($"Рецепт А поднят в начало списка. Всего рецептов: {_viewModel.JointRecipes.Count}");
+            }
+            else
+            {
+                UpdateStatus($"Рецепт А добавлен в начало списка. Всего рецептов: {_viewModel.JointRecipes.Count}");
+
+                // Обновляем состояние кнопки toggle
+                ToggleRecipeAButton.Content = "Удалить рецепт А";
+                ToggleRecipeAButton.Background = new System.Windows.Media.SolidColorBrush(
+                    (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E74C3C"));
+            }
+        }
     }
 }

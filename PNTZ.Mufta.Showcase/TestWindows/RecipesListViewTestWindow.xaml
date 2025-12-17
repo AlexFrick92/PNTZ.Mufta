@@ -25,38 +25,60 @@
                            Foreground="#2C3E50"
                            Margin="0,0,0,10"/>
 
-                <!-- Кнопка загрузки рецептов -->
-                <Button x:Name="LoadRecipesButton"
-                        Content="Загрузить тестовые рецепты"
-                        Click="LoadRecipesButton_Click"
-                        Padding="10,5"
-                        Margin="0,0,0,5"
-                        Background="#3498DB"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"/>
-
-                <!-- Кнопки добавления/удаления рецептов -->
+                <!-- Группа кнопок управления -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Button x:Name="ToggleRecipeAButton"
-                            Content="Добавить рецепт А"
-                            Click="ToggleRecipeAButton_Click"
-                            Padding="10,5"
-                            Margin="0,0,5,0"
-                            Background="#27AE60"
-                            Foreground="White"
-                            BorderThickness="0"
-                            Cursor="Hand"/>
+                    <!-- Загрузка списка -->
+                    <GroupBox Header="Загрузить список"
+                              Padding="5"
+                              Margin="0,0,5,0">
+                        <Button x:Name="LoadRecipesButton"
+                                Content="Загрузить тестовые рецепты"
+                                Click="LoadRecipesButton_Click"
+                                Padding="10,5"
+                                Background="#3498DB"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                    </GroupBox>
 
-                    <Button x:Name="ToggleRecipeBButton"
-                            Content="Добавить рецепт Б"
-                            Click="ToggleRecipeBButton_Click"
-                            Padding="10,5"
-                            Margin="0,0,0,0"
-                            Background="#E67E22"
-                            Foreground="White"
-                            BorderThickness="0"
-                            Cursor="Hand"/>
+                    <!-- Добавление рецептов -->
+                    <GroupBox Header="Добавление рецептов"
+                              Padding="5"
+                              Margin="0,0,5,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="ToggleRecipeAButton"
+                                    Content="Добавить рецепт А"
+                                    Click="ToggleRecipeAButton_Click"
+                                    Padding="10,5"
+                                    Margin="0,0,5,0"
+                                    Background="#27AE60"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+
+                            <Button x:Name="ToggleRecipeBButton"
+                                    Content="Добавить рецепт Б"
+                                    Click="ToggleRecipeBButton_Click"
+                                    Padding="10,5"
+                                    Background="#E67E22"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <!-- Задать загруженный рецепт -->
+                    <GroupBox Header="Задать загруженный рецепт"
+                              Padding="5">
+                        <Button x:Name="LoadRecipeAButton"
+                                Content="Загрузить рецепт А"
+                                Click="LoadRecipeAButton_Click"
+                                Padding="10,5"
+                                Background="#8E44AD"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                    </GroupBox>
                 </StackPanel>
 
                 <!-- Выбранный рецепт -->
