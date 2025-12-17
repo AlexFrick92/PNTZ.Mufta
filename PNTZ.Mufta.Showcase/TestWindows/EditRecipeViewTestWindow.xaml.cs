@@ -30,6 +30,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             _viewModel = new EditRecipeViewModel();
             _viewModel.RecipeSaved += OnRecipeSaved;
+            _viewModel.RecipeCancelled += OnRecipeCancelled;
             EditRecipeView.DataContext = _viewModel;
         }
 
@@ -44,11 +45,22 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 MessageBoxImage.Information);
         }
 
+        private void OnRecipeCancelled(object sender, EventArgs e)
+        {
+            UpdateStatus("↩️ Изменения отменены, восстановлена оригинальная версия рецепта");
+            MessageBox.Show(
+                "Все изменения отменены.\n\nРецепт восстановлен до состояния последнего сохранения.",
+                "Отмена изменений",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
         private void OnWindowClosed(object sender, EventArgs e)
         {
             if (_viewModel != null)
             {
                 _viewModel.RecipeSaved -= OnRecipeSaved;
+                _viewModel.RecipeCancelled -= OnRecipeCancelled;
             }
         }
 

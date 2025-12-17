@@ -19,12 +19,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             SetModeCommand = new RelayCommand(SetMode);
             SaveRecipeCommand = new RelayCommand(SaveRecipe, CanSaveRecipe);
+            CancelCommand = new RelayCommand(CancelChanges, CanCancelChanges);
         }
 
         /// <summary>
         /// Событие сохранения рецепта
         /// </summary>
         public event EventHandler<JointRecipe> RecipeSaved;
+
+        /// <summary>
+        /// Событие отмены изменений
+        /// </summary>
+        public event EventHandler RecipeCancelled;
 
         /// <summary>
         /// Рецепт, который редактируется (копия оригинала)
@@ -138,6 +144,25 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             target.MU_Len_Speed_2 = source.MU_Len_Speed_2;
             target.MU_Len_Min = source.MU_Len_Min;
             target.MU_Len_Max = source.MU_Len_Max;
+        }
+
+        public ICommand CancelCommand { get; }
+
+        private bool CanCancelChanges(object parameter)
+        {
+            return _originalRecipe != null && EditingRecipe != null;
+        }
+
+        private void CancelChanges(object parameter)
+        {
+            if (_originalRecipe == null)
+                return;
+
+            // Создаём новую копию из оригинала, отбрасывая все изменения
+            EditingRecipe = JointRecipeHelper.Clone(_originalRecipe);
+
+            // Уведомляем об отмене
+            RecipeCancelled?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
