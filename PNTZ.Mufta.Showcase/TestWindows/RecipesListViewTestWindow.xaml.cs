@@ -3,7 +3,6 @@ using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
@@ -30,19 +29,16 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _viewModel = new RecipesListViewModel();
             RecipesListView.DataContext = _viewModel;
 
-            // Подписка на изменение свойств ViewModel
-            _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            // Подписка на событие изменения выбранного рецепта
+            _viewModel.SelectedRecipeChanged += ViewModel_SelectedRecipeChanged;
         }
 
         /// <summary>
-        /// Обработчик изменения свойств ViewModel
+        /// Обработчик события изменения выбранного рецепта
         /// </summary>
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ViewModel_SelectedRecipeChanged(object sender, JointRecipe recipe)
         {
-            if (e.PropertyName == nameof(RecipesListViewModel.SelectedRecipe))
-            {
-                UpdateSelectedRecipeName();
-            }
+            UpdateSelectedRecipeName(recipe);
         }
 
         /// <summary>
@@ -75,16 +71,17 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Обновляет отображение выбранного рецепта
         /// </summary>
-        private void UpdateSelectedRecipeName()
+        private void UpdateSelectedRecipeName(JointRecipe recipe)
         {
-            if (_viewModel.SelectedRecipe != null)
+            if (recipe != null)
             {
-                SelectedRecipeNameText.Text = _viewModel.SelectedRecipe.Name ?? "без имени";
-                UpdateStatus($"Выбран рецепт: {_viewModel.SelectedRecipe.Name}");
+                SelectedRecipeNameText.Text = recipe.Name ?? "без имени";
+                UpdateStatus($"Выбран рецепт: {recipe.Name}");
             }
             else
             {
                 SelectedRecipeNameText.Text = "не выбран";
+                UpdateStatus("Рецепт не выбран");
             }
         }
 

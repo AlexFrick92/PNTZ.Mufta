@@ -17,6 +17,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         private JointRecipe _selectedRecipe;
 
         /// <summary>
+        /// Событие изменения выбранного рецепта
+        /// </summary>
+        public event EventHandler<JointRecipe> SelectedRecipeChanged;
+
+        /// <summary>
         /// Список рецептов
         /// </summary>
         public ObservableCollection<JointRecipe> JointRecipes { get; private set; } = new ObservableCollection<JointRecipe>();
@@ -33,10 +38,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 {
                     _selectedRecipe = value;
                     OnPropertyChanged(nameof(SelectedRecipe));
+                    SelectedRecipeChanged?.Invoke(this, value);
                 }
             }
         }
-
+        /// <summary>
+        /// Загрузить новый список рецептов
+        /// </summary>
+        /// <param name="recipes"></param>
         public void LoadRecipeList(IEnumerable<JointRecipe> recipes)
         {
             JointRecipes.Clear();
