@@ -64,5 +64,64 @@ namespace PNTZ.Mufta.TPCApp.Domain.Helpers
 
             return copy;
         }
+
+        /// <summary>
+        /// Сравнивает два рецепта на равенство всех свойств
+        /// </summary>
+        /// <param name="recipe1">Первый рецепт</param>
+        /// <param name="recipe2">Второй рецепт</param>
+        /// <returns>True, если все свойства равны; иначе False</returns>
+        public static bool AreEqual(JointRecipe recipe1, JointRecipe recipe2)
+        {
+            // Если оба null - равны
+            if (recipe1 == null && recipe2 == null)
+                return true;
+
+            // Если один null - не равны
+            if (recipe1 == null || recipe2 == null)
+                return false;
+
+            // Сравниваем все свойства
+            return recipe1.Id == recipe2.Id &&
+                   recipe1.Name == recipe2.Name &&
+                   recipe1.JointMode == recipe2.JointMode &&
+                   recipe1.SelectedThreadType == recipe2.SelectedThreadType &&
+                   recipe1.Thread_step == recipe2.Thread_step &&
+                   recipe1.PLC_PROG_NR == recipe2.PLC_PROG_NR &&
+                   recipe1.HEAD_OPEN_PULSES == recipe2.HEAD_OPEN_PULSES &&
+                   recipe1.TURNS_BREAK == recipe2.TURNS_BREAK &&
+
+                   // Данные муфты
+                   recipe1.Box_Len_Min == recipe2.Box_Len_Min &&
+                   recipe1.Box_Len_Max == recipe2.Box_Len_Max &&
+                   recipe1.Box_Moni_Time == recipe2.Box_Moni_Time &&
+
+                   // Преднавёртка
+                   recipe1.Pre_Len_Min == recipe2.Pre_Len_Min &&
+                   recipe1.Pre_Len_Max == recipe2.Pre_Len_Max &&
+                   recipe1.Pre_Moni_Time == recipe2.Pre_Moni_Time &&
+
+                   // Параметры момента
+                   recipe1.MU_Tq_Dump == recipe2.MU_Tq_Dump &&
+                   recipe1.MU_Tq_Opt == recipe2.MU_Tq_Opt &&
+                   recipe1.MU_Tq_Min == recipe2.MU_Tq_Min &&
+                   recipe1.MU_Tq_Max == recipe2.MU_Tq_Max &&
+                   recipe1.MU_Tq_Ref == recipe2.MU_Tq_Ref &&
+                   recipe1.MU_Tq_Save == recipe2.MU_Tq_Save &&
+                   recipe1.MU_Moni_Time == recipe2.MU_Moni_Time &&
+                   recipe1.MU_TqSpeedRed_1 == recipe2.MU_TqSpeedRed_1 &&
+                   recipe1.MU_TqSpeedRed_2 == recipe2.MU_TqSpeedRed_2 &&
+
+                   // Параметры плеча
+                   recipe1.MU_TqShoulder_Min == recipe2.MU_TqShoulder_Min &&
+                   recipe1.MU_TqShoulder_Max == recipe2.MU_TqShoulder_Max &&
+
+                   // Параметры длины
+                   recipe1.MU_Len_Dump == recipe2.MU_Len_Dump &&
+                   recipe1.MU_Len_Speed_1 == recipe2.MU_Len_Speed_1 &&
+                   recipe1.MU_Len_Speed_2 == recipe2.MU_Len_Speed_2 &&
+                   recipe1.MU_Len_Min == recipe2.MU_Len_Min &&
+                   recipe1.MU_Len_Max == recipe2.MU_Len_Max;
+        }
     }
 }
