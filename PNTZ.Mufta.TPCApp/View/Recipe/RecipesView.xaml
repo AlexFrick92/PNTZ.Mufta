@@ -4,16 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              
-             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"     
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
+             xmlns:converter="clr-namespace:PNTZ.Mufta.TPCApp.View.Converter"
              
              d:DataContext="{d:DesignInstance Type=viewmodel:RecipesViewModel}"
              
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <converter:NullOrEmptyToBoolConverter x:Key="NullOrEmptyToBoolConverter"/>
+    </UserControl.Resources>
+
     <!-- ========================================
-    ВЬЮШКА ПРОЦЕССА СВИНЧИВАНИЯ         
+    ВЬЮШКА ПРОЦЕССА СВИНЧИВАНИЯ
     ======================================== -->
     <Grid>
         <Grid.ColumnDefinitions >
@@ -64,23 +69,54 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Заголовок и название рецепта -->
-                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10,5">
-                    <Label Content="Редактирование рецепта"
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0"
+                           Content="РЕДАКТИРОВАНИЕ РЕЦЕПТА"
                            Foreground="{StaticResource JointView_SectionHeader_Foreground}"
-                           FontSize="12"
-                           FontWeight="Normal"
                            FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
                            Padding="0"
-                           Margin="0"/>
+                           Margin="0">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <!-- Значения по умолчанию (когда рецепт НЕ выбран) -->
+                                <Setter Property="FontSize" Value="{StaticResource JointView_SectionHeader_FontSize}"/>
+                                <Setter Property="FontWeight" Value="{StaticResource JointView_SectionHeader_FontWeight}"/>
+                                <Style.Triggers>
+                                    <!-- Когда рецепт выбран, уменьшаем шрифт -->
+                                    <DataTrigger Binding="{Binding EditRecipeViewModel.EditingRecipe, Converter={StaticResource NullOrEmptyToBoolConverter}}" Value="False">
+                                        <Setter Property="FontSize" Value="8"/>
+                                        <Setter Property="FontWeight" Value="Normal"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
 
-                    <Label Content="{Binding EditRecipeViewModel.EditingRecipe.Name}"
+                    <Label Grid.Row="1"
+                           Content="{Binding EditRecipeViewModel.EditingRecipe.Name}"
                            Foreground="{StaticResource JointView_SectionHeader_Foreground}"
                            FontSize="{StaticResource JointView_SectionHeader_FontSize}"
                            FontWeight="Bold"
                            FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
                            Padding="0"
-                           Margin="0,2,0,0"/>
-                </StackPanel>
+                           Margin="0,2,0,0">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding EditRecipeViewModel.EditingRecipe.Name, Converter={StaticResource NullOrEmptyToBoolConverter}}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </Grid>
                 <!-- Кнопки управления рецептом -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <Button  Margin="5"

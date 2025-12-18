@@ -253,6 +253,7 @@
     </Compile>
     <Compile Include="View\Helpers\ValidationHelper.cs" />
     <Compile Include="View\Converter\JointModeToVisibilityConverter.cs" />
+    <Compile Include="View\Converter\NullOrEmptyToBoolConverter.cs" />
     <Compile Include="View\Converter\NullToVisibilityConverter.cs" />
     <Compile Include="View\Converter\ResultTotalToStringConverter.cs" />
     <Compile Include="View\EnumEqualityConverter.cs" />
