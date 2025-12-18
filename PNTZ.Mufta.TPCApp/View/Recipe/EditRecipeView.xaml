@@ -491,30 +491,6 @@
                     </StackPanel>
                 </Grid>
 
-                <!-- ========================================
-                ТЕСТОВЫЙ БЛОК ДЛЯ ОТЛАДКИ ВАЛИДАЦИИ
-                ======================================== -->
-                <Border BorderBrush="Orange" BorderThickness="2" Padding="10" Margin="0,20,0,0">
-                    <StackPanel>
-                        <Label Style="{StaticResource ParamHeaderLabel}" Content="🔍 Отладка валидации"/>
-                        <Border Style="{StaticResource HeaderUnderStroke}"/>
-                        <TextBlock FontSize="14" FontWeight="Bold" Margin="10,5,10,5">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="✅ Ошибок валидации нет"/>
-                                    <Setter Property="Foreground" Value="Green"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding HasValidationErrors}" Value="True">
-                                            <Setter Property="Text" Value="❌ Обнаружены ошибки валидации!"/>
-                                            <Setter Property="Foreground" Value="Red"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </StackPanel>
-                </Border>
-
             </StackPanel>
         </ScrollViewer>
     </Grid>

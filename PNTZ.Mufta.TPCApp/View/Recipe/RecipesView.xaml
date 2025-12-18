@@ -60,8 +60,17 @@
 
         <Border Grid.Column="1"
                 BorderThickness="0,0,1,1"
-                BorderBrush="{StaticResource JointView_GridBorder}"
-                Background="{StaticResource JointView_SectionHeader_Background}">
+                BorderBrush="{StaticResource JointView_GridBorder}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{StaticResource JointView_SectionHeader_Background}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding EditRecipeViewModel.HasValidationErrors}" Value="True">
+                            <Setter Property="Background" Value="#FFE5E5"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <!-- Заголовок и имя рецепта -->
@@ -102,7 +111,7 @@
 
                     <Label Grid.Row="1"
                            Content="{Binding EditRecipeViewModel.EditingRecipe.Name}"
-                           Foreground="{StaticResource JointView_SectionHeader_Foreground}"
+                           Foreground="Black"
                            FontSize="{StaticResource JointView_SectionHeader_FontSize}"
                            FontWeight="Bold"
                            FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
