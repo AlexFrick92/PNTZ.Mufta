@@ -20,6 +20,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             _loader.RecipeLoaded += (s, e) =>
             {
                 RecipesList.LoadedRecipe = e;
+                EditRecipeViewModel.SetLoadedRecipe(e);
             };
 
             var filtered = repository.GetRecipes(r =>

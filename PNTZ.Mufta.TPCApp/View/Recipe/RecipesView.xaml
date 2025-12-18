@@ -65,6 +65,11 @@
                 <Style TargetType="Border">
                     <Setter Property="Background" Value="{StaticResource JointView_SectionHeader_Background}"/>
                     <Style.Triggers>
+                        <!-- Оранжевый фон для загруженного рецепта -->
+                        <DataTrigger Binding="{Binding EditRecipeViewModel.IsLoadedRecipeCurrent}" Value="True">
+                            <Setter Property="Background" Value="#FFE5CC"/>
+                        </DataTrigger>
+                        <!-- Красный фон для ошибок валидации (приоритет выше) -->
                         <DataTrigger Binding="{Binding EditRecipeViewModel.HasValidationErrors}" Value="True">
                             <Setter Property="Background" Value="#FFE5E5"/>
                         </DataTrigger>

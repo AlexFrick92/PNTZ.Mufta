@@ -17,6 +17,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     {
         private JointRecipe _editingRecipe;
         private JointRecipe _originalRecipe;
+        private JointRecipe _loadedRecipe;
         private bool _hasChanges;
         private IRecipeLoader _loader;
 
@@ -109,6 +110,34 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Сбрасываем флаг изменений
             HasChanges = false;
+
+            // Проверяем, является ли этот рецепт загруженным
+            OnPropertyChanged(nameof(IsLoadedRecipeCurrent));
+        }
+
+        /// <summary>
+        /// Устанавливает рецепт, который был загружен в PLC
+        /// </summary>
+        /// <param name="recipe">Загруженный рецепт</param>
+        public void SetLoadedRecipe(JointRecipe recipe)
+        {
+            _loadedRecipe = recipe;
+            OnPropertyChanged(nameof(IsLoadedRecipeCurrent));
+        }
+
+        /// <summary>
+        /// Проверяет, является ли текущий редактируемый рецепт загруженным в PLC
+        /// </summary>
+        public bool IsLoadedRecipeCurrent
+        {
+            get
+            {
+                if (_loadedRecipe == null || _originalRecipe == null)
+                    return false;
+
+                // Сравниваем оригинальный рецепт с загруженным
+                return JointRecipeHelper.AreEqual(_loadedRecipe, _originalRecipe);
+            }
         }
 
         /// <summary>
