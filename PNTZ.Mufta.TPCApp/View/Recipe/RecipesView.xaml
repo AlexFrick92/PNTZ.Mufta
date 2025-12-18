@@ -22,10 +22,10 @@
     ======================================== -->
     <Grid>
         <Grid.ColumnDefinitions >
-            <!--Текущие данные, результат и рецепт-->
+            <!-- Список рецептов -->
             <ColumnDefinition Width="auto"/>
-            <!-- Графики и оценка -->
-            <ColumnDefinition/>
+            <!-- редактирование рецепта -->
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
 
@@ -38,7 +38,7 @@
 
 
         <!-- ========================================
-         ШАПКА С ЗАГОЛОВКАМИ       
+         ШАПКА С ЗАГОЛОВКОМ - РЕЦЕПТЫ    
          ======================================== -->
 
         <Border Grid.Column="0"
@@ -54,17 +54,20 @@
                    BorderThickness="0"/>
         </Border>
 
+        <!-- ========================================
+         ШАПКА С ЗАГОЛОВКОМ - РЕДАКТИРОВАНИЕ + КНОПКИ
+         ======================================== -->
+
         <Border Grid.Column="1"
                 BorderThickness="0,0,1,1"
                 BorderBrush="{StaticResource JointView_GridBorder}"
                 Background="{StaticResource JointView_SectionHeader_Background}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350"/>
+                    <!-- Заголовок и имя рецепта -->
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
+                    <!-- Кнопки управления рецептом -->
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -117,8 +120,11 @@
                         </Label.Style>
                     </Label>
                 </Grid>
-                <!-- Кнопки управления рецептом -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
+
+                <!-- ========================================
+                КНОПКИ УПРАВЛЕНИЯ РЕЦЕПТОМ
+                ======================================== -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <Button  Margin="5"
                              Padding="10,5"
                              Command="{Binding EditRecipeViewModel.SaveRecipeCommand}"
