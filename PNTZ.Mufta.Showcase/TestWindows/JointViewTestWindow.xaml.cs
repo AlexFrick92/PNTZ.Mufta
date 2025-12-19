@@ -25,8 +25,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         private RealDataJointProcessWorker _realDataWorker;
         private TestResultsRepository _resultsRepository;
         private List<JointResultTable> _loadedResults;
-        private IJointProcessWorker _currentWorker;
-        private IRecipeLoader _currentRecipeLoader;
+        private IJointProcessTableWorker _currentWorker;
+        private IRecipeTableLoader _currentRecipeLoader;
 
         public JointViewTestWindow()
         {
@@ -65,7 +65,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Обработчик успешной загрузки рецепта из мока (для обновления статуса)
         /// </summary>
-        private void OnMockRecipeLoaded(object sender, JointRecipe recipe)
+        private void OnMockRecipeLoaded(object sender, JointRecipeTable recipe)
         {
             // Обновляем статус в UI (нужно вызвать в UI потоке)
             Dispatcher.Invoke(() =>
@@ -77,7 +77,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Обработчик успешной загрузки реального рецепта из БД (для обновления статуса)
         /// </summary>
-        private void OnRealRecipeLoaded(object sender, JointRecipe recipe)
+        private void OnRealRecipeLoaded(object sender, JointRecipeTable recipe)
         {
             // Обновляем статус в UI (нужно вызвать в UI потоке)
             Dispatcher.Invoke(() =>
@@ -218,7 +218,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 try
                 {
                     // Десериализуем выбранную запись в JointResult
-                    JointResult realResult = selectedTable.ToJointResult();
+                    JointResultTable realResult = selectedTable;
 
                     // Загружаем данные в RealDataWorker
                     _realDataWorker.LoadRealData(realResult);
@@ -229,7 +229,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                     // Загружаем рецепт из результата через RealRecipeLoader
                     _realRecipeLoader.LoadRecipe(realResult.Recipe);
 
-                    UpdateStatus($"Загружены реальные данные: {realResult.Recipe.Name}, {realResult.Series.Count} точек");
+                    UpdateStatus($"Загружены реальные данные: {realResult.Recipe.Name}, {realResult.PointSeries.Count} точек");
                 }
                 catch (Exception ex)
                 {

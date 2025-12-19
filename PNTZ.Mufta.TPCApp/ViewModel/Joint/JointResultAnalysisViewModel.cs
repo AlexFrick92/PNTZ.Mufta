@@ -1,5 +1,6 @@
 using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using System;
@@ -17,7 +18,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     /// </summary>
     public class JointResultAnalysisViewModel : BaseViewModel
     {
-        private JointResult _currentResult;
+        private JointResultTable _currentResult;
         private ObservableCollection<AnalysisDataPoint> _analysisData;
         private string _detectionResultText;
 
@@ -29,7 +30,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <summary>
         /// Текущий результат для анализа
         /// </summary>
-        public JointResult CurrentResult
+        public JointResultTable CurrentResult
         {
             get => _currentResult;
             set
@@ -101,11 +102,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         {
             _analysisData.Clear();
 
-            if (_currentResult?.Series == null || _currentResult.Series.Count == 0)
+            if (_currentResult?.PointSeries == null || _currentResult.PointSeries.Count == 0)
                 return;
 
             // Преобразуем TqTnLenPoint в AnalysisDataPoint
-            foreach (var point in _currentResult.Series)
+            foreach (var point in _currentResult.PointSeries)
             {
                 var analysisPoint = AnalysisDataPoint.FromTqTnLenPoint(point);
                 _analysisData.Add(analysisPoint);
@@ -316,7 +317,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         {
             try
             {
-                if (_currentResult?.Series == null || _currentResult.Series.Count == 0)
+                if (_currentResult?.PointSeries == null || _currentResult.PointSeries.Count == 0)
                 {
                     DetectionResultText = "⚠ Результат не загружен";
                     return;
@@ -330,7 +331,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 Debug.WriteLine($"WindowSize : {WindowSize}");
 
                 // Создать детектор с текущими параметрами
-                var detector = new ShoulderPointDetector(_currentResult.Series)
+                var detector = new ShoulderPointDetector(_currentResult.PointSeries)
                 {
                     WindowSize = WindowSize,
                     DerivativeWindowSize = DerivativeWindowSize,
@@ -348,7 +349,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
                 if (_lastDetectionResult?.ShoulderPointIndex.HasValue == true)
                 {
                     int index = _lastDetectionResult.ShoulderPointIndex.Value;
-                    var point = _currentResult.Series[index];
+                    var point = _currentResult.PointSeries[index];
 
                     DetectionResultText = $"✓ Точка найдена!\n" +
                         $"Индекс: {index}\n" +

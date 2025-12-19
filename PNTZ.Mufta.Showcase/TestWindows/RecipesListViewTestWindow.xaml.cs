@@ -1,5 +1,6 @@
 using PNTZ.Mufta.Showcase.Helper;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class RecipesListViewTestWindow : Window
     {
         private RecipesListViewModel _viewModel;
-        private JointRecipe _recipeA;
-        private JointRecipe _recipeB;
+        private JointRecipeTable _recipeA;
+        private JointRecipeTable _recipeB;
 
         public RecipesListViewTestWindow()
         {
@@ -38,7 +39,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Обработчик события изменения выбранного рецепта
         /// </summary>
-        private void ViewModel_SelectedRecipeChanged(object sender, JointRecipe recipe)
+        private void ViewModel_SelectedRecipeChanged(object sender, JointRecipeTable recipe)
         {
             UpdateSelectedRecipeName(recipe);
         }
@@ -51,7 +52,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             try
             {
                 // Создаём список тестовых рецептов
-                var testRecipes = new List<JointRecipe>
+                var testRecipes = new List<JointRecipeTable>
                 {
                     RecipeHelper.CreateTestRecipeLength(),
                     RecipeHelper.CreateTestRecipeTorque(),
@@ -73,7 +74,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Обновляет отображение выбранного рецепта
         /// </summary>
-        private void UpdateSelectedRecipeName(JointRecipe recipe)
+        private void UpdateSelectedRecipeName(JointRecipeTable recipe)
         {
             if (recipe != null)
             {

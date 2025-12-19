@@ -3,17 +3,18 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 
 namespace PNTZ.Mufta.Showcase.Data
 {
     /// <summary>
     /// Воспроизводит реальные данные из JointResult для тестирования и отладки
     /// </summary>
-    public class RealDataJointProcessWorker : IJointProcessWorker
+    public class RealDataJointProcessWorker : IJointProcessTableWorker
     {
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isRunning;
-        private JointResult _realData;
+        private JointResultTable _realData;
 
         /// <summary>
         /// Интервал между точками данных в миллисекундах
@@ -22,12 +23,12 @@ namespace PNTZ.Mufta.Showcase.Data
 
         #region События IJointProcessWorker
 
-        public event EventHandler<JointResult> PipeAppear;
+        public event EventHandler<JointResultTable> PipeAppear;
         public event EventHandler<EventArgs> RecordingBegun;
-        public event EventHandler<JointResult> RecordingFinished;
-        public event EventHandler<JointResult> AwaitForEvaluation;
+        public event EventHandler<JointResultTable> RecordingFinished;
+        public event EventHandler<JointResultTable> AwaitForEvaluation;
         public event EventHandler<TqTnLenPoint> NewTqTnLenPoint;
-        public event EventHandler<JointResult> JointFinished;
+        public event EventHandler<JointResultTable> JointFinished;
 
         #endregion
 
@@ -47,7 +48,7 @@ namespace PNTZ.Mufta.Showcase.Data
             }
         }
 
-        public void SetActualRecipe(JointRecipe recipe)
+        public void SetActualRecipe(JointRecipeTable recipe)
         {
             // В режиме воспроизведения реальных данных рецепт уже загружен из базы
         }
@@ -60,16 +61,16 @@ namespace PNTZ.Mufta.Showcase.Data
         /// Загрузить реальные данные для воспроизведения
         /// </summary>
         /// <param name="realData">JointResult с реальными данными</param>
-        public void LoadRealData(JointResult realData)
+        public void LoadRealData(JointResultTable realData)
         {
             if (realData == null)
                 throw new ArgumentNullException(nameof(realData));
 
-            if (realData.Series == null || realData.Series.Count == 0)
+            if (realData.Series == null || realData.PointSeries.Count == 0)
                 throw new ArgumentException("JointResult не содержит точек данных (Series пуст)", nameof(realData));
 
             _realData = realData;
-            Debug.WriteLine($"Loaded real data: {realData.Recipe?.Name}, {realData.Series.Count} points");
+            Debug.WriteLine($"Loaded real data: {realData.Recipe?.Name}, {realData.PointSeries.Count} points");
         }
 
         /// <summary>
@@ -133,7 +134,7 @@ namespace PNTZ.Mufta.Showcase.Data
 
                 // Phase 2: Воспроизведение реальных точек данных
                 await PlaybackRealDataPoints(cancellationToken);
-                Debug.WriteLine($"Playback completed. {_realData.Series.Count} points played.");
+                Debug.WriteLine($"Playback completed. {_realData.PointSeries.Count} points played.");
 
                 // Phase 3: Запись завершена (RecordingFinished)
                 await SimulateRecordingFinished(cancellationToken);
@@ -172,7 +173,7 @@ namespace PNTZ.Mufta.Showcase.Data
 
         private async Task PlaybackRealDataPoints(CancellationToken cancellationToken)
         {
-            foreach (var point in _realData.Series)
+            foreach (var point in _realData.PointSeries)
             {
                 if (cancellationToken.IsCancellationRequested)
                     break;

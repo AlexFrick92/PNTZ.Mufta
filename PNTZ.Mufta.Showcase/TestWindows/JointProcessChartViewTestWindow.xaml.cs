@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using PNTZ.Mufta.Showcase.Helper;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.ViewModel.Joint;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
@@ -15,8 +16,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class JointProcessChartViewTestWindow : Window
     {
         private JointProcessChartViewModel _viewModel;
-        private JointRecipe _currentRecipe;
-        private JointResult _currentJointResult;
+        private JointRecipeTable _currentRecipe;
+        private JointResultTable _currentJointResult;
 
         // Симуляция данных
         private Random _random = new Random();
@@ -124,7 +125,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             }
 
             // Создание нового JointResult
-            _currentJointResult = new JointResult(_currentRecipe)
+            _currentJointResult = new JointResultTable(_currentRecipe)
             {
                 MVS_Len = mvsLenMm / 1000f, // Преобразуем мм в метры
                 StartTimeStamp = DateTime.Now

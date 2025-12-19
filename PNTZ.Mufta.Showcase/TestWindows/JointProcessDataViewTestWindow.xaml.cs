@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.ViewModel.Joint;
 using PNTZ.Mufta.Showcase.Helper;
+using PNTZ.Mufta.TPCApp.Repository;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -74,8 +75,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 TimeStamp = 0
             };
         }
-        public JointRecipe Recipe { get; set; }
-        public JointResult Result { get; set; }
+        public JointRecipeTable Recipe { get; set; }
+        public JointResultTable Result { get; set; }
         public void StartSimulation()
         {
             if (IsSimulationRunning)
@@ -93,7 +94,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             _turnsIncreasing = true;
             _currentTimeStamp = 0;
 
-            Result = new JointResult(Recipe);
+            Result = new JointResultTable(Recipe);
             _viewModel.BeginNewJointing();
         }
 

@@ -176,10 +176,10 @@
                                         Style="{StaticResource ParamLabelStyle}" Content="Тип резьбы"/>
                             
                             <ComboBox Grid.Column="1"
-                                    ItemsSource="{Binding Path=EditingRecipe.SelectedThreadType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneWay}" 
+                                    ItemsSource="{Binding Path=EditingRecipe.ThreadType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneWay}" 
                                     SelectedValuePath="Value"
                                     DisplayMemberPath="Description"
-                                    SelectedValue="{Binding Path=EditingRecipe.SelectedThreadType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"           
+                                    SelectedValue="{Binding Path=EditingRecipe.ThreadType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"           
                                     HorizontalAlignment="Stretch"                                                                             
                                     HorizontalContentAlignment="Center"/>
                         </Grid>

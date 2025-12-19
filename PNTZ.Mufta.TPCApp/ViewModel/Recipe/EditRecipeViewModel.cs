@@ -1,6 +1,7 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Domain.Helpers;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.View.Recipe;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 {
     public class EditRecipeViewModel : BaseViewModel
     {
-        private JointRecipe _editingRecipe;
-        private JointRecipe _originalRecipe;
-        private JointRecipe _loadedRecipe;
+        private JointRecipeTable _editingRecipe;
+        private JointRecipeTable _originalRecipe;
+        private JointRecipeTable _loadedRecipe;
         private bool _hasChanges;
-        private IRecipeLoader _loader;
+        private IRecipeTableLoader _loader;
 
-        public EditRecipeViewModel(IRecipeLoader loader)
+        public EditRecipeViewModel(IRecipeTableLoader loader)
         {
             _loader = loader;
 
@@ -35,7 +36,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Событие сохранения рецепта
         /// </summary>
-        public event EventHandler<JointRecipe> RecipeSaved;
+        public event EventHandler<JointRecipeTable> RecipeSaved;
 
         /// <summary>
         /// Событие отмены изменений
@@ -45,7 +46,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Событие удаления рецепта
         /// </summary>
-        public event EventHandler<JointRecipe> RecipeDeleted;
+        public event EventHandler<JointRecipeTable> RecipeDeleted;
 
         /// <summary>
         /// Флаг наличия несохранённых изменений
@@ -65,7 +66,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Рецепт, который редактируется (копия оригинала)
         /// </summary>
-        public JointRecipe EditingRecipe
+        public JointRecipeTable EditingRecipe
         {
             get => _editingRecipe;
             private set
@@ -85,7 +86,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Устанавливает рецепт для редактирования
         /// </summary>
         /// <param name="recipe">Оригинальный рецепт</param>
-        public void SetEditingRecipe(JointRecipe recipe)
+        public void SetEditingRecipe(JointRecipeTable recipe)
         {
             if (recipe == null)
                 throw new ArgumentNullException(nameof(recipe));
@@ -119,7 +120,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Устанавливает рецепт, который был загружен в PLC
         /// </summary>
         /// <param name="recipe">Загруженный рецепт</param>
-        public void SetLoadedRecipe(JointRecipe recipe)
+        public void SetLoadedRecipe(JointRecipeTable recipe)
         {
             _loadedRecipe = recipe;
             OnPropertyChanged(nameof(IsLoadedRecipeCurrent));
@@ -240,7 +241,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 loadingWindow.Owner = Application.Current.MainWindow;
 
                 // Запускаем загрузку в фоне
-                var loadingTask = _loader.LoadRecipeAsync(_originalRecipe);
+                var loadingTask = _loader.LoadRecipeAsync(null);
 
                 // Подписываемся на завершение загрузки - автоматически закрываем окно
                 _ = loadingTask.ContinueWith(t =>

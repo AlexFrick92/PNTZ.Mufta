@@ -87,12 +87,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 try
                 {
                     // Десериализуем выбранную запись в JointResult
-                    JointResult realResult = selectedTable.ToJointResult();
+                    JointResultTable realResult = selectedTable;
 
                     // Передаем результат в ViewModel контрола
                     _viewModel.CurrentResult = realResult;
 
-                    UpdateStatus($"Результат загружен: {realResult.Recipe.Name}, {realResult.Series.Count} точек");
+                    UpdateStatus($"Результат загружен: {realResult.Recipe.Name}, {realResult.PointSeries.Count} точек");
                 }
                 catch (Exception ex)
                 {

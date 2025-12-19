@@ -1,5 +1,6 @@
 using PNTZ.Mufta.Showcase.Helper;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Threading.Tasks;
 
@@ -8,14 +9,14 @@ namespace PNTZ.Mufta.Showcase.Data
     /// <summary>
     /// Мок для IRecipeLoader, симулирующий асинхронную загрузку рецептов
     /// </summary>
-    public class MockRecipeLoader : IRecipeLoader
+    public class MockRecipeLoader : IRecipeTableLoader
     {
-        public JointRecipe LoadedRecipe { get; private set; }
+        public JointRecipeTable LoadedRecipe { get; private set; }
 
-        public event EventHandler<JointRecipe> RecipeLoaded;
-        public event EventHandler<JointRecipe> RecipeLoadFailed;
+        public event EventHandler<JointRecipeTable> RecipeLoaded;
+        public event EventHandler<JointRecipeTable> RecipeLoadFailed;
 
-        public async Task LoadRecipeAsync(JointRecipe recipe)
+        public async Task LoadRecipeAsync(JointRecipeTable recipe)
         {
             await Task.Run(async () =>
             {

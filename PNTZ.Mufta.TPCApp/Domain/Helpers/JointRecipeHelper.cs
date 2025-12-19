@@ -1,3 +1,4 @@
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 
 namespace PNTZ.Mufta.TPCApp.Domain.Helpers
@@ -5,6 +6,7 @@ namespace PNTZ.Mufta.TPCApp.Domain.Helpers
     /// <summary>
     /// Helper-класс для работы с JointRecipe
     /// </summary>
+    
     public static class JointRecipeHelper
     {
         /// <summary>
@@ -13,12 +15,12 @@ namespace PNTZ.Mufta.TPCApp.Domain.Helpers
         /// <param name="source">Исходный рецепт</param>
         /// <returns>Копия рецепта со всеми свойствами</returns>
         /// <exception cref="ArgumentNullException">Если source равен null</exception>
-        public static JointRecipe Clone(JointRecipe source)
+        public static JointRecipeTable Clone(JointRecipeTable source)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            var copy = new JointRecipe
+            var copy = new JointRecipeTable
             {
                 Id = source.Id,
                 Name = source.Name,
@@ -67,7 +69,7 @@ namespace PNTZ.Mufta.TPCApp.Domain.Helpers
         /// <summary>
         /// Копирует данные из source в target
         /// </summary>
-        public static void CopyRecipeDataTo(this JointRecipe source, JointRecipe target)
+        public static void CopyRecipeDataTo(this JointRecipeTable source, JointRecipeTable target)
         {
             target.Name = source.Name;
             target.JointMode = source.JointMode;
@@ -116,7 +118,7 @@ namespace PNTZ.Mufta.TPCApp.Domain.Helpers
         /// <param name="recipe1">Первый рецепт</param>
         /// <param name="recipe2">Второй рецепт</param>
         /// <returns>True, если все свойства равны; иначе False</returns>
-        public static bool AreEqual(JointRecipe recipe1, JointRecipe recipe2)
+        public static bool AreEqual(JointRecipeTable recipe1, JointRecipeTable recipe2)
         {
             // Если оба null - равны
             if (recipe1 == null && recipe2 == null)

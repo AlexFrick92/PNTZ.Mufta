@@ -3,6 +3,7 @@ using System.Windows.Threading;
 
 using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.View.Control;
 
@@ -14,8 +15,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
     /// </summary>
     public class JointProcessDataViewModel : BaseViewModel
     {
-        private JointRecipe _loadedRecipe;
-        private JointResult _jointResult;
+        private JointRecipeTable _loadedRecipe;
+        private JointResultTable _jointResult;
         //Время в секундах с начала процесса стыковки
         private int _secondsFromBeginJointing;
         //Статус оценки результата
@@ -33,7 +34,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <summary>
         /// Загруженный рецепт
         /// </summary>
-        public JointRecipe LoadedRecipe
+        public JointRecipeTable LoadedRecipe
         {
             get { return _loadedRecipe; }
             set 
@@ -47,7 +48,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <summary>
         /// Результат стыковки
         /// </summary>
-        public JointResult JointResult
+        public JointResultTable JointResult
         {
             get { return _jointResult; }
             set { _jointResult = value; OnPropertyChanged(nameof(JointResult)); }
@@ -114,12 +115,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <summary>
         /// Показания датчиков
         /// </summary>
-        public TqTnLenPoint ActualPoint { get; set; }        
+        public TqTnLenPoint ActualPoint { get; set; }
         /// <summary>
         /// Задать новый рецепт
         /// </summary>
         /// <param name="jointRecipe"></param>
-        public void UpdateRecipe(JointRecipe jointRecipe)
+        public void UpdateRecipe(JointRecipeTable jointRecipe)
         {
             LoadedRecipe = jointRecipe;
         }
@@ -142,7 +143,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             SecondsFromBeginJointing = 0;
             _timer.Start();
         }
-        public void FinishJointing(JointResult jointResult)
+        public void FinishJointing(JointResultTable jointResult)
         {
             _timer.Stop();
             _timer.Tick -= UpdateTimer_Tick;

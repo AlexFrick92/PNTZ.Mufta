@@ -154,8 +154,10 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Domain\EvaluationVerdict.cs" />
+    <Compile Include="Domain\IJointProcessTableWorker.cs" />
     <Compile Include="Domain\IJointProcessWorker.cs" />
     <Compile Include="Domain\IRecipeLoader.cs" />
+    <Compile Include="Domain\IRecipeTableLoader.cs" />
     <Compile Include="Domain\JointEvaluation.cs" />
     <Compile Include="Domain\JointMode.cs" />
     <Compile Include="Domain\DomainObjectXmlConfigurator.cs" />

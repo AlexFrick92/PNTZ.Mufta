@@ -12,21 +12,21 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     public class RecipesViewModel : BaseViewModel
     {
         string nameFilter = string.Empty;
-        public RecipesViewModel(LocalRepository repository, IRecipeLoader loader)
+        public RecipesViewModel(LocalRepository repository, IRecipeTableLoader loader)
         {
             _loader = loader;
             EditRecipeViewModel = new EditRecipeViewModel(_loader);
 
-            _loader.RecipeLoaded += (s, e) =>
-            {
-                RecipesList.LoadedRecipe = e;
-                EditRecipeViewModel.SetLoadedRecipe(e);
-            };
+            //_loader.RecipeLoaded += (s, e) =>
+            //{
+            //    RecipesList.LoadedRecipe = e;
+            //    EditRecipeViewModel.SetLoadedRecipe(e);
+            //};
 
             var filtered = repository.GetRecipes(r =>
                 string.IsNullOrEmpty(nameFilter)
                 || r.Name.Contains(nameFilter)
-                || r.TimeStamp.ToString().Contains(nameFilter)).Select(r => r.ToJointRecipe()).OrderByDescending(r => r.TimeStamp);
+                || r.TimeStamp.ToString().Contains(nameFilter)).OrderByDescending(r => r.TimeStamp);
 
             // Подписываемся на события списка рецептов
             RecipesList.SelectedRecipeChanged += OnSelectedRecipeChanged;
@@ -48,12 +48,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// </summary>
         public RecipesListViewModel RecipesList { get; set; } = new RecipesListViewModel();
 
-        private IRecipeLoader _loader;
+        private IRecipeTableLoader _loader;
 
         /// <summary>
         /// Обработчик выбора рецепта из списка
         /// </summary>
-        private void OnSelectedRecipeChanged(object sender, JointRecipe recipe)
+        private void OnSelectedRecipeChanged(object sender, JointRecipeTable recipe)
         {
             if (recipe != null)
             {
@@ -64,7 +64,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Обработчик сохранения рецепта
         /// </summary>
-        private void OnRecipeSaved(object sender, JointRecipe savedRecipe)
+        private void OnRecipeSaved(object sender, JointRecipeTable savedRecipe)
         {
             // Обновляем временную метку в списке
             savedRecipe.TimeStamp = DateTime.UtcNow;
@@ -84,7 +84,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Обработчик удаления рецепта
         /// </summary>
-        private void OnRecipeDeleted(object sender, JointRecipe deletedRecipe)
+        private void OnRecipeDeleted(object sender, JointRecipeTable deletedRecipe)
         {
             // Удаляем рецепт из списка
             RecipesList.RemoveRecipe(deletedRecipe);

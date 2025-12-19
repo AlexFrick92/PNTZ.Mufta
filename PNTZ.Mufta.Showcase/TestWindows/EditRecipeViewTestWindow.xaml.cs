@@ -5,6 +5,7 @@ using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Domain.Helpers;
 using PNTZ.Mufta.Showcase.Helper;
 using PNTZ.Mufta.Showcase.Data;
+using PNTZ.Mufta.TPCApp.Repository;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -14,12 +15,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class EditRecipeViewTestWindow : Window
     {
         private EditRecipeViewModel _viewModel;
-        private System.Collections.Generic.Dictionary<string, JointRecipe> _savedRecipes;
+        private System.Collections.Generic.Dictionary<string, JointRecipeTable> _savedRecipes;
 
         public EditRecipeViewTestWindow()
         {
             InitializeComponent();
-            _savedRecipes = new System.Collections.Generic.Dictionary<string, JointRecipe>();
+            _savedRecipes = new System.Collections.Generic.Dictionary<string, JointRecipeTable>();
             InitializeViewModel();
             UpdateStatus("Контрол загружен и готов к работе.");
 
@@ -35,7 +36,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             EditRecipeView.DataContext = _viewModel;
         }
 
-        private void OnRecipeSaved(object sender, JointRecipe recipe)
+        private void OnRecipeSaved(object sender, JointRecipeTable recipe)
         {
             // Рецепт уже обновлён в памяти (это оригинал из словаря)
             UpdateStatus($"✅ Рецепт сохранён: {recipe.Name} (ID: {recipe.Id})");
@@ -84,10 +85,10 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Загружает рецепт с проверкой сохранённых данных
         /// </summary>
-        private void LoadRecipe(JointMode mode, Func<JointRecipe> createDefaultRecipe)
+        private void LoadRecipe(JointMode mode, Func<JointRecipeTable> createDefaultRecipe)
         {
             var recipeKey = GetRecipeKey(mode);
-            JointRecipe recipe;
+            JointRecipeTable recipe;
 
             if (_savedRecipes.ContainsKey(recipeKey))
             {

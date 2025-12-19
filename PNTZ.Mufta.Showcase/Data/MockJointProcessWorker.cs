@@ -3,13 +3,14 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 
 namespace PNTZ.Mufta.Showcase.Data
 {
     /// <summary>
     /// Тестовая реализация IJointProcessWorker для симуляции процесса свинчивания
     /// </summary>
-    public class MockJointProcessWorker : IJointProcessWorker
+    public class MockJointProcessWorker : IJointProcessTableWorker
     {
         private readonly Random _random = new Random();
         private CancellationTokenSource _cancellationTokenSource;
@@ -28,18 +29,18 @@ namespace PNTZ.Mufta.Showcase.Data
         public int UpdateIntervalMs { get; set; } = 50; // По умолчанию 50 мс = 20 Hz
 
         // Текущие значения симуляции
-        private JointResult _currentResult;     
-        private JointRecipe _currentRecipe;
+        private JointResultTable _currentResult;     
+        private JointRecipeTable _currentRecipe;
         private int _timestamp;
 
         #region События IJointProcessWorker
 
-        public event EventHandler<JointResult> PipeAppear;
+        public event EventHandler<JointResultTable> PipeAppear;
         public event EventHandler<EventArgs> RecordingBegun;
-        public event EventHandler<JointResult> RecordingFinished;
-        public event EventHandler<JointResult> AwaitForEvaluation;
+        public event EventHandler<JointResultTable> RecordingFinished;
+        public event EventHandler<JointResultTable> AwaitForEvaluation;
         public event EventHandler<TqTnLenPoint> NewTqTnLenPoint;
-        public event EventHandler<JointResult> JointFinished;
+        public event EventHandler<JointResultTable> JointFinished;
 
         #endregion
 
@@ -60,7 +61,7 @@ namespace PNTZ.Mufta.Showcase.Data
             }
         }
 
-        public void SetActualRecipe(JointRecipe recipe)
+        public void SetActualRecipe(JointRecipeTable recipe)
         {
             _currentRecipe = recipe;
         }
@@ -179,7 +180,7 @@ namespace PNTZ.Mufta.Showcase.Data
         private async Task SimulatePipeAppear(CancellationToken cancellationToken)
         {
             // Создаём тестовый JointResult с минимальными данными            
-            _currentResult = new JointResult(_currentRecipe)
+            _currentResult = new JointResultTable(_currentRecipe)
             {
                 StartTimeStamp = DateTime.Now,
                 MVS_Len = 85f
@@ -269,7 +270,7 @@ namespace PNTZ.Mufta.Showcase.Data
                     TimeStamp = _timestamp
                 };
 
-                _currentResult.Series.Add(point);
+                _currentResult.PointSeries.Add(point);
                 NewTqTnLenPoint?.Invoke(this, point);
 
                 await Task.Delay(UpdateIntervalMs, cancellationToken);
@@ -290,7 +291,7 @@ namespace PNTZ.Mufta.Showcase.Data
                     TimeStamp = _timestamp
                 };
 
-                _currentResult.Series.Add(point);
+                _currentResult.PointSeries.Add(point);
                 NewTqTnLenPoint?.Invoke(this, point);
 
                 await Task.Delay(UpdateIntervalMs, cancellationToken);

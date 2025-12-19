@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using Promatis.Core.Logging;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
@@ -14,7 +15,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// <summary>
         /// Конструктор для production использования
         /// </summary>
-        public JointViewModel(IJointProcessWorker jointProcessWorker, IRecipeLoader recipeLoader, ILogger logger)
+        public JointViewModel(IJointProcessTableWorker jointProcessWorker, IRecipeTableLoader recipeLoader, ILogger logger)
         {
             _jointProcessWorker = jointProcessWorker ?? throw new ArgumentNullException(nameof(jointProcessWorker));
             _recipeLoader = recipeLoader ?? throw new ArgumentNullException(nameof(_recipeLoader));
@@ -65,12 +66,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// </summary>
         public ICommand SetBadResultCommand { get; private set; }
         //Приватные поля
-        private IJointProcessWorker _jointProcessWorker;
-        private IRecipeLoader _recipeLoader;
+        private IJointProcessTableWorker _jointProcessWorker;
+        private IRecipeTableLoader _recipeLoader;
         private ILogger _logger;
         private bool _evaluationVisible = false;
         /// Обработчик успешной загрузки рецепта
-        private void OnRecipeLoaded(object sender, JointRecipe recipe)
+        private void OnRecipeLoaded(object sender, JointRecipeTable recipe)
         {
             if (recipe == null)
                 return;
@@ -83,11 +84,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _logger?.Info($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
         }
         /// Обработчик ошибки загрузки рецепта
-        private void OnRecipeLoadFailed(object sender, JointRecipe recipe) => _logger?.Error($"Ошибка загрузки рецепта");
+        private void OnRecipeLoadFailed(object sender, JointRecipeTable recipe) => _logger?.Error($"Ошибка загрузки рецепта");
         /// Обработчик новой точки данных из фонового потока
         private void OnNewTqTnLenPoint(object sender, TqTnLenPoint point) => JointProcessDataViewModel.ActualPoint = point;
         /// Обработчик появления трубы из фонового потока
-        private void OnPipeAppear(object sender, JointResult result)
+        private void OnPipeAppear(object sender, JointResultTable result)
         {
             JointProcessChartViewModel.PipeAppear(result);
             JointProcessDataViewModel.PipeAppear();
@@ -101,14 +102,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         }
         private void AddPointToChart(object sender, TqTnLenPoint e) => JointProcessChartViewModel.TqTnLenPointsQueue.Enqueue(e);
         /// Обработчик завершения записи из фонового потока
-        private void OnRecordingFinished(object sender, JointResult result)
+        private void OnRecordingFinished(object sender, JointResultTable result)
         {
             _jointProcessWorker.NewTqTnLenPoint -= AddPointToChart;
             JointProcessDataViewModel.FinishJointing(result);
             JointProcessChartViewModel.RecordingStop();
         }
         /// Оценка оператором
-        private void OnAwaitForEvaluation(object sender, JointResult e)
+        private void OnAwaitForEvaluation(object sender, JointResultTable e)
         {
             JointProcessChartViewModel.AutoEvaluationResult(e);
             EvaluationVisible = true;
@@ -123,7 +124,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _jointProcessWorker.Evaluate(2);
             EvaluationVisible = false;
         }        
-        private void OnJointFinished(object sender, JointResult r)
+        private void OnJointFinished(object sender, JointResultTable r)
         {
             JointProcessChartViewModel.FinishJointing(r);
             JointProcessDataViewModel.FinishJointing(r);

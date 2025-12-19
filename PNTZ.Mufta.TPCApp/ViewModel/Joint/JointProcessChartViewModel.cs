@@ -1,5 +1,6 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.Styles;
 using PNTZ.Mufta.TPCApp.ViewModel.Control;
 using Promatis.Core.Extensions;
@@ -53,7 +54,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         private int _pointCounter = 0; // Счетчик для throttling обновления границ графиков
         private ConstantLineViewModel _shoulderPointYLine;
         private ConstantLineViewModel _shoulderPointXLine;
-        private JointRecipe _actualRecipe;
+        private JointRecipeTable _actualRecipe;
 
         #region публичные свойства и методы
         /// <summary>
@@ -88,7 +89,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// Настроить графики при появлении трубы
         /// </summary>
         /// <param name="result"></param>
-        public void PipeAppear(JointResult result)
+        public void PipeAppear(JointResultTable result)
         {
             TorqueLengthChart.XMin = result.MVS_Len_mm;
             ClearCharts();
@@ -105,7 +106,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _pointUpdateTimer.Stop();
             UpdateChartBoundsIfNeeded(_tqTnLenPoints.Last());
         }
-        public void AutoEvaluationResult(JointResult result)
+        public void AutoEvaluationResult(JointResultTable result)
         {
             if(_actualRecipe.JointMode == JointMode.TorqueShoulder)
             {
@@ -131,7 +132,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// Свинчивание завершено
         /// </summary>
         /// <param name="result"></param>
-        public void FinishJointing(JointResult result)
+        public void FinishJointing(JointResultTable result)
         {
             if (result.ResultTotal == 1)
                 FitChartsToData();
@@ -279,7 +280,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         /// Настроить графики под рецепт
         /// </summary>
         /// <param name="recipe"></param>
-        public void UpdateRecipe(JointRecipe recipe)
+        public void UpdateRecipe(JointRecipeTable recipe)
         {
             _actualRecipe = recipe;
             UpdateRanges(recipe);
@@ -287,7 +288,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             UpdateStrips(recipe);
         }
         /// Задать диапазон графиков по данным рцепта
-        private void UpdateRanges(JointRecipe recipe)
+        private void UpdateRanges(JointRecipeTable recipe)
         {
             //График: Момент/Обороты
             TorqueTurnsChart.YMax = recipe.MU_Tq_Max * (1 + AppSettings.ChartMargin);
@@ -314,7 +315,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             TorqueTimeChart.XMin = 0;
         }
         /// Нарисовать прямые линии по данным рецепта
-        private void UpdateConstantLines(JointRecipe recipe)
+        private void UpdateConstantLines(JointRecipeTable recipe)
         {
             //Создаем постоянные прямые для графика
             var torqueMinLine = new ConstantLineViewModel(recipe.MU_Tq_Min, "Мин", AppColors.ChartLimitMin_Line, AppColors.ChartLimitMin_Label, "F0")
@@ -407,7 +408,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             }
         }
         /// Нарисовать выделенные области по данным рецепта
-        private void UpdateStrips(JointRecipe recipe)
+        private void UpdateStrips(JointRecipeTable recipe)
         {
             // Создаем выделенные области для допустимых диапазонов
             var torqueStrip = new StripViewModel(

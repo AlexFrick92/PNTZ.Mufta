@@ -1,5 +1,6 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,23 +15,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     /// </summary>
     public class RecipesListViewModel : BaseViewModel
     {
-        private JointRecipe _selectedRecipe;
-        private JointRecipe _loadedRecipe;
+        private JointRecipeTable _selectedRecipe;
+        private JointRecipeTable _loadedRecipe;
 
         /// <summary>
         /// Событие изменения выбранного рецепта
         /// </summary>
-        public event EventHandler<JointRecipe> SelectedRecipeChanged;
+        public event EventHandler<JointRecipeTable> SelectedRecipeChanged;
 
         /// <summary>
         /// Список рецептов
         /// </summary>
-        public ObservableCollection<JointRecipe> JointRecipes { get; private set; } = new ObservableCollection<JointRecipe>();
+        public ObservableCollection<JointRecipeTable> JointRecipes { get; private set; } = new ObservableCollection<JointRecipeTable>();
 
         /// <summary>
         /// Выбранный рецепт
         /// </summary>
-        public JointRecipe SelectedRecipe
+        public JointRecipeTable SelectedRecipe
         {
             get => _selectedRecipe;
             set
@@ -47,7 +48,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Загруженный рецепт (для визуального выделения)
         /// </summary>
-        public JointRecipe LoadedRecipe
+        public JointRecipeTable LoadedRecipe
         {
             get => _loadedRecipe;
             set
@@ -63,7 +64,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Загрузить новый список рецептов
         /// </summary>
         /// <param name="recipes"></param>
-        public void LoadRecipeList(IEnumerable<JointRecipe> recipes)
+        public void LoadRecipeList(IEnumerable<JointRecipeTable> recipes)
         {
             JointRecipes.Clear();
             foreach (var recipe in recipes)
@@ -76,7 +77,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Добавить рецепт в коллекцию
         /// </summary>
         /// <param name="recipe"></param>
-        public void AddRecipe(JointRecipe recipe)
+        public void AddRecipe(JointRecipeTable recipe)
         {
             if (recipe != null)
             {
@@ -88,7 +89,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Удалить рецепт из коллекции
         /// </summary>
         /// <param name="recipe"></param>
-        public void RemoveRecipe(JointRecipe recipe)
+        public void RemoveRecipe(JointRecipeTable recipe)
         {
             if (recipe != null)
             {
@@ -100,7 +101,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Установить загруженный рецепт (переместить в начало списка или добавить)
         /// </summary>
         /// <param name="recipe"></param>
-        public void SetLoadedRecipe(JointRecipe recipe)
+        public void SetLoadedRecipe(JointRecipeTable recipe)
         {
             if (recipe == null)
                 return;
@@ -129,7 +130,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Переместить рецепт на первую позицию в списке
         /// </summary>
         /// <param name="recipe">Рецепт для перемещения</param>
-        public void MoveToTop(JointRecipe recipe)
+        public void MoveToTop(JointRecipeTable recipe)
         {
             if (recipe == null)
                 return;

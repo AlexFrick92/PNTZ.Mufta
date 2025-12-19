@@ -1,4 +1,5 @@
 ﻿using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,14 @@ namespace PNTZ.Mufta.Showcase.Helper
         /// <summary>
         /// Создать базовый рецепт с заполненными всеми полями
         /// </summary>
-        private static JointRecipe CreateBaseRecipe(Action<JointRecipe> configure)
+        private static JointRecipeTable CreateBaseRecipe(Action<JointRecipeTable> configure)
         {
-            var recipe = new JointRecipe
+            var recipe = new JointRecipeTable
             {
                 Id = Guid.NewGuid(),
                 Name = "TEST_BASE",
                 JointMode = JointMode.Length,
-                SelectedThreadType = ThreadType.RIGHT,
+                SelectedThreadType = (long)ThreadType.RIGHT,
 
                 // Общие данные
                 HEAD_OPEN_PULSES = 100f,
@@ -77,7 +78,7 @@ namespace PNTZ.Mufta.Showcase.Helper
         /// <summary>
         /// Создать тестовый рецепт по длине
         /// </summary>
-        public static JointRecipe CreateTestRecipeLength()
+        public static JointRecipeTable CreateTestRecipeLength()
         {
             return CreateBaseRecipe(recipe =>
             {
@@ -107,7 +108,7 @@ namespace PNTZ.Mufta.Showcase.Helper
         /// <summary>
         /// Создать тестовый рецепт по моменту
         /// </summary>
-        public static JointRecipe CreateTestRecipeTorque()
+        public static JointRecipeTable CreateTestRecipeTorque()
         {
             return CreateBaseRecipe(recipe =>
             {
@@ -132,7 +133,7 @@ namespace PNTZ.Mufta.Showcase.Helper
         /// <summary>
         /// Создать тестовый рецепт по моменту и длине
         /// </summary>
-        public static JointRecipe CreateTestRecipeTorqueLength()
+        public static JointRecipeTable CreateTestRecipeTorqueLength()
         {
             return CreateBaseRecipe(recipe =>
             {
@@ -162,7 +163,7 @@ namespace PNTZ.Mufta.Showcase.Helper
         /// <summary>
         /// Создать тестовый рецепт по моменту до упора
         /// </summary>
-        public static JointRecipe CreateTestRecipeTorqueShoulder()
+        public static JointRecipeTable CreateTestRecipeTorqueShoulder()
         {
             return CreateBaseRecipe(recipe =>
             {

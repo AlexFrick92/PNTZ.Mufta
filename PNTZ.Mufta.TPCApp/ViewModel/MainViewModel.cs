@@ -90,10 +90,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
             jointView = new JointView();
-            jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(),
-                        recViewModel as IRecipeLoader,
-                        logger                      
-                        );
+            //jointView.DataContext=  new JointViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(),
+            //            recViewModel as IRecipeLoader,
+            //            logger                      
+            //            );
 
             ResultsView = new JointResultsView();
             ResultsView.DataContext = new ResultsViewModel(repositoryContext, logger);
