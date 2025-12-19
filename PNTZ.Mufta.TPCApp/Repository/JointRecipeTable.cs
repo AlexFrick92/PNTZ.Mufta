@@ -21,36 +21,29 @@ namespace PNTZ.Mufta.TPCApp.Repository
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }    
         [PrimaryKey]
-        [Column(DataType = DataType.Guid)]
-        private Guid _id = Guid.NewGuid();
+        [Column(DataType = DataType.Guid)] private Guid _id = Guid.NewGuid();
         public Guid Id { get => _id; set { _id = value; OnPropertyChanged(nameof(Id)); } }
 
 
 
         // Общие данные
         private string _name;
-        [Column]
-        public string Name { get => _name; set { _name = value; OnPropertyChanged(nameof(Name)); } }
+        [Column] public string Name { get => _name; set { _name = value; OnPropertyChanged(nameof(Name)); } }
         
         private float _head_close_pulses;
-        [Column]
-        public float HEAD_OPEN_PULSES { get => _head_close_pulses; set { _head_close_pulses = value; OnPropertyChanged(nameof(HEAD_OPEN_PULSES)); } }
+        [Column] public float HEAD_OPEN_PULSES { get => _head_close_pulses; set { _head_close_pulses = value; OnPropertyChanged(nameof(HEAD_OPEN_PULSES)); } }
 
         private float _turnsBrake;
-        [Column]
-        public float TURNS_BREAK { get => _turnsBrake; set { _turnsBrake = value; OnPropertyChanged(nameof(TURNS_BREAK)); } }
+        [Column] public float TURNS_BREAK { get => _turnsBrake; set { _turnsBrake = value; OnPropertyChanged(nameof(TURNS_BREAK)); } }
 
         private ushort _plcProgNr;
-        [Column]
-        public ushort PLC_PROG_NR { get => _plcProgNr; set { _plcProgNr = value; OnPropertyChanged(nameof(PLC_PROG_NR)); } }
+        [Column] public ushort PLC_PROG_NR { get => _plcProgNr; set { _plcProgNr = value; OnPropertyChanged(nameof(PLC_PROG_NR)); } }
 
         private ushort _logNo;
-        [Column]
-        public ushort LOG_NO { get => _logNo; set { _logNo = value; OnPropertyChanged(nameof(LOG_NO)); } }
+        [Column] public ushort LOG_NO { get => _logNo; set { _logNo = value; OnPropertyChanged(nameof(LOG_NO)); } }
         
         private ushort _tqUnit;
-        [Column]
-        public ushort Tq_UNIT { get => _tqUnit; set { _tqUnit = value; OnPropertyChanged(nameof(Tq_UNIT)); } }
+        [Column] public ushort Tq_UNIT { get => _tqUnit; set { _tqUnit = value; OnPropertyChanged(nameof(Tq_UNIT)); } }
 
         //Нужно для ПЛК
         public ushort Thread_type
@@ -69,61 +62,49 @@ namespace PNTZ.Mufta.TPCApp.Repository
             }
         }
         public ThreadType ThreadType { get => (ThreadType)SelectedThreadType; set { SelectedThreadType = (long)value; OnPropertyChanged(nameof(SelectedThreadType)); } }
-        [Column]
-        public long SelectedThreadType { get; set; }
+        [Column] public long SelectedThreadType { get; set; }
 
         private float _threadStep;
-        [Column]
-        public float Thread_step { get => _threadStep; set { _threadStep = value; OnPropertyChanged(nameof(Thread_step)); } }
+        [Column] public float Thread_step { get => _threadStep; set { _threadStep = value; OnPropertyChanged(nameof(Thread_step)); } }
 
         private string _pipeType;
-        [Column]
-        public string PIPE_TYPE { get => _pipeType; set { _pipeType = value; OnPropertyChanged(nameof(PIPE_TYPE)); } }
+        [Column] public string PIPE_TYPE { get => _pipeType; set { _pipeType = value; OnPropertyChanged(nameof(PIPE_TYPE)); } }
 
 
 
         // Параметры муфты
         private int _boxMoniTime;
-        [Column]
-        public int Box_Moni_Time { get => _boxMoniTime; set { _boxMoniTime = value; OnPropertyChanged(nameof(Box_Moni_Time)); } }
+        [Column] public int Box_Moni_Time { get => _boxMoniTime; set { _boxMoniTime = value; OnPropertyChanged(nameof(Box_Moni_Time)); } }
 
         private float _boxLenMin;
-        [Column]
-        public float Box_Len_Min { get => _boxLenMin; set { _boxLenMin = value; OnPropertyChanged(nameof(Box_Len_Min)); } }
+        [Column] public float Box_Len_Min { get => _boxLenMin; set { _boxLenMin = value; OnPropertyChanged(nameof(Box_Len_Min)); } }
 
-        [Column]
         private float _boxLenMax;
-        public float Box_Len_Max { get => _boxLenMax; set { _boxLenMax = value; OnPropertyChanged(nameof(Box_Len_Max)); } }
+        [Column] public float Box_Len_Max { get => _boxLenMax; set { _boxLenMax = value; OnPropertyChanged(nameof(Box_Len_Max)); } }
 
 
 
         // Параметры предварительной навёртки
         private int _preMoniTime;
-        [Column]
-        public int Pre_Moni_Time { get => _preMoniTime; set { _preMoniTime = value; OnPropertyChanged(nameof(Pre_Moni_Time)); } }
+        [Column] public int Pre_Moni_Time { get => _preMoniTime; set { _preMoniTime = value; OnPropertyChanged(nameof(Pre_Moni_Time)); } }
 
         private float _preLenMax;
-        [Column]
-        public float Pre_Len_Max { get => _preLenMax; set { _preLenMax = value; OnPropertyChanged(nameof(Pre_Len_Max)); } }
+        [Column] public float Pre_Len_Max { get => _preLenMax; set { _preLenMax = value; OnPropertyChanged(nameof(Pre_Len_Max)); } }
 
         private float _preLenMin;
-        [Column]
-        public float Pre_Len_Min { get => _preLenMin; set { _preLenMin = value; OnPropertyChanged(nameof(Pre_Len_Min)); } }
+        [Column] public float Pre_Len_Min { get => _preLenMin; set { _preLenMin = value; OnPropertyChanged(nameof(Pre_Len_Min)); } }
 
 
 
         // Общие параметры силового свинчивания
         private int _muMoniTime;
-        [Column]
-        public int MU_Moni_Time { get => _muMoniTime; set { _muMoniTime = value; OnPropertyChanged(nameof(MU_Moni_Time)); } }
+        [Column] public int MU_Moni_Time { get => _muMoniTime; set { _muMoniTime = value; OnPropertyChanged(nameof(MU_Moni_Time)); } }
 
         private float _muTqRef;
-        [Column]
-        public float MU_Tq_Ref { get => _muTqRef; set { _muTqRef = value; OnPropertyChanged(nameof(MU_Tq_Ref)); } }
+        [Column] public float MU_Tq_Ref { get => _muTqRef; set { _muTqRef = value; OnPropertyChanged(nameof(MU_Tq_Ref)); } }
 
         private float _muTqSave;
-        [Column]
-        public float MU_Tq_Save { get => _muTqSave; set { _muTqSave = value; OnPropertyChanged(nameof(MU_Tq_Save)); } }
+        [Column] public float MU_Tq_Save { get => _muTqSave; set { _muTqSave = value; OnPropertyChanged(nameof(MU_Tq_Save)); } }
 
         //Нужно для ПЛК
         public ushort MU_Makeup_Mode // 0 - по моменту, 1 - по длине, 2 - по JVal
@@ -150,96 +131,75 @@ namespace PNTZ.Mufta.TPCApp.Repository
             }
         }
         public JointMode JointMode { get => (JointMode)SelectedMode; set { SelectedMode = (long)value; OnPropertyChanged(nameof(JointMode)); } }
-        [Column]
-        public long SelectedMode { get; set; }
+        [Column] public long SelectedMode { get; set; }
 
 
 
         // Параметры силового свинчивания по моменту
         private float _muTqSpeedRed1;
-        [Column]
-        public float MU_TqSpeedRed_1 { get => _muTqSpeedRed1; set { _muTqSpeedRed1 = value; OnPropertyChanged(nameof(MU_TqSpeedRed_1)); } }
+        [Column] public float MU_TqSpeedRed_1 { get => _muTqSpeedRed1; set { _muTqSpeedRed1 = value; OnPropertyChanged(nameof(MU_TqSpeedRed_1)); } }
 
         private float _muTqSpeedRed2;
-        [Column]
-        public float MU_TqSpeedRed_2 { get => _muTqSpeedRed2; set { _muTqSpeedRed2 = value; OnPropertyChanged(nameof(MU_TqSpeedRed_2)); } }
+        [Column] public float MU_TqSpeedRed_2 { get => _muTqSpeedRed2; set { _muTqSpeedRed2 = value; OnPropertyChanged(nameof(MU_TqSpeedRed_2)); } }
 
         private float _muTqDump;
-        [Column]
-        public float MU_Tq_Dump { get => _muTqDump; set { _muTqDump = value; OnPropertyChanged(nameof(MU_Tq_Dump)); } }
+        [Column] public float MU_Tq_Dump { get => _muTqDump; set { _muTqDump = value; OnPropertyChanged(nameof(MU_Tq_Dump)); } }
 
         private float _muTqMax;
-        [Column]
-        public float MU_Tq_Max { get => _muTqMax; set { _muTqMax = value; OnPropertyChanged(nameof(MU_Tq_Max)); } }
+        [Column] public float MU_Tq_Max { get => _muTqMax; set { _muTqMax = value; OnPropertyChanged(nameof(MU_Tq_Max)); } }
 
         private float _muTqMin;
-        [Column]
-        public float MU_Tq_Min { get => _muTqMin; set { _muTqMin = value; OnPropertyChanged(nameof(MU_Tq_Min)); } }
+        [Column] public float MU_Tq_Min { get => _muTqMin; set { _muTqMin = value; OnPropertyChanged(nameof(MU_Tq_Min)); } }
 
         private float _muTqOpt;
-        [Column]
-        public float MU_Tq_Opt { get => _muTqOpt; set { _muTqOpt = value; OnPropertyChanged(nameof(MU_Tq_Opt)); } }
+        [Column] public float MU_Tq_Opt { get => _muTqOpt; set { _muTqOpt = value; OnPropertyChanged(nameof(MU_Tq_Opt)); } }
 
         private float _muTqShoulderMin;
-        [Column]
-        public float MU_TqShoulder_Min { get => _muTqShoulderMin; set { _muTqShoulderMin = value; OnPropertyChanged(nameof(MU_TqShoulder_Min)); } }
+        [Column] public float MU_TqShoulder_Min { get => _muTqShoulderMin; set { _muTqShoulderMin = value; OnPropertyChanged(nameof(MU_TqShoulder_Min)); } }
 
         private float _muTqShoulderMax;
-        [Column]
-        public float MU_TqShoulder_Max { get => _muTqShoulderMax; set { _muTqShoulderMax = value; OnPropertyChanged(nameof(MU_TqShoulder_Max)); } }
+        [Column] public float MU_TqShoulder_Max { get => _muTqShoulderMax; set { _muTqShoulderMax = value; OnPropertyChanged(nameof(MU_TqShoulder_Max)); } }
 
 
 
         // Параметры силового свинчивания по длине
         private float _muLenSpeed1;
-        [Column]
-        public float MU_Len_Speed_1 { get => _muLenSpeed1; set { _muLenSpeed1 = value; OnPropertyChanged(nameof(MU_Len_Speed_1)); } }
+        [Column] public float MU_Len_Speed_1 { get => _muLenSpeed1; set { _muLenSpeed1 = value; OnPropertyChanged(nameof(MU_Len_Speed_1)); } }
 
         private float _muLenSpeed2;
-        [Column]
-        public float MU_Len_Speed_2 { get => _muLenSpeed2; set { _muLenSpeed2 = value; OnPropertyChanged(nameof(MU_Len_Speed_2)); } }
+        [Column] public float MU_Len_Speed_2 { get => _muLenSpeed2; set { _muLenSpeed2 = value; OnPropertyChanged(nameof(MU_Len_Speed_2)); } }
 
         private float _muLenDump;
-        [Column]
-        public float MU_Len_Dump { get => _muLenDump; set { _muLenDump = value; OnPropertyChanged(nameof(MU_Len_Dump)); } }
+        [Column] public float MU_Len_Dump { get => _muLenDump; set { _muLenDump = value; OnPropertyChanged(nameof(MU_Len_Dump)); } }
 
         private float _muLenMin;
-        [Column]
-        public float MU_Len_Min { get => _muLenMin; set { _muLenMin = value; OnPropertyChanged(nameof(MU_Len_Min)); } }
+        [Column] public float MU_Len_Min { get => _muLenMin; set { _muLenMin = value; OnPropertyChanged(nameof(MU_Len_Min)); } }
 
         private float _muLenMax;
-        [Column]
-        public float MU_Len_Max { get => _muLenMax; set { _muLenMax = value; OnPropertyChanged(nameof(MU_Len_Max)); } }
+        [Column] public float MU_Len_Max { get => _muLenMax; set { _muLenMax = value; OnPropertyChanged(nameof(MU_Len_Max)); } }
 
 
 
         // Параметры силового свинчивания по JVal
         private float _muJValSpeed1;
-        [Column]
-        public float MU_JVal_Speed_1 { get => _muJValSpeed1; set { _muJValSpeed1 = value; OnPropertyChanged(nameof(MU_JVal_Speed_1)); } }
+        [Column] public float MU_JVal_Speed_1 { get => _muJValSpeed1; set { _muJValSpeed1 = value; OnPropertyChanged(nameof(MU_JVal_Speed_1)); } }
 
         private float _muJValSpeed2;
-        [Column]
-        public float MU_JVal_Speed_2 { get => _muJValSpeed2; set { _muJValSpeed2 = value; OnPropertyChanged(nameof(MU_JVal_Speed_2)); } }
+        [Column] public float MU_JVal_Speed_2 { get => _muJValSpeed2; set { _muJValSpeed2 = value; OnPropertyChanged(nameof(MU_JVal_Speed_2)); } }
 
         private float _muJValDump;
-        [Column]
-        public float MU_JVal_Dump { get => _muJValDump; set { _muJValDump = value; OnPropertyChanged(nameof(MU_JVal_Dump)); } }
+        [Column] public float MU_JVal_Dump { get => _muJValDump; set { _muJValDump = value; OnPropertyChanged(nameof(MU_JVal_Dump)); } }
 
         private float _muJValMin;
-        [Column]
-        public float MU_JVal_Min { get => _muJValMin; set { _muJValMin = value; OnPropertyChanged(nameof(MU_JVal_Min)); } }
+        [Column] public float MU_JVal_Min { get => _muJValMin; set { _muJValMin = value; OnPropertyChanged(nameof(MU_JVal_Min)); } }
 
         private float _muJValMax;
-        [Column]
-        public float MU_JVal_Max { get => _muJValMax; set { _muJValMax = value; OnPropertyChanged(nameof(MU_JVal_Max)); } }
+        [Column] public float MU_JVal_Max { get => _muJValMax; set { _muJValMax = value; OnPropertyChanged(nameof(MU_JVal_Max)); } }
 
         private DateTime _timeStamp;
-        [Column]
-        public DateTime TimeStamp { get => _timeStamp; set { _timeStamp = value; OnPropertyChanged(nameof(TimeStamp)); } }
-
-        [Column]
-        public DateTime? RemovedDate { get; set; }
+        [Column] public DateTime TimeStamp { get => _timeStamp; set { _timeStamp = value; OnPropertyChanged(nameof(TimeStamp)); } }
+        
+        [Column] public DateTime? RemovedDate { get; set; }
 
         public JointRecipeTable FromJointRecipe(JointRecipe recipe)
         {

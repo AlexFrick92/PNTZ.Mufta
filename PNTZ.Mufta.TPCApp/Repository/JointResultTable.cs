@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using LinqToDB;
-using LinqToDB.Mapping;
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
@@ -71,35 +70,20 @@ namespace PNTZ.Mufta.TPCApp.Repository
         }
         public JointRecipeTable Recipe => this;
 
-        [Column]
-        public float MVS_Len { get; set; }
+        [Column] public float MVS_Len { get; set; }
         public float MVS_Len_mm => MVS_Len * 1000;
-
-        [Column]
-        public float FinalTorque { get; set; }
-        [Column]
-        public float FinalLength { get; set; }
+        [Column] public float FinalTorque { get; set; }
+        [Column] public float FinalLength { get; set; }
         public float FinalLength_mm => FinalLength * 1000;
         public float FinalMakeupLength_mm => (FinalLength - MVS_Len) * 1000;
-
-        [Column]
-        public float FinalJVal { get; set; }
-        [Column]
-        public float FinalTurns { get; set; }
-        [Column]
-        public float FinalShoulderTorque { get; set; }
-        [Column]
-        public float FinalShoulderTurns { get; set; }
-        [Column(DataType = DataType.Long)]
-        public uint ResultPLC { get; set; }
-        [Column(DataType = DataType.Long)]
-        public uint ResultTotal { get; set; }
-
-        [Column]
-        public DateTime StartTimeStamp { get; set; }
-
-        [Column]
-        public DateTime FinishTimeStamp { get; set; }
+        [Column] public float FinalJVal { get; set; }
+        [Column] public float FinalTurns { get; set; }
+        [Column] public float FinalShoulderTorque { get; set; }
+        [Column] public float FinalShoulderTurns { get; set; }
+        [Column(DataType = DataType.Long)] public uint ResultPLC { get; set; }
+        [Column(DataType = DataType.Long)] public uint ResultTotal { get; set; }
+        [Column] public DateTime StartTimeStamp { get; set; }
+        [Column] public DateTime FinishTimeStamp { get; set; }
 
         [Column]
         public byte[] Series
