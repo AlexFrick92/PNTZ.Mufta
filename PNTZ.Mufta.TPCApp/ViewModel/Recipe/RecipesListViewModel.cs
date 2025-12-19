@@ -124,5 +124,23 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             // Устанавливаем как загруженный рецепт
             LoadedRecipe = recipe;
         }
+
+        /// <summary>
+        /// Переместить рецепт на первую позицию в списке
+        /// </summary>
+        /// <param name="recipe">Рецепт для перемещения</param>
+        public void MoveToTop(JointRecipe recipe)
+        {
+            if (recipe == null)
+                return;
+
+            int index = JointRecipes.IndexOf(recipe);
+
+            if (index > 0)
+            {
+                // Рецепт найден и не на первой позиции - перемещаем наверх
+                JointRecipes.Move(index, 0);
+            }
+        }
     }
 }

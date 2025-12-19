@@ -26,7 +26,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             var filtered = repository.GetRecipes(r =>
                 string.IsNullOrEmpty(nameFilter)
                 || r.Name.Contains(nameFilter)
-                || r.TimeStamp.ToString().Contains(nameFilter)).Select(r => r.ToJointRecipe()).OrderBy(r => r.TimeStamp);
+                || r.TimeStamp.ToString().Contains(nameFilter)).Select(r => r.ToJointRecipe()).OrderByDescending(r => r.TimeStamp);
 
             // Подписываемся на события списка рецептов
             RecipesList.SelectedRecipeChanged += OnSelectedRecipeChanged;
@@ -68,6 +68,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             // Обновляем временную метку в списке
             savedRecipe.TimeStamp = DateTime.UtcNow;
+
+            // Перемещаем обновлённый рецепт на первую позицию
+            RecipesList.MoveToTop(savedRecipe);
         }
 
         /// <summary>
