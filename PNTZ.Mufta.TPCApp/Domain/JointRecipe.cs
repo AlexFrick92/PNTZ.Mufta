@@ -24,20 +24,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
         // Общие данные
         private float _head_close_pulses;
-        public float HEAD_OPEN_PULSES
-        {
-            get => _head_close_pulses;
-            set
-            {
-                if(value == 2)
-                    throw new ArgumentException("HEAD_OPEN_PULSES не может быть равен 2");
-                else
-                {
-                    _head_close_pulses = value;
-                    OnPropertyChanged(nameof(HEAD_OPEN_PULSES));
-                }
-            }
-        }
+        public float HEAD_OPEN_PULSES { get => _head_close_pulses; set { _head_close_pulses = value; OnPropertyChanged(nameof(HEAD_OPEN_PULSES)); } }
 
         private float _turnsBrake;
         public float TURNS_BREAK { get => _turnsBrake; set { _turnsBrake = value; OnPropertyChanged(nameof(TURNS_BREAK)); } }
