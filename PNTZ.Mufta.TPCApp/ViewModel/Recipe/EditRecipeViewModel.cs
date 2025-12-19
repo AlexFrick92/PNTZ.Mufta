@@ -241,7 +241,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 loadingWindow.Owner = Application.Current.MainWindow;
 
                 // Запускаем загрузку в фоне
-                var loadingTask = _loader.LoadRecipeAsync(null);
+                var loadingTask = _loader.LoadRecipeAsync(_originalRecipe);
 
                 // Подписываемся на завершение загрузки - автоматически закрываем окно
                 _ = loadingTask.ContinueWith(t =>

@@ -17,11 +17,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             _loader = loader;
             EditRecipeViewModel = new EditRecipeViewModel(_loader);
 
-            //_loader.RecipeLoaded += (s, e) =>
-            //{
-            //    RecipesList.LoadedRecipe = e;
-            //    EditRecipeViewModel.SetLoadedRecipe(e);
-            //};
+            _loader.RecipeLoaded += (s, e) =>
+            {
+                RecipesList.LoadedRecipe = e;
+                EditRecipeViewModel.SetLoadedRecipe(e);
+            };
 
             var filtered = repository.GetRecipes(r =>
                 string.IsNullOrEmpty(nameFilter)
