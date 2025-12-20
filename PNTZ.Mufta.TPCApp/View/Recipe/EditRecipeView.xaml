@@ -57,6 +57,7 @@
         <view:EnumEqualityConverter x:Key="EnumEqualityConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <conv:NullToVisibilityConverter x:Key="NullToVisConverter"/>
+        <conv:JointModeToVisibilityConverter x:Key="JointModeToVisConverter"/>
 
         <!-- ========================================
         СТИЛИ ДЛЯ КНОПОК РЕЖИМА
@@ -399,8 +400,18 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Min}"
-                                    Visibility="{Binding IsTorqueOrTorqueLengthMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Torque</domain:JointMode>
+                                            <domain:JointMode>TorqueShoulder</domain:JointMode>
+                                            <domain:JointMode>TorqueLength</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -408,8 +419,18 @@
 
                         <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Max}"
-                                    Visibility="{Binding IsTorqueOrTorqueLengthMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Torque</domain:JointMode>
+                                            <domain:JointMode>TorqueShoulder</domain:JointMode>
+                                            <domain:JointMode>TorqueLength</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -446,8 +467,17 @@
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
                         <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
-                                    Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Torque</domain:JointMode>
+                                            <domain:JointMode>TorqueShoulder</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -455,8 +485,17 @@
 
                         <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
-                                    Visibility="{Binding IsTorqueMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Torque</domain:JointMode>
+                                            <domain:JointMode>TorqueShoulder</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -464,7 +503,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Минимальный момент на плече, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Min}"
-                                    Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"
+                                    Visibility="{Binding EditingRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
@@ -473,7 +512,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Максимальный момент на плече, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Max}"
-                                    Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}"
+                                    Visibility="{Binding EditingRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
@@ -482,8 +521,17 @@
 
                         <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Dump}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Length</domain:JointMode>
+                                            <domain:JointMode>TorqueLength</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -491,8 +539,17 @@
 
                         <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_1}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Length</domain:JointMode>
+                                            <domain:JointMode>TorqueLength</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -500,8 +557,17 @@
 
                         <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_2}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Length</domain:JointMode>
+                                            <domain:JointMode>TorqueLength</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -509,8 +575,17 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. глубина, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Min}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Length</domain:JointMode>
+                                            <domain:JointMode>TorqueLength</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
                             </ctrl:ParameterDisplayControl.ValueType>
@@ -518,8 +593,17 @@
 
                         <ctrl:ParameterDisplayControl Label="Макс. глубина, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Max}"
-                                    Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}"
                                     IsReadOnly="False">
+                            <ctrl:ParameterDisplayControl.Visibility>
+                                <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                                    <Binding.ConverterParameter>
+                                        <x:Array Type="domain:JointMode">
+                                            <domain:JointMode>Length</domain:JointMode>
+                                            <domain:JointMode>TorqueLength</domain:JointMode>
+                                        </x:Array>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </ctrl:ParameterDisplayControl.Visibility>
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="1" MaxValue="200"/>
                             </ctrl:ParameterDisplayControl.ValueType>

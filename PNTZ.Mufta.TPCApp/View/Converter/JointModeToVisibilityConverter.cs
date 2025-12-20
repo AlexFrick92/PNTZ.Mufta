@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PNTZ.Mufta.TPCApp.Domain;
+using System;
+using System.Collections;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
 namespace PNTZ.Mufta.TPCApp.View.Converter
 {
+    /// <summary>
+    /// Конвертер для управления видимостью элементов в зависимости от режима JointMode.
+    /// Поддерживает одно значение или массив значений через x:Array.
+    /// </summary>
     public class JointModeToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -16,12 +19,37 @@ namespace PNTZ.Mufta.TPCApp.View.Converter
             if (value == null || parameter == null)
                 return Visibility.Collapsed;
 
-            var currentMode = value.ToString();
-            var targetMode = parameter.ToString();
+            // Получаем текущий режим
+            JointMode currentMode;
+            if (value is JointMode mode)
+            {
+                currentMode = mode;
+            }
+            else
+            {
+                return Visibility.Collapsed;
+            }
 
-            return currentMode == targetMode
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            // Проверяем, является ли parameter массивом
+            if (parameter is Array array)
+            {
+                // Проверяем, содержится ли текущий режим в массиве
+                foreach (var item in array)
+                {
+                    if (item is JointMode targetMode && currentMode == targetMode)
+                        return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+            // Если передано одно значение
+            else if (parameter is JointMode singleMode)
+            {
+                return currentMode == singleMode
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

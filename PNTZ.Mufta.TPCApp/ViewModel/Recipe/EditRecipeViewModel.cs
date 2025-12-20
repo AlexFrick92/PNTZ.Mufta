@@ -72,12 +72,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             private set
             {
                 _editingRecipe = value;
-
-                if (_editingRecipe != null)
-                {
-                    UpdateModeFlags();
-                }
-
                 OnPropertyChanged(nameof(EditingRecipe));
             }
         }
@@ -159,7 +153,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             {
                 EditingRecipe.JointMode = mode;
                 OnPropertyChanged(nameof(EditingRecipe));
-                UpdateModeFlags();
             }
         }
 
@@ -247,74 +240,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             _originalRecipe = null;
             HasChanges = false;
         }
-
-
-        private bool _isTorqueMode;
-        public bool IsTorqueMode
-        {
-            get => _isTorqueMode;
-            set
-            {
-                _isTorqueMode = value;
-                OnPropertyChanged(nameof(IsTorqueMode));
-            }
-        }
-
-        private bool _isShoulderMode;
-        public bool IsShoulderMode
-        {
-            get => _isShoulderMode;
-            set
-            {
-                _isShoulderMode = value;
-                OnPropertyChanged(nameof(IsShoulderMode));
-            }
-        }
-
-        private bool _isLengthMode;
-        public bool IsLengthMode
-        {
-            get => _isLengthMode;
-            set
-            {
-                _isLengthMode = value;
-                OnPropertyChanged(nameof(IsLengthMode));
-            }
-        }
-
-        private bool _isTorqueLengthMode;
-        public bool IsTorqueOrTorqueLengthMode
-        {
-            get => _isTorqueLengthMode;
-            set
-            {
-                _isTorqueLengthMode = value;
-                OnPropertyChanged(nameof(IsTorqueOrTorqueLengthMode));
-            }
-        }
-
-        private bool _isJvalMode;
-        public bool IsJvalMode
-        {
-            get => _isJvalMode;
-            set
-            {
-                _isJvalMode = value;
-                OnPropertyChanged(nameof(IsJvalMode));
-            }
-        }
-
-        private bool _isTorqueJvalMode;
-        public bool IsTorqueJvalMode
-        {
-            get => _isTorqueJvalMode;
-            set
-            {
-                _isTorqueJvalMode = value;
-                OnPropertyChanged(nameof(IsTorqueJvalMode));
-            }
-        }
-
         private bool _hasValidationErrors;
         /// <summary>
         /// Флаг наличия ошибок валидации в форме
@@ -338,16 +263,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         public bool IsRecipeReadyForOperations
         {
             get => EditingRecipe != null && !HasValidationErrors && !HasChanges;
-        }
-
-        private void UpdateModeFlags()
-        {
-            if (EditingRecipe == null) return;
-
-            IsTorqueMode = EditingRecipe.JointMode == JointMode.Torque || EditingRecipe.JointMode == JointMode.TorqueShoulder;
-            IsShoulderMode = EditingRecipe.JointMode == JointMode.TorqueShoulder;
-            IsLengthMode = EditingRecipe.JointMode == JointMode.Length || EditingRecipe.JointMode == JointMode.TorqueLength;
-            IsTorqueOrTorqueLengthMode = IsTorqueMode || IsShoulderMode || EditingRecipe.JointMode == JointMode.TorqueLength;          
         }
     }
 }
