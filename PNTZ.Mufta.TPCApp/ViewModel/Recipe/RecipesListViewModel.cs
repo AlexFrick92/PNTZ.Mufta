@@ -19,6 +19,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         private JointRecipeTable _loadedRecipe;
 
         /// <summary>
+        /// Конструктор принимает коллекцию рецептов извне
+        /// </summary>
+        /// <param name="recipes">Коллекция рецептов для работы</param>
+        public RecipesListViewModel(ObservableCollection<JointRecipeTable> recipes)
+        {
+            JointRecipes = recipes ?? throw new ArgumentNullException(nameof(recipes));
+        }
+
+        /// <summary>
         /// Событие изменения выбранного рецепта
         /// </summary>
         public event EventHandler<JointRecipeTable> SelectedRecipeChanged;
@@ -26,7 +35,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Список рецептов
         /// </summary>
-        public ObservableCollection<JointRecipeTable> JointRecipes { get; private set; } = new ObservableCollection<JointRecipeTable>();
+        public ObservableCollection<JointRecipeTable> JointRecipes { get; }
 
         /// <summary>
         /// Выбранный рецепт

@@ -29,7 +29,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private void InitializeViewModel()
         {
-            _viewModel = new RecipesListViewModel();
+            _viewModel = new RecipesListViewModel(new System.Collections.ObjectModel.ObservableCollection<JointRecipeTable>());
             RecipesListView.DataContext = _viewModel;
 
             // Подписка на событие изменения выбранного рецепта

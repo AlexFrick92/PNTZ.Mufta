@@ -3,6 +3,7 @@ using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     public class RecipesViewModel : BaseViewModel
     {
         string nameFilter = string.Empty;
+        private IRecipeTableLoader _loader;
+        private ObservableCollection<JointRecipeTable> _recipes = new ObservableCollection<JointRecipeTable>();
+
         public RecipesViewModel(LocalRepository repository, IRecipeTableLoader loader)
         {
             _loader = loader;
+
+            // Создаём RecipesList с нашей коллекцией
+            RecipesList = new RecipesListViewModel(_recipes);
             EditRecipeViewModel = new EditRecipeViewModel(_loader);
 
             _loader.RecipeLoaded += (s, e) =>
@@ -36,7 +43,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             EditRecipeViewModel.RecipeCancelled += OnRecipeCancelled;
             EditRecipeViewModel.RecipeDeleted += OnRecipeDeleted;
 
-            RecipesList.LoadRecipeList(filtered);
+            // Загружаем рецепты в коллекцию
+            foreach (var recipe in filtered)
+            {
+                _recipes.Add(recipe);
+            }
         }
 
         /// <summary>
@@ -46,9 +57,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Список рецептов
         /// </summary>
-        public RecipesListViewModel RecipesList { get; set; } = new RecipesListViewModel();
-
-        private IRecipeTableLoader _loader;
+        public RecipesListViewModel RecipesList { get; set; }
 
         /// <summary>
         /// Обработчик выбора рецепта из списка
