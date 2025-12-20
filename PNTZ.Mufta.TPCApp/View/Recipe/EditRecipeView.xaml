@@ -101,12 +101,48 @@
 
     </UserControl.Resources>
 
+
+    <!-- ========================================
+        КОНТЕНТ
+        ======================================== -->
+
     <Grid Grid.IsSharedSizeScope="True"
           helpers:ValidationHelper.IsEnabled="True"
           helpers:ValidationHelper.HasValidationErrors="{Binding HasValidationErrors, Mode=TwoWay}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical" Margin="10" Width="auto"
                         Visibility="{Binding EditingRecipe, Converter={StaticResource NullToVisConverter}}">
+
+                <!-- ========================================
+                СТАТУС РЕДАКТИРВОАНИЯ
+                ======================================== -->
+
+                <!-- Текущий рецепт загружен -->
+                <Border Background="#D5F4E6"                           
+                         Visibility="{Binding IsLoadedRecipeCurrent, Converter={StaticResource BoolToVis }}"                         
+                         BorderBrush="#27AE60"
+                         BorderThickness="1"
+                         CornerRadius="0"
+                         Padding="8"
+                         Margin="0,5,0,10">
+                    <TextBlock Text="Этот рецепт загружен в ПЛК"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Foreground="#27AE60"/>
+                </Border>
+
+                <Border Background="#FFDEE8"
+                        Visibility="{Binding HasValidationErrors, Converter={StaticResource BoolToVis}}"
+                         BorderBrush="Red"
+                         BorderThickness="1"
+                         CornerRadius="0"
+                         Padding="8"
+                         Margin="0,5,0,10">
+                    <TextBlock Text="Ошибки в данных рецепт. Рецепт не может быть загружен или сохранён"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Foreground="Red"/>
+                </Border>
 
                 <!-- ========================================
                 ОБЩИЕ ПАРАМЕТРЫ + ДАННЫЕ МУФТЫ + ПРЕДНАВЁРТКА (2 колонки)
@@ -166,15 +202,15 @@
                                     <Setter Property="Foreground" Value="{StaticResource ParameterDisplay_Label_Foreground}"/>
                                 </Style>
                             </Grid.Resources>
-                            
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <Label Grid.Column="0"
                                         Style="{StaticResource ParamLabelStyle}" Content="Тип резьбы"/>
-                            
+
                             <ComboBox Grid.Column="1"
                                     ItemsSource="{Binding Path=EditingRecipe.ThreadType, Converter={StaticResource EnumToCollectionConverter}, Mode=OneWay}" 
                                     SelectedValuePath="Value"
@@ -183,7 +219,7 @@
                                     HorizontalAlignment="Stretch"                                                                             
                                     HorizontalContentAlignment="Center"/>
                         </Grid>
-                        
+
                     </StackPanel>
 
                     <!-- ПРАВАЯ КОЛОНКА: Данные муфты + Преднавёртка -->
@@ -490,7 +526,6 @@
                         </ctrl:ParameterDisplayControl>
                     </StackPanel>
                 </Grid>
-
             </StackPanel>
         </ScrollViewer>
     </Grid>

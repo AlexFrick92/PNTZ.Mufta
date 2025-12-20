@@ -60,22 +60,8 @@
 
         <Border Grid.Column="1"
                 BorderThickness="0,0,1,1"
-                BorderBrush="{StaticResource JointView_GridBorder}">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Background" Value="{StaticResource JointView_SectionHeader_Background}"/>
-                    <Style.Triggers>
-                        <!-- Оранжевый фон для загруженного рецепта -->
-                        <DataTrigger Binding="{Binding EditRecipeViewModel.IsLoadedRecipeCurrent}" Value="True">
-                            <Setter Property="Background" Value="#FFE5CC"/>
-                        </DataTrigger>
-                        <!-- Красный фон для ошибок валидации (приоритет выше) -->
-                        <DataTrigger Binding="{Binding EditRecipeViewModel.HasValidationErrors}" Value="True">
-                            <Setter Property="Background" Value="#FFE5E5"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
+                BorderBrush="{StaticResource JointView_GridBorder}"
+                Background="{StaticResource JointView_SectionHeader_Background}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <!-- Заголовок и имя рецепта -->
