@@ -1,12 +1,15 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Repository;
+using PNTZ.Mufta.TPCApp.View.Recipe;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 {
@@ -43,6 +46,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             EditRecipeViewModel.RecipeCancelled += OnRecipeCancelled;
             EditRecipeViewModel.RecipeDeleted += OnRecipeDeleted;
 
+            // Команда загрузки рецепта
+            LoadRecipeCommand = new RelayCommand(LoadRecipe, CanLoadRecipe);
+
             // Загружаем рецепты в коллекцию
             foreach (var recipe in filtered)
             {
@@ -58,6 +64,63 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Список рецептов
         /// </summary>
         public RecipesListViewModel RecipesList { get; set; }
+
+        /// <summary>
+        /// Команда загрузки рецепта в PLC
+        /// </summary>
+        public ICommand LoadRecipeCommand { get; }
+
+        /// <summary>
+        /// Флаг выполнения загрузки рецепта
+        /// </summary>
+        public bool RecipeLoadingInProgress { get; private set; } = false;
+
+        private bool CanLoadRecipe(object parameter)
+        {
+            return EditRecipeViewModel.IsRecipeReadyForOperations && _loader != null && !RecipeLoadingInProgress;
+        }
+
+        private async void LoadRecipe(object parameter)
+        {
+            try
+            {
+                RecipeLoadingInProgress = true;
+                OnPropertyChanged(nameof(RecipeLoadingInProgress));
+
+                // Получаем оригинальный рецепт из EditRecipeViewModel
+                var recipeToLoad = RecipesList.SelectedRecipe;
+                if (recipeToLoad == null)
+                    return;
+
+                // Создаём окно загрузки
+                var loadingViewModel = new LoadingRecipeViewModel(recipeToLoad.Name ?? "");
+                var loadingWindow = new LoadingRecipeView(loadingViewModel);
+                loadingWindow.Owner = Application.Current.MainWindow;
+
+                // Запускаем загрузку в фоне
+                var loadingTask = _loader.LoadRecipeAsync(recipeToLoad);
+
+                // Подписываемся на завершение загрузки - автоматически закрываем окно
+                _ = loadingTask.ContinueWith(t =>
+                {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        loadingWindow.Close();
+                    }));
+                });
+
+                // Показываем модальное окно (блокирует взаимодействие с главным окном)
+                loadingWindow.ShowDialog();
+
+                // После закрытия окна, ждём завершения задачи (если ещё не завершена)
+                await loadingTask;
+            }
+            finally
+            {
+                RecipeLoadingInProgress = false;
+                OnPropertyChanged(nameof(RecipeLoadingInProgress));
+            }
+        }
 
         /// <summary>
         /// Обработчик выбора рецепта из списка

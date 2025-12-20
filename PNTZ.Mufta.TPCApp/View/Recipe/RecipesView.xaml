@@ -146,7 +146,7 @@
 
                     <Button Margin="5"
                              Padding="10,5"
-                             Command="{Binding EditRecipeViewModel.LoadRecipeCommand}"
+                             Command="{Binding LoadRecipeCommand}"
                              Content="🡇 Загрузить"/>
 
                 </StackPanel>

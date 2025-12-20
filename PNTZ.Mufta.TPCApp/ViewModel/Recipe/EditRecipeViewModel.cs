@@ -29,7 +29,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             SetModeCommand = new RelayCommand(SetMode);
             SaveRecipeCommand = new RelayCommand(SaveRecipe, CanSaveRecipe);
             CancelCommand = new RelayCommand(CancelChanges, CanCancelChanges);
-            LoadRecipeCommand = new RelayCommand(LoadRecipe, CanLoadRecipe);
             DeleteRecipeCommand = new RelayCommand(DeleteRecipe, CanDeleteRecipe);
         }
 
@@ -58,6 +57,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             {
                 _hasChanges = value;
                 OnPropertyChanged(nameof(HasChanges));
+                OnPropertyChanged(nameof(IsRecipeReadyForOperations));
                 // Обновляем состояние команд
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();
             }
@@ -114,6 +114,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Проверяем, является ли этот рецепт загруженным
             OnPropertyChanged(nameof(IsLoadedRecipeCurrent));
+            OnPropertyChanged(nameof(IsRecipeReadyForOperations));
         }
 
         /// <summary>
@@ -218,51 +219,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Уведомляем об отмене
             RecipeCancelled?.Invoke(this, EventArgs.Empty);
-        }
-
-        public ICommand LoadRecipeCommand { get; }
-
-        private bool CanLoadRecipe(object parameter)
-        {
-            // Можно загрузить, если рецепт существует и нет ошибок валидации
-            return EditingRecipe != null && !HasValidationErrors && !HasChanges && _loader != null && !RecipeLoadingInProgress;
-        }
-        public bool RecipeLoadingInProgress { get; private set; } = false;
-        private async void LoadRecipe(object parameter)
-        {
-            try
-            {
-                RecipeLoadingInProgress = true;
-                OnPropertyChanged(nameof(RecipeLoadingInProgress));
-
-                // Создаём окно загрузки
-                var loadingViewModel = new LoadingRecipeViewModel(_originalRecipe?.Name ?? "");
-                var loadingWindow = new LoadingRecipeView(loadingViewModel);
-                loadingWindow.Owner = Application.Current.MainWindow;
-
-                // Запускаем загрузку в фоне
-                var loadingTask = _loader.LoadRecipeAsync(_originalRecipe);
-
-                // Подписываемся на завершение загрузки - автоматически закрываем окно
-                _ = loadingTask.ContinueWith(t =>
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        loadingWindow.Close();
-                    }));
-                });
-
-                // Показываем модальное окно (блокирует взаимодействие с главным окном)
-                loadingWindow.ShowDialog();
-
-                // После закрытия окна, ждём завершения задачи (если ещё не завершена)
-                await loadingTask;
-            }
-            finally
-            {
-                RecipeLoadingInProgress = false;
-                OnPropertyChanged(nameof(RecipeLoadingInProgress));
-            }
         }
 
         public ICommand DeleteRecipeCommand { get; }
@@ -370,9 +326,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             {
                 _hasValidationErrors = value;
                 OnPropertyChanged(nameof(HasValidationErrors));
+                OnPropertyChanged(nameof(IsRecipeReadyForOperations));
                 // Обновляем состояние команды сохранения
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();
             }
+        }
+
+        /// <summary>
+        /// Проверяет, готов ли рецепт к выполнению операций (загрузка, экспорт и т.д.)
+        /// </summary>
+        public bool IsRecipeReadyForOperations
+        {
+            get => EditingRecipe != null && !HasValidationErrors && !HasChanges;
         }
 
         private void UpdateModeFlags()
