@@ -37,12 +37,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
         public JointRecipeTable LoadedRecipe
         {
             get { return _loadedRecipe; }
-            set 
-            { 
-                _loadedRecipe = value; 
-                OnPropertyChanged(nameof(LoadedRecipe)); 
-                OnPropertyChanged(nameof(IsLengthMode));
-                OnPropertyChanged(nameof(IsShoulderMode));
+            set
+            {
+                _loadedRecipe = value;
+                OnPropertyChanged(nameof(LoadedRecipe));
             }
         }
         /// <summary>
@@ -93,14 +91,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             get { return _resultShoulderState; }
             set { _resultShoulderState = value; OnPropertyChanged(nameof(ResultShoulderState)); }
         }
-        /// <summary>
-        /// Выбранный режим "по длине" - для отображения соответствующих параметров
-        /// </summary>
-        public bool IsLengthMode => LoadedRecipe != null && (LoadedRecipe.JointMode == JointMode.Length || LoadedRecipe.JointMode == JointMode.TorqueLength);
-        /// <summary>
-        /// Выбранный режим "по плечу" - для отображения соответствующих параметров
-        /// </summary>
-        public bool IsShoulderMode => LoadedRecipe != null && LoadedRecipe.JointMode == JointMode.TorqueShoulder;
 
         #endregion
 

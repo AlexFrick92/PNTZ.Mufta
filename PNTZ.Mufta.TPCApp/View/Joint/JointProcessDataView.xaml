@@ -104,7 +104,7 @@
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_FinalShoulderTorque_Label}"
                                       Value="{Binding JointResult.FinalShoulderTorque, Mode=OneWay}"
                                       State="{Binding ResultShoulderState}"
-                                      Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}">
+                                      Visibility="{Binding LoadedRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}">
                 <ctrl:ParameterDisplayControl.ValueType>
                     <vt:FloatValueType StringFormat="N0"/>
                 </ctrl:ParameterDisplayControl.ValueType>
@@ -173,24 +173,51 @@
             <Label/>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxLength_Label}"
                                           Value="{Binding LoadedRecipe.MU_Len_Max, Mode=OneWay}"
-                                          State="Normal"
-                                          Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}">
+                                          State="Normal">
+                <ctrl:ParameterDisplayControl.Visibility>
+                    <Binding Path="LoadedRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                        <Binding.ConverterParameter>
+                            <x:Array Type="domain:JointMode">
+                                <domain:JointMode>Length</domain:JointMode>
+                                <domain:JointMode>TorqueLength</domain:JointMode>
+                            </x:Array>
+                        </Binding.ConverterParameter>
+                    </Binding>
+                </ctrl:ParameterDisplayControl.Visibility>
                 <ctrl:ParameterDisplayControl.ValueType>
                     <vt:FloatValueType StringFormat="N1"/>
                 </ctrl:ParameterDisplayControl.ValueType>
             </ctrl:ParameterDisplayControl>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinLength_Label}"
                                           Value="{Binding LoadedRecipe.MU_Len_Min, Mode=OneWay}"
-                                          State="Normal"
-                                          Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}">
+                                          State="Normal">
+                <ctrl:ParameterDisplayControl.Visibility>
+                    <Binding Path="LoadedRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                        <Binding.ConverterParameter>
+                            <x:Array Type="domain:JointMode">
+                                <domain:JointMode>Length</domain:JointMode>
+                                <domain:JointMode>TorqueLength</domain:JointMode>
+                            </x:Array>
+                        </Binding.ConverterParameter>
+                    </Binding>
+                </ctrl:ParameterDisplayControl.Visibility>
                 <ctrl:ParameterDisplayControl.ValueType>
                     <vt:FloatValueType StringFormat="N1"/>
                 </ctrl:ParameterDisplayControl.ValueType>
             </ctrl:ParameterDisplayControl>
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_DumpLength_Label}"
                                           Value="{Binding LoadedRecipe.MU_Len_Dump, Mode=OneWay}"
-                                          State="Normal"
-                                          Visibility="{Binding IsLengthMode, Converter={StaticResource BoolToVis}}">
+                                          State="Normal">
+                <ctrl:ParameterDisplayControl.Visibility>
+                    <Binding Path="LoadedRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
+                        <Binding.ConverterParameter>
+                            <x:Array Type="domain:JointMode">
+                                <domain:JointMode>Length</domain:JointMode>
+                                <domain:JointMode>TorqueLength</domain:JointMode>
+                            </x:Array>
+                        </Binding.ConverterParameter>
+                    </Binding>
+                </ctrl:ParameterDisplayControl.Visibility>
                 <ctrl:ParameterDisplayControl.ValueType>
                     <vt:FloatValueType StringFormat="N1"/>
                 </ctrl:ParameterDisplayControl.ValueType>
@@ -199,7 +226,7 @@
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MaxShoulderTorque_Label}"
                                           Value="{Binding LoadedRecipe.MU_TqShoulder_Max, Mode=OneWay}"
                                           State="Normal"
-                                          Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}">
+                                          Visibility="{Binding LoadedRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}">
                 <ctrl:ParameterDisplayControl.ValueType>
                     <vt:FloatValueType StringFormat="N0"/>
                 </ctrl:ParameterDisplayControl.ValueType>
@@ -207,7 +234,7 @@
             <ctrl:ParameterDisplayControl Label="{DynamicResource JointProcess_MinShoulderTorque_Label}"
                                           Value="{Binding LoadedRecipe.MU_TqShoulder_Min, Mode=OneWay}"
                                           State="Normal"
-                                          Visibility="{Binding IsShoulderMode, Converter={StaticResource BoolToVis}}">
+                                          Visibility="{Binding LoadedRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}">
                 <ctrl:ParameterDisplayControl.ValueType>
                     <vt:FloatValueType StringFormat="N0"/>
                 </ctrl:ParameterDisplayControl.ValueType>
