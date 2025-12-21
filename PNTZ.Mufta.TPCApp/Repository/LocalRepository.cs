@@ -18,14 +18,18 @@ namespace PNTZ.Mufta.TPCApp.Repository
     {
         private RemoteRepository _remoteRepo;
         ILogger _logger;
-        string StoragePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/Repository";
+        string StoragePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "PNTZ.Mufta.TPCApp",
+            "Repository"
+        );
         string recipesConnectionString;
         string resultsConnectionString;
         public LocalRepository(ILogger logger)
         {
             this._logger = logger;
 
-            // Создаём папку Repository, если её нет
+            // Создаём папку Repository в AppData\Local, если её нет
             if (!System.IO.Directory.Exists(StoragePath))
             {
                 System.IO.Directory.CreateDirectory(StoragePath);
