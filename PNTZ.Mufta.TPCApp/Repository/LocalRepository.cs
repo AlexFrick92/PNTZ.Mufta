@@ -148,6 +148,20 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 return query.ToList();
             }
         }
+
+        /// <summary>
+        /// Получить результат по ID
+        /// </summary>
+        /// <param name="id">ID результата</param>
+        /// <returns>JointResult или null</returns>
+        public JointResult GetResultById(Guid id)
+        {
+            using (var db = new JointResultContext(resultsConnectionString))
+            {
+                var resultTable = db.Results.FirstOrDefault(r => r.Id == id);
+                return resultTable?.ToJointResult();
+            }
+        }
         public DateTime GetFirstDateTime(string recipeName)
         {
             using (var db = new JointResultContext(resultsConnectionString))            

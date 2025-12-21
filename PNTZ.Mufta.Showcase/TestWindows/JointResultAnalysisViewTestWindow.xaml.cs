@@ -6,6 +6,7 @@ using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.ViewModel.Joint;
 using PNTZ.Mufta.Showcase.Data;
+using Promatis.Core.Logging;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
 {
@@ -15,19 +16,25 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class JointResultAnalysisViewTestWindow : Window
     {
         private JointResultAnalysisViewModel _viewModel;
-        private TestResultsRepository _resultsRepository;
+        private LocalRepository _repository;
         private List<JointResultTable> _loadedResults;
 
         public JointResultAnalysisViewTestWindow()
         {
             InitializeComponent();
             InitializeViewModel();
+            InitializeRepository();
         }
 
         private void InitializeViewModel()
         {
             _viewModel = new JointResultAnalysisViewModel();
             AnalysisView.DataContext = _viewModel;
+        }
+
+        private void InitializeRepository()
+        {
+            _repository = new LocalRepository(new ConsoleLogger());
         }
 
         /// <summary>
@@ -45,35 +52,22 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         {
             try
             {
-                // Открываем диалог выбора файла базы данных
-                var openFileDialog = new OpenFileDialog
-                {
-                    Title = "Выберите файл базы данных ResultsData.db",
-                    Filter = "SQLite Database (*.db)|*.db|All files (*.*)|*.*",
-                    CheckFileExists = true
-                };
+                UpdateStatus("Загрузка результатов из локального репозитория...");
 
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    string dbPath = openFileDialog.FileName;
-                    UpdateStatus($"Загрузка базы данных: {dbPath}");
+                // Загружаем результаты через LocalRepository
+                _loadedResults = _repository.GetResults();
 
-                    // Создаем репозиторий и загружаем результаты
-                    _resultsRepository = new TestResultsRepository(dbPath);
-                    _loadedResults = _resultsRepository.GetResults();
+                // Заполняем ListBox
+                ResultsListBox.ItemsSource = _loadedResults;
 
-                    // Заполняем ListBox
-                    ResultsListBox.ItemsSource = _loadedResults;
-
-                    // Обновляем статус
-                    DatabaseStatusText.Text = $"Загружено {_loadedResults.Count} записей из БД";
-                    UpdateStatus($"База данных загружена: {_loadedResults.Count} записей");
-                }
+                // Обновляем статус
+                DatabaseStatusText.Text = $"Загружено {_loadedResults.Count} записей из БД";
+                UpdateStatus($"Результаты загружены: {_loadedResults.Count} записей");
             }
             catch (Exception ex)
             {
                 DatabaseStatusText.Text = $"Ошибка: {ex.Message}";
-                UpdateStatus($"Ошибка загрузки БД: {ex.Message}");
+                UpdateStatus($"Ошибка загрузки: {ex.Message}");
             }
         }
 
