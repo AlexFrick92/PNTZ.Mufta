@@ -17,7 +17,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     {
         string nameFilter = string.Empty;
         private IRecipeTableLoader _loader;
-        private ObservableCollection<JointRecipeTable> _recipes = new ObservableCollection<JointRecipeTable>();
+        private ObservableCollection<RevertableJointRecipe> _recipes = new ObservableCollection<RevertableJointRecipe>();
 
         public RecipesViewModel(LocalRepository repository, IRecipeTableLoader loader)
         {
@@ -29,8 +29,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             _loader.RecipeLoaded += (s, e) =>
             {
-                RecipesList.LoadedRecipe = e;
-                EditRecipeViewModel.SetLoadedRecipe(e);
+                // Ищем RevertableJointRecipe, соответствующий загруженному рецепту
+                var revertableRecipe = _recipes.FirstOrDefault(r => r.OriginalRecipe == e);
+                if (revertableRecipe != null)
+                {
+                    RecipesList.LoadedRecipe = revertableRecipe;
+                    EditRecipeViewModel.SetLoadedRecipe(revertableRecipe);
+                }
             };
 
             var filtered = repository.GetRecipes(r =>
@@ -49,10 +54,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             // Команда загрузки рецепта
             LoadRecipeCommand = new RelayCommand(LoadRecipe, CanLoadRecipe);
 
-            // Загружаем рецепты в коллекцию
+            // Загружаем рецепты в коллекцию, оборачивая каждый в RevertableJointRecipe
             foreach (var recipe in filtered)
             {
-                _recipes.Add(recipe);
+                _recipes.Add(new RevertableJointRecipe(recipe));
             }
         }
 
@@ -87,10 +92,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 RecipeLoadingInProgress = true;
                 OnPropertyChanged(nameof(RecipeLoadingInProgress));
 
-                // Получаем оригинальный рецепт из EditRecipeViewModel
-                var recipeToLoad = RecipesList.SelectedRecipe;
-                if (recipeToLoad == null)
+                // Получаем RevertableJointRecipe из списка
+                var revertableRecipe = RecipesList.SelectedRecipe;
+                if (revertableRecipe == null)
                     return;
+
+                // Используем оригинальный рецепт для загрузки в PLC
+                var recipeToLoad = revertableRecipe.OriginalRecipe;
 
                 // Создаём окно загрузки
                 var loadingViewModel = new LoadingRecipeViewModel(recipeToLoad.Name ?? "");
@@ -125,7 +133,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Обработчик выбора рецепта из списка
         /// </summary>
-        private void OnSelectedRecipeChanged(object sender, JointRecipeTable recipe)
+        private void OnSelectedRecipeChanged(object sender, RevertableJointRecipe recipe)
         {
             if (recipe != null)
             {
@@ -136,10 +144,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Обработчик сохранения рецепта
         /// </summary>
-        private void OnRecipeSaved(object sender, JointRecipeTable savedRecipe)
+        private void OnRecipeSaved(object sender, RevertableJointRecipe savedRecipe)
         {
-            // Обновляем временную метку в списке
-            savedRecipe.TimeStamp = DateTime.UtcNow;
+            // Обновляем временную метку оригинального рецепта
+            savedRecipe.OriginalRecipe.TimeStamp = DateTime.UtcNow;
 
             // Перемещаем обновлённый рецепт на первую позицию
             RecipesList.MoveToTop(savedRecipe);
@@ -156,7 +164,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Обработчик удаления рецепта
         /// </summary>
-        private void OnRecipeDeleted(object sender, JointRecipeTable deletedRecipe)
+        private void OnRecipeDeleted(object sender, RevertableJointRecipe deletedRecipe)
         {
             // Удаляем рецепт из списка
             RecipesList.RemoveRecipe(deletedRecipe);

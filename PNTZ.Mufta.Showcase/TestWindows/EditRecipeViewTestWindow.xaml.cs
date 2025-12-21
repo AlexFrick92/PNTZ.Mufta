@@ -36,12 +36,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             EditRecipeView.DataContext = _viewModel;
         }
 
-        private void OnRecipeSaved(object sender, JointRecipeTable recipe)
+        private void OnRecipeSaved(object sender, RevertableJointRecipe recipe)
         {
             // Рецепт уже обновлён в памяти (это оригинал из словаря)
-            UpdateStatus($"✅ Рецепт сохранён: {recipe.Name} (ID: {recipe.Id})");
+            UpdateStatus($"✅ Рецепт сохранён: {recipe.OriginalRecipe.Name} (ID: {recipe.OriginalRecipe.Id})");
             MessageBox.Show(
-                $"Рецепт успешно сохранён!\n\nНазвание: {recipe.Name}\nРежим: {recipe.JointMode}\n\nИзменения применены к оригинальному рецепту.",
+                $"Рецепт успешно сохранён!\n\nНазвание: {recipe.OriginalRecipe.Name}\nРежим: {recipe.OriginalRecipe.JointMode}\n\nИзменения применены к оригинальному рецепту.",
                 "Сохранение рецепта",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -106,7 +106,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             }
 
             // Передаём оригинал в ViewModel, он сам создаст копию для редактирования
-            _viewModel.SetEditingRecipe(recipe);
+            _viewModel.SetEditingRecipe(new RevertableJointRecipe(recipe));
         }
 
         private void BtnLoadRecipeLength_Click(object sender, RoutedEventArgs e)

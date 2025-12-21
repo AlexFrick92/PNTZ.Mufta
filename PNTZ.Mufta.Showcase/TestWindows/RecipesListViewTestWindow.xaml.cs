@@ -4,6 +4,8 @@ using PNTZ.Mufta.TPCApp.Repository;
 using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 namespace PNTZ.Mufta.Showcase.TestWindows
@@ -14,8 +16,8 @@ namespace PNTZ.Mufta.Showcase.TestWindows
     public partial class RecipesListViewTestWindow : Window
     {
         private RecipesListViewModel _viewModel;
-        private JointRecipeTable _recipeA;
-        private JointRecipeTable _recipeB;
+        private RevertableJointRecipe _recipeA;
+        private RevertableJointRecipe _recipeB;
 
         public RecipesListViewTestWindow()
         {
@@ -29,7 +31,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// </summary>
         private void InitializeViewModel()
         {
-            _viewModel = new RecipesListViewModel(new System.Collections.ObjectModel.ObservableCollection<JointRecipeTable>());
+            _viewModel = new RecipesListViewModel(new ObservableCollection<RevertableJointRecipe>());
             RecipesListView.DataContext = _viewModel;
 
             // Подписка на событие изменения выбранного рецепта
@@ -39,9 +41,9 @@ namespace PNTZ.Mufta.Showcase.TestWindows
         /// <summary>
         /// Обработчик события изменения выбранного рецепта
         /// </summary>
-        private void ViewModel_SelectedRecipeChanged(object sender, JointRecipeTable recipe)
+        private void ViewModel_SelectedRecipeChanged(object sender, RevertableJointRecipe recipe)
         {
-            UpdateSelectedRecipeName(recipe);
+            UpdateSelectedRecipeName(recipe.OriginalRecipe);
         }
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace PNTZ.Mufta.Showcase.TestWindows
                 };
 
                 // Загружаем рецепты в ViewModel
-                _viewModel.LoadRecipeList(testRecipes);
+                _viewModel.LoadRecipeList(testRecipes.Select(r => new RevertableJointRecipe(r)));
 
                 UpdateStatus($"Загружено {testRecipes.Count} тестовых рецептов.");
             }
@@ -104,9 +106,12 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             if (_recipeA == null || !_viewModel.JointRecipes.Contains(_recipeA))
             {
                 // Создаём рецепт А на основе Length рецепта
-                _recipeA = RecipeHelper.CreateTestRecipeLength();
-                _recipeA.Name = "RECIPE_A";
-                _recipeA.PIPE_TYPE = "PIPE_TYPE_A";
+                var  tmprec = RecipeHelper.CreateTestRecipeLength();
+                tmprec.Name = "RECIPE_A";
+                tmprec.PIPE_TYPE = "PIPE_TYPE_A";
+
+                _recipeA = new RevertableJointRecipe(tmprec);
+
 
                 _viewModel.AddRecipe(_recipeA);
                 ToggleRecipeAButton.Content = "Удалить рецепт А";
@@ -132,9 +137,11 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             if (_recipeB == null || !_viewModel.JointRecipes.Contains(_recipeB))
             {
                 // Создаём рецепт Б на основе Torque рецепта
-                _recipeB = RecipeHelper.CreateTestRecipeTorque();
-                _recipeB.Name = "RECIPE_B";
-                _recipeB.PIPE_TYPE = "PIPE_TYPE_B";
+                var tmprec = RecipeHelper.CreateTestRecipeTorque();
+                tmprec.Name = "RECIPE_B";
+                tmprec.PIPE_TYPE = "PIPE_TYPE_B";
+
+                _recipeB = new RevertableJointRecipe(tmprec);
 
                 _viewModel.AddRecipe(_recipeB);
                 ToggleRecipeBButton.Content = "Удалить рецепт Б";
@@ -160,9 +167,11 @@ namespace PNTZ.Mufta.Showcase.TestWindows
             // Создаём рецепт А, если его ещё нет
             if (_recipeA == null)
             {
-                _recipeA = RecipeHelper.CreateTestRecipeLength();
-                _recipeA.Name = "RECIPE_A";
-                _recipeA.PIPE_TYPE = "PIPE_TYPE_A";
+                var tmprec = RecipeHelper.CreateTestRecipeLength();
+                tmprec.Name = "RECIPE_A";
+                tmprec.PIPE_TYPE = "PIPE_TYPE_A";
+
+                _recipeA = new RevertableJointRecipe(tmprec);
             }
 
             bool wasInList = _viewModel.JointRecipes.Contains(_recipeA);

@@ -17,7 +17,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     public class EditRecipeViewModel : BaseViewModel
     {
         private RevertableJointRecipe _revertableRecipe;
-        private JointRecipeTable _loadedRecipe;
+        private RevertableJointRecipe _loadedRecipe;
         private IRecipeTableLoader _loader;
 
         public EditRecipeViewModel(IRecipeTableLoader loader)
@@ -33,7 +33,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Событие сохранения рецепта
         /// </summary>
-        public event EventHandler<JointRecipeTable> RecipeSaved;
+        public event EventHandler<RevertableJointRecipe> RecipeSaved;
 
         /// <summary>
         /// Событие отмены изменений
@@ -43,7 +43,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Событие удаления рецепта
         /// </summary>
-        public event EventHandler<JointRecipeTable> RecipeDeleted;
+        public event EventHandler<RevertableJointRecipe> RecipeDeleted;
 
         /// <summary>
         /// Флаг наличия несохранённых изменений
@@ -58,8 +58,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Устанавливает рецепт для редактирования
         /// </summary>
-        /// <param name="recipe">Оригинальный рецепт</param>
-        public void SetEditingRecipe(JointRecipeTable recipe)
+        /// <param name="recipe">RevertableJointRecipe для редактирования</param>
+        public void SetEditingRecipe(RevertableJointRecipe recipe)
         {
             if (recipe == null)
                 throw new ArgumentNullException(nameof(recipe));
@@ -70,8 +70,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 _revertableRecipe.PropertyChanged -= OnRevertableRecipePropertyChanged;
             }
 
-            // Создаём новый RevertableJointRecipe
-            _revertableRecipe = new RevertableJointRecipe(recipe);
+            // Используем переданный RevertableJointRecipe
+            _revertableRecipe = recipe;
 
             // Подписываемся на изменения HasChanges для обновления команд
             _revertableRecipe.PropertyChanged += OnRevertableRecipePropertyChanged;
@@ -89,8 +89,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Устанавливает рецепт, который был загружен в PLC
         /// </summary>
-        /// <param name="recipe">Загруженный рецепт</param>
-        public void SetLoadedRecipe(JointRecipeTable recipe)
+        /// <param name="recipe">Загруженный RevertableJointRecipe</param>
+        public void SetLoadedRecipe(RevertableJointRecipe recipe)
         {
             _loadedRecipe = recipe;
             OnPropertyChanged(nameof(IsLoadedRecipeCurrent));
@@ -103,11 +103,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             get
             {
-                if (_loadedRecipe == null || _revertableRecipe?.OriginalRecipe == null)
+                if (_loadedRecipe == null || _revertableRecipe == null)
                     return false;
 
-                // Сравниваем оригинальный рецепт с загруженным
-                return JointRecipeHelper.AreEqual(_loadedRecipe, _revertableRecipe.OriginalRecipe);
+                // Сравниваем RevertableJointRecipe напрямую
+                return _loadedRecipe == _revertableRecipe;
             }
         }
 
@@ -152,8 +152,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             // Сохраняем изменения в оригинальный рецепт
             _revertableRecipe.Save();
 
-            // Передаём обновлённый оригинал в событие
-            RecipeSaved?.Invoke(this, _revertableRecipe.OriginalRecipe);
+            // Передаём RevertableJointRecipe в событие
+            RecipeSaved?.Invoke(this, _revertableRecipe);
         }
 
 
@@ -193,8 +193,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             if (_revertableRecipe == null)
                 return;
 
-            // Генерируем событие удаления с оригинальным рецептом
-            RecipeDeleted?.Invoke(this, _revertableRecipe.OriginalRecipe);
+            // Генерируем событие удаления с RevertableJointRecipe
+            RecipeDeleted?.Invoke(this, _revertableRecipe);
 
             // Отписываемся от RevertableJointRecipe
             _revertableRecipe.PropertyChanged -= OnRevertableRecipePropertyChanged;

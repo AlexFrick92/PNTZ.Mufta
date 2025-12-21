@@ -39,7 +39,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label
-                                Content="{Binding Name}"
+                                Content="{Binding OriginalRecipe.Name}"
                                 FontSize="14"
                                 Background="Transparent"/>
 
@@ -61,14 +61,14 @@
                             <Label
                                 Grid.Column="2"
                                 Background="Transparent">
-                                <TextBlock Text="{Binding TimeStamp, StringFormat='{}{0:dd.MM.yyyy}'}" />
+                                <TextBlock Text="{Binding OriginalRecipe.TimeStamp, StringFormat='{}{0:dd.MM.yyyy}'}" />
                             </Label>
 
                             <TextBlock
                                 Grid.Column="0" Grid.ColumnSpan="3"
                                 Grid.Row="1"
                                 Background="Transparent"
-                                Text="{Binding JointMode, Converter={StaticResource JointModeToStringConverter}}"
+                                Text="{Binding OriginalRecipe.JointMode, Converter={StaticResource JointModeToStringConverter}}"
                                 VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
