@@ -50,6 +50,29 @@ namespace PNTZ.Mufta.TPCApp.View.Control.ValueTypes
         public abstract bool IsValidInput(string text);
 
         /// <summary>
+        /// Сравнение двух значений с учетом типа и форматирования
+        /// </summary>
+        /// <param name="value1">Первое значение</param>
+        /// <param name="value2">Второе значение</param>
+        /// <returns>true если значения равны</returns>
+        public virtual bool AreValuesEqual(object value1, object value2)
+        {
+            // Если оба null - равны
+            if (value1 == null && value2 == null)
+                return true;
+
+            // Если один null - не равны
+            if (value1 == null || value2 == null)
+                return false;
+
+            // Сравниваем отформатированные строки
+            string formatted1 = Format(value1);
+            string formatted2 = Format(value2);
+
+            return formatted1 == formatted2;
+        }
+
+        /// <summary>
         /// Конвертация значения в целевой тип (ushort, int, double и т.д.)
         /// </summary>
         protected object ConvertToTargetType(object value, Type targetType)

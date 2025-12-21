@@ -140,6 +140,48 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             get { return (string)GetValue(FormattedValueProperty); }
             set { SetValue(FormattedValueProperty, value); }
         }
+
+        // OriginalValue - оригинальное значение параметра (для отображения изменений)
+        public static readonly DependencyProperty OriginalValueProperty =
+            DependencyProperty.Register(
+                nameof(OriginalValue),
+                typeof(object),
+                typeof(ParameterDisplayControl),
+                new PropertyMetadata(null, OnOriginalValueChanged));
+
+        public object OriginalValue
+        {
+            get { return GetValue(OriginalValueProperty); }
+            set { SetValue(OriginalValueProperty, value); }
+        }
+
+        // FormattedOriginalValue - отформатированное оригинальное значение
+        public static readonly DependencyProperty FormattedOriginalValueProperty =
+            DependencyProperty.Register(
+                nameof(FormattedOriginalValue),
+                typeof(string),
+                typeof(ParameterDisplayControl),
+                new PropertyMetadata(string.Empty));
+
+        public string FormattedOriginalValue
+        {
+            get { return (string)GetValue(FormattedOriginalValueProperty); }
+            private set { SetValue(FormattedOriginalValueProperty, value); }
+        }
+
+        // IsValueChanged - флаг изменения значения (для показа старого значения)
+        public static readonly DependencyProperty IsValueChangedProperty =
+            DependencyProperty.Register(
+                nameof(IsValueChanged),
+                typeof(bool),
+                typeof(ParameterDisplayControl),
+                new PropertyMetadata(false));
+
+        public bool IsValueChanged
+        {
+            get { return (bool)GetValue(IsValueChangedProperty); }
+            private set { SetValue(IsValueChangedProperty, value); }
+        }
         #endregion
 
         public ParameterDisplayControl()
@@ -195,6 +237,17 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             if (d is ParameterDisplayControl control)
             {
                 control.UpdateFormattedValue();
+                control.UpdateValueChangedFlag();
+            }
+        }
+
+        // Callback при изменении OriginalValue - обновляем FormattedOriginalValue и флаг изменения
+        private static void OnOriginalValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ParameterDisplayControl control)
+            {
+                control.UpdateFormattedOriginalValue();
+                control.UpdateValueChangedFlag();
             }
         }
 
@@ -357,6 +410,55 @@ namespace PNTZ.Mufta.TPCApp.View.Control
             finally
             {
                 _isUpdating = false;
+            }
+        }
+
+        // Обновление форматированного оригинального значения
+        private void UpdateFormattedOriginalValue()
+        {
+            if (OriginalValue == null)
+            {
+                FormattedOriginalValue = string.Empty;
+                return;
+            }
+
+            try
+            {
+                // Используем ValueType для форматирования, если он есть
+                if (ValueType != null)
+                {
+                    FormattedOriginalValue = ValueType.Format(OriginalValue);
+                }
+                else
+                {
+                    FormattedOriginalValue = OriginalValue.ToString();
+                }
+            }
+            catch
+            {
+                FormattedOriginalValue = OriginalValue?.ToString() ?? string.Empty;
+            }
+        }
+
+        // Обновление флага изменения значения
+        private void UpdateValueChangedFlag()
+        {
+            // Если оригинальное значение не задано, флаг всегда false
+            if (OriginalValue == null)
+            {
+                IsValueChanged = false;
+                return;
+            }
+
+            // Сравниваем значения через ValueType
+            if (ValueType != null)
+            {
+                IsValueChanged = !ValueType.AreValuesEqual(Value, OriginalValue);
+            }
+            else
+            {
+                // Fallback - простое сравнение
+                IsValueChanged = !Equals(Value, OriginalValue);
             }
         }
     }

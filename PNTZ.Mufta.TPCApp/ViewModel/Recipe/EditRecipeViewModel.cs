@@ -56,6 +56,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         public JointRecipeTable EditingRecipe => _revertableRecipe?.EditingRecipe;
 
         /// <summary>
+        /// Оригинальный рецепт (для отображения изменений)
+        /// </summary>
+        public JointRecipeTable OriginalRecipe => _revertableRecipe?.OriginalRecipe;
+
+        /// <summary>
         /// Устанавливает рецепт для редактирования
         /// </summary>
         /// <param name="recipe">RevertableJointRecipe для редактирования</param>
@@ -81,6 +86,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Уведомляем об изменении свойств
             OnPropertyChanged(nameof(EditingRecipe));
+            OnPropertyChanged(nameof(OriginalRecipe));
             OnPropertyChanged(nameof(HasChanges));
             OnPropertyChanged(nameof(IsLoadedRecipeCurrent));
             OnPropertyChanged(nameof(IsRecipeReadyForOperations));
@@ -178,6 +184,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Уведомляем об изменении EditingRecipe
             OnPropertyChanged(nameof(EditingRecipe));
+            OnPropertyChanged(nameof(OriginalRecipe));
 
             // Уведомляем об отмене
             RecipeCancelled?.Invoke(this, EventArgs.Empty);
@@ -207,6 +214,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
             // Уведомляем об изменениях
             OnPropertyChanged(nameof(EditingRecipe));
+            OnPropertyChanged(nameof(OriginalRecipe));
             OnPropertyChanged(nameof(HasChanges));
         }
         private bool _hasValidationErrors;

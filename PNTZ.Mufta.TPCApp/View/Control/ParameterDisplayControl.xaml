@@ -51,6 +51,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="ParamLabel"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -58,11 +59,37 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        
+        
+        
         <Label Grid.Row="0" Grid.Column="0"
                Style="{StaticResource ParamLabelStyle}"
                Content="{Binding Label, ElementName=root}"/>
 
-        <TextBox Grid.Row="0" Grid.Column="1"
+        <!-- Отображение предыдущего значения (показывается только при изменении) -->
+        <TextBlock Grid.Row="0" Grid.Column="1"
+                   Margin="10,0,5,5"
+                   VerticalAlignment="Bottom"
+                   FontSize="{StaticResource ParameterDisplay_Value_FontSize}"
+                   FontFamily="{StaticResource ParameterDisplay_Value_FontFamily}"
+                   Foreground="DimGray">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsValueChanged, ElementName=root}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+            <Run Text="{Binding FormattedOriginalValue, ElementName=root, Mode=OneWay}"/>
+            <Run Text=" →"/>
+        </TextBlock>
+
+
+
+        <TextBox Grid.Row="0" Grid.Column="2"
                  Style="{StaticResource OutputTextBoxStyle}"
                  Text="{Binding FormattedValue, ElementName=root, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                  IsReadOnly="{Binding IsReadOnly, ElementName=root}"
@@ -72,7 +99,7 @@
                  VerticalContentAlignment="Bottom"
                  PreviewMouseLeftButtonDown="OnTextBoxPreviewMouseLeftButtonDown"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                    Text="{Binding ValidationErrorMessage, ElementName=root}"
                    Foreground="Red"
                    FontSize="10"

@@ -177,6 +177,7 @@
                                 Value="{Binding EditingRecipe.HEAD_OPEN_PULSES,
                                                 ValidatesOnExceptions=True,
                                                 NotifyOnValidationError=True}"
+                                OriginalValue="{Binding OriginalRecipe.HEAD_OPEN_PULSES}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F2" MinValue="0.01" MaxValue="10"/>
@@ -185,6 +186,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Обороты развинчивание"
                                 Value="{Binding EditingRecipe.TURNS_BREAK}"
+                                OriginalValue="{Binding OriginalRecipe.TURNS_BREAK}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F2" MinValue="0.01" MaxValue="10"/>
@@ -193,6 +195,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Шаг резьбы, m/n"
                                 Value="{Binding EditingRecipe.Thread_step}"
+                                OriginalValue="{Binding OriginalRecipe.Thread_step}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F2" MinValue="0.1" MaxValue="10"/>
@@ -201,6 +204,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Программа SPS"
                                 Value="{Binding EditingRecipe.PLC_PROG_NR}"
+                                OriginalValue="{Binding OriginalRecipe.PLC_PROG_NR}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:IntegerValueType MinValue="0" MaxValue="999"/>
@@ -245,6 +249,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. длина"
                                 Value="{Binding EditingRecipe.Box_Len_Min}"
+                                OriginalValue="{Binding OriginalRecipe.Box_Len_Min}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="50" MaxValue="500"/>
@@ -253,6 +258,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Макс. длина"
                                 Value="{Binding EditingRecipe.Box_Len_Max}"
+                                OriginalValue="{Binding OriginalRecipe.Box_Len_Max}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="50" MaxValue="500"/>
@@ -261,6 +267,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Время наблюдения"
                                 Value="{Binding EditingRecipe.Box_Moni_Time}"
+                                OriginalValue="{Binding OriginalRecipe.Box_Moni_Time}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:IntegerValueType MinValue="5" MaxValue="100"/>
@@ -273,6 +280,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. длина"
                                 Value="{Binding EditingRecipe.Pre_Len_Min}"
+                                OriginalValue="{Binding OriginalRecipe.Pre_Len_Min}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="5" MaxValue="500"/>
@@ -281,6 +289,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Макс. длина"
                                 Value="{Binding EditingRecipe.Pre_Len_Max}"
+                                OriginalValue="{Binding OriginalRecipe.Pre_Len_Max}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="F1" MinValue="5" MaxValue="500"/>
@@ -289,6 +298,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Время наблюдения"
                                 Value="{Binding EditingRecipe.Pre_Moni_Time}"
+                                OriginalValue="{Binding OriginalRecipe.Pre_Moni_Time}"
                                 IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:IntegerValueType MinValue="5" MaxValue="100"/>
@@ -398,6 +408,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Dump}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Tq_Dump}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
@@ -406,6 +417,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Opt}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Tq_Opt}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="1" MaxValue="30000"/>
@@ -414,6 +426,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Min}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Tq_Min}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -433,6 +446,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Max}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Tq_Max}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -454,6 +468,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Ref}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Tq_Ref}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
@@ -462,6 +477,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Save}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Tq_Save}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:FloatValueType StringFormat="N0" MinValue="0" MaxValue="30000"/>
@@ -470,6 +486,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Время наблюдения"
                                     Value="{Binding EditingRecipe.MU_Moni_Time}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Moni_Time}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
                                 <vt:IntegerValueType MinValue="5" MaxValue="100"/>
@@ -481,6 +498,7 @@
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
                         <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_TqSpeedRed_1}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -499,6 +517,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_TqSpeedRed_2}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -517,6 +536,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Минимальный момент на плече, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Min}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_TqShoulder_Min}"
                                     Visibility="{Binding EditingRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
@@ -526,6 +546,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Максимальный момент на плече, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Max}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_TqShoulder_Max}"
                                     Visibility="{Binding EditingRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.ValueType>
@@ -535,6 +556,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Dump}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Len_Dump}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -553,6 +575,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_1}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Len_Speed_1}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -571,6 +594,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_2}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Len_Speed_2}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -589,6 +613,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Мин. глубина, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Min}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Len_Min}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
@@ -607,6 +632,7 @@
 
                         <ctrl:ParameterDisplayControl Label="Макс. глубина, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Max}"
+                                    OriginalValue="{Binding OriginalRecipe.MU_Len_Max}"
                                     IsReadOnly="False">
                             <ctrl:ParameterDisplayControl.Visibility>
                                 <Binding Path="EditingRecipe.JointMode" Converter="{StaticResource JointModeToVisConverter}">
