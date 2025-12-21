@@ -16,10 +16,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 {
     public class EditRecipeViewModel : BaseViewModel
     {
-        private JointRecipeTable _editingRecipe;
-        private JointRecipeTable _originalRecipe;
+        private RevertableJointRecipe _revertableRecipe;
         private JointRecipeTable _loadedRecipe;
-        private bool _hasChanges;
         private IRecipeTableLoader _loader;
 
         public EditRecipeViewModel(IRecipeTableLoader loader)
@@ -50,31 +48,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Флаг наличия несохранённых изменений
         /// </summary>
-        public bool HasChanges
-        {
-            get => _hasChanges;
-            private set
-            {
-                _hasChanges = value;
-                OnPropertyChanged(nameof(HasChanges));
-                OnPropertyChanged(nameof(IsRecipeReadyForOperations));
-                // Обновляем состояние команд
-                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
-            }
-        }
+        public bool HasChanges => _revertableRecipe?.HasChanges ?? false;
 
         /// <summary>
         /// Рецепт, который редактируется (копия оригинала)
         /// </summary>
-        public JointRecipeTable EditingRecipe
-        {
-            get => _editingRecipe;
-            private set
-            {
-                _editingRecipe = value;
-                OnPropertyChanged(nameof(EditingRecipe));
-            }
-        }
+        public JointRecipeTable EditingRecipe => _revertableRecipe?.EditingRecipe;
 
         /// <summary>
         /// Устанавливает рецепт для редактирования
@@ -85,30 +64,26 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             if (recipe == null)
                 throw new ArgumentNullException(nameof(recipe));
 
-            // Отписываемся от старого рецепта
-            if (EditingRecipe != null)
+            // Отписываемся от старого RevertableJointRecipe
+            if (_revertableRecipe != null)
             {
-                EditingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
+                _revertableRecipe.PropertyChanged -= OnRevertableRecipePropertyChanged;
             }
 
-            // Сохраняем ссылку на оригинал
-            _originalRecipe = recipe;
+            // Создаём новый RevertableJointRecipe
+            _revertableRecipe = new RevertableJointRecipe(recipe);
 
-            // Создаём копию для редактирования
-            EditingRecipe = JointRecipeHelper.Clone(recipe);
+            // Подписываемся на изменения HasChanges для обновления команд
+            _revertableRecipe.PropertyChanged += OnRevertableRecipePropertyChanged;
 
-            // Подписываемся на изменения копии
-            if (EditingRecipe != null)
-            {
-                EditingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
-            }
-
-            // Сбрасываем флаг изменений
-            HasChanges = false;
-
-            // Проверяем, является ли этот рецепт загруженным
+            // Уведомляем об изменении свойств
+            OnPropertyChanged(nameof(EditingRecipe));
+            OnPropertyChanged(nameof(HasChanges));
             OnPropertyChanged(nameof(IsLoadedRecipeCurrent));
             OnPropertyChanged(nameof(IsRecipeReadyForOperations));
+
+            // Обновляем состояние команд
+            System.Windows.Input.CommandManager.InvalidateRequerySuggested();
         }
 
         /// <summary>
@@ -128,21 +103,27 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             get
             {
-                if (_loadedRecipe == null || _originalRecipe == null)
+                if (_loadedRecipe == null || _revertableRecipe?.OriginalRecipe == null)
                     return false;
 
                 // Сравниваем оригинальный рецепт с загруженным
-                return JointRecipeHelper.AreEqual(_loadedRecipe, _originalRecipe);
+                return JointRecipeHelper.AreEqual(_loadedRecipe, _revertableRecipe.OriginalRecipe);
             }
         }
 
         /// <summary>
-        /// Обработчик изменений свойств редактируемого рецепта
+        /// Обработчик изменений свойств RevertableJointRecipe
         /// </summary>
-        private void OnEditingRecipePropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnRevertableRecipePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Проверяем, действительно ли есть изменения
-            HasChanges = !JointRecipeHelper.AreEqual(_originalRecipe, EditingRecipe);
+            // Пробрасываем изменения HasChanges и IsRecipeReadyForOperations
+            if (e.PropertyName == nameof(RevertableJointRecipe.HasChanges))
+            {
+                OnPropertyChanged(nameof(HasChanges));
+                OnPropertyChanged(nameof(IsRecipeReadyForOperations));
+                // Обновляем состояние команд
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            }
         }
 
         public ICommand SetModeCommand { get; }
@@ -160,22 +141,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         private bool CanSaveRecipe(object parameter)
         {
-            return !HasValidationErrors && EditingRecipe != null && _originalRecipe != null && HasChanges;
+            return !HasValidationErrors && _revertableRecipe != null && HasChanges;
         }
 
         private void SaveRecipe(object parameter)
         {
-            if (_originalRecipe == null)
+            if (_revertableRecipe == null)
                 return;
 
-            // Копируем данные из редактируемой копии обратно в оригинал
-            EditingRecipe.CopyRecipeDataTo(_originalRecipe);
-
-            // Сбрасываем флаг изменений
-            HasChanges = false;
+            // Сохраняем изменения в оригинальный рецепт
+            _revertableRecipe.Save();
 
             // Передаём обновлённый оригинал в событие
-            RecipeSaved?.Invoke(this, _originalRecipe);
+            RecipeSaved?.Invoke(this, _revertableRecipe.OriginalRecipe);
         }
 
 
@@ -184,31 +162,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         private bool CanCancelChanges(object parameter)
         {
-            return _originalRecipe != null && EditingRecipe != null && HasChanges;
+            return _revertableRecipe != null && HasChanges;
         }
 
         private void CancelChanges(object parameter)
         {
-            if (_originalRecipe == null)
+            if (_revertableRecipe == null)
                 return;
 
-            // Отписываемся от старой копии
-            if (EditingRecipe != null)
-            {
-                EditingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
-            }
+            // Отменяем все изменения
+            _revertableRecipe.Revert();
 
-            // Создаём новую копию из оригинала, отбрасывая все изменения
-            EditingRecipe = JointRecipeHelper.Clone(_originalRecipe);
-
-            // Подписываемся на новую копию
-            if (EditingRecipe != null)
-            {
-                EditingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
-            }
-
-            // Сбрасываем флаг изменений
-            HasChanges = false;
+            // Уведомляем об изменении EditingRecipe
+            OnPropertyChanged(nameof(EditingRecipe));
 
             // Уведомляем об отмене
             RecipeCancelled?.Invoke(this, EventArgs.Empty);
@@ -219,26 +185,26 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         private bool CanDeleteRecipe(object parameter)
         {
             // Можно удалить, если рецепт существует
-            return _originalRecipe != null;
+            return _revertableRecipe != null;
         }
 
         private void DeleteRecipe(object parameter)
         {
-            if (_originalRecipe == null)
+            if (_revertableRecipe == null)
                 return;
 
             // Генерируем событие удаления с оригинальным рецептом
-            RecipeDeleted?.Invoke(this, _originalRecipe);
+            RecipeDeleted?.Invoke(this, _revertableRecipe.OriginalRecipe);
 
-            // Очищаем редактируемый рецепт
-            if (EditingRecipe != null)
-            {
-                EditingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
-            }
+            // Отписываемся от RevertableJointRecipe
+            _revertableRecipe.PropertyChanged -= OnRevertableRecipePropertyChanged;
 
-            EditingRecipe = null;
-            _originalRecipe = null;
-            HasChanges = false;
+            // Очищаем
+            _revertableRecipe = null;
+
+            // Уведомляем об изменениях
+            OnPropertyChanged(nameof(EditingRecipe));
+            OnPropertyChanged(nameof(HasChanges));
         }
         private bool _hasValidationErrors;
         /// <summary>
