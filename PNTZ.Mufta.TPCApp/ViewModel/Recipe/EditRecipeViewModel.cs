@@ -64,9 +64,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             if (recipe == null)
                 throw new ArgumentNullException(nameof(recipe));
 
-            // Отписываемся от старого RevertableJointRecipe
+            // Очищаем старый рецепт если нет изменений (оптимизация памяти)
             if (_revertableRecipe != null)
             {
+                _revertableRecipe.ClearEditingIfNoChanges();
+
+                // Отписываемся от старого RevertableJointRecipe
                 _revertableRecipe.PropertyChanged -= OnRevertableRecipePropertyChanged;
             }
 

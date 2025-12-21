@@ -28,11 +28,8 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
             _originalRecipe = originalRecipe;
 
-            // Создаём копию для редактирования
-            _editingRecipe = JointRecipeHelper.Clone(_originalRecipe);
-
-            // Подписываемся на изменения копии
-            _editingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
+            // Копия будет создана при первом обращении к EditingRecipe (lazy loading)
+            _editingRecipe = null;
 
             _hasChanges = false;
         }
@@ -43,9 +40,21 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public JointRecipeTable OriginalRecipe => _originalRecipe;
 
         /// <summary>
-        /// Редактируемая копия рецепта
+        /// Редактируемая копия рецепта (создаётся при первом обращении)
         /// </summary>
-        public JointRecipeTable EditingRecipe => _editingRecipe;
+        public JointRecipeTable EditingRecipe
+        {
+            get
+            {
+                // Создаём копию при первом обращении (lazy loading)
+                if (_editingRecipe == null)
+                {
+                    _editingRecipe = JointRecipeHelper.Clone(_originalRecipe);
+                    _editingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
+                }
+                return _editingRecipe;
+            }
+        }
 
         /// <summary>
         /// Флаг наличия несохранённых изменений
@@ -84,19 +93,29 @@ namespace PNTZ.Mufta.TPCApp.Domain
             if (_editingRecipe != null)
             {
                 _editingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
+                _editingRecipe = null;
             }
-
-            // Создаём новую копию из оригинала
-            _editingRecipe = JointRecipeHelper.Clone(_originalRecipe);
-
-            // Подписываемся на новую копию
-            _editingRecipe.PropertyChanged += OnEditingRecipePropertyChanged;
 
             // Сбрасываем флаг изменений
             HasChanges = false;
 
             // Уведомляем об изменении EditingRecipe
+            // Новая копия будет создана при следующем обращении к EditingRecipe
             OnPropertyChanged(nameof(EditingRecipe));
+        }
+
+        /// <summary>
+        /// Очищает редактируемую копию если нет несохранённых изменений
+        /// Используется для оптимизации памяти
+        /// </summary>
+        public void ClearEditingIfNoChanges()
+        {
+            // Если нет изменений и копия существует - удаляем её
+            if (!HasChanges && _editingRecipe != null)
+            {
+                _editingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
+                _editingRecipe = null;
+            }
         }
 
         /// <summary>
