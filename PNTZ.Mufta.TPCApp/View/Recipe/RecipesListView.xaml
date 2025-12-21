@@ -30,60 +30,62 @@
                             BorderBrush="{StaticResource JointView_GridBorder}">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
+                            <!-- Строка 0: Название и Дата -->
                             <Label
+                                Grid.Row="0" Grid.Column="0"
                                 Content="{Binding OriginalRecipe.Name}"
                                 FontSize="14"
                                 Background="Transparent"/>
 
-                            <!-- Метка "Загружен" -->
-                            <Border x:Name="LoadedBadge"
-                                    Grid.Column="1"
-                                    Background="#27AE60"
-                                    CornerRadius="3"
-                                    Padding="5,2"
-                                    Margin="5,0"
-                                    VerticalAlignment="Center"
-                                    Visibility="Collapsed">
-                                <TextBlock Text="Загружен"
-                                           FontSize="10"
-                                           FontWeight="Bold"
-                                           Foreground="White"/>
-                            </Border>
-
-                            <!-- Метка "Есть изменения" -->
-                            <Border x:Name="HasChangesBadge"
-                                    Grid.Column="2"
-                                    Background="#F39C12"
-                                    CornerRadius="3"
-                                    Padding="5,2"
-                                    Margin="5,0"
-                                    VerticalAlignment="Center"
-                                    Visibility="{Binding HasChanges, Converter={StaticResource BoolToVis}}">
-                                <TextBlock Text="Есть изменения"
-                                           FontSize="10"
-                                           FontWeight="Bold"
-                                           Foreground="White"/>
-                            </Border>
-
                             <Label
-                                Grid.Column="3"
+                                Grid.Row="0" Grid.Column="1"
                                 Background="Transparent">
                                 <TextBlock Text="{Binding OriginalRecipe.TimeStamp, StringFormat='{}{0:dd.MM.yyyy}'}" />
                             </Label>
 
+                            <!-- Строка 1: Метки -->
+                            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                        Orientation="Horizontal"
+                                        Margin="5,2,0,2">
+                                <!-- Метка "Загружен" -->
+                                <Border x:Name="LoadedBadge"
+                                        Background="#27AE60"
+                                        CornerRadius="3"
+                                        Padding="5,2"
+                                        Margin="0,0,5,0"
+                                        Visibility="Collapsed">
+                                    <TextBlock Text="Загружен"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               Foreground="White"/>
+                                </Border>
+
+                                <!-- Метка "Есть изменения" -->
+                                <Border x:Name="HasChangesBadge"
+                                        Background="#F39C12"
+                                        CornerRadius="3"
+                                        Padding="5,2"
+                                        Margin="0,0,5,0"
+                                        Visibility="{Binding HasChanges, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Есть изменения"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               Foreground="White"/>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Строка 2: Режим свинчивания -->
                             <TextBlock
-                                Grid.Column="0" Grid.ColumnSpan="4"
-                                Grid.Row="1"
+                                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                 Background="Transparent"
                                 Text="{Binding OriginalRecipe.JointMode, Converter={StaticResource JointModeToStringConverter}}"
                                 VerticalAlignment="Center"/>
