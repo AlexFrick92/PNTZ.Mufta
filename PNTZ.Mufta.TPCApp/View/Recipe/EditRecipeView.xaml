@@ -145,6 +145,20 @@
                         Foreground="Red"/>
                 </Border>
 
+                <!-- Несохранённые изменения -->
+                <Border Background="#FFF9E5"
+                        Visibility="{Binding HasChanges, Converter={StaticResource BoolToVis}}"
+                         BorderBrush="#F39C12"
+                         BorderThickness="1"
+                         CornerRadius="0"
+                         Padding="8"
+                         Margin="0,5,0,10">
+                    <TextBlock Text="Рецепт содержит несохранённые изменения"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Foreground="#F39C12"/>
+                </Border>
+
                 <!-- ========================================
                 ОБЩИЕ ПАРАМЕТРЫ + ДАННЫЕ МУФТЫ + ПРЕДНАВЁРТКА (2 колонки)
                 ======================================== -->

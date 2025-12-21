@@ -46,7 +46,7 @@
                             <!-- Метка "Загружен" -->
                             <Border x:Name="LoadedBadge"
                                     Grid.Column="1"
-                                    Background="#E67E22"
+                                    Background="#27AE60"
                                     CornerRadius="3"
                                     Padding="5,2"
                                     Margin="5,0"
@@ -81,7 +81,7 @@
                                     <Binding Path="DataContext.LoadedRecipe" RelativeSource="{RelativeSource AncestorType=ListBox}"/>
                                 </MultiBinding>
                             </DataTrigger.Binding>
-                            <Setter TargetName="ItemBorder" Property="Background" Value="#FFE5CC"/>
+                            <Setter TargetName="ItemBorder" Property="Background" Value="#D5F4E6"/>
                             <Setter TargetName="LoadedBadge" Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
