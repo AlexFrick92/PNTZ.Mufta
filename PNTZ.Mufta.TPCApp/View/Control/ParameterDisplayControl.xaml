@@ -47,11 +47,11 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid ShowGridLines="False">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="ParamLabel"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="{StaticResource ParameterDisplay_PrevValueColumnWidth}"/>
             <ColumnDefinition Width="{StaticResource ParameterDisplay_ValueColumnWidth}"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -68,8 +68,9 @@
 
         <!-- Отображение предыдущего значения (показывается только при изменении) -->
         <TextBlock Grid.Row="0" Grid.Column="1"
-                   Margin="10,0,5,5"
+                   Margin="0,0,2,5"
                    VerticalAlignment="Bottom"
+                   HorizontalAlignment="Right"
                    FontSize="{StaticResource ParameterDisplay_Value_FontSize}"
                    FontFamily="{StaticResource ParameterDisplay_Value_FontFamily}"
                    Foreground="DimGray">
@@ -97,6 +98,7 @@
                  GotFocus="OnTextBoxGotFocus"
                  LostFocus="OnTextBoxLostFocus"
                  VerticalContentAlignment="Bottom"
+                 Margin="0,0,0,5"
                  PreviewMouseLeftButtonDown="OnTextBoxPreviewMouseLeftButtonDown"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"

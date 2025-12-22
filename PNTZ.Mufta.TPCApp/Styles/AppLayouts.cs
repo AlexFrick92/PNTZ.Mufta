@@ -14,6 +14,7 @@ namespace PNTZ.Mufta.TPCApp.Styles
 
         /// <summary>Ширина столбца значений в ParameterDisplayControl</summary>
         public static GridLength ParameterDisplay_ValueColumnWidth => GetGridLength("ParameterDisplay_ValueColumnWidth");
+        public static GridLength ParameterDisplay_PrevValueColumnWidth => GetGridLength("ParameterDisplay_PrevValueColumnWidth");
 
 
         // ==========================================

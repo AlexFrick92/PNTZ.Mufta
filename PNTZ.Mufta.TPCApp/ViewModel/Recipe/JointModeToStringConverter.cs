@@ -23,10 +23,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                         return "💪 По моменту с контролем заплечника";
 
                     case JointMode.Length:
-                        return "📐 По длине";
+                        return "📐 По глубине";
 
                     case JointMode.TorqueLength:
-                        return "💪📐 По длине с контролем момента";
+                        return "💪📐 По глубине с контролем момента";
 
                     case JointMode.Jval:
                         return "📏 По значению J";

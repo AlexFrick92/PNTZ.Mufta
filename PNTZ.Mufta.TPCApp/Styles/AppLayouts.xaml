@@ -11,7 +11,8 @@
     <!-- ========================================== -->
 
     <!-- Ширина столбца значений в ParameterDisplayControl -->
-    <GridLength x:Key="ParameterDisplay_ValueColumnWidth">100</GridLength>
+    <GridLength x:Key="ParameterDisplay_ValueColumnWidth">75</GridLength>
+    <GridLength x:Key="ParameterDisplay_PrevValueColumnWidth">65</GridLength>
 
 
     <!-- ========================================== -->

@@ -113,52 +113,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical" Margin="10" Width="auto"
                         Visibility="{Binding EditingRecipe, Converter={StaticResource NullToVisConverter}}">
-
-                <!-- ========================================
-                СТАТУС РЕДАКТИРВОАНИЯ
-                ======================================== -->
-
-                <!-- Текущий рецепт загружен -->
-                <Border Background="#D5F4E6"                           
-                         Visibility="{Binding IsLoadedRecipeCurrent, Converter={StaticResource BoolToVis }}"                         
-                         BorderBrush="#27AE60"
-                         BorderThickness="1"
-                         CornerRadius="0"
-                         Padding="8"
-                         Margin="0,5,0,10">
-                    <TextBlock Text="Этот рецепт загружен в ПЛК"
-                        FontSize="14"
-                        FontWeight="Normal"
-                        Foreground="#27AE60"/>
-                </Border>
-
-                <Border Background="#FFDEE8"
-                        Visibility="{Binding HasValidationErrors, Converter={StaticResource BoolToVis}}"
-                         BorderBrush="Red"
-                         BorderThickness="1"
-                         CornerRadius="0"
-                         Padding="8"
-                         Margin="0,5,0,10">
-                    <TextBlock Text="Ошибки в данных рецепт. Рецепт не может быть загружен или сохранён"
-                        FontSize="14"
-                        FontWeight="Normal"
-                        Foreground="Red"/>
-                </Border>
-
-                <!-- Несохранённые изменения -->
-                <Border Background="#FFF9E5"
-                        Visibility="{Binding HasChanges, Converter={StaticResource BoolToVis}}"
-                         BorderBrush="#F39C12"
-                         BorderThickness="1"
-                         CornerRadius="0"
-                         Padding="8"
-                         Margin="0,5,0,10">
-                    <TextBlock Text="Рецепт содержит несохранённые изменения"
-                        FontSize="14"
-                        FontWeight="Normal"
-                        Foreground="#F39C12"/>
-                </Border>
-
+                
                 <!-- ========================================
                 ОБЩИЕ ПАРАМЕТРЫ + ДАННЫЕ МУФТЫ + ПРЕДНАВЁРТКА (2 колонки)
                 ======================================== -->
@@ -173,7 +128,7 @@
                         <Label Style="{StaticResource ParamHeaderLabel}" Content="⚙️ Общие параметры"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-                        <ctrl:ParameterDisplayControl Label="Обороты на откр. гол."
+                        <ctrl:ParameterDisplayControl Label="Обороты откр. гол."
                                 Value="{Binding EditingRecipe.HEAD_OPEN_PULSES,
                                                 ValidatesOnExceptions=True,
                                                 NotifyOnValidationError=True}"
@@ -247,7 +202,7 @@
                         <Label Style="{StaticResource ParamHeaderLabel}" Content="🔩 Данные муфты"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-                        <ctrl:ParameterDisplayControl Label="Мин. длина"
+                        <ctrl:ParameterDisplayControl Label="Мин. размер"
                                 Value="{Binding EditingRecipe.Box_Len_Min}"
                                 OriginalValue="{Binding OriginalRecipe.Box_Len_Min}"
                                 IsReadOnly="False">
@@ -256,7 +211,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Макс. длина"
+                        <ctrl:ParameterDisplayControl Label="Макс. размер"
                                 Value="{Binding EditingRecipe.Box_Len_Max}"
                                 OriginalValue="{Binding OriginalRecipe.Box_Len_Max}"
                                 IsReadOnly="False">
@@ -278,7 +233,7 @@
                         <Label Style="{StaticResource ParamHeaderLabel}" Content="🔧 Преднавёртка" Margin="0,20,0,0"/>
                         <Border Style="{StaticResource HeaderUnderStroke}"/>
 
-                        <ctrl:ParameterDisplayControl Label="Мин. длина"
+                        <ctrl:ParameterDisplayControl Label="Мин. глубина"
                                 Value="{Binding EditingRecipe.Pre_Len_Min}"
                                 OriginalValue="{Binding OriginalRecipe.Pre_Len_Min}"
                                 IsReadOnly="False">
@@ -287,7 +242,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Макс. длина"
+                        <ctrl:ParameterDisplayControl Label="Макс. глубина"
                                 Value="{Binding EditingRecipe.Pre_Len_Max}"
                                 OriginalValue="{Binding OriginalRecipe.Pre_Len_Max}"
                                 IsReadOnly="False">
@@ -384,10 +339,10 @@
                                     <Setter Property="Content" Value="💪 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ВЫСТУПА"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding EditingRecipe.JointMode}" Value="{x:Static joint:JointMode.Length}">
-                                    <Setter Property="Content" Value="📐 Параметры контроля свинчивания: КОНТРОЛЬ ДЛИНЫ"/>
+                                    <Setter Property="Content" Value="📐 Параметры контроля свинчивания: КОНТРОЛЬ ГЛУБИНЫ"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding EditingRecipe.JointMode}" Value="{x:Static joint:JointMode.TorqueLength}">
-                                    <Setter Property="Content" Value="📐 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ДЛИНЫ"/>
+                                    <Setter Property="Content" Value="📐 Параметры контроля свинчивания: КОНТРОЛЬ МОМЕНТА И ГЛУБИНЫ"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -406,7 +361,7 @@
                     <!-- ЛЕВАЯ КОЛОНКА: Параметры момента -->
                     <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
 
-                        <ctrl:ParameterDisplayControl Label="Крутящий момент сброса, Нм"
+                        <ctrl:ParameterDisplayControl Label="Кр. момент сброса, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Dump}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Tq_Dump}"
                                     IsReadOnly="False">
@@ -415,7 +370,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Оптимальный крутящий момент, Нм"
+                        <ctrl:ParameterDisplayControl Label="Оптим. кр. момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Opt}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Tq_Opt}"
                                     IsReadOnly="False">
@@ -424,7 +379,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Мин. крутящий момент, Нм"
+                        <ctrl:ParameterDisplayControl Label="Мин. кр. момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Min}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Tq_Min}"
                                     IsReadOnly="False">
@@ -444,7 +399,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Макс. крутящий момент, Нм"
+                        <ctrl:ParameterDisplayControl Label="Макс. кр. момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Max}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Tq_Max}"
                                     IsReadOnly="False">
@@ -466,7 +421,7 @@
 
                         <Label/>
 
-                        <ctrl:ParameterDisplayControl Label="Опорный крутящий момент, Нм"
+                        <ctrl:ParameterDisplayControl Label="Опорный кр. момент, Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Ref}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Tq_Ref}"
                                     IsReadOnly="False">
@@ -475,7 +430,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Крутящий момент автосохранения, Нм"
+                        <ctrl:ParameterDisplayControl Label="Кр. момент автосохр., Нм"
                                     Value="{Binding EditingRecipe.MU_Tq_Save}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Tq_Save}"
                                     IsReadOnly="False">
@@ -496,7 +451,7 @@
 
                     <!-- ПРАВАЯ КОЛОНКА: Уменьшение скорости -->
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
-                        <ctrl:ParameterDisplayControl Label="Уменьш. скор. 1 крут. момента, Нм"
+                        <ctrl:ParameterDisplayControl Label="Кр. момент 1 скорость, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_1}"
                                     OriginalValue="{Binding OriginalRecipe.MU_TqSpeedRed_1}"
                                     IsReadOnly="False">
@@ -515,7 +470,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Уменьш. скор. 2 крут. момента, Нм"
+                        <ctrl:ParameterDisplayControl Label="Кр. момент 2 скорость, Нм"
                                     Value="{Binding EditingRecipe.MU_TqSpeedRed_2}"
                                     OriginalValue="{Binding OriginalRecipe.MU_TqSpeedRed_2}"
                                     IsReadOnly="False">
@@ -534,7 +489,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Минимальный момент на плече, Нм"
+                        <ctrl:ParameterDisplayControl Label="Мин. кр. момент ПЛЕЧО, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Min}"
                                     OriginalValue="{Binding OriginalRecipe.MU_TqShoulder_Min}"
                                     Visibility="{Binding EditingRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}"
@@ -544,7 +499,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Максимальный момент на плече, Нм"
+                        <ctrl:ParameterDisplayControl Label="Макс. кр. момент ПЛЕЧО, Нм"
                                     Value="{Binding EditingRecipe.MU_TqShoulder_Max}"
                                     OriginalValue="{Binding OriginalRecipe.MU_TqShoulder_Max}"
                                     Visibility="{Binding EditingRecipe.JointMode, Converter={StaticResource JointModeToVisConverter}, ConverterParameter={x:Static domain:JointMode.TorqueShoulder}}"
@@ -554,7 +509,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Сброс глубины свинчивания, мм"
+                        <ctrl:ParameterDisplayControl Label="Точка сброса, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Dump}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Len_Dump}"
                                     IsReadOnly="False">
@@ -573,7 +528,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 1, мм"
+                        <ctrl:ParameterDisplayControl Label="Глубина скорость 1, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_1}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Len_Speed_1}"
                                     IsReadOnly="False">
@@ -592,7 +547,7 @@
                             </ctrl:ParameterDisplayControl.ValueType>
                         </ctrl:ParameterDisplayControl>
 
-                        <ctrl:ParameterDisplayControl Label="Глубина/Уменьшение скорости 2, мм"
+                        <ctrl:ParameterDisplayControl Label="Глубина скорость 2, мм"
                                     Value="{Binding EditingRecipe.MU_Len_Speed_2}"
                                     OriginalValue="{Binding OriginalRecipe.MU_Len_Speed_2}"
                                     IsReadOnly="False">
@@ -650,6 +605,52 @@
                         </ctrl:ParameterDisplayControl>
                     </StackPanel>
                 </Grid>
+
+                <!-- ========================================
+                СТАТУС РЕДАКТИРВОАНИЯ
+                ======================================== -->
+
+                <!-- Текущий рецепт загружен -->
+                <Border Background="#D5F4E6"                           
+                     Visibility="{Binding IsLoadedRecipeCurrent, Converter={StaticResource BoolToVis }}"                         
+                     BorderBrush="#27AE60"
+                     BorderThickness="1"
+                     CornerRadius="0"
+                     Padding="8"
+                     Margin="0,5,0,10">
+                    <TextBlock Text="Этот рецепт загружен в ПЛК"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Foreground="#27AE60"/>
+                </Border>
+
+                <Border Background="#FFDEE8"
+                        Visibility="{Binding HasValidationErrors, Converter={StaticResource BoolToVis}}"
+                         BorderBrush="Red"
+                         BorderThickness="1"
+                         CornerRadius="0"
+                         Padding="8"
+                         Margin="0,5,0,10">
+                    <TextBlock Text="Ошибки в данных рецепт. Рецепт не может быть загружен или сохранён"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Foreground="Red"/>
+                </Border>
+
+                <!-- Несохранённые изменения -->
+                <Border Background="#FFF9E5"
+                        Visibility="{Binding HasChanges, Converter={StaticResource BoolToVis}}"
+                         BorderBrush="#F39C12"
+                         BorderThickness="1"
+                         CornerRadius="0"
+                         Padding="8"
+                         Margin="0,5,0,10">
+                    <TextBlock Text="Рецепт содержит несохранённые изменения"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Foreground="#F39C12"/>  
+                </Border>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
