@@ -84,12 +84,6 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="Promatis.Core, Version=2.5.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Promatis.Core.2.5.14\lib\net461\Promatis.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Promatis.Logging.NLog, Version=2.2.23.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Promatis.Logging.NLog.2.2.23\lib\net461\Promatis.Logging.NLog.dll</HintPath>
-    </Reference>
     <Reference Include="SQLitePCLRaw.batteries_green, Version=1.1.12.351, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.12\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
     </Reference>
@@ -348,9 +342,17 @@
       <Project>{1a030acc-f558-4a1f-b0fa-6de280b3d8d3}</Project>
       <Name>DpConnect</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Promatis.Core\Promatis.Core.csproj">
+      <Project>{1a63b9ca-0740-4e56-9016-4520e1b4be69}</Project>
+      <Name>Promatis.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Promatis.IoC.DryIoc\Promatis.IoC.DryIoc.csproj">
       <Project>{536c73c1-951c-4062-bcaa-01f1b86e483b}</Project>
       <Name>Promatis.IoC.DryIoc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Promatis.Logging.NLog\Promatis.Logging.NLog.csproj">
+      <Project>{7d419d99-278f-4d44-9636-b3b7ef1642fc}</Project>
+      <Name>Promatis.Logging.NLog</Name>
     </ProjectReference>
     <ProjectReference Include="..\Toolkit\Toolkit.csproj">
       <Project>{a76e092c-85bb-40ba-8c9e-a90f422ce793}</Project>

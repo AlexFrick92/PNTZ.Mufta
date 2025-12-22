@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A63B9CA-0740-4E56-9016-4520E1B4BE69}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Promatis.Core</RootNamespace>
+    <AssemblyName>Promatis.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Promatis.Core.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\AttributeHelper.cs" />
+    <Compile Include="Attributes\ConstDescriptionAttribute.cs" />
+    <Compile Include="Attributes\IdentityAttribute.cs" />
+    <Compile Include="Attributes\LocalizationAttribute.cs" />
+    <Compile Include="CommandLine\Argument\CommandLineArgumentsAttribute.cs" />
+    <Compile Include="CommandLine\Argument\CommandLineArgument.cs" />
+    <Compile Include="CommandLine\Parameter\CommandLineParameterCollection.cs" />
+    <Compile Include="CommandLine\CommandLineHelp.cs" />
+    <Compile Include="CommandLine\CommandLineEnvironment.cs" />
+    <Compile Include="CommandLine\CommandLine.cs" />
+    <Compile Include="CommandLine\CommandLineExceptions.cs" />
+    <Compile Include="CommandLine\Parameter\CommandLineParameter.cs" />
+    <Compile Include="CommandLine\Parameter\CommandLineParameterAttribute.cs" />
+    <Compile Include="CommandLine\ICommandLineConfiguration.cs" />
+    <Compile Include="Configuration\AssembliesCollection.cs" />
+    <Compile Include="Enums\ChangeType.cs" />
+    <Compile Include="Enums\EnumHelper.cs" />
+    <Compile Include="Enums\RunningMode.cs" />
+    <Compile Include="Events\CrudEventArgs.cs" />
+    <Compile Include="Events\EventArgs.cs" />
+    <Compile Include="Expressions\Visitors.cs" />
+    <Compile Include="Extensions\BindingExtensions.cs" />
+    <Compile Include="Extensions\XContainerExtensions.cs" />
+    <Compile Include="Helpers\ConfigurationHelper.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Extensions\MethodInfoExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\EventExtensions.cs" />
+    <Compile Include="Extensions\CollectionExtension.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FactoryBase.cs" />
+    <Compile Include="Guard.cs" />
+    <Compile Include="HashCode.cs" />
+    <Compile Include="Helpers\AppDomainHelper.cs" />
+    <Compile Include="Helpers\AssemblyHelper.cs" />
+    <Compile Include="IndentedTextWriter.cs" />
+    <Compile Include="Integration\IEventHandler.cs" />
+    <Compile Include="Integration\IMessageCollectionConverter.cs" />
+    <Compile Include="Integration\IMessageConverter.cs" />
+    <Compile Include="Integration\IntegrationBusSettings.cs" />
+    <Compile Include="Integration\IRequestHandler.cs" />
+    <Compile Include="Interfaces\IConverter.cs" />
+    <Compile Include="Interfaces\IHaveExternalId.cs" />
+    <Compile Include="Interfaces\IIdentifiedByGuid.cs" />
+    <Compile Include="Interfaces\IIdentifiedByInt.cs" />
+    <Compile Include="Integration\IIntegrationBus.cs" />
+    <Compile Include="Services\IInternalService.cs" />
+    <Compile Include="IoC\IIoCContainer.cs" />
+    <Compile Include="IoC\IoC.cs" />
+    <Compile Include="IoC\IocContext.cs" />
+    <Compile Include="Modularity\IModuleEntryPoint.cs" />
+    <Compile Include="Modularity\IModuleSettings.cs" />
+    <Compile Include="Results\IOperationResult.cs" />
+    <Compile Include="IO\DelayedFileSystemWatcher.cs" />
+    <Compile Include="Results\ISavingResult.cs" />
+    <Compile Include="Logging\ConsoleLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Conversion\AutoConverterBase.cs" />
+    <Compile Include="Conversion\ConvertServiceExtension.cs" />
+    <Compile Include="Conversion\IAutoConverter.cs" />
+    <Compile Include="Conversion\IConversionRules.cs" />
+    <Compile Include="Conversion\IConversionRulesFactory.cs" />
+    <Compile Include="Conversion\IConversionManager.cs" />
+    <Compile Include="Conversion\IConversionService.cs" />
+    <Compile Include="Results\OperationResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Localization.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\SavingResult.cs" />
+    <Compile Include="Services\IInternalServiceCatalog.cs" />
+    <Compile Include="SingletonBase.cs" />
+    <Compile Include="Threading\WaitLock.cs" />
+    <Compile Include="Results\ValidationError.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization.ru-RU.resx" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

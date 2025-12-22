@@ -4,14 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}</ProjectGuid>
+    <ProjectGuid>{7D419D99-278F-4D44-9636-B3B7EF1642FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DpConnect</RootNamespace>
-    <AssemblyName>DpConnect</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <RootNamespace>Promatis.Logging.NLog</RootNamespace>
+    <AssemblyName>Promatis.Logging.NLog</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,10 +32,30 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Promatis.Logging.NLog.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-net45|AnyCPU'">
+    <OutputPath>bin\Release-net45\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release-net45\Promatis.Logging.NLog.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.5.0.4\lib\net46\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,34 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\DpConfigPropertyAttribute.cs" />
-    <Compile Include="Configuration\DpConfigurationException.cs" />
-    <Compile Include="Configuration\DpConfiguration.cs" />
-    <Compile Include="Configuration\IDpConfiguration.cs" />
-    <Compile Include="Configuration\Xml\DpXmlBuilder.cs" />
-    <Compile Include="Connection\IDpBindableConnection.cs" />
-    <Compile Include="Connection\IDpConfigurableConnection.cs" />
-    <Compile Include="ContainerizedWorkerManager.cs" />
-    <Compile Include="Building\DpAction.cs" />
-    <Compile Include="Building\DpBinder.cs" />
-    <Compile Include="ContainerizedConnectionManager.cs" />
-    <Compile Include="Building\DpValue.cs" />
-    <Compile Include="Exceptions\TransportLevelDpException.cs" />
-    <Compile Include="IDpStatus.cs" />
-    <Compile Include="IDpAction.cs" />
-    <Compile Include="Connection\IDpActionSource.cs" />
-    <Compile Include="Building\IDpBinder.cs" />
-    <Compile Include="IDpBuilder.cs" />
-    <Compile Include="Connection\IDpConnection.cs" />
-    <Compile Include="Configuration\IDpConnectionConfiguration.cs" />
-    <Compile Include="IDpConnectionManager.cs" />
-    <Compile Include="Configuration\IDpSourceConfiguration.cs" />
-    <Compile Include="IDpValue.cs" />
-    <Compile Include="IDpWorker.cs" />
-    <Compile Include="Connection\IDpValueSource.cs" />
-    <Compile Include="IDpWorkerManager.cs" />
+    <Compile Include="NLogLogger.cs" />
+    <Compile Include="NLogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Connection\SourceDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

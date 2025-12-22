@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>$copyright$</copyright>
+    <icon>icon.png</icon>
+    <tags>core common promatis</tags>
+  </metadata>
+  <files>
+    <file src="bin\$Configuration$\ru-RU\$id$.resources.dll" target="lib\net461\ru-RU\$id$.resources.dll" />
+    <file src="..\.nuget\icon.png" target="\" />
+  </files>
+</package>

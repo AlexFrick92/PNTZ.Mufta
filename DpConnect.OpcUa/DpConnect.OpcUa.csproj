@@ -50,9 +50,6 @@
     <Reference Include="Opc.Ua.Security.Certificates, Version=1.4.370.0, Culture=neutral, PublicKeyToken=bfa7a73c5cf4b6e8, processorArchitecture=MSIL">
       <HintPath>..\packages\OPCFoundation.NetStandard.Opc.Ua.Security.Certificates.1.4.370.12\lib\net462\Opc.Ua.Security.Certificates.dll</HintPath>
     </Reference>
-    <Reference Include="Promatis.Core, Version=2.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Promatis.Core.2.5.12\lib\net461\Promatis.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -95,6 +92,10 @@
     <ProjectReference Include="..\DpConnect\DpConnect.csproj">
       <Project>{1a030acc-f558-4a1f-b0fa-6de280b3d8d3}</Project>
       <Name>DpConnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Promatis.Core\Promatis.Core.csproj">
+      <Project>{1a63b9ca-0740-4e56-9016-4520e1b4be69}</Project>
+      <Name>Promatis.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Promatis.Opc.UA.Client\Promatis.Opc.UA.Client.csproj">
       <Project>{d6b9f819-ddca-4cbd-98cc-8d13a67a18f3}</Project>
