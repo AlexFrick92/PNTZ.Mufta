@@ -20,7 +20,8 @@
     <Grid>
         <ListBox Grid.Row="1" ItemsSource="{Binding JointRecipes}" SelectedItem="{Binding SelectedRecipe}"
          BorderThickness="0"
-         HorizontalContentAlignment="Stretch">
+         HorizontalContentAlignment="Stretch"
+         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border x:Name="ItemBorder"
@@ -40,10 +41,13 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Строка 0: Название и Дата -->
-                            <Label
+                            <TextBlock
                                 Grid.Row="0" Grid.Column="0"
-                                Content="{Binding OriginalRecipe.Name}"
+                                Text="{Binding OriginalRecipe.Name}"
                                 FontSize="14"
+                                TextTrimming="CharacterEllipsis"
+                                ToolTip="{Binding OriginalRecipe.Name}"
+                                VerticalAlignment="Center"
                                 Background="Transparent"/>
 
                             <Label
