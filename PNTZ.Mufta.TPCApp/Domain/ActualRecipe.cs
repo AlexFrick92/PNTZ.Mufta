@@ -1,4 +1,5 @@
-﻿using PNTZ.Mufta.TPCApp.Repository;
+﻿using PNTZ.Mufta.TPCApp.DpConnect;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,20 @@ namespace PNTZ.Mufta.TPCApp.Domain
     /// </summary>
     public class ActualRecipe : IRecipeTableLoader
     {
+        private readonly RecipeDpWorker _recipeDpWorker;
+        public ActualRecipe(RecipeDpWorker recipeDpWorker)
+        {
+            _recipeDpWorker = recipeDpWorker;
+        }
         public JointRecipeTable LoadedRecipe => throw new NotImplementedException();
 
         public event EventHandler<JointRecipeTable> RecipeLoaded;
         public event EventHandler<JointRecipeTable> RecipeLoadFailed;
 
         public async Task LoadRecipeAsync(JointRecipeTable recipe)
-        {
-            await Task.Delay(1000); // Симуляция асинхронной операции
-            throw new NotImplementedException();
+        {            
+            await _recipeDpWorker.LoadRecipeAsync(recipe);            
+            RecipeLoaded?.Invoke(this, recipe); 
         }
     }
 }

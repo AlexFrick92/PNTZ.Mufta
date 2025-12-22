@@ -58,7 +58,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                     //LoadRecipeAsync должен возвращать загруженный рецепт
                     //Теоретически, так как рецепт загружает recipeLoader, он может его модифицировать?
                     //Поэтму, фактически загруженный рецепт должен быть взят после процедуры загрузки.
-                    await recipeLoader.LoadRecipeAsync(EditRecipe.Recipe);
+                    //await recipeLoader.LoadRecipeAsync(EditRecipe.Recipe);
 
                     //Здесь мы делаем допущение, что загруженный рецепт, это тот, что мы передали в функцию загрузки
                     LoadedRecipe = EditRecipe.Recipe;

@@ -89,7 +89,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             CliViewModel = new CliViewModel(cliUI);            
 
             RecipeView = new RecipesView();
-            RecipesViewModel recipesViewModel = new RecipesViewModel(repositoryContext, new ActualRecipe());            
+            RecipesViewModel recipesViewModel = new RecipesViewModel(repositoryContext, new ActualRecipe(workerManager.ResolveWorker<RecipeDpWorker>().First()));            
             RecipeView.DataContext = recipesViewModel;
 
 

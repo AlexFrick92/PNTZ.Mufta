@@ -5,7 +5,7 @@ using DpConnect;
 using DpConnect.Exceptions;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect.Struct;
-
+using PNTZ.Mufta.TPCApp.Repository;
 using Promatis.Core.Logging;
 
 
@@ -24,8 +24,8 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
 
         public bool LoadingProcedureStarted { get; private set; }
 
-        public event EventHandler<JointRecipe> RecipeLoaded;
-        public JointRecipe LoadedRecipe;
+        public event EventHandler<JointRecipeTable> RecipeLoaded;
+        public JointRecipeTable LoadedRecipe;
 
         public RecipeDpWorker(ILogger logger)
         {
@@ -37,7 +37,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect
         }
 
         private readonly object locker = new object();
-        public async Task LoadRecipeAsync(JointRecipe recipe)
+        public async Task LoadRecipeAsync(JointRecipeTable recipe)
         {
             lock (locker)
             {

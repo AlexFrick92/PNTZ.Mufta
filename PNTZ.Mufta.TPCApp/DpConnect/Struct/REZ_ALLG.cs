@@ -1,5 +1,5 @@
 ﻿using PNTZ.Mufta.TPCApp.Domain;
-
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 
 namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
@@ -24,7 +24,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
 
     static public class REZ_ALLG_Helper
     {
-        public static REZ_ALLG FromRecipe(this REZ_ALLG instance, JointRecipe recipe)
+        public static REZ_ALLG FromRecipe(this REZ_ALLG instance, JointRecipeTable recipe)
         {
             REZ_ALLG rez = new REZ_ALLG();
 

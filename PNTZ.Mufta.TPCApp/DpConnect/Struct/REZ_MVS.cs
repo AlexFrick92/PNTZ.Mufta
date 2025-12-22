@@ -1,4 +1,5 @@
 ﻿using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
     }
     static public class REZ_MVS_Helper
     {
-        public static REZ_MVS FromRecipe(this REZ_MVS instance, JointRecipe recipe)
+        public static REZ_MVS FromRecipe(this REZ_MVS instance, JointRecipeTable recipe)
         {
             REZ_MVS rez = new REZ_MVS();
 

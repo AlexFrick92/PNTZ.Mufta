@@ -1,4 +1,5 @@
 ﻿using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 
 namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
@@ -12,7 +13,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
 
     static public class REZ_Muffe_Helper
     {
-        public static REZ_Muffe FromRecipe(this REZ_Muffe instance, JointRecipe recipe)
+        public static REZ_Muffe FromRecipe(this REZ_Muffe instance, JointRecipeTable recipe)
         {
             REZ_Muffe rez = new REZ_Muffe();
 

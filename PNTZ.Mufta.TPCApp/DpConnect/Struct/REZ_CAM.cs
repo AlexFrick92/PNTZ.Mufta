@@ -1,4 +1,5 @@
 ﻿using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 
 
@@ -37,7 +38,7 @@ namespace PNTZ.Mufta.TPCApp.DpConnect.Struct
 
     static public class REZ_CAM_Helper
     {
-        public static REZ_CAM FromRecipe(this REZ_CAM instance, JointRecipe recipe)
+        public static REZ_CAM FromRecipe(this REZ_CAM instance, JointRecipeTable recipe)
         {
             REZ_CAM rez = new REZ_CAM();
 
