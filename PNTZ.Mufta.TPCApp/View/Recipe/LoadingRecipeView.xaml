@@ -12,7 +12,7 @@
         xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"
         d:DataContext="{d:DesignInstance Type=viewmodel:LoadingRecipeViewModel}"
 
-        Title="LoadingRecipeView" Height="200" Width="350">
+        Title="LoadingRecipeView" Height="150" Width="350">
 
     <Border BorderBrush="DarkGray" BorderThickness="3">
         <Grid Margin="10">
@@ -20,49 +20,21 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <TextBox
-                Grid.Row="0"
-                IsReadOnly="True"
-                BorderThickness="0"
-                FontSize="14"
-                TextAlignment="Center"
-                Margin="0,0,0,10"
-                Text="Загрузка рецепта:"/>
+               Grid.Row="0"
+               IsReadOnly="True"
+               HorizontalAlignment="Center"
+               BorderThickness="0"
+               FontSize="16"
+               FontWeight="Bold"
+               Margin="0,0,0,15"
+               Text="{Binding RecipeName}"/>
+
 
             <TextBox
                 Grid.Row="1"
-                IsReadOnly="True"
-                HorizontalAlignment="Center"
-                BorderThickness="0"
-                FontSize="16"
-                FontWeight="Bold"
-                Margin="0,0,0,15"
-                Text="{Binding RecipeName}"/>
-
-            <ProgressBar
-                Grid.Row="2"
-                Height="20"
-                Margin="20,0,20,10"
-                IsIndeterminate="True">
-                <ProgressBar.Style>
-                    <Style TargetType="ProgressBar">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ProgressBar.Style>
-            </ProgressBar>
-
-            <TextBox
-                Grid.Row="3"
                 IsReadOnly="True"
                 BorderThickness="0"
                 HorizontalAlignment="Center"
@@ -90,8 +62,25 @@
                 </TextBox.Style>
             </TextBox>
 
+            <ProgressBar
+                Grid.Row="2"
+                Height="30"
+                Margin="20,0,20,10"
+                IsIndeterminate="True">
+                <ProgressBar.Style>
+                    <Style TargetType="ProgressBar">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
+
             <Button
-                Grid.Row="5"
+                Grid.Row="2"
                 Content="OK"
                 Width="80"
                 Height="30"
