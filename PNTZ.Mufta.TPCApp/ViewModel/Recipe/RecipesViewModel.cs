@@ -17,10 +17,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
     {
         string nameFilter = string.Empty;
         private IRecipeTableLoader _loader;
+        private LocalRepository _repository;
         private ObservableCollection<RevertableJointRecipe> _recipes = new ObservableCollection<RevertableJointRecipe>();
 
         public RecipesViewModel(LocalRepository repository, IRecipeTableLoader loader)
         {
+            _repository = repository;
             _loader = loader;
 
             // Создаём RecipesList с нашей коллекцией
@@ -137,11 +139,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// </summary>
         private void OnRecipeSaved(object sender, RevertableJointRecipe savedRecipe)
         {
-            // Обновляем временную метку оригинального рецепта
-            savedRecipe.OriginalRecipe.TimeStamp = DateTime.UtcNow;
+            // Сохраняем рецепт в базу данных (метод сам обновит TimeStamp)
 
+            try
+            {
+                _repository.SaveRecipe(savedRecipe.OriginalRecipe);
+                RecipesList.MoveToTop(savedRecipe);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сохранения рецепта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             // Перемещаем обновлённый рецепт на первую позицию
-            RecipesList.MoveToTop(savedRecipe);
         }
 
         /// <summary>

@@ -19,9 +19,11 @@ namespace PNTZ.Mufta.TPCApp.Repository
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }    
+        }
+        private Guid _id = Guid.NewGuid();
+
         [PrimaryKey]
-        [Column(DataType = DataType.Guid)] private Guid _id = Guid.NewGuid();
+        [Column(DataType = DataType.Guid)]
         public Guid Id { get => _id; set { _id = value; OnPropertyChanged(nameof(Id)); } }
 
 

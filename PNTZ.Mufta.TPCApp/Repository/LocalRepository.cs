@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using Promatis.Core.Extensions;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace PNTZ.Mufta.TPCApp.Repository
 {
@@ -66,6 +67,30 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 else
                 {
                     db.Insert(new JointRecipeTable().FromJointRecipe(recipe));
+                    _logger.Info($"Рецепт {recipe.Name} создан.");
+                }
+            }
+        }
+
+        public void SaveRecipe(JointRecipeTable recipe)
+        {            
+            using (var db = new JointRecipeContext(recipesConnectionString))
+            {
+                // Ищем по Id, чтобы понять, это новый рецепт или существующий
+                var recToUpdate = db.Recipes.FirstOrDefault(r => r.Id == recipe.Id);
+
+                if (recToUpdate != null)
+                {
+                    // Копируем все свойства из recipe в найденную запись из БД
+                    recToUpdate.CopyProperties(recipe);
+                    recToUpdate.TimeStamp = DateTime.UtcNow;
+                    db.Update(recToUpdate);
+                    _logger.Info($"Рецепт {recipe.Name} обновлён.");
+                }
+                else
+                {
+                    recipe.TimeStamp = DateTime.UtcNow;
+                    db.Insert(recipe);
                     _logger.Info($"Рецепт {recipe.Name} создан.");
                 }
             }
