@@ -7,12 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D3321DB8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.Opc.UA.Client", "..\Tools\Opc.UA\Source\Client\Promatis.Opc.UA.Client.csproj", "{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DpConnect", "DpConnect", "{5C65F97A-FA34-40DA-8EE2-3C7F2129BCA3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpConnect", "..\DpConnect\DpConnect\DpConnect.csproj", "{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpConnect.OpcUa", "..\DpConnect\DpConnect.OpcUa\DpConnect.OpcUa.csproj", "{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PNTZ.Mufta.TPCApp", "PNTZ.Mufta.TPCApp\PNTZ.Mufta.TPCApp.csproj", "{212FDDFB-56AC-4EC4-B629-8FEFB2A118CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promatis.IoC.DryIoc", "..\Tools\IoC\Source\DryIoC\Promatis.IoC.DryIoc.csproj", "{536C73C1-951C-4062-BCAA-01F1B86E483B}"
@@ -33,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop", "Desktop\Desktop.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "Toolkit\Toolkit.csproj", "{A76E092C-85BB-40BA-8C9E-A90F422CE793}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpConnect", "DpConnect\DpConnect.csproj", "{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DpConnect.OpcUa", "DpConnect.OpcUa\DpConnect.OpcUa.csproj", "{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,14 +41,6 @@ Global
 		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{212FDDFB-56AC-4EC4-B629-8FEFB2A118CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{212FDDFB-56AC-4EC4-B629-8FEFB2A118CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{212FDDFB-56AC-4EC4-B629-8FEFB2A118CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,14 +65,20 @@ Global
 		{A76E092C-85BB-40BA-8C9E-A90F422CE793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A76E092C-85BB-40BA-8C9E-A90F422CE793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A76E092C-85BB-40BA-8C9E-A90F422CE793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D6B9F819-DDCA-4CBD-98CC-8D13A67A18F3} = {D3321DB8-6158-4633-A80A-E377524EAB60}
-		{1A030ACC-F558-4A1F-B0FA-6DE280B3D8D3} = {5C65F97A-FA34-40DA-8EE2-3C7F2129BCA3}
-		{3E2376E1-1220-4DD2-9E5C-297D5253C1EF} = {5C65F97A-FA34-40DA-8EE2-3C7F2129BCA3}
 		{536C73C1-951C-4062-BCAA-01F1B86E483B} = {D3321DB8-6158-4633-A80A-E377524EAB60}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
