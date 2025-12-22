@@ -14,6 +14,45 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
+        <!-- Базовый стиль для кнопок без фона -->
+        <Style x:Key="TransparentButtonBase" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Gray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стили для конкретных кнопок -->
+        <Style x:Key="ButtonCreate" TargetType="Button" BasedOn="{StaticResource TransparentButtonBase}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+        <Style x:Key="ButtonSave" TargetType="Button" BasedOn="{StaticResource TransparentButtonBase}">
+            <Setter Property="Foreground" Value="DodgerBlue"/>
+        </Style>
+
+        <Style x:Key="ButtonCancel" TargetType="Button" BasedOn="{StaticResource TransparentButtonBase}">
+            <Setter Property="Foreground" Value="#F39C12"/>
+        </Style>
+
+        <Style x:Key="ButtonDelete" TargetType="Button" BasedOn="{StaticResource TransparentButtonBase}">
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+
+        <Style x:Key="ButtonDuplicate" TargetType="Button" BasedOn="{StaticResource TransparentButtonBase}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+        <Style x:Key="ButtonLoad" TargetType="Button" BasedOn="{StaticResource TransparentButtonBase}">
+            <Setter Property="Foreground" Value="ForestGreen"/>
+        </Style>
     </UserControl.Resources>
 
     <!-- ========================================
@@ -61,8 +100,7 @@
                        BorderThickness="0"/>
 
                 <Button Grid.Column="1"
-                        Margin="5"
-                        Padding="10,5"
+                        Style="{StaticResource ButtonCreate}"
                         Command="{Binding NewRecipeCommand}"
                         Content="📄 Создать"/>
             </Grid>
@@ -99,34 +137,29 @@
                 КНОПКИ УПРАВЛЕНИЯ РЕЦЕПТОМ
                 ======================================== -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
-                    <Button  Margin="5"
-                             Padding="10,5"
-                             Command="{Binding EditRecipeViewModel.SaveRecipeCommand}"
-                             Content="💾 Сохранить"/>    
+                    <Button Style="{StaticResource ButtonSave}"
+                            Command="{Binding EditRecipeViewModel.SaveRecipeCommand}"
+                            Content="💾 Сохранить"/>    
 
-                    <Button Margin="5"
-                             Padding="10,5"
-                             Command="{Binding EditRecipeViewModel.CancelCommand}"
-                             Content="❌ Отменить"/>
+                    <Button Style="{StaticResource ButtonCancel}"
+                            Command="{Binding EditRecipeViewModel.CancelCommand}"
+                            Content="❌ Отменить"/>
 
-                    <Button Margin="5"
-                             Padding="10,5"
-                             Command="{Binding EditRecipeViewModel.DeleteRecipeCommand}"
-                             Content="🗑️ Удалить"/>
+                    <Button Style="{StaticResource ButtonDelete}"
+                            Command="{Binding EditRecipeViewModel.DeleteRecipeCommand}"
+                            Content="🗑️ Удалить"/>
 
-                    <Button Margin="5"
-                             Padding="10,5"
-                             Command="{Binding DuplicateRecipeCommand}"
-                             Content="📋 Дублировать"/>
+                    <Button Style="{StaticResource ButtonDuplicate}"
+                            Command="{Binding DuplicateRecipeCommand}"
+                            Content="📋 Дублировать"/>
 
                     <Border Width="0.5"
                             Margin="10,5,10,5"
                             Background="{StaticResource JointView_GridBorder}"/>
 
-                    <Button Margin="5"
-                             Padding="10,5"
-                             Command="{Binding LoadRecipeCommand}"
-                             Content="🡇 Загрузить"/>
+                    <Button Style="{StaticResource ButtonLoad}"
+                            Command="{Binding LoadRecipeCommand}"
+                            Content="🡇 Загрузить"/>
 
                 </StackPanel>
             </Grid>
