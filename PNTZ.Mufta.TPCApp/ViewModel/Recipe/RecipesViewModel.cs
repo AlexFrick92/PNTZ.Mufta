@@ -59,6 +59,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             // Команда создания нового рецепта
             NewRecipeCommand = new RelayCommand(CreateNewRecipe);
 
+            // Команда дублирования рецепта
+            DuplicateRecipeCommand = new RelayCommand(DuplicateRecipe, CanDuplicateRecipe);
+
             // Загружаем рецепты в коллекцию, оборачивая каждый в RevertableJointRecipe
             foreach (var recipe in filtered)
             {
@@ -84,6 +87,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Команда создания нового рецепта
         /// </summary>
         public ICommand NewRecipeCommand { get; }
+
+        /// <summary>
+        /// Команда дублирования рецепта
+        /// </summary>
+        public ICommand DuplicateRecipeCommand { get; }
 
         /// <summary>
         /// Флаг выполнения загрузки рецепта
@@ -137,6 +145,53 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         private void CreateNewRecipe(object parameter)
         {
             NewRecipeViewModel newRecipeViewModel = new NewRecipeViewModel();
+            NewRecipeView newRecipeView = new NewRecipeView(newRecipeViewModel);
+            newRecipeView.Owner = Application.Current.MainWindow;
+
+            newRecipeViewModel.RecipeCreated += (o, createdRecipe) =>
+            {
+                // Оборачиваем в RevertableJointRecipe
+                var revertableRecipe = new RevertableJointRecipe(createdRecipe);
+
+                // Добавляем в начало списка
+                _recipes.Insert(0, revertableRecipe);
+
+                // Устанавливаем для редактирования
+                EditRecipeViewModel.SetEditingRecipe(revertableRecipe);
+
+                // Устанавливаем как выбранный в списке
+                RecipesList.SelectedRecipe = revertableRecipe;
+
+                newRecipeView.Close();
+            };
+
+            newRecipeViewModel.Canceled += (o, e) =>
+            {
+                newRecipeView.Close();
+            };
+
+            newRecipeView.ShowDialog();
+        }
+
+        /// <summary>
+        /// Проверка возможности дублирования рецепта
+        /// </summary>
+        private bool CanDuplicateRecipe(object parameter)
+        {
+            return RecipesList.SelectedRecipe != null && !RecipesList.SelectedRecipe.IsNew;
+        }
+
+        /// <summary>
+        /// Дублирование рецепта
+        /// </summary>
+        private void DuplicateRecipe(object parameter)
+        {
+            var selectedRecipe = RecipesList.SelectedRecipe;
+            if (selectedRecipe == null || selectedRecipe.IsNew)
+                return;
+
+            // Создаём ViewModel для дублирования с передачей исходного рецепта
+            NewRecipeViewModel newRecipeViewModel = new NewRecipeViewModel(selectedRecipe.OriginalRecipe);
             NewRecipeView newRecipeView = new NewRecipeView(newRecipeViewModel);
             newRecipeView.Owner = Application.Current.MainWindow;
 

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Recipe"
+        xmlns:conv="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel.Recipe"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -16,7 +17,17 @@
         d:DataContext="{d:DesignInstance Type=viewmodel:NewRecipeViewModel}"
 
 
-        Title="NewRecipeView" Height="300" Width="600">
+        Title="Создание рецепта" Height="300" Width="600">
+
+    <Window.Style>
+        <Style TargetType="Window">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsBasedOnExisting}" Value="True">
+                    <Setter Property="Title" Value="Дублирование рецепта"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
 
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CancelCmd}"/>
@@ -25,6 +36,8 @@
 
     <Window.Resources>
         <view:EnumEqualityConverter x:Key="EnumEqualityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <conv:JointModeToStringConverter x:Key="JointModeToStringConverter"/>
 
         <Style x:Key="BorderSeparatorStyle" TargetType="Border">
             <Setter Property="BorderBrush" Value="#cecece"/>
@@ -85,10 +98,31 @@
                      Margin="0,0,0,15"
                      Text="{Binding RecipeName, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <!-- Выбор режима -->
-            <Label Grid.Row="2" Content="Выберите режим свинчивания:" FontWeight="Bold" Margin="0,0,0,5"/>
+            <!-- Выбор режима (скрывается при дублировании) -->
+            <Label Grid.Row="2" Content="Выберите режим свинчивания:" FontWeight="Bold" Margin="0,0,0,5">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBasedOnExisting}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
             <WrapPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                <WrapPanel.Style>
+                    <Style TargetType="WrapPanel">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBasedOnExisting}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </WrapPanel.Style>
                 <Button Tag="{x:Static domain:JointMode.Torque}" Style="{StaticResource SelectModeButtonColored}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -139,6 +173,31 @@
                     </Grid>
                 </Button>
             </WrapPanel>
+
+            <!-- Информация о реферальном рецепте (показывается при дублировании) -->
+            <StackPanel Grid.Row="2" Grid.RowSpan="2" Orientation="Vertical" Margin="0,0,0,10"
+                        Visibility="{Binding IsBasedOnExisting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Label Content="Рецепт создаётся на основе:" FontWeight="Bold" Margin="0,0,0,5"/>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Padding="10" Background="#F5F5F5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Название:" FontWeight="Bold" Margin="0,0,10,5"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SourceRecipe.Name}" VerticalAlignment="Center" Margin="0,0,0,5"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="Режим:" FontWeight="Bold" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SourceRecipe.JointMode, Converter={StaticResource JointModeToStringConverter}}" VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
 
             <!-- Ошибка -->
             <TextBox Grid.Row="4"

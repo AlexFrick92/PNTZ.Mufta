@@ -1,6 +1,7 @@
 ﻿using Desktop.MVVM;
 using DevExpress.Xpf.Charts;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Domain.Helpers;
 using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,42 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 {
     public class NewRecipeViewModel : BaseViewModel
     {
-
-
+        /// <summary>
+        /// Конструктор для создания рецепта с нуля
+        /// </summary>
         public NewRecipeViewModel()
         {
             // Устанавливаем режим по умолчанию
             Recipe.JointMode = JointMode.Torque;
 
+            InitializeCommands();
+        }
+
+        /// <summary>
+        /// Конструктор для дублирования существующего рецепта
+        /// </summary>
+        /// <param name="sourceRecipe">Рецепт-основа для дублирования</param>
+        public NewRecipeViewModel(JointRecipeTable sourceRecipe)
+        {
+            if (sourceRecipe == null)
+                throw new ArgumentNullException(nameof(sourceRecipe));
+
+            // Сохраняем ссылку на исходный рецепт
+            SourceRecipe = sourceRecipe;
+            IsBasedOnExisting = true;
+
+            // Клонируем рецепт со всеми его свойствами
+            Recipe = JointRecipeHelper.Clone(sourceRecipe);
+
+            // Сбрасываем Id и TimeStamp для нового рецепта
+            Recipe.Id = Guid.Empty;
+            Recipe.TimeStamp = DateTime.Now;
+
+            InitializeCommands();
+        }
+
+        private void InitializeCommands()
+        {
             CreateRecipeCmd = new RelayCommand((arg) =>
             {
                 try
@@ -94,6 +124,16 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public string RecipeName { get; set; }
 
         public string Error { get; set; }
+
+        /// <summary>
+        /// Исходный рецепт, на основе которого создаётся новый (для режима дублирования)
+        /// </summary>
+        public JointRecipeTable SourceRecipe { get; private set; }
+
+        /// <summary>
+        /// Флаг, указывающий, что рецепт создаётся на основе существующего
+        /// </summary>
+        public bool IsBasedOnExisting { get; private set; }
 
     }
 }

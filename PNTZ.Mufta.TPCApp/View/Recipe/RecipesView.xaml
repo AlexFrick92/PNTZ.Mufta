@@ -155,6 +155,11 @@
                              Command="{Binding EditRecipeViewModel.DeleteRecipeCommand}"
                              Content="🗑️ Удалить"/>
 
+                    <Button Margin="5"
+                             Padding="10,5"
+                             Command="{Binding DuplicateRecipeCommand}"
+                             Content="📋 Дублировать"/>
+
                     <Border Width="0.5"
                             Margin="10,5,10,5"
                             Background="{StaticResource JointView_GridBorder}"/>
