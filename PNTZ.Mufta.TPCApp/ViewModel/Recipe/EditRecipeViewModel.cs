@@ -136,6 +136,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             // Обрабатываем изменение IsNew (когда новый рецепт сохранён в БД)
             else if (e.PropertyName == nameof(RevertableJointRecipe.IsNew))
             {
+                // HasChanges также может измениться, т.к. его геттер зависит от IsNew
+                OnPropertyChanged(nameof(HasChanges));
                 OnPropertyChanged(nameof(IsRecipeReadyForOperations));
                 // Обновляем состояние команд
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();

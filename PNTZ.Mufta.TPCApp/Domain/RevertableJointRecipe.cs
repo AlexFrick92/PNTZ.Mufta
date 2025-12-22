@@ -58,10 +58,12 @@ namespace PNTZ.Mufta.TPCApp.Domain
 
         /// <summary>
         /// Флаг наличия несохранённых изменений
+        /// Для новых рецептов (IsNew = true) всегда возвращает false,
+        /// так как нет базовой версии для сравнения
         /// </summary>
         public bool HasChanges
         {
-            get => _hasChanges;
+            get => !IsNew && _hasChanges;
             private set
             {
                 if (_hasChanges != value)
@@ -90,7 +92,9 @@ namespace PNTZ.Mufta.TPCApp.Domain
             HasChanges = false;
 
             // Уведомляем об изменении IsNew (для случая, когда новый рецепт был сохранён в БД)
+            // После изменения IsNew нужно также обновить HasChanges, т.к. его геттер зависит от IsNew
             OnPropertyChanged(nameof(IsNew));
+            OnPropertyChanged(nameof(HasChanges));
         }
 
         /// <summary>
@@ -125,6 +129,17 @@ namespace PNTZ.Mufta.TPCApp.Domain
                 _editingRecipe.PropertyChanged -= OnEditingRecipePropertyChanged;
                 _editingRecipe = null;
             }
+        }
+
+        /// <summary>
+        /// Уведомляет об изменении Id (вызывается после сохранения нового рецепта в БД)
+        /// </summary>
+        public void NotifyIdChanged()
+        {
+            // Уведомляем об изменении IsNew (т.к. оно зависит от Id)
+            OnPropertyChanged(nameof(IsNew));
+            // Также уведомляем об изменении HasChanges (т.к. его геттер зависит от IsNew)
+            OnPropertyChanged(nameof(HasChanges));
         }
 
         /// <summary>

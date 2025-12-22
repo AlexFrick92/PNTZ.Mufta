@@ -183,8 +183,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             try
             {
-                // Сохраняем рецепт в базу данных асинхронно (метод сам обновит TimeStamp)
+                // Сохраняем рецепт в базу данных асинхронно
+                // (метод сам обновит TimeStamp и сгенерирует Id для новых рецептов)
                 await _repository.SaveRecipeAsync(savedRecipe.OriginalRecipe);
+
+                // Уведомляем RevertableJointRecipe об изменении Id
+                // (это обновит IsNew и HasChanges в UI)
+                savedRecipe.NotifyIdChanged();
 
                 // Перемещаем обновлённый рецепт на первую позицию
                 RecipesList.MoveToTop(savedRecipe);
