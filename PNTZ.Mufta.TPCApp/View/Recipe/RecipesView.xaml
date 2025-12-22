@@ -14,7 +14,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <converter:NullOrEmptyToBoolConverter x:Key="NullOrEmptyToBoolConverter"/>
     </UserControl.Resources>
 
     <!-- ========================================
@@ -79,62 +78,22 @@
                 Background="{StaticResource JointView_SectionHeader_Background}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <!-- Заголовок и имя рецепта -->
+                    <!-- Заголовок -->
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                     <!-- Кнопки управления рецептом -->
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Заголовок и название рецепта -->
-                <Grid Grid.Column="0" Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Row="0"
-                           Content="РЕДАКТИРОВАНИЕ РЕЦЕПТА"
-                           Foreground="{StaticResource JointView_SectionHeader_Foreground}"
-                           FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
-                           Padding="0"
-                           Margin="0">
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <!-- Значения по умолчанию (когда рецепт НЕ выбран) -->
-                                <Setter Property="FontSize" Value="{StaticResource JointView_SectionHeader_FontSize}"/>
-                                <Setter Property="FontWeight" Value="{StaticResource JointView_SectionHeader_FontWeight}"/>
-                                <Style.Triggers>
-                                    <!-- Когда рецепт выбран, уменьшаем шрифт -->
-                                    <DataTrigger Binding="{Binding EditRecipeViewModel.EditingRecipe, Converter={StaticResource NullOrEmptyToBoolConverter}}" Value="False">
-                                        <Setter Property="FontSize" Value="8"/>
-                                        <Setter Property="FontWeight" Value="Normal"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Label.Style>
-                    </Label>
-
-                    <Label Grid.Row="1"
-                           Content="{Binding EditRecipeViewModel.EditingRecipe.Name}"
-                           Foreground="Black"
-                           FontSize="{StaticResource JointView_SectionHeader_FontSize}"
-                           FontWeight="Bold"
-                           FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
-                           Padding="0"
-                           Margin="0,2,0,0">
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <Setter Property="Visibility" Value="Visible"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EditRecipeViewModel.EditingRecipe.Name, Converter={StaticResource NullOrEmptyToBoolConverter}}" Value="True">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Label.Style>
-                    </Label>
-                </Grid>
+                <!-- Заголовок -->
+                <Label Grid.Column="0"
+                       Content="РЕДАКТИРОВАНИЕ"
+                       Foreground="{StaticResource JointView_SectionHeader_Foreground}"
+                       FontSize="{StaticResource JointView_SectionHeader_FontSize}"
+                       FontWeight="{StaticResource JointView_SectionHeader_FontWeight}"
+                       FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
+                       Margin="10"
+                       BorderThickness="0"/>
 
                 <!-- ========================================
                 КНОПКИ УПРАВЛЕНИЯ РЕЦЕПТОМ
