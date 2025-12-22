@@ -1,15 +1,13 @@
 ﻿<UserControl x:Class="PNTZ.Mufta.TPCApp.View.Control.StatusBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PNTZ.Mufta.TPCApp.View.Control"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="30" d:DesignWidth="800"
-             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel" 
-             d:DataContext="{d:DesignInstance Type=viewmodel:StatusBarViewModel}"
-             >
-
+             xmlns:viewmodel="clr-namespace:PNTZ.Mufta.TPCApp.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:StatusBarViewModel}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -21,12 +19,17 @@
     <Grid>
         <Grid.Resources>
             <!-- Тексты -->
-            <Style TargetType="Label" x:Key="StatusBarLabel">
+            <Style TargetType="Label" x:Key="StatusBarHeaderLabel">
                 <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="12" />
                 <Setter Property="Foreground" Value="White" />
+                <Setter Property="Margin" Value="0,-3, 10,-10" />
             </Style>
-            <Style TargetType="Label" x:Key="StatusBarOutputLabel" BasedOn="{StaticResource StatusBarLabel}">
+            <Style TargetType="Label" x:Key="StatusBarOutputLabel">
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Margin" Value="0, 0, 0, 0"/>
                 <Setter Property="FontWeight" Value="Bold"/>
             </Style>
 
@@ -34,8 +37,9 @@
             <Style TargetType="Ellipse" x:Key="IdicatorStyle">
                 <Setter Property="Stroke" Value="Gray"/>
                 <Setter Property="StrokeThickness" Value="1"/>
+                <Setter Property="Margin" Value="0, 4, 0,0" />
             </Style>
-            
+
         </Grid.Resources>
         <Grid.Style>
             <Style TargetType="Grid">
@@ -47,28 +51,68 @@
                 </Style.Triggers>
             </Style>
         </Grid.Style>
-        
+
+        <Grid.RowDefinitions>
+            <!-- Строка с лейблами -->
+            <RowDefinition Height="auto"/>
+
+            <!-- Строка со значениями -->
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
+            <!-- Рецепт -->
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="auto"/>
+
+            <!-- Статус -->
+            <ColumnDefinition Width="Auto"/>
+
+
             <ColumnDefinition/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+
+            <!-- Соединения -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Тензодатчик -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Вращение -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Перемещение -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Бит жизни -->
+            <ColumnDefinition Width="Auto"/>
+
         </Grid.ColumnDefinitions>
 
-        
+
+        <!-- ЗАГРУЖЕННЫЙ РЕЦЕПТ -->
+        <Label Grid.Row="0" Grid.Column="0"
+            Content="Рецепт:"
+            HorizontalAlignment="Left"
+            Style="{StaticResource StatusBarHeaderLabel}"/>
+
+        <Label Grid.Row="1" Grid.Column="0"
+            HorizontalAlignment="Left">
+            <Label.Style>
+                <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
+                    <Setter Property="Content" Value="НЕ ЗАГРУЖЕН"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RecipeLoaded}" Value="True">
+                            <Setter Property="Content" Value="{Binding LoadedRecipe.Name}"/>
+                            <Setter Property="Foreground" Value="Yellow"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+
         <!-- СТАТУС СВИНЧИВАНИЕ -->
-        <StackPanel Grid.Column="1" Orientation="Horizontal"
-                    Margin="8,0,0,0"
-                    VerticalAlignment="Center">
-            <Label Content="" 
-                   Style="{StaticResource StatusBarLabel}"
-                   />
+        <Label Grid.Row="0" Grid.Column="1"
+            Content="Процесс:"
+            Style="{StaticResource StatusBarHeaderLabel}"/>
 
-
-            <Label          
-                HorizontalAlignment="Center"                      
-                Content="Идёт процесс свинчивания: ">
+        <StackPanel Grid.Row="1" Grid.Column="1"
+            Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Content="Идёт процесс свинчивания: ">
                 <Label.Style>
                     <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -82,158 +126,103 @@
             </Label>
 
             <Label
-                Content="{Binding JointStatus}"
-                Style="{StaticResource StatusBarLabel}">
-                
+                    Content="{Binding JointStatus}"
+                    Style="{StaticResource StatusBarOutputLabel}">
             </Label>
         </StackPanel>
 
-        <!-- ЗАГРУЖЕННЫЙ РЕЦЕПТ -->
-        <StackPanel Grid.Column="0" Orientation="Horizontal"
-                    Margin="8,0,8,0"
-                    VerticalAlignment="Center">
-            <Label Content="Рецепт:" 
-                   Style="{StaticResource StatusBarLabel}"
-                   />
-            
-            <Label          
-                HorizontalAlignment="Center">
-                <Label.Style>
-                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
-                        <Setter Property="Content" Value="не загружен"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RecipeLoaded}" Value="True">
-                                <Setter Property="Content" Value="{Binding LoadedRecipe.Name}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Label.Style>
-            </Label>
-        </StackPanel>
-        
-        
-        <!-- СТАТУС ПОДКЛЮЧЕНИЯ -->
-        <StackPanel Grid.Column="4" Orientation="Horizontal"
-                    Margin="0,0,8,0"
-                    VerticalAlignment="Center">
-    
-            
-            <Label Content="Соединение ПЛК:"
-                   Style="{StaticResource StatusBarLabel}"
-                   />
 
-            <Label          
-                HorizontalAlignment="Center"
-                FontWeight="Bold"
-                >
-                
-                <Label.Style>
-                    <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
-                        <Setter Property="Content" Value="НЕ ПОДКЛЮЧЕНО"/>
-                        <Setter Property="Foreground" Value="Red"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding PlcConnected}" Value="True">
-                                <Setter Property="Content" Value="ПОДКЛЮЧЕНО"/>
-                                <Setter Property="Foreground" Value="LimeGreen"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Label.Style>
-            </Label>
+        <!-- Соединение ПЛК -->
+        <Label Grid.Row="0" Grid.Column="3" 
+            Content="Соединение ПЛК:"
+                    Style="{StaticResource StatusBarHeaderLabel}"/>
+        <Label Grid.Row="1" Grid.Column="3">
+            <Label.Style>
+                <Style TargetType="Label" BasedOn="{StaticResource StatusBarOutputLabel}">
+                    <Setter Property="Content" Value="НЕ ПОДКЛЮЧЕНО"/>
+                    <Setter Property="Foreground" Value="DarkRed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PlcConnected}" Value="True">
+                            <Setter Property="Content" Value="ПОДКЛЮЧЕНО"/>
+                            <Setter Property="Foreground" Value="LimeGreen"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
 
-            <Label Content="Бит жизни:"
-                   Style="{StaticResource StatusBarLabel}"
-            />
+        <!-- Тензодатчик -->
+        <Label Grid.Row="0" Grid.Column="4"
+            Content="Тензодатчик:"
+                 Style="{StaticResource StatusBarHeaderLabel}"/>
+        <Ellipse Grid.Row="1" Grid.Column="4"
+            Width="20" Height="20" HorizontalAlignment="Center">
+            <Ellipse.Style>
+                <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
+                    <Setter Property="Fill" Value="{StaticResource GridColor}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SensorAedOk}" Value="True">
+                            <Setter Property="Fill" Value="LimeGreen"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Ellipse.Style>
+        </Ellipse>
 
-            <!-- Круг -->
-            <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,10,0"                     
-                     >
-                <Ellipse.Style>
-                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
-                        <Setter Property="Fill" Value="{StaticResource GridColor}"/>
-                        <Style.Triggers>
-                            <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
-                            <DataTrigger Binding="{Binding PlcHeartbeat}" Value="True">
-                                <Setter Property="Fill" Value="LimeGreen"/>
+        <!-- Обороты -->
 
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Ellipse.Style>
-            </Ellipse>
+        <Label Grid.Row="0" Grid.Column="5"
+            Content="Обороты:"
+                Style="{StaticResource StatusBarHeaderLabel}"/>
+        <Ellipse Grid.Row="1" Grid.Column="5"
+            Width="20" Height="20" HorizontalAlignment="Center">
+            <Ellipse.Style>
+                <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
+                    <Setter Property="Fill" Value="{StaticResource GridColor}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SensorRotateOk}" Value="True">
+                            <Setter Property="Fill" Value="LimeGreen"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Ellipse.Style>
+        </Ellipse>
 
+        <!-- Перемещение -->
+        <Label Grid.Row="0" Grid.Column="6"
+                Content="Перемещение:"
+                Style="{StaticResource StatusBarHeaderLabel}"/>
+        <Ellipse Grid.Row="1" Grid.Column="6"            
+            Width="20" Height="20" HorizontalAlignment="Center">
+            <Ellipse.Style>
+                <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
+                    <Setter Property="Fill" Value="{StaticResource GridColor}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SensorLengthOk}" Value="True">
+                            <Setter Property="Fill" Value="LimeGreen"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Ellipse.Style>
+        </Ellipse>
 
-            <Label Content="Тензодатчик:"
-                   Style="{StaticResource StatusBarLabel}"
-            />
-            <!-- Круг тензодатчик -->
-            <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,4,0"                     
-            >
-                <Ellipse.Style>
-                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
-                        <Setter Property="Fill" Value="{StaticResource GridColor}"/>
-                        <Style.Triggers>
-                            <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
-                            <DataTrigger Binding="{Binding SensorAedOk}" Value="True">
-                                <Setter Property="Fill" Value="LimeGreen"/>
-
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Ellipse.Style>
-            </Ellipse>
-
-            <Label Content="Обороты:"
-                   Style="{StaticResource StatusBarLabel}"
-            />
-            <!-- Круг датчик оборотов -->
-            <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,4,0"                     
-            >
-                <Ellipse.Style>
-                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
-                        <Setter Property="Fill" Value="{StaticResource GridColor}"/>
-                        <Style.Triggers>
-                            <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
-                            <DataTrigger Binding="{Binding SensorRotateOk}" Value="True">
-                                <Setter Property="Fill" Value="LimeGreen"/>
-
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Ellipse.Style>
-            </Ellipse>
-
-            <Label Content="Перемещение:"
-                   Style="{StaticResource StatusBarLabel}"
-            />
-            <!-- Круг датчик перемещения-->
-            <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,4,0"                     
-            >
-                <Ellipse.Style>
-                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
-                        <Setter Property="Fill" Value="{StaticResource GridColor}"/>
-                        <Style.Triggers>
-                            <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
-                            <DataTrigger Binding="{Binding SensorLengthOk}" Value="True">
-                                <Setter Property="Fill" Value="LimeGreen"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Ellipse.Style>
-            </Ellipse>
-
-
-
-
-
-
-
-
-        </StackPanel>
+        <!-- Бит жизни -->
+        <Label Grid.Row="0" Grid.Column="7"
+            Content="Бит жизни:"
+            Style="{StaticResource StatusBarHeaderLabel}"/>
+        <Ellipse Grid.Row="1" Grid.Column="7"
+            Width="20" Height="20" HorizontalAlignment="Center">
+            <Ellipse.Style>
+                <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
+                    <Setter Property="Fill" Value="{StaticResource GridColor}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PlcHeartbeat}" Value="True">
+                            <Setter Property="Fill" Value="LimeGreen"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Ellipse.Style>
+        </Ellipse>
 
     </Grid>
 </UserControl>
