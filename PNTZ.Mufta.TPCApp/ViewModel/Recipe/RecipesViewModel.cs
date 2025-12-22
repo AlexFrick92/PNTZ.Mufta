@@ -178,7 +178,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// </summary>
         private bool CanDuplicateRecipe(object parameter)
         {
-            return RecipesList.SelectedRecipe != null && !RecipesList.SelectedRecipe.IsNew;
+            return RecipesList.SelectedRecipe != null && !RecipesList.SelectedRecipe.IsNew && EditRecipeViewModel.IsRecipeReadyForOperations;
         }
 
         /// <summary>
