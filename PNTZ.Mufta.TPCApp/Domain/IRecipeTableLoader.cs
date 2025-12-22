@@ -11,8 +11,7 @@ namespace PNTZ.Mufta.TPCApp.Domain
     {
         JointRecipeTable LoadedRecipe { get; }
 
-        event EventHandler<JointRecipeTable> RecipeLoaded;
-        event EventHandler<JointRecipeTable> RecipeLoadFailed;
+        event EventHandler<JointRecipeTable> RecipeLoaded;        
 
         Task LoadRecipeAsync(JointRecipeTable recipe);
 

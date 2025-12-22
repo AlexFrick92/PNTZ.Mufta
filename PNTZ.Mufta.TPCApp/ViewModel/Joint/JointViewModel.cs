@@ -22,8 +22,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             //Подписываемся на события загрузчика рецептов
-            _recipeLoader.RecipeLoaded += OnRecipeLoaded;
-            _recipeLoader.RecipeLoadFailed += OnRecipeLoadFailed;
+            _recipeLoader.RecipeLoaded += OnRecipeLoaded;            
 
             //Подписываемся на события процесса навёртки
             //Обновление показаний датчиков - складываем в очередь для обработки в UI-потоке
@@ -82,9 +81,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Joint
             _jointProcessWorker.SetActualRecipe(recipe);
 
             _logger?.Info($"Рецепт загружен: {recipe.Name} (Режим: {recipe.JointMode})");
-        }
-        /// Обработчик ошибки загрузки рецепта
-        private void OnRecipeLoadFailed(object sender, JointRecipeTable recipe) => _logger?.Error($"Ошибка загрузки рецепта");
+        }                
         /// Обработчик новой точки данных из фонового потока
         private void OnNewTqTnLenPoint(object sender, TqTnLenPoint point) => JointProcessDataViewModel.ActualPoint = point;
         /// Обработчик появления трубы из фонового потока
