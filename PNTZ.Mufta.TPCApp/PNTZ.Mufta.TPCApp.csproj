@@ -336,10 +336,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Tools\IoC\Source\DryIoC\Promatis.IoC.DryIoc.csproj">
-      <Project>{536c73c1-951c-4062-bcaa-01f1b86e483b}</Project>
-      <Name>Promatis.IoC.DryIoc</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Desktop\Desktop.csproj">
       <Project>{5de5e5db-e497-4a6f-b9a7-870b663f6f14}</Project>
       <Name>Desktop</Name>
@@ -351,6 +347,10 @@
     <ProjectReference Include="..\DpConnect\DpConnect.csproj">
       <Project>{1a030acc-f558-4a1f-b0fa-6de280b3d8d3}</Project>
       <Name>DpConnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Promatis.IoC.DryIoc\Promatis.IoC.DryIoc.csproj">
+      <Project>{536c73c1-951c-4062-bcaa-01f1b86e483b}</Project>
+      <Name>Promatis.IoC.DryIoc</Name>
     </ProjectReference>
     <ProjectReference Include="..\Toolkit\Toolkit.csproj">
       <Project>{a76e092c-85bb-40ba-8c9e-a90f422ce793}</Project>

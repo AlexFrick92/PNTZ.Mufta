@@ -92,13 +92,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Tools\Opc.UA\Source\Client\Promatis.Opc.UA.Client.csproj">
-      <Project>{d6b9f819-ddca-4cbd-98cc-8d13a67a18f3}</Project>
-      <Name>Promatis.Opc.UA.Client</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DpConnect\DpConnect.csproj">
       <Project>{1a030acc-f558-4a1f-b0fa-6de280b3d8d3}</Project>
       <Name>DpConnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Promatis.Opc.UA.Client\Promatis.Opc.UA.Client.csproj">
+      <Project>{d6b9f819-ddca-4cbd-98cc-8d13a67a18f3}</Project>
+      <Name>Promatis.Opc.UA.Client</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
