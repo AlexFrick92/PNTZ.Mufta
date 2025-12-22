@@ -11,6 +11,7 @@ using PNTZ.Mufta.TPCApp.View.MP;
 using PNTZ.Mufta.TPCApp.View.Recipe;
 using PNTZ.Mufta.TPCApp.View.Results;
 using PNTZ.Mufta.TPCApp.ViewModel.Joint;
+using PNTZ.Mufta.TPCApp.ViewModel.Recipe;
 using Promatis.Core.Logging;
 
 using System;
@@ -34,7 +35,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public CliViewModel CliViewModel { get; set; }
         public StatusBarViewModel StatusBarViewModel { get; set; }
 
-        RecipeView RecipeView { get; set; }
+        RecipesView RecipeView { get; set; }
         JointView jointView { get; set; }
         MachineParamView MachineParamView { get; set; }
         JointResultsView ResultsView { get; set; }
@@ -56,7 +57,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         }
 
         bool connectOnStartup = false;
-        public MainViewModel(IDpWorkerManager workerManager, IDpConnectionManager connectionManager, ICliProgram cli, ICliUser cliUI, ILogger logger, LocalRepository repositoryContext)
+        public MainViewModel(IDpWorkerManager workerManager, 
+            IDpConnectionManager connectionManager, 
+            ICliProgram cli, 
+            ICliUser cliUI, 
+            ILogger logger, 
+            LocalRepository repositoryContext)
         {
             // Загрузка конфигурации
             try
@@ -82,10 +88,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             //Создаем ViewModels
             CliViewModel = new CliViewModel(cliUI);            
 
-            RecipeView = new RecipeView();
-            RecipeViewModel recViewModel = new RecipeViewModel(workerManager.ResolveWorker<RecipeDpWorker>().First(), logger, repositoryContext);
-            RecipeView.DataContext = recViewModel;
+            RecipeView = new RecipesView();
+            RecipesViewModel recipesViewModel = new RecipesViewModel(repositoryContext, new ActualRecipe());            
+            RecipeView.DataContext = recipesViewModel;
 
+
+            //MV View для параметров машины
             MachineParamView = new MachineParamView();
             MachineParamView.DataContext = new MachinParamViewModel(workerManager.ResolveWorker<MachineParamFromPlc>().First(), cli);
 
@@ -98,7 +106,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             ResultsView = new JointResultsView();
             ResultsView.DataContext = new ResultsViewModel(repositoryContext, logger);
 
-
+            RecipeViewModel recViewModel = new RecipeViewModel(workerManager.ResolveWorker<RecipeDpWorker>().First(), logger, repositoryContext);
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(), 
                 workerManager.ResolveWorker<HeartbeatCheck>().First(),
                 recViewModel as IRecipeLoader,

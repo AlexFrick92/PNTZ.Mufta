@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Domain\ActualRecipe.cs" />
     <Compile Include="Domain\EvaluationVerdict.cs" />
     <Compile Include="Domain\IJointProcessTableWorker.cs" />
     <Compile Include="Domain\IJointProcessWorker.cs" />
