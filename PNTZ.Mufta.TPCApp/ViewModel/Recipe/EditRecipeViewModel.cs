@@ -24,7 +24,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         {
             _loader = loader;
 
-            SetModeCommand = new RelayCommand(SetMode);
             SaveRecipeCommand = new RelayCommand(SaveRecipe, CanSaveRecipe);
             CancelCommand = new RelayCommand(CancelChanges, CanCancelChanges);
             DeleteRecipeCommand = new RelayCommand(DeleteRecipe, CanDeleteRecipe);
@@ -141,17 +140,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 OnPropertyChanged(nameof(IsRecipeReadyForOperations));
                 // Обновляем состояние команд
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();
-            }
-        }
-
-        public ICommand SetModeCommand { get; }
-
-        private void SetMode(object parameter)
-        {
-            if (parameter is JointMode mode && EditingRecipe != null)
-            {
-                EditingRecipe.JointMode = mode;
-                OnPropertyChanged(nameof(EditingRecipe));
             }
         }
 

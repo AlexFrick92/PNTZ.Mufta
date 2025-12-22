@@ -59,47 +59,6 @@
         <conv:NullToVisibilityConverter x:Key="NullToVisConverter"/>
         <conv:JointModeToVisibilityConverter x:Key="JointModeToVisConverter"/>
 
-        <!-- ========================================
-        СТИЛИ ДЛЯ КНОПОК РЕЖИМА
-        ======================================== -->
-
-        <Style x:Key="BorderSeparatorStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="#cecece"/>
-            <Setter Property="BorderThickness" Value="1,0,0,0"/>
-            <Setter Property="Margin" Value="2,2,2,2"/>
-        </Style>
-
-        <Style TargetType="Button" x:Key="SelectModeButtonColored">
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="Command" Value="{Binding SetModeCommand}"/>
-            <Setter Property="Height" Value="75"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
-
-            <Style.Triggers>
-                <DataTrigger Value="True">
-                    <DataTrigger.Binding>
-                        <MultiBinding Converter="{StaticResource EnumEqualityConverter}">
-                            <Binding Path="Tag" RelativeSource="{RelativeSource Self}" />
-                            <Binding Path="EditingRecipe.JointMode" />
-                        </MultiBinding>
-                    </DataTrigger.Binding>
-                    <DataTrigger.Setters>
-                        <Setter Property="Background" Value="LightGray" />
-                    </DataTrigger.Setters>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style TargetType="Label" x:Key="SelectModeButtonLabel">
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Foreground" Value="DimGray"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
     </UserControl.Resources>
 
 
@@ -262,63 +221,6 @@
                     </StackPanel>
                 </Grid>
 
-                <!-- ========================================
-                ВЫБОР РЕЖИМА СВИНЧИВАНИЯ
-                ======================================== -->
-                <Label Style="{StaticResource ParamHeaderLabel}" Content="🛠️ Режим свинчивания" Margin="0,20,0,0"/>
-                <Border Style="{StaticResource HeaderUnderStroke}"/>
-
-                <WrapPanel Orientation="Horizontal" Margin="0,10,0,10">
-                    <Button Tag="{x:Static domain:JointMode.Torque}" Style="{StaticResource SelectModeButtonColored}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorque.png"/>
-                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ"/>
-                        </Grid>
-                    </Button>
-
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
-
-                    <Button Tag="{x:Static domain:JointMode.TorqueShoulder}" Style="{StaticResource SelectModeButtonColored}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueShoulder.png"/>
-                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ и ВЫСТУП"/>
-                        </Grid>
-                    </Button>
-
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
-
-                    <Button Tag="{x:Static domain:JointMode.Length}" Style="{StaticResource SelectModeButtonColored}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeLength.png"/>
-                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="ДЛИНА"/>
-                        </Grid>
-                    </Button>
-
-                    <Border Style="{StaticResource BorderSeparatorStyle}"/>
-
-                    <Button Tag="{x:Static domain:JointMode.TorqueLength}" Style="{StaticResource SelectModeButtonColored}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Source="pack://application:,,,/PNTZ.Mufta.TPCApp;component/View/Resource/Images/ModeTorqueLength.png"/>
-                            <Label Grid.Row="1" Style="{StaticResource SelectModeButtonLabel}" Content="МОМЕНТ и ДЛИНА"/>
-                        </Grid>
-                    </Button>
-                </WrapPanel>
 
 
                 <!-- ========================================

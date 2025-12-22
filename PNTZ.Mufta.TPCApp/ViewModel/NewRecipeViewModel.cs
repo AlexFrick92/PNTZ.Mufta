@@ -17,12 +17,15 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
         public NewRecipeViewModel()
         {
+            // Устанавливаем режим по умолчанию
+            Recipe.JointMode = JointMode.Torque;
+
             CreateRecipeCmd = new RelayCommand((arg) =>
             {
                 try
                 {
                     Recipe.Name = RecipeName;
-                    RecipeCreated?.Invoke(this, Recipe); 
+                    RecipeCreated?.Invoke(this, Recipe);
                 }
                 catch(Exception ex)
                 {
@@ -36,6 +39,14 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             {
                 Canceled?.Invoke(this, Recipe);
             });
+
+            SetModeCommand = new RelayCommand((mode) => SetMode((JointMode)mode));
+        }
+
+        void SetMode(JointMode newMode)
+        {
+            Recipe.JointMode = newMode;
+            OnPropertyChanged(nameof(Recipe));
         }
 
         public event EventHandler<JointRecipeTable> RecipeCreated;
@@ -43,6 +54,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         public event EventHandler<JointRecipeTable> Canceled;
         public ICommand CreateRecipeCmd { get; set; }
         public ICommand CancelCmd { get; set; }
+        public ICommand SetModeCommand { get; set; }
         public JointRecipeTable Recipe { get; set; } = new JointRecipeTable();
 
 
