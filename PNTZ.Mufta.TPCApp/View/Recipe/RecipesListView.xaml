@@ -45,6 +45,7 @@
                                 Grid.Row="0" Grid.Column="0"
                                 Text="{Binding OriginalRecipe.Name}"
                                 FontSize="14"
+                                FontWeight="SemiBold"
                                 TextTrimming="CharacterEllipsis"
                                 ToolTip="{Binding OriginalRecipe.Name}"
                                 VerticalAlignment="Center"
