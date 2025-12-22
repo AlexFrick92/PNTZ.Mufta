@@ -1,6 +1,7 @@
 ﻿using Desktop.MVVM;
 using PNTZ.Mufta.TPCApp.Domain;
 using PNTZ.Mufta.TPCApp.DpConnect;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
     public class StatusBarViewModel : BaseViewModel
     {
 
-        public StatusBarViewModel(JointProcessDpWorker resultDpWorker, HeartbeatCheck hbWorker, IRecipeLoader recLoader, SensorStatusDpWorker sensorWorker)
+        public StatusBarViewModel(JointProcessDpWorker resultDpWorker, HeartbeatCheck hbWorker, IRecipeTableLoader recLoader, SensorStatusDpWorker sensorWorker)
         {
             ResultDpWorker = resultDpWorker;
             HbCheckWorker = hbWorker;
@@ -88,10 +89,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
         //Загруженный рецепт
         public bool RecipeLoaded { get; set; } //Пока рецепт не загруежен, покажем другой текст.
         //В перспективе, убрать эту переменную и отображать текст основываясь на null?
-        public JointRecipe LoadedRecipe { get => RecipeLoader.LoadedRecipe; }
+        public JointRecipeTable LoadedRecipe { get => RecipeLoader.LoadedRecipe; }
 
-        IRecipeLoader recipeLoader;
-        IRecipeLoader RecipeLoader
+        IRecipeTableLoader recipeLoader;
+        IRecipeTableLoader RecipeLoader
         {
             get => recipeLoader;
             set
@@ -101,12 +102,6 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
                 recipeLoader.RecipeLoaded += (s, r) =>
                 {
                     RecipeLoaded = true;
-                    OnPropertyChanged(nameof(RecipeLoaded));
-                    OnPropertyChanged(nameof(LoadedRecipe));
-                };
-                recipeLoader.RecipeLoadFailed += (s, r) =>
-                {
-                    RecipeLoaded = false;
                     OnPropertyChanged(nameof(RecipeLoaded));
                     OnPropertyChanged(nameof(LoadedRecipe));
                 };

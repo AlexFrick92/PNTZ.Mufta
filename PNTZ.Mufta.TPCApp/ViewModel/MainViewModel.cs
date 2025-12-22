@@ -89,7 +89,8 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             CliViewModel = new CliViewModel(cliUI);            
 
             RecipeView = new RecipesView();
-            RecipesViewModel recipesViewModel = new RecipesViewModel(repositoryContext, new ActualRecipe(workerManager.ResolveWorker<RecipeDpWorker>().First()));            
+            var actualRecipe = new ActualRecipe(workerManager.ResolveWorker<RecipeDpWorker>().First());
+            RecipesViewModel recipesViewModel = new RecipesViewModel(repositoryContext,actualRecipe);            
             RecipeView.DataContext = recipesViewModel;
 
 
@@ -105,11 +106,10 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             ResultsView = new JointResultsView();
             ResultsView.DataContext = new ResultsViewModel(repositoryContext, logger);
-
-            RecipeViewModel recViewModel = new RecipeViewModel(workerManager.ResolveWorker<RecipeDpWorker>().First(), logger, repositoryContext);
+            
             this.StatusBarViewModel = new StatusBarViewModel(workerManager.ResolveWorker<JointProcessDpWorker>().First(), 
                 workerManager.ResolveWorker<HeartbeatCheck>().First(),
-                recViewModel as IRecipeLoader,
+                actualRecipe as IRecipeTableLoader,
                 workerManager.ResolveWorker<SensorStatusDpWorker>().First()
                 );
             OnPropertyChanged(nameof(StatusBarViewModel));
@@ -120,7 +120,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             NaviToRecipeViewCommand = new RelayCommand((p) =>
             {
                 MainContent = RecipeView;
-                (RecipeView.DataContext as RecipeViewModel)?.RefreshRecipes();
+                
             });
             NaviToJointViewCommand = new RelayCommand((p) => MainContent = jointView);            
             NaviToMpViewCommand = new RelayCommand((p) => MainContent = MachineParamView);
