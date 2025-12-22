@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+   <!--
+    Стиль светлосиних пастельных цветов. Вдохновлен 
+    -->
+
+
+    <Color x:Key="SecondBg">#F3F3F3</Color>
+    <SolidColorBrush x:Key="SecondBgBrush" Color="{StaticResource SecondBg}"/>
+
+    <Color x:Key="TextColor">#3B3B3B</Color>
+    <SolidColorBrush x:Key="TextColorBrush" Color="{StaticResource TextColor}"/>
+
+    <Color x:Key="OutlineColor">#cecece</Color>
+    <SolidColorBrush x:Key="OutlineColorBrush" Color="{StaticResource OutlineColor}"/>
+
+    <Color x:Key="GuidelinesColor">#EBEEF3</Color>
+    <SolidColorBrush x:Key="GuidelinesColorBrush" Color="{StaticResource GuidelinesColor}"/>
+
+    <Color x:Key="ActiveBg">LightGreen</Color>
+    <SolidColorBrush x:Key="ActiveBgBrush" Color="{StaticResource ActiveBg}"/>
+
+    <Style TargetType="TextBlock">
+
+        <Style.Triggers>
+            <Trigger Property="Tag" Value="Cli">
+                <Setter Property="FontFamily" Value="Bahnschrift"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="TextBox">
+
+        <Style.Triggers>
+            <Trigger Property="Tag" Value="Cli">
+                <Setter Property="FontFamily" Value="Bahnschrift"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Border" x:Key="OutlineBorder">
+        <Setter Property="BorderBrush" Value="{StaticResource OutlineColorBrush}"/>
+    </Style>
+
+    <Style TargetType="DataGrid">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource GuidelinesColorBrush}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource GuidelinesColorBrush}"/>
+    </Style>
+
+    <Style x:Key="ContentButton" TargetType="Button">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="0"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="AliceBlue"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Azure"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

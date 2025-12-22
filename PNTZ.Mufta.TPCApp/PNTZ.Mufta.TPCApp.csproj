@@ -344,10 +344,6 @@
       <Project>{1a030acc-f558-4a1f-b0fa-6de280b3d8d3}</Project>
       <Name>DpConnect</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Toolbox\GUI\Desktop\Desktop.csproj">
-      <Project>{1a71939f-8f0d-408b-8603-f0d231af83e3}</Project>
-      <Name>Desktop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Toolbox\Toolkit\Toolkit.csproj">
       <Project>{eaa5d1e1-ad76-4f44-bb42-6dac7cc91207}</Project>
       <Name>Toolkit</Name>
@@ -355,6 +351,10 @@
     <ProjectReference Include="..\..\Tools\IoC\Source\DryIoC\Promatis.IoC.DryIoc.csproj">
       <Project>{536c73c1-951c-4062-bcaa-01f1b86e483b}</Project>
       <Name>Promatis.IoC.DryIoc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Desktop\Desktop.csproj">
+      <Project>{5de5e5db-e497-4a6f-b9a7-870b663f6f14}</Project>
+      <Name>Desktop</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
