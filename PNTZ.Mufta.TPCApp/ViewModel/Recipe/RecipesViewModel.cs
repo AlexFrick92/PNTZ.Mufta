@@ -137,20 +137,20 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// <summary>
         /// Обработчик сохранения рецепта
         /// </summary>
-        private void OnRecipeSaved(object sender, RevertableJointRecipe savedRecipe)
+        private async void OnRecipeSaved(object sender, RevertableJointRecipe savedRecipe)
         {
-            // Сохраняем рецепт в базу данных (метод сам обновит TimeStamp)
-
             try
             {
-                _repository.SaveRecipe(savedRecipe.OriginalRecipe);
+                // Сохраняем рецепт в базу данных асинхронно (метод сам обновит TimeStamp)
+                await _repository.SaveRecipeAsync(savedRecipe.OriginalRecipe);
+
+                // Перемещаем обновлённый рецепт на первую позицию
                 RecipesList.MoveToTop(savedRecipe);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка сохранения рецепта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            // Перемещаем обновлённый рецепт на первую позицию
         }
 
         /// <summary>

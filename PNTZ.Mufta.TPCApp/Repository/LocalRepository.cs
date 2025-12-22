@@ -72,25 +72,25 @@ namespace PNTZ.Mufta.TPCApp.Repository
             }
         }
 
-        public void SaveRecipe(JointRecipeTable recipe)
-        {            
+        public async Task SaveRecipeAsync(JointRecipeTable recipe)
+        {
             using (var db = new JointRecipeContext(recipesConnectionString))
             {
                 // Ищем по Id, чтобы понять, это новый рецепт или существующий
-                var recToUpdate = db.Recipes.FirstOrDefault(r => r.Id == recipe.Id);
+                var recToUpdate = await db.Recipes.FirstOrDefaultAsync(r => r.Id == recipe.Id);
 
                 if (recToUpdate != null)
                 {
                     // Копируем все свойства из recipe в найденную запись из БД
                     recToUpdate.CopyProperties(recipe);
                     recToUpdate.TimeStamp = DateTime.UtcNow;
-                    db.Update(recToUpdate);
+                    await db.UpdateAsync(recToUpdate);
                     _logger.Info($"Рецепт {recipe.Name} обновлён.");
                 }
                 else
                 {
                     recipe.TimeStamp = DateTime.UtcNow;
-                    db.Insert(recipe);
+                    await db.InsertAsync(recipe);
                     _logger.Info($"Рецепт {recipe.Name} создан.");
                 }
             }
