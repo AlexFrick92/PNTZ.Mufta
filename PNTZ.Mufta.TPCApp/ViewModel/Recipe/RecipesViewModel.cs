@@ -104,7 +104,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 var loadingViewModel = new LoadingRecipeViewModel(recipeToLoad.Name ?? "");
                 var loadingWindow = new LoadingRecipeView(loadingViewModel);
                 loadingWindow.Owner = Application.Current.MainWindow;
-
+                
                 // Запускаем загрузку в фоне
                 var loadingTask = _loader.LoadRecipeAsync(recipeToLoad);
 
@@ -118,10 +118,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 });
 
                 // Показываем модальное окно (блокирует взаимодействие с главным окном)
-                loadingWindow.ShowDialog();
-
+                loadingWindow.ShowDialog();                
                 // После закрытия окна, ждём завершения задачи (если ещё не завершена)
                 await loadingTask;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки рецепта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
