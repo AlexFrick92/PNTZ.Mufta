@@ -20,17 +20,26 @@
     </UserControl.Resources>
     <Grid>
         <Grid.Resources>
+            <!-- Тексты -->
             <Style TargetType="Label" x:Key="StatusBarLabel">
-                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="White" />
             </Style>
             <Style TargetType="Label" x:Key="StatusBarOutputLabel" BasedOn="{StaticResource StatusBarLabel}">
                 <Setter Property="FontWeight" Value="Bold"/>
             </Style>
 
+            <!-- Индикаторы -->
+            <Style TargetType="Ellipse" x:Key="IdicatorStyle">
+                <Setter Property="Stroke" Value="Gray"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+            
         </Grid.Resources>
         <Grid.Style>
             <Style TargetType="Grid">
-                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Background" Value="DimGray"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding JointInProgress}" Value="True">
                         <Setter Property="Background" Value="LightGreen"/>
@@ -52,7 +61,7 @@
         <StackPanel Grid.Column="1" Orientation="Horizontal"
                     Margin="8,0,0,0"
                     VerticalAlignment="Center">
-            <Label Content="Статус:" 
+            <Label Content="" 
                    Style="{StaticResource StatusBarLabel}"
                    />
 
@@ -125,7 +134,7 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding PlcConnected}" Value="True">
                                 <Setter Property="Content" Value="ПОДКЛЮЧЕНО"/>
-                                <Setter Property="Foreground" Value="Green"/>
+                                <Setter Property="Foreground" Value="LimeGreen"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -138,11 +147,10 @@
 
             <!-- Круг -->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,10,0"
-                     Stroke="Black" StrokeThickness="1"
+                     Margin="0,0,10,0"                     
                      >
                 <Ellipse.Style>
-                    <Style TargetType="Ellipse">
+                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
                         <Setter Property="Fill" Value="{StaticResource GridColor}"/>
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
@@ -161,11 +169,10 @@
             />
             <!-- Круг тензодатчик -->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,4,0"
-                     Stroke="Black" StrokeThickness="1"
+                     Margin="0,0,4,0"                     
             >
                 <Ellipse.Style>
-                    <Style TargetType="Ellipse">
+                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
                         <Setter Property="Fill" Value="{StaticResource GridColor}"/>
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
@@ -183,11 +190,10 @@
             />
             <!-- Круг датчик оборотов -->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,4,0"
-                     Stroke="Black" StrokeThickness="1"
+                     Margin="0,0,4,0"                     
             >
                 <Ellipse.Style>
-                    <Style TargetType="Ellipse">
+                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
                         <Setter Property="Fill" Value="{StaticResource GridColor}"/>
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
@@ -205,11 +211,10 @@
             />
             <!-- Круг датчик перемещения-->
             <Ellipse Width="20" Height="20" VerticalAlignment="Center"
-                     Margin="0,0,4,0"
-                     Stroke="Black" StrokeThickness="1"
+                     Margin="0,0,4,0"                     
             >
                 <Ellipse.Style>
-                    <Style TargetType="Ellipse">
+                    <Style TargetType="Ellipse" BasedOn="{StaticResource IdicatorStyle}">
                         <Setter Property="Fill" Value="{StaticResource GridColor}"/>
                         <Style.Triggers>
                             <!-- Триггер для запуска анимации, если свойство во ViewModel true -->
