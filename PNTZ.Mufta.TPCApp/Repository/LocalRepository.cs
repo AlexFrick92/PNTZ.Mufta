@@ -89,6 +89,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
                 }
                 else
                 {
+                    recipe.Id = Guid.NewGuid();
                     recipe.TimeStamp = DateTime.UtcNow;
                     await db.InsertAsync(recipe);
                     _logger.Info($"Рецепт {recipe.Name} создан.");

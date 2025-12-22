@@ -20,7 +20,7 @@ namespace PNTZ.Mufta.TPCApp.Repository
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        private Guid _id = Guid.NewGuid();
+        private Guid _id;
 
         [PrimaryKey]
         [Column(DataType = DataType.Guid)]

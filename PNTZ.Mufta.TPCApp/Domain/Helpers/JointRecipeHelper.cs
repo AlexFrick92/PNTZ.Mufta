@@ -71,6 +71,10 @@ namespace PNTZ.Mufta.TPCApp.Domain.Helpers
         /// </summary>
         public static void CopyRecipeDataTo(this JointRecipeTable source, JointRecipeTable target)
         {
+            // Копируем Id и TimeStamp (важно для новых рецептов)
+            target.Id = source.Id;
+            target.TimeStamp = source.TimeStamp;
+
             target.Name = source.Name;
             target.JointMode = source.JointMode;
             target.SelectedThreadType = source.SelectedThreadType;
@@ -128,9 +132,8 @@ namespace PNTZ.Mufta.TPCApp.Domain.Helpers
             if (recipe1 == null || recipe2 == null)
                 return false;
 
-            // Сравниваем все свойства
-            return recipe1.Id == recipe2.Id &&
-                   recipe1.Name == recipe2.Name &&
+            // Сравниваем свойства рецепта (Id и TimeStamp не сравниваем, т.к. они служебные)
+            return recipe1.Name == recipe2.Name &&
                    recipe1.JointMode == recipe2.JointMode &&
                    recipe1.SelectedThreadType == recipe2.SelectedThreadType &&
                    recipe1.Thread_step == recipe2.Thread_step &&

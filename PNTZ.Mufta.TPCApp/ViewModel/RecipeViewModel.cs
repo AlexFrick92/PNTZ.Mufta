@@ -73,26 +73,26 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
 
             }));
 
-            NewRecipeCommand = new RelayCommand((arg) =>
-            {
+            //NewRecipeCommand = new RelayCommand((arg) =>
+            //{
 
-                NewRecipeViewModel newRecvm = new NewRecipeViewModel();                
-                NewRecipeView newRecipeView = new NewRecipeView(newRecvm);
-                newRecvm.RecipeCreated += (o, r) =>
-                {
-                    EditRecipe = new JointRecipeViewModel(r);                    
-                    OnPropertyChanged(nameof(EditRecipe));
-                    UpdateEditRecipeField(true);
-                    newRecipeView.Close();                    
-                };
-                newRecvm.Canceled += (o, r) =>
-                {
-                    newRecipeView.Close();
-                };
+            //    NewRecipeViewModel newRecvm = new NewRecipeViewModel();                
+            //    NewRecipeView newRecipeView = new NewRecipeView(newRecvm);
+            //    newRecvm.RecipeCreated += (o, r) =>
+            //    {
+            //        EditRecipe = new JointRecipeViewModel(r);                    
+            //        OnPropertyChanged(nameof(EditRecipe));
+            //        UpdateEditRecipeField(true);
+            //        newRecipeView.Close();                    
+            //    };
+            //    newRecvm.Canceled += (o, r) =>
+            //    {
+            //        newRecipeView.Close();
+            //    };
 
 
-                newRecipeView.ShowDialog();
-            });
+            //    newRecipeView.ShowDialog();
+            //});
             
             
             SaveRecipe = new RelayCommand((arg) =>

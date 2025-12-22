@@ -1,6 +1,7 @@
 ﻿using Desktop.MVVM;
 using DevExpress.Xpf.Charts;
 using PNTZ.Mufta.TPCApp.Domain;
+using PNTZ.Mufta.TPCApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,12 @@ namespace PNTZ.Mufta.TPCApp.ViewModel
             });
         }
 
-        public event EventHandler<JointRecipe> RecipeCreated;
+        public event EventHandler<JointRecipeTable> RecipeCreated;
 
-        public event EventHandler<JointRecipe> Canceled;
+        public event EventHandler<JointRecipeTable> Canceled;
         public ICommand CreateRecipeCmd { get; set; }
         public ICommand CancelCmd { get; set; }
-        public JointRecipe Recipe { get; set; } = new JointRecipe();
+        public JointRecipeTable Recipe { get; set; } = new JointRecipeTable();
 
 
         public string RecipeName { get; set; }

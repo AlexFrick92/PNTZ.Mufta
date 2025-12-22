@@ -73,15 +73,24 @@ namespace PNTZ.Mufta.TPCApp.Domain
         }
 
         /// <summary>
+        /// Проверяет, является ли рецепт новым (ещё не сохранённым в базу данных)
+        /// </summary>
+        public bool IsNew => _originalRecipe.Id == Guid.Empty;
+
+        /// <summary>
         /// Сохраняет изменения в оригинальный рецепт
         /// </summary>
         public void Save()
         {
             // Копируем данные из редактируемой копии в оригинал
+            // (включая Id и TimeStamp, которые могли измениться после сохранения в БД)
             _editingRecipe.CopyRecipeDataTo(_originalRecipe);
 
             // Сбрасываем флаг изменений
             HasChanges = false;
+
+            // Уведомляем об изменении IsNew (для случая, когда новый рецепт был сохранён в БД)
+            OnPropertyChanged(nameof(IsNew));
         }
 
         /// <summary>

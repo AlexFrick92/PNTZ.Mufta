@@ -46,13 +46,27 @@
                 BorderThickness="0,0,1,1"
                 BorderBrush="{StaticResource JointView_GridBorder}"
                 Background="{StaticResource JointView_SectionHeader_Background}">
-            <Label Content="РЕЦЕПТЫ"
-                   Foreground="{StaticResource JointView_SectionHeader_Foreground}"
-                   FontSize="{StaticResource JointView_SectionHeader_FontSize}"
-                   FontWeight="{StaticResource JointView_SectionHeader_FontWeight}"
-                   FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
-                   Margin="10"
-                   BorderThickness="0"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                       Content="РЕЦЕПТЫ"
+                       Foreground="{StaticResource JointView_SectionHeader_Foreground}"
+                       FontSize="{StaticResource JointView_SectionHeader_FontSize}"
+                       FontWeight="{StaticResource JointView_SectionHeader_FontWeight}"
+                       FontFamily="{StaticResource JointView_SectionHeader_FontFamily}"
+                       Margin="10"
+                       BorderThickness="0"/>
+
+                <Button Grid.Column="1"
+                        Margin="5"
+                        Padding="10,5"
+                        Command="{Binding NewRecipeCommand}"
+                        Content="📄 Создать"/>
+            </Grid>
         </Border>
 
         <!-- ========================================

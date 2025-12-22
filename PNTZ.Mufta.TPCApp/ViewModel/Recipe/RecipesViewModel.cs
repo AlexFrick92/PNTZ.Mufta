@@ -56,6 +56,9 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             // Команда загрузки рецепта
             LoadRecipeCommand = new RelayCommand(LoadRecipe, CanLoadRecipe);
 
+            // Команда создания нового рецепта
+            NewRecipeCommand = new RelayCommand(CreateNewRecipe);
+
             // Загружаем рецепты в коллекцию, оборачивая каждый в RevertableJointRecipe
             foreach (var recipe in filtered)
             {
@@ -76,6 +79,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// Команда загрузки рецепта в PLC
         /// </summary>
         public ICommand LoadRecipeCommand { get; }
+
+        /// <summary>
+        /// Команда создания нового рецепта
+        /// </summary>
+        public ICommand NewRecipeCommand { get; }
 
         /// <summary>
         /// Флаг выполнения загрузки рецепта
@@ -121,6 +129,40 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 RecipeLoadingInProgress = false;
                 OnPropertyChanged(nameof(RecipeLoadingInProgress));
             }
+        }
+
+        /// <summary>
+        /// Создание нового рецепта
+        /// </summary>
+        private void CreateNewRecipe(object parameter)
+        {
+            NewRecipeViewModel newRecipeViewModel = new NewRecipeViewModel();
+            NewRecipeView newRecipeView = new NewRecipeView(newRecipeViewModel);
+            newRecipeView.Owner = Application.Current.MainWindow;
+
+            newRecipeViewModel.RecipeCreated += (o, createdRecipe) =>
+            {
+                // Оборачиваем в RevertableJointRecipe
+                var revertableRecipe = new RevertableJointRecipe(createdRecipe);
+
+                // Добавляем в начало списка
+                _recipes.Insert(0, revertableRecipe);
+
+                // Устанавливаем для редактирования
+                EditRecipeViewModel.SetEditingRecipe(revertableRecipe);
+
+                // Устанавливаем как выбранный в списке
+                RecipesList.SelectedRecipe = revertableRecipe;
+
+                newRecipeView.Close();
+            };
+
+            newRecipeViewModel.Canceled += (o, e) =>
+            {
+                newRecipeView.Close();
+            };
+
+            newRecipeView.ShowDialog();
         }
 
         /// <summary>

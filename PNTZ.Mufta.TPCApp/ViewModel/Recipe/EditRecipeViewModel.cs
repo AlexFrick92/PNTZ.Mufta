@@ -133,6 +133,13 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 // Обновляем состояние команд
                 System.Windows.Input.CommandManager.InvalidateRequerySuggested();
             }
+            // Обрабатываем изменение IsNew (когда новый рецепт сохранён в БД)
+            else if (e.PropertyName == nameof(RevertableJointRecipe.IsNew))
+            {
+                OnPropertyChanged(nameof(IsRecipeReadyForOperations));
+                // Обновляем состояние команд
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            }
         }
 
         public ICommand SetModeCommand { get; }
@@ -150,7 +157,11 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
 
         private bool CanSaveRecipe(object parameter)
         {
-            return !HasValidationErrors && _revertableRecipe != null && HasChanges;
+            // Разрешаем сохранение если:
+            // 1. Нет ошибок валидации
+            // 2. Рецепт существует
+            // 3. Есть изменения ИЛИ это новый рецепт
+            return !HasValidationErrors && _revertableRecipe != null && (HasChanges || _revertableRecipe.IsNew);
         }
 
         private void SaveRecipe(object parameter)
@@ -239,7 +250,19 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
         /// </summary>
         public bool IsRecipeReadyForOperations
         {
-            get => EditingRecipe != null && !HasValidationErrors && !HasChanges;
+            get
+            {
+                // Операции доступны только если:
+                // 1. Рецепт существует
+                // 2. Нет ошибок валидации
+                // 3. Нет несохранённых изменений
+                // 4. Рецепт НЕ новый (уже сохранён в БД)
+                return EditingRecipe != null
+                    && !HasValidationErrors
+                    && !HasChanges
+                    && _revertableRecipe != null
+                    && !_revertableRecipe.IsNew;
+            }
         }
     }
 }
