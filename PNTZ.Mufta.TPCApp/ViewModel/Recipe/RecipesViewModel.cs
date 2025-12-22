@@ -85,7 +85,7 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
             return EditRecipeViewModel.IsRecipeReadyForOperations && _loader != null && !RecipeLoadingInProgress;
         }
 
-        private async void LoadRecipe(object parameter)
+        private void LoadRecipe(object parameter)
         {
             try
             {
@@ -100,30 +100,18 @@ namespace PNTZ.Mufta.TPCApp.ViewModel.Recipe
                 // Используем оригинальный рецепт для загрузки в PLC
                 var recipeToLoad = revertableRecipe.OriginalRecipe;
 
-                // Создаём окно загрузки
-                var loadingViewModel = new LoadingRecipeViewModel(recipeToLoad.Name ?? "");
+                // Создаём ViewModel и окно загрузки
+                var loadingViewModel = new LoadingRecipeViewModel(_loader, recipeToLoad);
                 var loadingWindow = new LoadingRecipeView(loadingViewModel);
                 loadingWindow.Owner = Application.Current.MainWindow;
-                
-                // Запускаем загрузку в фоне
-                var loadingTask = _loader.LoadRecipeAsync(recipeToLoad);
 
-                // Подписываемся на завершение загрузки - автоматически закрываем окно
-                _ = loadingTask.ContinueWith(t =>
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        loadingWindow.Close();
-                    }));
-                });
-
-                // Показываем модальное окно (блокирует взаимодействие с главным окном)
-                loadingWindow.ShowDialog();                
-                // После закрытия окна, ждём завершения задачи (если ещё не завершена)
-                await loadingTask;
+                // Показываем модальное окно
+                // Вся логика загрузки инкапсулирована внутри LoadingRecipeViewModel
+                loadingWindow.ShowDialog();
             }
             catch (Exception ex)
             {
+                // Обработка критических ошибок создания окна
                 MessageBox.Show($"Ошибка загрузки рецепта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally

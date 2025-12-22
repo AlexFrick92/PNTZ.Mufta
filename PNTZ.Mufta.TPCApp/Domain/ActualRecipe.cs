@@ -18,8 +18,9 @@ namespace PNTZ.Mufta.TPCApp.Domain
         public event EventHandler<JointRecipeTable> RecipeLoaded;
         public event EventHandler<JointRecipeTable> RecipeLoadFailed;
 
-        public Task LoadRecipeAsync(JointRecipeTable recipe)
+        public async Task LoadRecipeAsync(JointRecipeTable recipe)
         {
+            await Task.Delay(1000); // Симуляция асинхронной операции
             throw new NotImplementedException();
         }
     }
